@@ -1,10 +1,12 @@
 site_name: 一看就懂的算法动画     # 网站标题
-site_description: 一看就懂的算法动画  # 网站描述
+site_description: 通过动画演示帮助您直观理解各种算法的原理和实现  # 网站描述
 site_author: 代长亚    # 作者
-site_url: https://example.com/  # 网站 URL
+site_url: https://zthinker.com/  # 网站 URL
 repo_url: https://github.com/daichangya/animated-algorithm-guide
+repo_name: daichangya/animated-algorithm-guide
+edit_uri: edit/main/docs/
 
-# 导航菜单（可选）
+# 导航菜单
 nav:
   - 首页: index.md
   - 关于: about.md
@@ -14,10 +16,36 @@ nav:
       - 快速排序: sorting/quick-sort.md
       - 归并排序: sorting/merge-sort.md
       - 堆排序: sorting/heap-sort.md
+  - ZThinker官网: https://zthinker.com/
 
 # 支持HTML文件
 extra_javascript:
   - js/iframeResizer.min.js
+
+# 额外CSS（可选）
+extra_css:
+  - css/extra.css
+
+# 额外链接
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/daichangya
+      name: daichangya on GitHub
+    - icon: fontawesome/solid/globe
+      link: https://zthinker.com
+      name: ZThinker官网
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+  consent:
+    title: Cookie consent
+    description: >- 
+      我们使用cookies来识别您的重复访问和偏好设置，
+      以衡量我们文档的有效性以及用户是否找到他们要查找的内容。
+
+# 版权信息
+copyright: Copyright &copy; 2025 <a href="https://zthinker.com/">ZThinker</a> - <a href="https://github.com/daichangya">代长亚</a>
 
 markdown_extensions:
   - attr_list
@@ -25,13 +53,57 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - admonition
+  - footnotes
+  - toc:
+      permalink: true
 
 # 主题设置
 theme:
   name: material          # 使用 mkdocs-material 主题
+  language: zh            # 设置语言为中文
+  icon:
+    logo: material/book-open-variant  # 使用Material图标作为临时logo
+  features:
+    - navigation.instant  # 即时加载
+    - navigation.tracking # 导航跟踪
+    - navigation.tabs     # 顶部导航标签
+    - navigation.top      # 返回顶部按钮
+    - search.highlight    # 搜索高亮
+    - search.share        # 搜索分享
+    - content.code.copy   # 代码复制按钮
   palette:
-    scheme: default       # 主题颜色方案
+    # 亮色模式
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo     # 主色调
+      accent: indigo      # 强调色
+      toggle:
+        icon: material/brightness-7
+        name: 切换到暗色模式
+    # 暗色模式
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 切换到亮色模式
 
-# 插件（可选）
+# 插件
 plugins:
   - search                # 搜索功能
+#  - minify:               # 压缩HTML
+#      minify_html: true
+  # 如需显示最后更新日期，请先安装插件：
+  # pip install mkdocs-git-revision-date-localized-plugin
+  # - git-revision-date-localized:  # 显示最后更新日期
+  #     enable_creation_date: true
+  #     type: date
