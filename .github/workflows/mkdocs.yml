@@ -3,7 +3,7 @@ name: Deploy MkDocs to GitHub Pages
 on:
   push:
     branches:
-      - main  # 这里的分支名要和你仓库的主分支名一致
+      - main
 
 jobs:
   deploy:
@@ -13,5 +13,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.10
-      - run: pip install mkdocs mkdocs-material  # 按需求添加主题
-      - run: mkdocs gh-deploy --force
+      - run: pip install mkdocs mkdocs-material  # 安装MkDocs和主题
+      - run: mkdocs build  # 显式构建静态文件
+      - run: mkdocs gh-deploy --force  # 部署到GitHub Pages
