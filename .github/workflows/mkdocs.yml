@@ -13,6 +13,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.10
-      - run: pip install mkdocs mkdocs-material  # 安装MkDocs和主题
-      - run: mkdocs build  # 显式构建静态文件
-      - run: mkdocs gh-deploy --force  # 部署到GitHub Pages
+      - run: pip install mkdocs mkdocs-material
+      - run: mkdocs build  # 生成静态文件到docs/目录
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "daichangyang@163.com"
+          git config --local user.name "daichangya"
+          git add docs/
+          git commit -m "Update docs"
+          git push origin main
