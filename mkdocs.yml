@@ -1,0 +1,37 @@
+site_name: 一看就懂的算法动画     # 网站标题
+site_description: 一看就懂的算法动画  # 网站描述
+site_author: 代长亚    # 作者
+site_url: https://example.com/  # 网站 URL
+repo_url: https://github.com/daichangya/animated-algorithm-guide
+
+# 导航菜单（可选）
+nav:
+  - 首页: index.md
+  - 关于: about.md
+  - 算法分类:
+    - 排序算法:
+      - 冒泡排序: sorting/bubble-sort.md
+      - 快速排序: sorting/quick-sort.md
+      - 归并排序: sorting/merge-sort.md
+      - 堆排序: sorting/heap-sort.md
+
+# 支持HTML文件
+extra_javascript:
+  - js/iframeResizer.min.js
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+# 主题设置
+theme:
+  name: material          # 使用 mkdocs-material 主题
+  palette:
+    scheme: default       # 主题颜色方案
+
+# 插件（可选）
+plugins:
+  - search                # 搜索功能
