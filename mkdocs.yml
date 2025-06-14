@@ -2,7 +2,6 @@ site_name: 一看就懂的算法动画     # 网站标题
 site_description: 通过动画演示帮助您直观理解各种算法的原理和实现  # 网站描述
 site_author: 代长亚    # 作者
 site_url: https://zthinker.com/  # 网站 URL
-site_dir: docs  # 指定生成的静态文件输出到docs目录
 repo_url: https://github.com/daichangya/animated-algorithm-guide
 repo_name: daichangya/animated-algorithm-guide
 edit_uri: edit/main/docs/
