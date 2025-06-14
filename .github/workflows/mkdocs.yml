@@ -1,0 +1,17 @@
+name: Deploy MkDocs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # 这里的分支名要和你仓库的主分支名一致
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.10
+      - run: pip install mkdocs mkdocs-material  # 按需求添加主题
+      - run: mkdocs gh-deploy --force
