@@ -1,33 +1,33 @@
-# .github/workflows/deploy.yml
-name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches:
-      - main  # 当主分支有推送时触发部署
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'  # 添加引号，确保正确解析
-          cache: 'pip'  # 启用pip缓存加速依赖安装
-
-      - name: Install MkDocs
-        run: pip install mkdocs mkdocs-material
-
-      - name: Build documentation
-        run: mkdocs build
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site  # MkDocs 生成的静态文件目录
-          force_orphan: true   # 可选：保持 gh-pages 分支为孤儿分支（无历史记录）
+## .github/workflows/deploy.yml
+#name: Deploy to GitHub Pages
+#
+#on:
+#  push:
+#    branches:
+#      - main  # 当主分支有推送时触发部署
+#
+#jobs:
+#  deploy:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#
+#      - name: Setup Python
+#        uses: actions/setup-python@v5
+#        with:
+#          python-version: '3.10'  # 添加引号，确保正确解析
+#          cache: 'pip'  # 启用pip缓存加速依赖安装
+#
+#      - name: Install MkDocs
+#        run: pip install mkdocs mkdocs-material
+#
+#      - name: Build documentation
+#        run: mkdocs build
+#
+#      - name: Deploy to GitHub Pages
+#        uses: peaceiris/actions-gh-pages@v3
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_dir: ./site  # MkDocs 生成的静态文件目录
+#          force_orphan: true   # 可选：保持 gh-pages 分支为孤儿分支（无历史记录）
