@@ -1,5 +1,16 @@
 {
-  "buildCommand": "pip install -r requirements.txt && mkdocs build",
+  "buildCommand": "python -m pip install -r requirements.txt && mkdocs build",
   "outputDirectory": "site",
-  "devCommand": "mkdocs serve --dev-addr 0.0.0.0:$PORT"
+  "devCommand": "mkdocs serve --dev-addr 0.0.0.0:$PORT",
+  "builds": [
+    {
+      "src": "mkdocs.yml",
+      "use": "@vercel/static-build",
+      "config": {
+        "installCommand": "python -m pip install -r requirements.txt",
+        "buildCommand": "mkdocs build"
+      }
+    }
+  ],
+  "runtime": "python3.10"
 }
