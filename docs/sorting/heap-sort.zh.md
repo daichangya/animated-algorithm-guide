@@ -205,7 +205,7 @@ keywords: 堆排序, 二叉堆, 排序算法, 算法可视化, 交互式动画, 
 ## 动画演示
 
 <div style="width:100%; height:100%; margin:20px 0;">
-    <iframe src="../heap_sort.html" style="width:100%; height:100%; border:none;"></iframe>
+    <iframe src="../../../sorting/heap_sort.html" style="width:100%; height:100%; border:none;"></iframe>
 </div>
 
 ## 练习题

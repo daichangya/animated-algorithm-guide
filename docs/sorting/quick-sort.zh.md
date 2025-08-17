@@ -160,12 +160,39 @@
 ## 动画演示（树形）
 
 <div style="width:100%; height:100%; margin:20px 0;">
-    <iframe src="../quick_sort_tree_compact.html" style="width:100%; height:100%; border:none;"></iframe>
+    <iframe src="../../../sorting/quick_sort_tree_compact.html" style="width:100%; height:100%; border:none;"></iframe>
 </div>
-
 
 ## 动画演示
 
-<div style="width:100%; height:100%; margin:20px 0;">
-    <iframe src="../quick_sort.html" style="width:100%; height:100%; border:none;"></iframe>
+<div style="width:100%; height:100%; margin:20px 0; position:relative;" class="algorithm-container">
+    <iframe id="quick-sort-iframe" src="../../../sorting/quick_sort.html" style="width:100%; height:100%; border:none;"></iframe>
+    <button onclick="toggleFullScreen('quick-sort-iframe')" class="fullscreen-btn" style="position:absolute; top:10px; right:10px; background-color:rgba(0,0,0,0.5); color:white; border:none; border-radius:4px; padding:5px 10px; cursor:pointer; z-index:100;">
+        <span>⛶</span> Fullscreen
+    </button>
 </div>
+
+<script>
+// Execute after page load
+window.addEventListener('load', function() {
+    // Ensure fullscreen functionality is available on all pages
+    if (typeof window.toggleFullScreen !== 'function') {
+        window.toggleFullScreen = function(iframeId) {
+            const iframe = document.getElementById(iframeId);
+            
+            if (!iframe) {
+                console.error('Cannot find iframe element with ID ' + iframeId);
+                return;
+            }
+            
+            // Try to open a new window showing the iframe content
+            const url = iframe.src;
+            const newWindow = window.open(url, '_blank', 'width=800,height=600');
+            
+            if (!newWindow) {
+                alert('Popup was blocked. Please allow popups for this site, or try using browser fullscreen (F11).');
+            }
+        };
+    }
+});
+</script>

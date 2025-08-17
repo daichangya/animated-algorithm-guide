@@ -120,7 +120,7 @@ keywords: 冒泡排序, 排序算法, 算法可视化, 交互式动画, 算法�
 ## 动画演示
 
 <div style="width:100%; height:100%; margin:20px 0; position:relative;" class="algorithm-container">
-    <iframe id="bubble-sort-iframe" src="../../sorting/bubble_sort.html" style="width:100%; height:100%; border:none;"></iframe>
+    <iframe id="bubble-sort-iframe" src="../../../sorting/bubble_sort.html" style="width:100%; height:100%; border:none;"></iframe>
     <button onclick="toggleFullScreen('bubble-sort-iframe')" class="fullscreen-btn" style="position:absolute; top:10px; right:10px; background-color:rgba(0,0,0,0.5); color:white; border:none; border-radius:4px; padding:5px 10px; cursor:pointer; z-index:100;">
         <span>⛶</span> 全屏
     </button>

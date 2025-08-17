@@ -94,7 +94,7 @@ LCS 算法使用动态规划来解决问题，通过构建一个二维表格来�
 ## 动画演示
 
 <div style="width:100%; height:600px; margin:20px 0; position:relative;" class="algorithm-container">
-    <iframe id="lcs-iframe" src="../lcs.html" style="width:100%; height:100%; border:none;"></iframe>
+    <iframe id="lcs-iframe" src="../../../diff/lcs.html" style="width:100%; height:100%; border:none;"></iframe>
     <button onclick="toggleFullScreen('lcs-iframe')" class="fullscreen-btn" style="position:absolute; top:10px; right:10px; background-color:rgba(0,0,0,0.5); color:white; border:none; border-radius:4px; padding:5px 10px; cursor:pointer; z-index:100;">
         <span>⛶</span> 全屏
     </button>

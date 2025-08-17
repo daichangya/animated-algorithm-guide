@@ -313,7 +313,7 @@ Myers 算法基于以下关键概念：
 ## 动画演示
 
 <div style="width:100%; height:100%; margin:20px 0; position:relative;" class="algorithm-container">
-    <iframe id="myers-diff-iframe" src="../myers_diff.html" style="width:100%; height:100%; border:none;"></iframe>
+    <iframe id="myers-diff-iframe" src="../../../diff/myers_diff.html" style="width:100%; height:100%; border:none;"></iframe>
     <button onclick="toggleFullScreen('myers-diff-iframe')" class="fullscreen-btn" style="position:absolute; top:10px; right:10px; background-color:rgba(0,0,0,0.5); color:white; border:none; border-radius:4px; padding:5px 10px; cursor:pointer; z-index:100;">
         <span>⛶</span> 全屏
     </button>

@@ -207,7 +207,7 @@
 ## 动画演示
 
 <div style="width:100%; height:100%; margin:20px 0;">
-    <iframe src="../merge_sort_tree_compact.html" style="width:100%; height:100%; border:none;"></iframe>
+    <iframe src="../../../sorting/merge_sort_tree_compact.html" style="width:100%; height:100%; border:none;"></iframe>
 </div>
 
 ## 练习题
