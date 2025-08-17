@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>快速排序树状动画演示（SVG连线版）</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      padding: 20px;
+    }
+    #tree-container {
+      position: relative;
+      width: 100%;
+      min-height: 600px;
+      border: 1px solid #ccc;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .node {
+      position: absolute;
+      width: 80px;
+      height: 36px;
+      background: #fff;
+      border: 2px solid #007bff;
+      border-radius: 6px;
+      text-align: center;
+      line-height: 36px;
+      user-select: none;
+      transition: background-color 0.5s;
+      font-weight: 600;
+    }
+    .node.pivot {
+      background-color: #ffecb3;
+      border-color: #ffc107;
+    }
+    .node.sorted {
+      background-color: #e6ffe6;
+      border-color: #28a745;
+      color: #155724;
+    }
+    #log {
+      margin-top: 20px;
+      font-family: monospace;
+      font-size: 14px;
+      height: 200px;
+      overflow-y: auto;
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      white-space: pre-wrap;
+    }
+    #info {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h2>快速排序树状动画演示（带SVG连线）</h2>
+<div id="tree-container">
+  <svg id="connections" style="position:absolute; top:0; left:0; width:100%; height:600px; pointer-events:none;"></svg>
+</div>
+<div id="info">排序中...</div>
+<div id="log"></div>
+
+<script>
+  const treeContainer = document.getElementById('tree-container');
+  const svg = document.getElementById('connections');
+  const logEl = document.getElementById('log');
+  const infoEl = document.getElementById('info');
+
+  const nodeWidth = 80;
+  const nodeHeight = 36;
+  const verticalGap = 80;
+  const horizontalGap = 40;
+
+  // 记录每个节点的位置（层，index）
+  // index表示同层第几个节点
+  let positions = [];
+
+  function sleep(ms) {
+    return new Promise(res => setTimeout(res, ms));
+  }
+
+  function logMessage(msg) {
+    const div = document.createElement('div');
+    div.textContent = msg;
+    logEl.appendChild(div);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  // 计算并保存节点位置，保证树形左右展开
+  // level层，pos表示该层的横向序号
+  function calcNodePosition(level, pos) {
+    // y = level * (nodeHeight + verticalGap)
+    // x = pos * (nodeWidth + horizontalGap)
+    return {
+      x: pos * (nodeWidth + horizontalGap) + 20,
+      y: level * (nodeHeight + verticalGap) + 20,
+    };
+  }
+
+  // 创建节点div
+  function createNode(text, level, pos, extraClass='') {
+    const node = document.createElement('div');
+    node.className = 'node ' + extraClass;
+    node.textContent = text;
+    const { x, y } = calcNodePosition(level, pos);
+    node.style.left = x + 'px';
+    node.style.top = y + 'px';
+    treeContainer.appendChild(node);
+    return node;
+  }
+
+  // 画连线：起点和终点均为节点中心点
+  function drawLine(fromNode, toNode) {
+    const fromRect = fromNode.getBoundingClientRect();
+    const toRect = toNode.getBoundingClientRect();
+    const containerRect = treeContainer.getBoundingClientRect();
+
+    // 计算相对 container 的坐标
+    const x1 = fromRect.left + fromRect.width / 2 - containerRect.left;
+    const y1 = fromRect.top + fromRect.height - containerRect.top;
+    const x2 = toRect.left + toRect.width / 2 - containerRect.left;
+    const y2 = toRect.top - containerRect.top;
+
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute('x1', x1);
+    line.setAttribute('y1', y1);
+    line.setAttribute('x2', x2);
+    line.setAttribute('y2', y2);
+    line.setAttribute('stroke', '#666');
+    line.setAttribute('stroke-width', '2');
+    svg.appendChild(line);
+  }
+
+  // 递归实现快速排序并动画展示
+  async function quickSortAnimation(arr, level=0, pos=0, parentNode=null) {
+    infoEl.textContent = `递归深度 ${level}，处理数组: [${arr.join(', ')}]`;
+    logMessage(`深度${level} - 处理: [${arr.join(', ')}]`);
+
+    // 创建当前节点
+    const currNode = createNode(`[${arr.join(', ')}]`, level, pos, 'pivot');
+    await sleep(600);
+
+    if (parentNode) {
+      drawLine(parentNode, currNode);
+    }
+
+    if (arr.length <= 1) {
+      logMessage(`深度${level} - 递归基，返回: [${arr.join(', ')}]`);
+      currNode.classList.remove('pivot');
+      currNode.classList.add('sorted');
+      return arr;
+    }
+
+    const pivot = arr[arr.length - 1];
+    const leftArr = arr.filter(x => x < pivot);
+    const rightArr = arr.filter(x => x > pivot);
+
+    logMessage(`深度${level} - 选定 pivot: ${pivot}`);
+    logMessage(`深度${level} - 左数组: [${leftArr.join(', ')}], 右数组: [${rightArr.join(', ')}]`);
+
+    // 计算左子树pos，为当前pos * 2
+    const leftPos = pos * 2;
+    const leftSorted = await quickSortAnimation(leftArr, level + 1, leftPos, currNode);
+
+    // 创建 pivot 单节点
+    const pivotPos = pos * 2 + 1;
+    const pivotNode = createNode(`${pivot}`, level + 1, pivotPos);
+    await sleep(600);
+    drawLine(currNode, pivotNode);
+
+    // 右子树pos 为当前pos * 2 + 2
+    const rightPos = pos * 2 + 2;
+    const rightSorted = await quickSortAnimation(rightArr, level + 1, rightPos, currNode);
+
+    // 标记已排序节点（合并）
+    const sortedPos = pos; // 父节点所在位置
+    const sortedNode = createNode(`✅ [${[...leftSorted, pivot, ...rightSorted].join(', ')}]`, level, sortedPos, 'sorted');
+    await sleep(600);
+
+    logMessage(`✅ 深度${level} - 排序完成: [${[...leftSorted, pivot, ...rightSorted].join(', ')}]`);
+
+    // 当前节点变为普通节点，避免重复显示
+    currNode.classList.remove('pivot');
+
+    return [...leftSorted, pivot, ...rightSorted];
+  }
+
+  // 初始化
+  (async () => {
+    const data = [8, 3, 1, 7, 0, 10, 2];
+    await quickSortAnimation(data);
+    infoEl.textContent = '排序完成 ✅';
+    logMessage('🎉 排序完成');
+  })();
+
+</script>
+
+</body>
+</html>

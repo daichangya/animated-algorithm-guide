@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最长公共子序列(LCS)算法可视化</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .input-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            width: 48%;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .visualization {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            min-width: 40px;
+            position: relative;
+        }
+        .header {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .current {
+            background-color: #ffeb3b;
+        }
+        .path {
+            background-color: #a5d6a7;
+        }
+        .match {
+            background-color: #90caf9;
+        }
+        .explanation {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-radius: 4px;
+            border-left: 5px solid #4CAF50;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0 10px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            border: 1px solid #ddd;
+        }
+        .arrow {
+            position: absolute;
+            font-size: 20px;
+            color: #666;
+        }
+        .arrow-diagonal {
+            bottom: -5px;
+            right: -5px;
+        }
+        .arrow-right {
+            top: 50%;
+            right: -5px;
+            transform: translateY(-50%);
+        }
+        .arrow-down {
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .speed-control {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .speed-control label {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .speed-control input {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>最长公共子序列(LCS)算法可视化</h1>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <label for="sequence1">序列 A:</label>
+                <input type="text" id="sequence1" value="ABCBDAB" placeholder="输入第一个序列">
+            </div>
+            <div class="input-group">
+                <label for="sequence2">序列 B:</label>
+                <input type="text" id="sequence2" value="BDCABA" placeholder="输入第二个序列">
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="startBtn">开始演示</button>
+            <button id="stepBtn" disabled>下一步</button>
+            <button id="resetBtn">重置</button>
+        </div>
+        
+        <div class="speed-control">
+            <label for="speed">动画速度:</label>
+            <input type="range" id="speed" min="1" max="10" value="5">
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #f2f2f2;"></div>
+                <span>表头</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #ffeb3b;"></div>
+                <span>当前单元格</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #a5d6a7;"></div>
+                <span>LCS 路径</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #90caf9;"></div>
+                <span>字符匹配</span>
+            </div>
+        </div>
+        
+        <div class="visualization">
+            <table id="lcsTable"></table>
+        </div>
+        
+        <div class="explanation" id="explanation">
+            请点击"开始演示"按钮开始 LCS 算法的可视化过程。
+        </div>
+        
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        // 全局变量
+        let sequence1, sequence2;
+        let dp;
+        let currentStep = 0;
+        let totalSteps = 0;
+        let animationSpeed = 5;
+        let animationInterval;
+        let isAnimating = false;
+        let steps = [];
+        
+        // DOM 元素
+        const startBtn = document.getElementById('startBtn');
+        const stepBtn = document.getElementById('stepBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const speedSlider = document.getElementById('speed');
+        const lcsTable = document.getElementById('lcsTable');
+        const explanationDiv = document.getElementById('explanation');
+        const resultDiv = document.getElementById('result');
+        
+        // 初始化
+        function initialize() {
+            sequence1 = document.getElementById('sequence1').value;
+            sequence2 = document.getElementById('sequence2').value;
+            
+            if (!sequence1 || !sequence2) {
+                alert('请输入两个序列');
+                return false;
+            }
+            
+            // 创建 DP 表格
+            createDPTable();
+            
+            // 生成算法步骤
+            generateSteps();
+            
+            currentStep = 0;
+            totalSteps = steps.length;
+            
+            // 更新 UI
+            updateUI();
+            
+            return true;
+        }
+        
+        // 创建 DP 表格
+        function createDPTable() {
+            dp = Array(sequence1.length + 1).fill().map(() => Array(sequence2.length + 1).fill(0));
+            
+            // 清空表格
+            lcsTable.innerHTML = '';
+            
+            // 创建表头行
+            const headerRow = document.createElement('tr');
+            
+            // 空单元格（左上角）
+            const emptyCell = document.createElement('td');
+            emptyCell.classList.add('header');
+            headerRow.appendChild(emptyCell);
+            
+            // 序列 B 的字符作为列表头
+            const emptyHeader = document.createElement('td');
+            emptyHeader.classList.add('header');
+            emptyHeader.textContent = '';
+            headerRow.appendChild(emptyHeader);
+            
+            for (let j = 0; j < sequence2.length; j++) {
+                const th = document.createElement('td');
+                th.classList.add('header');
+                th.textContent = sequence2[j];
+                headerRow.appendChild(th);
+            }
+            
+            lcsTable.appendChild(headerRow);
+            
+            // 创建数据行
+            for (let i = 0; i <= sequence1.length; i++) {
+                const row = document.createElement('tr');
+                
+                // 序列 A 的字符作为行表头
+                const th = document.createElement('td');
+                th.classList.add('header');
+                th.textContent = i === 0 ? '' : sequence1[i - 1];
+                row.appendChild(th);
+                
+                // 索引列
+                const indexCell = document.createElement('td');
+                indexCell.classList.add('header');
+                indexCell.textContent = i;
+                row.appendChild(indexCell);
+                
+                // 数据单元格
+                for (let j = 0; j < sequence2.length; j++) {
+                    const td = document.createElement('td');
+                    td.textContent = '0';
+                    td.dataset.row = i;
+                    td.dataset.col = j + 1;
+                    row.appendChild(td);
+                }
+                
+                lcsTable.appendChild(row);
+            }
+        }
+        
+        // 生成算法步骤
+        function generateSteps() {
+            steps = [];
+            
+            // 填充 DP 表格的步骤
+            for (let i = 1; i <= sequence1.length; i++) {
+                for (let j = 1; j <= sequence2.length; j++) {
+                    const step = {
+                        type: 'fill',
+                        i: i,
+                        j: j,
+                        explanation: ''
+                    };
+                    
+                    if (sequence1[i - 1] === sequence2[j - 1]) {
+                        dp[i][j] = dp[i - 1][j - 1] + 1;
+                        step.value = dp[i][j];
+                        step.from = 'diagonal';
+                        step.explanation = `A[${i-1}] = '${sequence1[i-1]}' 等于 B[${j-1}] = '${sequence2[j-1]}'，所以 dp[${i}][${j}] = dp[${i-1}][${j-1}] + 1 = ${dp[i-1][j-1]} + 1 = ${dp[i][j]}`;
+                        step.match = true;
+                    } else {
+                        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                        step.value = dp[i][j];
+                        step.from = dp[i - 1][j] > dp[i][j - 1] ? 'up' : 'left';
+                        step.explanation = `A[${i-1}] = '${sequence1[i-1]}' 不等于 B[${j-1}] = '${sequence2[j-1]}'，所以 dp[${i}][${j}] = max(dp[${i-1}][${j}], dp[${i}][${j-1}]) = max(${dp[i-1][j]}, ${dp[i][j-1]}) = ${dp[i][j]}`;
+                    }
+                    
+                    steps.push(step);
+                }
+            }
+            
+            // 回溯找出 LCS 的步骤
+            let i = sequence1.length;
+            let j = sequence2.length;
+            const lcsSteps = [];
+            const lcs = [];
+            
+            while (i > 0 && j > 0) {
+                const step = {
+                    type: 'backtrack',
+                    i: i,
+                    j: j,
+                    explanation: ''
+                };
+                
+                if (sequence1[i - 1] === sequence2[j - 1]) {
+                    lcs.unshift(sequence1[i - 1]);
+                    step.match = true;
+                    step.explanation = `A[${i-1}] = B[${j-1}] = '${sequence1[i-1]}'，将其添加到 LCS 中，并移动到 dp[${i-1}][${j-1}]`;
+                    i--;
+                    j--;
+                } else if (dp[i - 1][j] > dp[i][j - 1]) {
+                    step.explanation = `dp[${i-1}][${j}] = ${dp[i-1][j]} > dp[${i}][${j-1}] = ${dp[i][j-1]}，移动到 dp[${i-1}][${j}]`;
+                    i--;
+                } else {
+                    step.explanation = `dp[${i}][${j-1}] = ${dp[i][j-1]} >= dp[${i-1}][${j}] = ${dp[i-1][j]}，移动到 dp[${i}][${j-1}]`;
+                    j--;
+                }
+                
+                step.nextI = i;
+                step.nextJ = j;
+                lcsSteps.push(step);
+            }
+            
+            // 添加结果步骤
+            steps.push({
+                type: 'result',
+                lcs: lcs.join(''),
+                explanation: `最长公共子序列是: "${lcs.join('')}"，长度为 ${lcs.length}`
+            });
+            
+            // 将回溯步骤添加到总步骤中
+            steps = steps.concat(lcsSteps);
+        }
+        
+        // 更新 UI
+        function updateUI() {
+            if (currentStep >= totalSteps) {
+                stopAnimation();
+                startBtn.textContent = '重新开始';
+                stepBtn.disabled = true;
+                return;
+            }
+            
+            const step = steps[currentStep];
+            
+            // 清除之前的高亮
+            clearHighlights();
+            
+            if (step.type === 'fill') {
+                // 高亮当前单元格
+                const cell = getCellByCoordinates(step.i, step.j);
+                if (cell) {
+                    cell.classList.add('current');
+                    cell.textContent = step.value;
+                    
+                    // 添加箭头指示
+                    if (step.from === 'diagonal') {
+                        const diagonalCell = getCellByCoordinates(step.i - 1, step.j - 1);
+                        if (diagonalCell) {
+                            diagonalCell.classList.add('match');
+                        }
+                    } else if (step.from === 'up') {
+                        const upCell = getCellByCoordinates(step.i - 1, step.j);
+                        if (upCell) {
+                            upCell.classList.add('path');
+                        }
+                    } else if (step.from === 'left') {
+                        const leftCell = getCellByCoordinates(step.i, step.j - 1);
+                        if (leftCell) {
+                            leftCell.classList.add('path');
+                        }
+                    }
+                    
+                    // 如果是字符匹配，高亮对应的字符
+                    if (step.match) {
+                        const rowHeader = lcsTable.rows[step.i].cells[0];
+                        const colHeader = lcsTable.rows[0].cells[step.j + 1];
+                        rowHeader.classList.add('match');
+                        colHeader.classList.add('match');
+                    }
+                }
+            } else if (step.type === 'backtrack') {
+                // 高亮当前单元格
+                const cell = getCellByCoordinates(step.i, step.j);
+                if (cell) {
+                    cell.classList.add('current');
+                    
+                    // 高亮下一个单元格
+                    const nextCell = getCellByCoordinates(step.nextI, step.nextJ);
+                    if (nextCell) {
+                        nextCell.classList.add('path');
+                    }
+                    
+                    // 如果是字符匹配，高亮对应的字符
+                    if (step.match) {
+                        const rowHeader = lcsTable.rows[step.i].cells[0];
+                        const colHeader = lcsTable.rows[0].cells[step.j + 1];
+                        rowHeader.classList.add('match');
+                        colHeader.classList.add('match');
+                    }
+                }
+            } else if (step.type === 'result') {
+                // 显示最终结果
+                resultDiv.textContent = `最长公共子序列: ${step.lcs}`;
+            }
+            
+            // 更新说明文本
+            explanationDiv.textContent = step.explanation;
+            
+            currentStep++;
+        }
+        
+        // 根据坐标获取单元格
+        function getCellByCoordinates(i, j) {
+            if (i < 0 || j < 0) return null;
+            const rows = lcsTable.rows;
+            if (i + 1 < rows.length && j + 1 < rows[i + 1].cells.length) {
+                return rows[i + 1].cells[j + 1];
+            }
+            return null;
+        }
+        
+        // 清除所有高亮
+        function clearHighlights() {
+            const cells = lcsTable.getElementsByTagName('td');
+            for (let cell of cells) {
+                cell.classList.remove('current', 'path', 'match');
+            }
+        }
+        
+        // 开始动画
+        function startAnimation() {
+            if (isAnimating) {
+                stopAnimation();
+                return;
+            }
+            
+            isAnimating = true;
+            startBtn.textContent = '暂停';
+            stepBtn.disabled = true;
+            
+            animationInterval = setInterval(() => {
+                updateUI();
+                if (currentStep >= totalSteps) {
+                    stopAnimation();
+                }
+            }, 1000 / animationSpeed);
+        }
+        
+        // 停止动画
+        function stopAnimation() {
+            clearInterval(animationInterval);
+            isAnimating = false;
+            startBtn.textContent = currentStep >= totalSteps ? '重新开始' : '继续';
+            stepBtn.disabled = false;
+        }
+        
+        // 重置
+        function reset() {
+            stopAnimation();
+            currentStep = 0;
+            resultDiv.textContent = '';
+            explanationDiv.textContent = '请点击"开始演示"按钮开始 LCS 算法的可视化过程。';
+            startBtn.textContent = '开始演示';
+            
+            if (initialize()) {
+                stepBtn.disabled = false;
+            }
+        }
+        
+        // 事件监听器
+        startBtn.addEventListener('click', () => {
+            if (startBtn.textContent === '重新开始') {
+                reset();
+                return;
+            }
+            
+            if (currentStep === 0 && !isAnimating) {
+                if (!initialize()) {
+                    return;
+                }
+            }
+            
+            startAnimation();
+        });
+        
+        stepBtn.addEventListener('click', () => {
+            if (currentStep === 0) {
+                if (!initialize()) {
+                    return;
+                }
+            }
+            updateUI();
+        });
+        
+        resetBtn.addEventListener('click', reset);
+        
+        speedSlider.addEventListener('input', () => {
+            animationSpeed = parseInt(speedSlider.value);
+            if (isAnimating) {
+                stopAnimation();
+                startAnimation();
+            }
+        });
+        
+        // 初始化
+        reset();
+    </script>
+</body>
+</html>
