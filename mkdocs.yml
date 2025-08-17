@@ -16,6 +16,10 @@ nav:
       - 快速排序: sorting/quick-sort.md
       - 归并排序: sorting/merge-sort.md
       - 堆排序: sorting/heap-sort.md
+    - 差异算法:
+      - Myers 差异算法: diff/myers-diff.md
+      - Myers 差异算法(改进版): diff/myers-diff-improved.md
+      - 最长公共子序列(LCS): diff/lcs.md
   - ZThinker官网: https://zthinker.com/
 
 # 支持HTML文件
@@ -28,6 +32,11 @@ extra_css:
 
 # 额外链接
 extra:
+  sitemap:
+      changefreq: daily  # 全局默认更新频率（可选值：always/hourly/daily/weekly/monthly/yearly/never）
+      priority: 0.7       # 全局默认优先级（0.0-1.0，默认0.5）
+      # 可选：自定义站点地图文件名（默认是 sitemap.xml）
+      # filename: sitemap.xml
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/daichangya

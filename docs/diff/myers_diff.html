@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Myers 差异算法动画演示</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input-section {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            width: 48%;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .visualization-section {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        canvas {
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 15px;
+        }
+
+        .legend-color {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+
+        .legend-text {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .result-section {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 15px;
+        }
+
+        .result-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .diff-result {
+            font-family: monospace;
+            white-space: pre-wrap;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .diff-insert {
+            background-color: #e6ffed;
+            color: #22863a;
+        }
+
+        .diff-delete {
+            background-color: #ffeef0;
+            color: #cb2431;
+        }
+
+        @media (max-width: 768px) {
+            .input-section {
+                flex-direction: column;
+            }
+
+            .input-group {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .visualization-section {
+                max-width: 100%;
+            }
+
+            /* 保持图例水平排列 */
+            .legend {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .legend-item {
+                margin: 5px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Myers 差异算法动画演示</h1>
+
+        <div class="content-wrapper">
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="sequenceA">序列 A:</label>
+                    <input type="text" id="sequenceA" value="ABCABBA" placeholder="输入第一个序列">
+                </div>
+                <div class="input-group">
+                    <label for="sequenceB">序列 B:</label>
+                    <input type="text" id="sequenceB" value="CBABAC" placeholder="输入第二个序列">
+                </div>
+            </div>
+
+            <div class="visualization-section">
+                <canvas id="diffCanvas" width="700" height="500"></canvas>
+                <div class="controls">
+                    <button onclick="startDiff()">开始比较</button>
+                    <button id="pauseButton" onclick="togglePause()" disabled>暂停</button>
+                    <button onclick="resetVisualization()">重置</button>
+                </div>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: #4444FF;"></span>
+                        <span class="legend-text">编辑图网格</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: #FF4444;"></span>
+                        <span class="legend-text">当前探索点</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: #4CAF50;"></span>
+                        <span class="legend-text">最短编辑路径</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: #FFD700;"></span>
+                        <span class="legend-text">对角线匹配</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-section">
+                <div class="result-title">差异结果:</div>
+                <div id="diffResult" class="diff-result">
+                    比较结果将显示在这里...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('diffCanvas');
+        const ctx = canvas.getContext('2d');
+        let sequenceA = '';
+        let sequenceB = '';
+        let running = false;
+        let isPaused = false;
+        const ANIMATION_SPEED = 1000;
+        let resumeCallback = null;
+        let diffComplete = false;
+
+        // 编辑图的绘制参数
+        const CELL_SIZE = 40;
+        const GRID_OFFSET_X = 80;
+        const GRID_OFFSET_Y = 80;
+        const ARROW_SIZE = 10;
+
+        // 存储算法执行过程中的状态
+        let currentD = 0;
+        let currentK = 0;
+        let v = {};
+        let trace = [];
+        let path = [];
+        let editScript = [];
+
+        // 等待继续的函数
+        function waitForResume() {
+            return new Promise(resolve => {
+                resumeCallback = resolve;
+            });
+        }
+
+        // 暂停/继续功能
+        async function togglePause() {
+            const pauseButton = document.getElementById('pauseButton');
+            if (running && !isPaused) {
+                isPaused = true;
+                pauseButton.textContent = '继续';
+            } else if (running && isPaused) {
+                isPaused = false;
+                pauseButton.textContent = '暂停';
+                if (resumeCallback) {
+                    resumeCallback();
+                    resumeCallback = null;
+                }
+            }
+        }
+
+        // 重置可视化
+        function resetVisualization() {
+            running = false;
+            isPaused = false;
+            diffComplete = false;
+            currentD = 0;
+            currentK = 0;
+            v = {};
+            trace = [];
+            path = [];
+            editScript = [];
+            document.getElementById('pauseButton').disabled = true;
+            document.getElementById('pauseButton').textContent = '暂停';
+            document.getElementById('diffResult').innerHTML = '比较结果将显示在这里...';
+            drawInitialGrid();
+        }
+
+        // 延时函数
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // 绘制初始网格
+        function drawInitialGrid() {
+            sequenceA = document.getElementById('sequenceA').value;
+            sequenceB = document.getElementById('sequenceB').value;
+
+            if (!sequenceA || !sequenceB) {
+                alert('请输入两个序列');
+                return;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 绘制网格背景
+            ctx.fillStyle = '#f8f8f8';
+            ctx.fillRect(
+                GRID_OFFSET_X, 
+                GRID_OFFSET_Y, 
+                (sequenceA.length + 1) * CELL_SIZE, 
+                (sequenceB.length + 1) * CELL_SIZE
+            );
+
+            // 绘制网格线
+            ctx.strokeStyle = '#ddd';
+            ctx.lineWidth = 1;
+
+            // 垂直线
+            for (let i = 0; i <= sequenceA.length + 1; i++) {
+                ctx.beginPath();
+                ctx.moveTo(GRID_OFFSET_X + i * CELL_SIZE, GRID_OFFSET_Y);
+                ctx.lineTo(GRID_OFFSET_X + i * CELL_SIZE, GRID_OFFSET_Y + (sequenceB.length + 1) * CELL_SIZE);
+                ctx.stroke();
+            }
+
+            // 水平线
+            for (let i = 0; i <= sequenceB.length + 1; i++) {
+                ctx.beginPath();
+                ctx.moveTo(GRID_OFFSET_X, GRID_OFFSET_Y + i * CELL_SIZE);
+                ctx.lineTo(GRID_OFFSET_X + (sequenceA.length + 1) * CELL_SIZE, GRID_OFFSET_Y + i * CELL_SIZE);
+                ctx.stroke();
+            }
+
+            // 绘制序列A的字符（水平方向）
+            ctx.fillStyle = '#333';
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            for (let i = 0; i < sequenceA.length; i++) {
+                ctx.fillText(
+                    sequenceA[i], 
+                    GRID_OFFSET_X + (i + 1) * CELL_SIZE + CELL_SIZE / 2, 
+                    GRID_OFFSET_Y - 20
+                );
+            }
+
+            // 绘制序列B的字符（垂直方向）
+            for (let i = 0; i < sequenceB.length; i++) {
+                ctx.fillText(
+                    sequenceB[i], 
+                    GRID_OFFSET_X - 20, 
+                    GRID_OFFSET_Y + (i + 1) * CELL_SIZE + CELL_SIZE / 2
+                );
+            }
+
+            // 绘制坐标
+            ctx.font = '12px Arial';
+            ctx.fillStyle = '#666';
+            
+            // x坐标
+            for (let i = 0; i <= sequenceA.length; i++) {
+                ctx.fillText(
+                    i.toString(), 
+                    GRID_OFFSET_X + i * CELL_SIZE + CELL_SIZE / 2, 
+                    GRID_OFFSET_Y - 40
+                );
+            }
+            
+            // y坐标
+            for (let i = 0; i <= sequenceB.length; i++) {
+                ctx.fillText(
+                    i.toString(), 
+                    GRID_OFFSET_X - 40, 
+                    GRID_OFFSET_Y + i * CELL_SIZE + CELL_SIZE / 2
+                );
+            }
+
+            // 标记对角线匹配
+            for (let i = 0; i < sequenceA.length; i++) {
+                for (let j = 0; j < sequenceB.length; j++) {
+                    if (sequenceA[i] === sequenceB[j]) {
+                        ctx.fillStyle = 'rgba(255, 215, 0, 0.3)'; // 淡金色
+                        ctx.fillRect(
+                            GRID_OFFSET_X + (i + 1) * CELL_SIZE, 
+                            GRID_OFFSET_Y + (j + 1) * CELL_SIZE, 
+                            CELL_SIZE, 
+                            CELL_SIZE
+                        );
+                    }
+                }
+            }
+        }
+
+        // 绘制当前状态
+        function drawCurrentState(x, y, currentPath = []) {
+            // 清除画布但保留网格
+            drawInitialGrid();
+
+            // 绘制已探索的路径
+            ctx.strokeStyle = '#4CAF50';
+            ctx.lineWidth = 2;
+            
+            if (currentPath.length > 0) {
+                ctx.beginPath();
+                ctx.moveTo(
+                    GRID_OFFSET_X + currentPath[0].x * CELL_SIZE + CELL_SIZE / 2, 
+                    GRID_OFFSET_Y + currentPath[0].y * CELL_SIZE + CELL_SIZE / 2
+                );
+                
+                for (let i = 1; i < currentPath.length; i++) {
+                    ctx.lineTo(
+                        GRID_OFFSET_X + currentPath[i].x * CELL_SIZE + CELL_SIZE / 2,
+                        GRID_OFFSET_Y + currentPath[i].y * CELL_SIZE + CELL_SIZE / 2
+                    );
+                }
+                ctx.stroke();
+            }
+
+            // 绘制当前探索点
+            if (x !== undefined && y !== undefined) {
+                ctx.fillStyle = '#FF4444';
+                ctx.beginPath();
+                ctx.arc(
+                    GRID_OFFSET_X + x * CELL_SIZE + CELL_SIZE / 2,
+                    GRID_OFFSET_Y + y * CELL_SIZE + CELL_SIZE / 2,
+                    CELL_SIZE / 4,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
+            }
+        }
+
+        // 绘制箭头
+        function drawArrow(fromX, fromY, toX, toY, color) {
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            
+            // 绘制线段
+            ctx.beginPath();
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+            ctx.stroke();
+            
+            // 计算箭头方向
+            const angle = Math.atan2(toY - fromY, toX - fromX);
+            
+            // 绘制箭头头部
+            ctx.beginPath();
+            ctx.moveTo(toX, toY);
+            ctx.lineTo(
+                toX - ARROW_SIZE * Math.cos(angle - Math.PI / 6),
+                toY - ARROW_SIZE * Math.sin(angle - Math.PI / 6)
+            );
+            ctx.lineTo(
+                toX - ARROW_SIZE * Math.cos(angle + Math.PI / 6),
+                toY - ARROW_SIZE * Math.sin(angle + Math.PI / 6)
+            );
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+
+        // 显示差异结果
+        function displayDiffResult(editScript) {
+            const resultDiv = document.getElementById('diffResult');
+            resultDiv.innerHTML = '';
+            
+            if (editScript.length === 0) {
+                resultDiv.textContent = '两个序列相同，没有差异。';
+                return;
+            }
+            
+            let result = '';
+            let aIndex = 0;
+            let bIndex = 0;
+            
+            for (const op of editScript) {
+                if (op.type === '+') {
+                    result += `<span class="diff-insert">+${op.position}:${op.element}</span>\n`;
+                    bIndex++;
+                } else if (op.type === '-') {
+                    result += `<span class="diff-delete">-${op.position}:${op.element}</span>\n`;
+                    aIndex++;
+                }
+            }
+            
+            resultDiv.innerHTML = result;
+        }
+
+        // Myers 差异算法实现
+        async function myersDiff(a, b) {
+            const n = a.length;
+            const m = b.length;
+            const maxEdit = n + m;
+            
+            // 重置状态
+            v = { 1: 0 };
+            trace = [];
+            path = [];
+            editScript = [];
+            
+            // 计算最短编辑路径
+            for (let d = 0; d <= maxEdit; d++) {
+                currentD = d;
+                
+                // 保存当前 d 的路径信息
+                trace.push({...v});
+                
+                // 更新界面显示当前 d
+                ctx.fillStyle = '#333';
+                ctx.font = '16px Arial';
+                ctx.fillText(`编辑距离 d = ${d}`, 20, 30);
+                
+                for (let k = -d; k <= d; k += 2) {
+                    currentK = k;
+                    
+                    // 确定是向下还是向右移动
+                    let x;
+                    if (k === -d || (k !== d && v[k - 1] < v[k + 1])) {
+                        x = v[k + 1] || 0;  // 向下移动
+                    } else {
+                        x = (v[k - 1] || 0) + 1;  // 向右移动
+                    }
+                    
+                    // 计算 y 坐标
+                    let y = x - k;
+                    
+                    // 绘制当前状态
+                    await sleep(ANIMATION_SPEED);
+                    if (isPaused) await waitForResume();
+                    drawCurrentState(x, y, path);
+                    
+                    // 沿对角线移动（匹配）
+                    let startX = x;
+                    let startY = y;
+                    
+                    while (x < n && y < m && a[x] === b[y]) {
+                        x++;
+                        y++;
+                        
+                        // 绘制对角线移动
+                        await sleep(ANIMATION_SPEED / 2);
+                        if (isPaused) await waitForResume();
+                        drawCurrentState(x, y, path);
+                    }
+                    
+                    // 更新 v
+                    v[k] = x;
+                    
+                    // 如果到达终点，回溯并返回编辑脚本
+                    if (x >= n && y >= m) {
+                        // 回溯路径
+                        return backtrack(a, b, trace, n, m);
+                    }
+                }
+            }
+            
+            // 如果没有找到路径（不应该发生）
+            return [];
+        }
+
+        // 回溯并构建编辑脚本
+        async function backtrack(a, b, trace, x, y) {
+            const result = [];
+            let d = trace.length - 1;
+            
+            // 构建完整路径
+            path = [{x, y}];
+            
+            while (d > 0) {
+                const v = trace[d];
+                const k = x - y;
+                
+                // 确定前一个 k 值
+                let prevK;
+                if (k === -d || (k !== d && v[k - 1] < v[k + 1])) {
+                    prevK = k + 1;
+                } else {
+                    prevK = k - 1;
+                }
+                
+                // 计算前一个位置
+                const prevX = v[prevK] || 0;
+                const prevY = prevX - prevK;
+                
+                // 处理对角线移动（匹配）
+                while (x > prevX && y > prevY) {
+                    x--;
+                    y--;
+                    path.unshift({x, y});
+                    
+                    // 更新可视化
+                    await sleep(ANIMATION_SPEED);
+                    if (isPaused) await waitForResume();
+                    drawCurrentState(x, y, path);
+                }
+                
+                // 记录编辑操作
+                if (x === prevX) {
+                    // 插入操作
+                    result.unshift({
+                        type: '+',
+                        position: x,
+                        element: b[prevY]
+                    });
+                } else {
+                    // 删除操作
+                    result.unshift({
+                        type: '-',
+                        position: prevX,
+                        element: a[prevX]
+                    });
+                }
+                
+                // 添加到路径
+                path.unshift({x: prevX, y: prevY});
+                
+                // 更新位置
+                x = prevX;
+                y = prevY;
+                d--;
+                
+                // 更新可视化
+                await sleep(ANIMATION_SPEED);
+                if (isPaused) await waitForResume();
+                drawCurrentState(x, y, path);
+            }
+            
+            return result;
+        }
+
+        // 开始差异比较
+        async function startDiff() {
+            if (running) return;
+            
+            running = true;
+            diffComplete = false;
+            document.getElementById('pauseButton').disabled = false;
+            
+            sequenceA = document.getElementById('sequenceA').value;
+            sequenceB = document.getElementById('sequenceB').value;
+            
+            if (!sequenceA || !sequenceB) {
+                alert('请输入两个序列');
+                running = false;
+                document.getElementById('pauseButton').disabled = true;
+                return;
+            }
+            
+            // 初始化网格
+            drawInitialGrid();
+            
+            // 运行 Myers 差异算法
+            try {
+                editScript = await myersDiff(sequenceA, sequenceB);
+                displayDiffResult(editScript);
+                diffComplete = true;
+            } catch (error) {
+                console.error('算法执行错误:', error);
+                alert('算法执行出错: ' + error.message);
+            }
+            
+            running = false;
+            document.getElementById('pauseButton').disabled = true;
+        }
+
+        // 初始化
+        window.onload = function() {
+            resetVisualization();
+        };
+    </script>
+</body>
+</html>

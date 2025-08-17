@@ -113,9 +113,37 @@
 
 ## 动画演示
 
-<div style="width:100%; height:100%; margin:20px 0;">
-    <iframe src="../bubble_sort.html" style="width:100%; height:100%; border:none;"></iframe>
+<div style="width:100%; height:100%; margin:20px 0; position:relative;" class="algorithm-container">
+    <iframe id="bubble-sort-iframe" src="../bubble_sort.html" style="width:100%; height:100%; border:none;"></iframe>
+    <button onclick="toggleFullScreen('bubble-sort-iframe')" class="fullscreen-btn" style="position:absolute; top:10px; right:10px; background-color:rgba(0,0,0,0.5); color:white; border:none; border-radius:4px; padding:5px 10px; cursor:pointer; z-index:100;">
+        <span>⛶</span> 全屏
+    </button>
 </div>
+
+<script>
+// 在页面加载完成后执行
+window.addEventListener('load', function() {
+    // 确保全屏功能在所有页面上都可用
+    if (typeof window.toggleFullScreen !== 'function') {
+        window.toggleFullScreen = function(iframeId) {
+            const iframe = document.getElementById(iframeId);
+            
+            if (!iframe) {
+                console.error('找不到ID为 ' + iframeId + ' 的iframe元素');
+                return;
+            }
+            
+            // 尝试打开新窗口显示iframe内容
+            const url = iframe.src;
+            const newWindow = window.open(url, '_blank', 'width=800,height=600');
+            
+            if (!newWindow) {
+                alert('弹出窗口被阻止。请允许此网站的弹出窗口，或者尝试使用浏览器的全屏功能(F11)。');
+            }
+        };
+    }
+});
+</script>
 
 ## 练习题
 
