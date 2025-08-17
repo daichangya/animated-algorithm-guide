@@ -34,7 +34,7 @@
 
 1. 克隆仓库
 ```bash
-git clone https://github.com/yourusername/animated-algorithm-guide.git
+git clone https://github.com/daichangya/animated-algorithm-guide.git
 cd animated-algorithm-guide
 ```
 
