@@ -148,6 +148,7 @@ plugins:
           default: true   # 默认语言设为英文
           name: English
           build: true
+          site_name: Algorithm Visualization Guide
         - locale: zh
           name: 中文
           build: true
