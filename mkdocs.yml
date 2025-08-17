@@ -1,26 +1,27 @@
 site_name: 一看就懂的算法动画     # 网站标题
 site_description: 通过动画演示帮助您直观理解各种算法的原理和实现  # 网站描述
 site_author: 代长亚    # 作者
-site_url: https://zthinker.com/  # 网站 URL
+site_url: https://algo.jsdiff.com/  # 网站 URL
 repo_url: https://github.com/daichangya/animated-algorithm-guide
 repo_name: daichangya/animated-algorithm-guide
 edit_uri: edit/main/docs/
 
 # 导航菜单
 nav:
-  - 首页: index.md
-  - 关于: about.md
-  - 算法分类:
-    - 排序算法:
-      - 冒泡排序: sorting/bubble-sort.md
-      - 快速排序: sorting/quick-sort.md
-      - 归并排序: sorting/merge-sort.md
-      - 堆排序: sorting/heap-sort.md
-    - 差异算法:
-      - Myers 差异算法: diff/myers-diff.md
-      - Myers 差异算法(改进版): diff/myers-diff-improved.md
-      - 最长公共子序列(LCS): diff/lcs.md
-  - ZThinker官网: https://zthinker.com/
+  - Home: index.md
+  - About: about.md
+  - Algorithms:
+      - Sorting Algorithms:
+          - Bubble Sort: sorting/bubble-sort.md
+          - Quick Sort: sorting/quick-sort.md
+          - Merge Sort: sorting/merge-sort.md
+          - Heap Sort: sorting/heap-sort.md
+      - Diff Algorithms:
+          - Myers Diff: diff/myers-diff.md
+          - Improved Myers Diff: diff/myers-diff-improved.md
+          - Longest Common Subsequence: diff/lcs.md
+  - ZThinker官网: https://algo.jsdiff.com/
+
 
 # 支持HTML文件
 extra_javascript:
@@ -38,23 +39,25 @@ extra:
       # 可选：自定义站点地图文件名（默认是 sitemap.xml）
       # filename: sitemap.xml
   social:
+    - icon: material/translate
+      link: /zh/
     - icon: fontawesome/brands/github
       link: https://github.com/daichangya
       name: daichangya on GitHub
     - icon: fontawesome/solid/globe
-      link: https://zthinker.com
-      name: ZThinker官网
+      link: https://algo.jsdiff.com
+      name: 官网
   analytics:
     provider: google
-    property: !ENV GOOGLE_ANALYTICS_KEY
-  consent:
-    title: Cookie consent
-    description: >- 
-      我们使用cookies来识别您的重复访问和偏好设置，
-      以衡量我们文档的有效性以及用户是否找到他们要查找的内容。
+    property: G-4XVSVNQ084
+#  consent:
+#    title: Cookie consent
+#    description: >-
+#      我们使用cookies来识别您的重复访问和偏好设置，
+#      以衡量我们文档的有效性以及用户是否找到他们要查找的内容。
 
 # 版权信息
-copyright: Copyright &copy; 2025 <a href="https://zthinker.com/">ZThinker</a> - <a href="https://github.com/daichangya">代长亚</a>
+copyright: Copyright &copy; 2025 <a href="https://algo.jsdiff.com/">ZThinker</a> - <a href="https://github.com/daichangya">代长亚</a>
 
 markdown_extensions:
   - attr_list
@@ -77,17 +80,20 @@ markdown_extensions:
 # 主题设置
 theme:
   name: material          # 使用 mkdocs-material 主题
-  language: zh            # 设置语言为中文
+  favicon: assets/favicon.ico  # 设置网站图标
+  logo: assets/logo.svg   # 设置网站logo
+  language: en            # 设置默认语言为英文
   icon:
     logo: material/book-open-variant  # 使用Material图标作为临时logo
   features:
-    - navigation.instant  # 即时加载
+#    - navigation.instant  # 即时加载。⚠ 注意：不要启用 navigation.instant，会和语言切换冲突。
     - navigation.tracking # 导航跟踪
     - navigation.tabs     # 顶部导航标签
     - navigation.top      # 返回顶部按钮
     - search.highlight    # 搜索高亮
     - search.share        # 搜索分享
     - content.code.copy   # 代码复制按钮
+    - navigation.footer   # 页脚导航
   palette:
     # 亮色模式
     - media: "(prefers-color-scheme: light)"
@@ -109,8 +115,54 @@ theme:
 # 插件
 plugins:
   - search                # 搜索功能
-#  - minify:               # 压缩HTML
-#      minify_html: true
+  - minify:               # 压缩HTML
+      minify_html: true
+  # 自动生成 meta description
+  - meta-descriptions:
+      min_length: 50
+      max_length: 160
+      trim: true
+
+  # 全面的 SEO 优化（关闭 description，避免重复）
+  - ultralytics:
+      verbose: true
+      enabled: true
+      add_desc: false     # 避免和 meta-descriptions 重复
+      add_image: true
+      add_keywords: true
+      add_share_buttons: true
+      add_dates: true
+      add_authors: true
+      default_author: daichangya  # 设置默认作者
+
+  # 多功能优化（meta、社交卡片、压缩等）
+#  - pub-meta
+  - pub-social
+  - pub-minifier
+
+  - i18n:
+      languages:
+        - locale: en
+          default: true   # 默认语言设为英文
+          name: English
+          build: true
+        - locale: zh
+          name: 中文
+          build: true
+          nav_translations:
+              About: 关于
+              Algorithms: 算法分类
+              "Sorting Algorithms": 排序算法
+              "Bubble Sort": 冒泡排序
+              "Quick Sort": 快速排序
+              "Merge Sort": 归并排序
+              "Heap Sort": 堆排序
+              "Diff Algorithms": 差异算法
+              "Myers Diff": "Myers 差异算法"
+              "Improved Myers Diff": "Myers 差异算法(改进版)"
+              "Longest Common Subsequence": "最长公共子序列(LCS)"
+              "ZThinker官网": "ZThinker官网"
+
   # 如需显示最后更新日期，请先安装插件：
   # pip install mkdocs-git-revision-date-localized-plugin
   # - git-revision-date-localized:  # 显示最后更新日期

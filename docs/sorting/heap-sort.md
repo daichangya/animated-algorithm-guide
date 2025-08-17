@@ -1,57 +1,63 @@
-# **堆排序算法**
+---
+title: Heap Sort Algorithm | Principles and Animation Demo
+description: Detailed explanation of the heap sort algorithm's principles, binary heap construction process and implementation methods, including interactive animation demo and Python, Java code implementations, with complexity analysis
+keywords: heap sort, binary heap, sorting algorithm, algorithm visualization, interactive animation, algorithm tutorial, time complexity, space complexity
+---
 
-## 算法简介
+# **Heap Sort Algorithm**
 
-堆排序是一种基于二叉堆数据结构的比较排序算法。它通过构建最大堆（父节点大于子节点）来进行排序，利用堆的特性来获得有序序列。堆排序的主要优点是能够就地排序，不需要额外的存储空间。
+## Algorithm Introduction
 
-## 算法步骤
+Heap sort is a comparison-based sorting algorithm based on the binary heap data structure. It sorts by building a max heap (where parent nodes are greater than child nodes) and utilizing heap properties to obtain a sorted sequence. The main advantage of heap sort is that it sorts in-place, requiring no additional storage space.
 
-1. 构建最大堆：将数组重新排列成最大堆（从最后一个非叶子节点开始，依次进行下沉操作）
-2. 交换堆顶元素（最大值）和堆的最后一个元素
-3. 将堆的大小减1，并对新的堆顶元素进行下沉操作，以维护最大堆性质
-4. 重复步骤2和3，直到堆的大小为1
+## Algorithm Steps
 
-## 代码实现
+1. Build a max heap: Rearrange the array into a max heap (starting from the last non-leaf node, perform sift-down operations sequentially)
+2. Swap the heap's root element (maximum value) with the last element of the heap
+3. Reduce the heap size by 1 and perform sift-down on the new root to maintain max heap properties
+4. Repeat steps 2 and 3 until the heap size becomes 1
+
+## Code Implementation
 
 === "Python"
     ```python
     def heapify(arr, n, i):
-        largest = i  # 初始化最大值为根节点
-        left = 2 * i + 1  # 左子节点
-        right = 2 * i + 2  # 右子节点
+        largest = i  # Initialize largest as root
+        left = 2 * i + 1  # Left child
+        right = 2 * i + 2  # Right child
     
-        # 如果左子节点大于根节点
+        # If left child is larger than root
         if left < n and arr[left] > arr[largest]:
             largest = left
     
-        # 如果右子节点大于目前的最大值
+        # If right child is larger than current largest
         if right < n and arr[right] > arr[largest]:
             largest = right
     
-        # 如果最大值不是根节点
+        # If largest is not root
         if largest != i:
-            arr[i], arr[largest] = arr[largest], arr[i]  # 交换
-            # 递归地对受影响的子树进行堆化
+            arr[i], arr[largest] = arr[largest], arr[i]  # Swap
+            # Recursively heapify the affected subtree
             heapify(arr, n, largest)
     
     def heap_sort(arr):
         n = len(arr)
     
-        # 构建最大堆
+        # Build a max heap
         for i in range(n // 2 - 1, -1, -1):
             heapify(arr, n, i)
     
-        # 一个个从堆中取出元素
+        # Extract elements one by one
         for i in range(n - 1, 0, -1):
-            arr[0], arr[i] = arr[i], arr[0]  # 交换
+            arr[0], arr[i] = arr[i], arr[0]  # Swap
             heapify(arr, i, 0)
         
         return arr
     
-    # 测试
+    # Test
     arr = [5, 3, 8, 4, 2]
     sorted_arr = heap_sort(arr)
-    print("排序后的数组:", sorted_arr)
+    print("Sorted array:", sorted_arr)
     ```
 
 === "Java"
@@ -60,7 +66,7 @@
         public static void main(String[] args) {
             int[] arr = {5, 3, 8, 4, 2};
             heapSort(arr);
-            System.out.println("排序后的数组:");
+            System.out.println("Sorted array:");
             for (int num : arr) {
                 System.out.print(num + " ");
             }
@@ -69,63 +75,63 @@
         public static void heapSort(int[] arr) {
             int n = arr.length;
     
-            // 构建最大堆
+            // Build max heap
             for (int i = n / 2 - 1; i >= 0; i--)
                 heapify(arr, n, i);
     
-            // 一个个从堆中取出元素
+            // Extract elements one by one
             for (int i = n - 1; i > 0; i--) {
-                // 将当前根节点移到末尾
+                // Move current root to end
                 int temp = arr[0];
                 arr[0] = arr[i];
                 arr[i] = temp;
     
-                // 对剩余的堆进行堆化
+                // Heapify the reduced heap
                 heapify(arr, i, 0);
             }
         }
     
         private static void heapify(int[] arr, int n, int i) {
-            int largest = i;  // 初始化最大值为根节点
-            int left = 2 * i + 1;  // 左子节点
-            int right = 2 * i + 2;  // 右子节点
+            int largest = i;  // Initialize largest as root
+            int left = 2 * i + 1;  // Left child
+            int right = 2 * i + 2;  // Right child
     
-            // 如果左子节点大于根节点
+            // If left child is larger than root
             if (left < n && arr[left] > arr[largest])
                 largest = left;
     
-            // 如果右子节点大于目前的最大值
+            // If right child is larger than current largest
             if (right < n && arr[right] > arr[largest])
                 largest = right;
     
-            // 如果最大值不是根节点
+            // If largest is not root
             if (largest != i) {
                 int swap = arr[i];
                 arr[i] = arr[largest];
                 arr[largest] = swap;
     
-                // 递归地对受影响的子树进行堆化
+                // Recursively heapify the affected subtree
                 heapify(arr, n, largest);
             }
         }
     }
     ```
 
-## 复杂度分析
+## Complexity Analysis
 
-- 时间复杂度：
-  - 最坏情况：O(n log n)
-  - 平均情况：O(n log n)
-  - 最好情况：O(n log n)
-- 空间复杂度：O(1)（原地排序）
+- Time complexity:
+  - Worst case: O(n log n)
+  - Average case: O(n log n)
+  - Best case: O(n log n)
+- Space complexity: O(1) (in-place sorting)
 
-## 排序示例
+## Sorting Example
 
-让我们通过一个具体的例子来理解堆排序的工作原理。假设我们有一个数组：`[5, 3, 8, 4, 2]`
+Let's understand heap sort with a concrete example. Suppose we have an array: `[5, 3, 8, 4, 2]`
 
-### 构建最大堆
+### Building Max Heap
 
-首先，我们需要将数组重新排列成最大堆。将数组视为完全二叉树：
+First, we need to rearrange the array into a max heap. Visualizing the array as a complete binary tree:
 ```
      5
    /   \
@@ -134,10 +140,10 @@
 4   2
 ```
 
-1. 从最后一个非叶子节点开始堆化（索引1，值为3）：
+1. Start heapifying from the last non-leaf node (index 1, value 3):
    ```
-   比较3和其子节点4、2
-   3小于4，交换位置
+   Compare 3 with its children 4 and 2
+   3 is less than 4, so swap them
         5
       /   \
      4     8
@@ -145,10 +151,10 @@
    3   2
    ```
 
-2. 处理根节点（索引0，值为5）：
+2. Process the root node (index 0, value 5):
    ```
-   比较5和其子节点4、8
-   5小于8，交换位置
+   Compare 5 with its children 4 and 8
+   5 is less than 8, so swap them
         8
       /   \
      4     5
@@ -156,55 +162,55 @@
    3   2
    ```
 
-现在我们得到了一个最大堆。
+Now we have a valid max heap.
 
-### 排序过程
+### Sorting Process
 
-1. 第一步：
-   - 交换堆顶8和最后一个元素2
-   - 将8从堆中移除，对剩余元素进行堆化
+1. First step:
+   - Swap root (8) with last element (2)
+   - Remove 8 from heap and heapify remaining elements
    ```
-   交换后：[2, 4, 5, 3, 8]
-   堆化后：[5, 4, 2, 3, 8]
-   ```
-
-2. 第二步：
-   - 交换堆顶5和最后一个元素3
-   - 将5从堆中移除，对剩余元素进行堆化
-   ```
-   交换后：[3, 4, 2, 5, 8]
-   堆化后：[4, 3, 2, 5, 8]
+   After swap: [2, 4, 5, 3, 8]
+   After heapify: [5, 4, 2, 3, 8]
    ```
 
-3. 第三步：
-   - 交换堆顶4和最后一个元素2
-   - 将4从堆中移除，对剩余元素进行堆化
+2. Second step:
+   - Swap root (5) with last element (3)
+   - Remove 5 from heap and heapify remaining elements
    ```
-   交换后：[2, 3, 4, 5, 8]
-   堆化后：[3, 2, 4, 5, 8]
-   ```
-
-4. 最后一步：
-   - 交换堆顶3和最后一个元素2
-   ```
-   最终结果：[2, 3, 4, 5, 8]
+   After swap: [3, 4, 2, 5, 8]
+   After heapify: [4, 3, 2, 5, 8]
    ```
 
-排序完成！最终得到有序数组：`[2, 3, 4, 5, 8]`
+3. Third step:
+   - Swap root (4) with last element (2)
+   - Remove 4 from heap and heapify remaining elements
+   ```
+   After swap: [2, 3, 4, 5, 8]
+   After heapify: [3, 2, 4, 5, 8]
+   ```
 
-这个例子展示了堆排序的两个主要阶段：
-1. 构建最大堆
-2. 依次取出堆顶元素并维护堆的性质
+4. Final step:
+   - Swap root (3) with last element (2)
+   ```
+   Final result: [2, 3, 4, 5, 8]
+   ```
 
-## 动画演示
+Sorting complete! The final sorted array is: `[2, 3, 4, 5, 8]`
+
+This example demonstrates the two main phases of heap sort:
+1. Building the max heap
+2. Extracting elements from the heap while maintaining heap properties
+
+## Animation Demo
 
 <div style="width:100%; height:100%; margin:20px 0;">
     <iframe src="../heap_sort.html" style="width:100%; height:100%; border:none;"></iframe>
 </div>
 
-## 练习题
+## Exercises
 
-1. 实现一个使用最小堆而不是最大堆的堆排序
-2. 分析在已经部分排序的数组上使用堆排序的性能
-3. 比较堆排序和快速排序在不同数据集上的性能差异
-4. 实现一个可以同时支持升序和降序排序的堆排序算法
+1. Implement a heap sort that uses a min heap instead of a max heap
+2. Analyze heap sort performance on partially sorted arrays
+3. Compare performance differences between heap sort and quick sort on different datasets
+4. Implement a heap sort that can support both ascending and descending order

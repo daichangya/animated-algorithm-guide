@@ -1,26 +1,26 @@
-# 关于我们
+# About Us
 
-## 关于本书
+## About This Book
 
-《一看就懂的算法动画》是我们的重点项目之一，这是一本通过动画演示帮助读者直观理解算法的书籍。本书是 [ZThinker](https://zthinker.com/) 平台的算法学习系列内容的一部分。
+"Algorithm Visualization Guide" is one of our key projects, a book that helps readers intuitively understand algorithms through animated demonstrations. This book is part of the algorithm learning series on the [ZThinker](https://algo.jsdiff.com/) platform.
 
-### 本书特点
+### Book Features
 
-- 通过动画演示算法执行过程
-- 详细讲解算法原理
-- 提供多种编程语言实现
-- 包含练习题和思考题
+- Algorithm execution processes demonstrated through animations
+- Detailed explanations of algorithm principles
+- Implementations in multiple programming languages
+- Includes exercises and thought questions
 
-## 作者简介
+## Author Introduction
 
-代长亚，Java架构师，17年开发经验，专注后端技术与实战。开源作品MiniTomcat，MiniRedis。
+Dai Changya, Java Architect with 17 years of development experience, focusing on backend technology and practical applications. Creator of open-source projects MiniTomcat and MiniRedis.
 
-## 联系方式
+## Contact Information
 
 - Email: daichangya@163.com
 - GitHub: [daichangya](https://github.com/daichangya)
-- 网站: [https://zthinker.com/](https://zthinker.com/)
+- Website: [https://algo.jsdiff.com/](https://algo.jsdiff.com/)
 
-## 加入我们
+## Join Us
 
-如果您对技术学习和分享感兴趣，欢迎与我们一起探索技术的奥秘！
+If you're interested in learning and sharing technology, we welcome you to explore the mysteries of technology with us!

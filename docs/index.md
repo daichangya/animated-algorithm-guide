@@ -1,26 +1,36 @@
-# 一看就懂的算法动画
+---
+title: Algorithm Visualization Guide | Interactive Learning Platform
+description: Understand diff and sorting algorithms through interactive visualizations, with detailed explanations and code examples
+keywords: algorithm visualization, diff algorithms, sorting algorithms, interactive learning, Myers diff algorithm, LCS, bubble sort, quick sort, merge sort, heap sort
+---
 
-欢迎阅读《一看就懂的算法动画》！本书通过动画演示帮助您直观理解各种算法的原理和实现。
+# Algorithm Visualization Guide
 
-## 本书内容
+Welcome to the Algorithm Visualization Learning Platform! This platform helps you deeply understand algorithm principles through interactive animations.
 
-本书将涵盖以下算法分类：
+## Available Algorithm Categories
 
-1. 排序算法
-2. 搜索算法
-3. 图算法
-4. 动态规划
-5. 贪心算法
+1. **Diff Algorithms**
+   - [Myers Diff Algorithm](diff/myers-diff.md)
+   - [Improved Myers Algorithm](diff/myers-diff-improved.md)
+   - [Longest Common Subsequence (LCS)](diff/lcs.md)
 
-## 如何使用本书
+2. **Sorting Algorithms**
+   - [Bubble Sort](sorting/bubble-sort.md)
+   - [Quick Sort](sorting/quick-sort.md)
+   - [Merge Sort](sorting/merge-sort.md)
+   - [Heap Sort](sorting/heap-sort.md)
 
-1. 阅读算法原理讲解
-2. 观看动画演示
-3. 查看代码实现
-4. 完成练习题
+## Platform Features
 
-## 快速开始
+✔ Interactive visualizations (click algorithm names to experience)  
+✔ Bilingual documentation support  
+✔ Detailed algorithm explanations  
+✔ Practical code examples  
 
-点击左侧导航菜单选择您想学习的算法。
+## Quick Start
 
-> 提示：您可以使用 `mkdocs serve` 命令启动本地服务器实时预览本书。
+1. Click the algorithm links above to view visualizations
+2. Read the corresponding algorithm documentation
+
+> Tip: Use `mkdocs serve` to start a local server for live preview
