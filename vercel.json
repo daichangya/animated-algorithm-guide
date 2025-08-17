@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pip3 install --upgrade pip && pip3 install -r requirements.txt && python3 -m mkdocs build",
+  "buildCommand": "pip3 install --upgrade pip && pip3 install -r requirements.txt && python3 -m mkdocs build && cp site/404/index.html site/404.html",
   "outputDirectory": "site",
   "routes": [
     { "src": "/(.*)", "dest": "/$1" },
