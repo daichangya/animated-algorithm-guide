@@ -26,6 +26,7 @@ nav:
 # 支持HTML文件
 extra_javascript:
   - js/iframeResizer.min.js
+  - js/baidu-tongji.js
 
 # 额外CSS（可选）
 extra_css:
@@ -111,6 +112,7 @@ theme:
       toggle:
         icon: material/brightness-4
         name: 切换到亮色模式
+
 
 # 插件
 plugins:
