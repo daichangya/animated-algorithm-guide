@@ -1,0 +1,149 @@
+/**
+ * A*寻路算法可视化样式
+ * @author changyadai
+ */
+
+.container {
+    max-width: 800px;
+    padding: 25px;
+}
+
+.nav-link {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}
+
+/* 图例 */
+.legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.cell-demo {
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cell-demo.start { background: #22c55e; }
+.cell-demo.end { background: #ef4444; }
+.cell-demo.wall { background: #374151; }
+.cell-demo.open { background: rgba(168, 85, 247, 0.5); }
+.cell-demo.closed { background: rgba(6, 182, 212, 0.4); }
+.cell-demo.path { background: #fbbf24; }
+
+/* 网格 */
+.grid-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.grid {
+    display: grid;
+    gap: 2px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cell {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    position: relative;
+}
+
+.cell:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.cell.start {
+    background: #22c55e;
+    cursor: default;
+}
+
+.cell.end {
+    background: #ef4444;
+    cursor: default;
+}
+
+.cell.wall {
+    background: #374151;
+    border: 1px solid #4b5563;
+}
+
+.cell.open {
+    background: rgba(168, 85, 247, 0.5);
+    border: 1px solid #a855f7;
+    animation: openPulse 0.3s ease-out;
+}
+
+@keyframes openPulse {
+    from { transform: scale(0.8); opacity: 0.5; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.cell.closed {
+    background: rgba(6, 182, 212, 0.4);
+    border: 1px solid rgba(6, 182, 212, 0.6);
+}
+
+.cell.current {
+    background: #fbbf24;
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.6);
+    z-index: 10;
+}
+
+.cell.path {
+    background: #fbbf24;
+    animation: pathGlow 0.3s ease-out;
+}
+
+@keyframes pathGlow {
+    from { 
+        transform: scale(0.8);
+        box-shadow: 0 0 20px rgba(251, 191, 36, 0.8);
+    }
+    to { 
+        transform: scale(1);
+        box-shadow: none;
+    }
+}
+
+/* F值显示 */
+.cell .f-value {
+    position: absolute;
+    bottom: 1px;
+    right: 2px;
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* 提示 */
+.hint {
+    text-align: center;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 15px;
+}

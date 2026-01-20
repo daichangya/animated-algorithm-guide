@@ -1,0 +1,359 @@
+/**
+ * 快速排序可视化样式
+ * @author changyadai
+ */
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px;
+}
+
+.container {
+    text-align: center;
+    padding: 30px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.nav-link {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+
+/* ==================== 递归深度指示器 ==================== */
+.depth-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.depth-label {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+}
+
+.depth-bars {
+    display: flex;
+    gap: 4px;
+}
+
+.depth-bar {
+    width: 20px;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.depth-bar.active {
+    background: linear-gradient(90deg, #f97316 0%, #fbbf24 100%);
+    box-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
+}
+
+/* ==================== 指针图例 ==================== */
+.pointer-legend {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.legend-item .icon {
+    font-size: 1.1rem;
+}
+
+.legend-item.pivot .icon {
+    color: #fbbf24;
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.8);
+}
+
+.legend-item.left-ptr .icon {
+    color: #3b82f6;
+}
+
+.legend-item.right-ptr .icon {
+    color: #ef4444;
+}
+
+/* ==================== 数组容器 ==================== */
+.array-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.array-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 320px;
+    gap: 6px;
+    padding: 20px;
+    padding-bottom: 50px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: visible;
+}
+
+/* ==================== 柱状条样式 ==================== */
+.bar {
+    width: 50px;
+    border-radius: 6px 6px 3px 3px;
+    background: linear-gradient(180deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
+    position: relative;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+    border-radius: 6px 6px 0 0;
+}
+
+/* 基准元素 - 金色闪电效果 */
+.bar.pivot {
+    background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+    box-shadow: 
+        0 0 20px rgba(251, 191, 36, 0.8),
+        0 0 40px rgba(251, 191, 36, 0.4);
+    transform: scaleX(1.1);
+    z-index: 20;
+}
+
+.bar.pivot::after {
+    content: '⚡';
+    position: absolute;
+    top: -30px;
+    font-size: 20px;
+    animation: lightning 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes lightning {
+    0% {
+        opacity: 0.6;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+/* 左指针指向的元素 */
+.bar.left-pointer {
+    box-shadow: 
+        0 0 15px rgba(59, 130, 246, 0.8),
+        0 0 30px rgba(59, 130, 246, 0.4);
+    border: 2px solid #3b82f6;
+}
+
+.bar.left-pointer::after {
+    content: '◀';
+    position: absolute;
+    bottom: -35px;
+    color: #3b82f6;
+    font-size: 16px;
+    animation: pointerBounce 0.6s ease-in-out infinite;
+}
+
+/* 右指针指向的元素 */
+.bar.right-pointer {
+    box-shadow: 
+        0 0 15px rgba(239, 68, 68, 0.8),
+        0 0 30px rgba(239, 68, 68, 0.4);
+    border: 2px solid #ef4444;
+}
+
+.bar.right-pointer::after {
+    content: '▶';
+    position: absolute;
+    bottom: -35px;
+    color: #ef4444;
+    font-size: 16px;
+    animation: pointerBounce 0.6s ease-in-out infinite;
+}
+
+@keyframes pointerBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* 比较中的元素 */
+.bar.comparing {
+    transform: scaleY(1.05);
+    box-shadow: 
+        0 0 20px rgba(255, 255, 255, 0.6),
+        0 0 40px rgba(255, 255, 255, 0.3);
+}
+
+/* 交换中的元素 */
+.bar.swapping {
+    background: linear-gradient(180deg, #ec4899 0%, #db2777 100%);
+    box-shadow: 
+        0 0 25px rgba(236, 72, 153, 0.9),
+        0 0 50px rgba(236, 72, 153, 0.5);
+}
+
+/* 在当前分区内 */
+.bar.in-partition {
+    opacity: 1;
+}
+
+/* 不在当前分区内 */
+.bar.out-of-partition {
+    opacity: 0.3;
+    filter: grayscale(0.5);
+}
+
+/* 已排序（基准已就位） */
+.bar.sorted {
+    background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+}
+
+/* 交换动画 */
+.bar.move-right {
+    animation: swapRight 0.4s ease-in-out forwards;
+}
+
+.bar.move-left {
+    animation: swapLeft 0.4s ease-in-out forwards;
+}
+
+@keyframes swapRight {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(28px) translateY(-15px) scale(1.05); }
+    100% { transform: translateX(56px); }
+}
+
+@keyframes swapLeft {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-28px) translateY(15px) scale(0.95); }
+    100% { transform: translateX(-56px); }
+}
+
+/* ==================== 分区信息 ==================== */
+.partition-info {
+    margin-bottom: 20px;
+    padding: 12px 25px;
+    background: rgba(249, 115, 22, 0.1);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    border-radius: 10px;
+    display: inline-block;
+}
+
+#partitionText {
+    color: #fbbf24;
+    font-size: 0.95rem;
+}
+
+/* ==================== 粒子效果 ==================== */
+.spark-particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #fbbf24;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: sparkFly 0.6s ease-out forwards;
+}
+
+@keyframes sparkFly {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0) translate(var(--tx), var(--ty));
+    }
+}
+
+/* 基准就位爆炸效果 */
+.pivot-explosion {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.6) 0%, transparent 70%);
+    pointer-events: none;
+    animation: explode 0.5s ease-out forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+    }
+}
+
+/* ==================== 完成动画 ==================== */
+.bar.celebrate {
+    animation: quickCelebrate 0.5s ease-in-out;
+}
+
+@keyframes quickCelebrate {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15) translateY(-8px);
+    }
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 768px) {
+    .bar {
+        width: 40px;
+        font-size: 11px;
+    }
+    
+    .pointer-legend {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .array-container {
+        height: 280px;
+        padding-bottom: 45px;
+    }
+}

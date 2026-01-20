@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myers差异算法可视化 - Git Diff核心 | 算法可视化</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="通过交互式动画学习Myers差异算法。这是Git diff的核心算法，用于找出两个序列之间的最小编辑距离。可视化编辑图和蛇形路径。">
+    <meta name="keywords" content="Myers差异算法,Myers Diff,Git Diff,最小编辑距离,编辑图,序列比较,算法可视化,版本控制">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algorithm-visualizer.example.com/sequence/myers-diff/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Myers差异算法可视化 - Git Diff核心">
+    <meta property="og:description" content="通过交互式动画学习Myers差异算法，理解Git diff的工作原理。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algorithm-visualizer.example.com/sequence/myers-diff/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Myers差异算法可视化">
+    <meta name="twitter:description" content="交互式动画演示Git diff核心算法">
+    
+    <link rel="stylesheet" href="../../common/styles.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-decoration">
+    <!-- 语言切换器 -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="zh">中文</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <div class="container">
+        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        
+        <header class="page-header">
+            <h1 class="title" data-i18n="myersDiff.title">Myers差异算法可视化</h1>
+            <p class="subtitle" data-i18n="myersDiff.subtitle">Git Diff 的核心算法 - 最小编辑距离</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p data-i18n="myersDiff.intro">Myers差异算法是由Eugene W. Myers在1986年提出的，用于计算两个序列之间的最小编辑距离。它是Git diff、GNU diff等工具的核心算法。该算法通过在"编辑图"上搜索从左上角到右下角的最短路径来找出差异，每次向右移动表示删除，向下移动表示插入，对角线移动表示匹配。</p>
+        </div>
+        
+        <!-- 输入区域 -->
+        <div class="input-section">
+            <div class="input-mode-toggle">
+                <button class="mode-btn active" data-mode="string">字符模式</button>
+                <button class="mode-btn" data-mode="line">行模式</button>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label>源序列 (A)</label>
+                    <input type="text" id="sourceInput" value="ABCDEF" placeholder="输入源序列">
+                </div>
+                <div class="input-group">
+                    <label>目标序列 (B)</label>
+                    <input type="text" id="targetInput" value="ABXDEF" placeholder="输入目标序列">
+                </div>
+            </div>
+        </div>
+        
+        <!-- 序列显示 -->
+        <div class="sequences-display">
+            <div class="sequence-row">
+                <span class="seq-label">源:</span>
+                <div class="sequence-chars" id="sourceChars"></div>
+            </div>
+            <div class="sequence-row">
+                <span class="seq-label">目标:</span>
+                <div class="sequence-chars" id="targetChars"></div>
+            </div>
+        </div>
+        
+        <!-- 编辑图网格 -->
+        <div class="edit-graph-section">
+            <div class="section-label">编辑图 (Edit Graph)</div>
+            <div class="edit-graph-container" id="editGraphContainer">
+                <div class="edit-graph" id="editGraph">
+                    <!-- 网格由JS生成 -->
+                </div>
+            </div>
+            <div class="d-value-indicator">
+                <span>编辑距离 D = </span>
+                <span id="dValue">0</span>
+            </div>
+        </div>
+        
+        <!-- 差异结果 -->
+        <div class="diff-result-section">
+            <div class="section-label">差异结果</div>
+            <div class="diff-result" id="diffResult">
+                <!-- 差异结果由JS生成 -->
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn" data-i18n="common.start">开始</button>
+            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText" data-i18n="common.clickStartToView">点击"开始"查看动画</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>核心概念</h4>
+                <ul>
+                    <li><strong>编辑图</strong>：一个(N+1) x (M+1)的网格，N和M分别是两个序列的长度</li>
+                    <li><strong>移动操作</strong>：向右移动=删除源字符，向下移动=插入目标字符，对角线=字符匹配</li>
+                    <li><strong>D值</strong>：从起点到某位置所需的最小编辑操作数</li>
+                    <li><strong>蛇形路径</strong>：连续的对角线移动序列（匹配字符）</li>
+                </ul>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    算法从D=0开始，逐步增加D值，直到找到一条从(0,0)到(N,M)的路径。这保证了找到的是最短编辑路径。
+                </p>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>时间与空间复杂度</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>指标</th>
+                        <th>复杂度</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>时间复杂度</td>
+                        <td>O((N+M)D)</td>
+                        <td>D是编辑距离，最坏情况D=N+M</td>
+                    </tr>
+                    <tr>
+                        <td>最坏时间</td>
+                        <td>O((N+M)²)</td>
+                        <td>两个完全不同的序列</td>
+                    </tr>
+                    <tr>
+                        <td>空间复杂度</td>
+                        <td class="highlight">O(N+M)</td>
+                        <td>只需存储当前和前一行的状态</td>
+                    </tr>
+                </table>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    在实际应用中，大多数差异较小，因此平均性能非常好。
+                </p>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>应用场景</h4>
+                <ul>
+                    <li>Git版本控制系统的diff功能</li>
+                    <li>GNU diff工具</li>
+                    <li>代码审查工具的变更对比</li>
+                    <li>文档比较和合并工具</li>
+                    <li>DNA序列比对（生物信息学）</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag">Git Diff</span>
+                    <span class="use-case-tag">版本控制</span>
+                    <span class="use-case-tag">代码审查</span>
+                    <span class="use-case-tag">文档对比</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>代码实现</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">def</span> <span class="function">myers_diff</span>(a, b):
+    <span class="string">"""Myers差异算法 - 返回编辑距离"""</span>
+    n, m = <span class="function">len</span>(a), <span class="function">len</span>(b)
+    max_d = n + m
+    
+    <span class="comment"># V数组存储每个k对角线能到达的最远x坐标</span>
+    v = {<span class="number">1</span>: <span class="number">0</span>}
+    
+    <span class="keyword">for</span> d <span class="keyword">in</span> <span class="function">range</span>(max_d + <span class="number">1</span>):
+        <span class="keyword">for</span> k <span class="keyword">in</span> <span class="function">range</span>(-d, d + <span class="number">1</span>, <span class="number">2</span>):
+            <span class="comment"># 决定从哪个方向来</span>
+            <span class="keyword">if</span> k == -d <span class="keyword">or</span> (k != d <span class="keyword">and</span> v.<span class="function">get</span>(k-<span class="number">1</span>, -<span class="number">1</span>) < v.<span class="function">get</span>(k+<span class="number">1</span>, -<span class="number">1</span>)):
+                x = v.<span class="function">get</span>(k + <span class="number">1</span>, <span class="number">0</span>)  <span class="comment"># 从上方下来(插入)</span>
+            <span class="keyword">else</span>:
+                x = v.<span class="function">get</span>(k - <span class="number">1</span>, <span class="number">0</span>) + <span class="number">1</span>  <span class="comment"># 从左边过来(删除)</span>
+            
+            y = x - k
+            
+            <span class="comment"># 沿对角线移动(匹配)</span>
+            <span class="keyword">while</span> x < n <span class="keyword">and</span> y < m <span class="keyword">and</span> a[x] == b[y]:
+                x, y = x + <span class="number">1</span>, y + <span class="number">1</span>
+            
+            v[k] = x
+            
+            <span class="keyword">if</span> x >= n <span class="keyword">and</span> y >= m:
+                <span class="keyword">return</span> d  <span class="comment"># 找到最短编辑距离</span>
+    
+    <span class="keyword">return</span> -<span class="number">1</span>
+
+
+<span class="comment"># 使用示例</span>
+a = <span class="string">"ABCDEF"</span>
+b = <span class="string">"ABXDEF"</span>
+distance = <span class="function">myers_diff</span>(a, b)
+<span class="function">print</span>(<span class="string">f"编辑距离: {distance}"</span>)  <span class="comment"># 输出: 2</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">import</span> java.util.*;
+
+<span class="keyword">public class</span> <span class="type">MyersDiff</span> {
+    
+    <span class="comment">/**
+     * Myers差异算法 - 返回编辑距离
+     */</span>
+    <span class="keyword">public static int</span> <span class="function">myersDiff</span>(<span class="type">String</span> a, <span class="type">String</span> b) {
+        <span class="type">int</span> n = a.<span class="function">length</span>();
+        <span class="type">int</span> m = b.<span class="function">length</span>();
+        <span class="type">int</span> maxD = n + m;
+        
+        <span class="comment">// V数组存储每个k对角线能到达的最远x坐标</span>
+        <span class="type">Map</span>&lt;<span class="type">Integer</span>, <span class="type">Integer</span>&gt; v = <span class="keyword">new</span> <span class="type">HashMap</span>&lt;&gt;();
+        v.<span class="function">put</span>(<span class="number">1</span>, <span class="number">0</span>);
+        
+        <span class="keyword">for</span> (<span class="type">int</span> d = <span class="number">0</span>; d <= maxD; d++) {
+            <span class="keyword">for</span> (<span class="type">int</span> k = -d; k <= d; k += <span class="number">2</span>) {
+                <span class="type">int</span> x;
+                
+                <span class="comment">// 决定从哪个方向来</span>
+                <span class="keyword">if</span> (k == -d || (k != d && 
+                    v.<span class="function">getOrDefault</span>(k-<span class="number">1</span>, -<span class="number">1</span>) < v.<span class="function">getOrDefault</span>(k+<span class="number">1</span>, -<span class="number">1</span>))) {
+                    x = v.<span class="function">getOrDefault</span>(k + <span class="number">1</span>, <span class="number">0</span>);
+                } <span class="keyword">else</span> {
+                    x = v.<span class="function">getOrDefault</span>(k - <span class="number">1</span>, <span class="number">0</span>) + <span class="number">1</span>;
+                }
+                
+                <span class="type">int</span> y = x - k;
+                
+                <span class="comment">// 沿对角线移动(匹配)</span>
+                <span class="keyword">while</span> (x < n && y < m && 
+                       a.<span class="function">charAt</span>(x) == b.<span class="function">charAt</span>(y)) {
+                    x++; y++;
+                }
+                
+                v.<span class="function">put</span>(k, x);
+                
+                <span class="keyword">if</span> (x >= n && y >= m) {
+                    <span class="keyword">return</span> d;
+                }
+            }
+        }
+        <span class="keyword">return</span> -<span class="number">1</span>;
+    }
+    
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">String</span> a = <span class="string">"ABCDEF"</span>;
+        <span class="type">String</span> b = <span class="string">"ABXDEF"</span>;
+        <span class="type">int</span> distance = <span class="function">myersDiff</span>(a, b);
+        System.out.<span class="function">println</span>(<span class="string">"编辑距离: "</span> + distance);
+        <span class="comment">// 输出: 2</span>
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../common/i18n.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>算法可视化 - 交互式动画学习平台 | 排序、图论、动态规划</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="通过交互式动画深入理解13种经典算法的工作原理。涵盖排序算法（冒泡、堆、快速、归并）、字符串匹配（KMP、LCS、Myers Diff）、图算法（Dijkstra、BFS/DFS、A*）、动态规划（背包问题）和计算几何（凸包）。">
+    <meta name="keywords" content="算法可视化,排序算法,冒泡排序,快速排序,堆排序,归并排序,图算法,Dijkstra,BFS,DFS,A*寻路,动态规划,背包问题,KMP,LCS,Myers Diff,凸包,数据结构,编程学习,算法动画">
+    <meta name="author" content="Algorithm Visualization">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://algorithm-visualizer.example.com/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://algorithm-visualizer.example.com/">
+    <meta property="og:title" content="算法可视化 - 交互式动画学习平台">
+    <meta property="og:description" content="通过交互式动画深入理解13种经典算法的工作原理，涵盖排序、图论、动态规划等核心算法。">
+    <meta property="og:image" content="https://algorithm-visualizer.example.com/og-image.png">
+    <meta property="og:locale" content="zh_CN">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="算法可视化 - 交互式动画学习平台">
+    <meta name="twitter:description" content="通过交互式动画深入理解13种经典算法的工作原理。">
+    <meta name="twitter:image" content="https://algorithm-visualizer.example.com/twitter-card.png">
+    
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#0f0c29">
+    <meta name="application-name" content="算法可视化">
+    
+    <link rel="stylesheet" href="common/styles.css">
+    <style>
+        .hero {
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 200;
+            letter-spacing: 8px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        
+        /* 分类区域 */
+        .category-section {
+            margin-bottom: var(--spacing-lg);
+            text-align: left;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: var(--spacing-sm);
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        
+        .category-icon {
+            font-size: 1.6rem;
+        }
+        
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            letter-spacing: 2px;
+        }
+        
+        .category-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+        
+        .algorithms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+        }
+        
+        .algorithm-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            padding: 18px;
+            text-decoration: none;
+            color: inherit;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .algorithm-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            opacity: 0;
+            transition: opacity var(--transition-normal);
+        }
+        
+        .algorithm-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--border-light);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .algorithm-card:hover::before {
+            opacity: 1;
+        }
+        
+        /* 各分类卡片颜色 */
+        .sorting-category .algorithm-card::before { background: linear-gradient(90deg, #00d9ff, #22c55e); }
+        .sequence-category .algorithm-card::before { background: linear-gradient(90deg, #a855f7, #ec4899); }
+        .graph-category .algorithm-card::before { background: linear-gradient(90deg, #f97316, #eab308); }
+        .search-category .algorithm-card::before { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+        .geometry-category .algorithm-card::before { background: linear-gradient(90deg, #10b981, #84cc16); }
+        
+        .algorithm-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .algorithm-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .algorithm-complexity {
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        .algorithm-desc {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+        
+        /* 算法图标颜色 */
+        .algorithm-card.bubble .algorithm-icon { color: #00d9ff; }
+        .algorithm-card.heap .algorithm-icon { color: #a855f7; }
+        .algorithm-card.quick .algorithm-icon { color: #f97316; }
+        .algorithm-card.merge .algorithm-icon { color: #22c55e; }
+        .algorithm-card.myers .algorithm-icon { color: #ef4444; }
+        .algorithm-card.lcs .algorithm-icon { color: #8b5cf6; }
+        .algorithm-card.kmp .algorithm-icon { color: #ec4899; }
+        .algorithm-card.dijkstra .algorithm-icon { color: #f59e0b; }
+        .algorithm-card.bfs .algorithm-icon { color: #06b6d4; }
+        .algorithm-card.astar .algorithm-icon { color: #eab308; }
+        .algorithm-card.binary .algorithm-icon { color: #3b82f6; }
+        .algorithm-card.knapsack .algorithm-icon { color: #14b8a6; }
+        .algorithm-card.convex .algorithm-icon { color: #84cc16; }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        /* 介绍区域 */
+        .intro-section {
+            max-width: 900px;
+            margin: 0 auto var(--spacing-xl);
+            text-align: center;
+        }
+        
+        .intro-title {
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
+        
+        .intro-text {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* 快速开始区域 */
+        .quickstart-section {
+            max-width: 800px;
+            margin: 0 auto var(--spacing-xl);
+            text-align: center;
+            padding: var(--spacing-lg);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+        }
+        
+        .quickstart-title {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
+        
+        .quickstart-steps {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+        
+        .quickstart-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            max-width: 150px;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green));
+            color: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        
+        .step-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* 特性展示 */
+        .features-section {
+            max-width: 1000px;
+            margin: 0 auto var(--spacing-xl);
+        }
+        
+        .features-title {
+            font-size: 1.5rem;
+            font-weight: 400;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+            padding: var(--spacing-md);
+            text-align: left;
+            transition: all var(--transition-normal);
+        }
+        
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--border-light);
+            transform: translateY(-3px);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .feature-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* 页脚 */
+        .site-footer {
+            margin-top: var(--spacing-xl);
+            padding: var(--spacing-lg) 0;
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+        
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color var(--transition-fast);
+        }
+        
+        .footer-link:hover {
+            color: var(--accent-cyan);
+        }
+        
+        .footer-copyright {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        .footer-tech {
+            margin-top: var(--spacing-sm);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+            
+            .quickstart-steps {
+                gap: var(--spacing-md);
+            }
+            
+            .quickstart-step {
+                max-width: 120px;
+            }
+        }
+    </style>
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "算法可视化",
+        "description": "通过交互式动画深入理解经典算法的工作原理",
+        "url": "https://algorithm-visualizer.example.com/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://algorithm-visualizer.example.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "算法列表",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "冒泡排序", "url": "sorting/bubble-sort/index.html"},
+            {"@type": "ListItem", "position": 2, "name": "堆排序", "url": "sorting/heap-sort/index.html"},
+            {"@type": "ListItem", "position": 3, "name": "快速排序", "url": "sorting/quick-sort/index.html"},
+            {"@type": "ListItem", "position": 4, "name": "归并排序", "url": "sorting/merge-sort/index.html"},
+            {"@type": "ListItem", "position": 5, "name": "Myers差异算法", "url": "sequence/myers-diff/index.html"},
+            {"@type": "ListItem", "position": 6, "name": "LCS公共子序列", "url": "sequence/lcs/index.html"},
+            {"@type": "ListItem", "position": 7, "name": "KMP字符串匹配", "url": "sequence/kmp/index.html"},
+            {"@type": "ListItem", "position": 8, "name": "Dijkstra最短路径", "url": "graph/dijkstra/index.html"},
+            {"@type": "ListItem", "position": 9, "name": "BFS/DFS遍历", "url": "graph/bfs-dfs/index.html"},
+            {"@type": "ListItem", "position": 10, "name": "A*寻路算法", "url": "graph/astar/index.html"},
+            {"@type": "ListItem", "position": 11, "name": "二分查找", "url": "search/binary-search/index.html"},
+            {"@type": "ListItem", "position": 12, "name": "0/1背包问题", "url": "search/knapsack/index.html"},
+            {"@type": "ListItem", "position": 13, "name": "凸包算法", "url": "geometry/convex-hull/index.html"}
+        ]
+    }
+    </script>
+</head>
+<body class="bg-decoration">
+    <!-- 语言切换器 -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="zh">中文</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <main class="container" style="max-width: 1200px; padding-top: 30px;">
+        <!-- Hero区域 -->
+        <header class="hero fade-in" style="text-align: center;">
+            <h1 class="hero-title" data-i18n="home.title">算法可视化</h1>
+            <p class="hero-subtitle" data-i18n="home.subtitle">通过交互式动画深入理解经典算法的工作原理</p>
+            <div class="stats" style="margin-top: 20px;">
+                <div class="stat-item">
+                    <div class="stat-value">13</div>
+                    <div class="stat-label" data-i18n="home.algorithmCount">算法总数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label" data-i18n="home.categoryCount">算法分类</div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- 什么是算法可视化 -->
+        <section class="intro-section fade-in" style="animation-delay: 0.05s;">
+            <h2 class="intro-title" data-i18n="home.introTitle">什么是算法可视化？</h2>
+            <p class="intro-text" data-i18n="home.introText">
+                算法可视化是一种将抽象的算法逻辑转化为直观动画的学习方式。通过观察元素的移动、比较和变换过程，
+                你可以更深入地理解算法的核心思想，而不仅仅是记忆代码。每种算法都有其独特的"个性"——
+                冒泡排序的气泡上浮、快速排序的分区划分、Dijkstra的波纹扩散...让学习算法变得生动有趣。
+            </p>
+        </section>
+        
+        <!-- 快速开始 -->
+        <section class="quickstart-section fade-in" style="animation-delay: 0.08s;">
+            <h2 class="quickstart-title" data-i18n="home.quickStartTitle">快速开始</h2>
+            <div class="quickstart-steps">
+                <div class="quickstart-step">
+                    <div class="step-number">1</div>
+                    <p class="step-text" data-i18n="home.step1">选择感兴趣的算法类别</p>
+                </div>
+                <div class="quickstart-step">
+                    <div class="step-number">2</div>
+                    <p class="step-text" data-i18n="home.step2">点击卡片进入算法页面</p>
+                </div>
+                <div class="quickstart-step">
+                    <div class="step-number">3</div>
+                    <p class="step-text" data-i18n="home.step3">点击"开始"观看动画演示</p>
+                </div>
+                <div class="quickstart-step">
+                    <div class="step-number">4</div>
+                    <p class="step-text" data-i18n="home.step4">阅读说明理解算法原理</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 排序算法 -->
+        <section class="category-section sorting-category fade-in" style="animation-delay: 0.1s;" aria-labelledby="sorting-title">
+            <div class="category-header">
+                <span class="category-icon" aria-hidden="true">📊</span>
+                <h2 class="category-title" id="sorting-title" data-i18n="home.sortingCategory">排序算法</h2>
+                <span class="category-desc" data-i18n="home.sortingDesc">数组元素排列与重组</span>
+            </div>
+            <div class="algorithms-grid">
+                <a href="sorting/bubble-sort/index.html" class="algorithm-card bubble" aria-label="冒泡排序 - 时间复杂度O(n²)">
+                    <span class="algorithm-icon" aria-hidden="true">🫧</span>
+                    <h3 class="algorithm-name" data-i18n="cards.bubbleSort.name">冒泡排序</h3>
+                    <div class="algorithm-complexity" data-i18n="cards.bubbleSort.complexity">O(n²) | O(1)</div>
+                    <p class="algorithm-desc" data-i18n="cards.bubbleSort.desc">相邻元素两两比较，较大元素上浮</p>
+                </a>
+                <a href="sorting/heap-sort/index.html" class="algorithm-card heap" aria-label="堆排序 - 时间复杂度O(n log n)">
+                    <span class="algorithm-icon" aria-hidden="true">🌳</span>
+                    <h3 class="algorithm-name" data-i18n="cards.heapSort.name">堆排序</h3>
+                    <div class="algorithm-complexity" data-i18n="cards.heapSort.complexity">O(n log n) | O(1)</div>
+                    <p class="algorithm-desc" data-i18n="cards.heapSort.desc">利用二叉堆特性完成排序</p>
+                </a>
+                <a href="sorting/quick-sort/index.html" class="algorithm-card quick" aria-label="快速排序 - 时间复杂度O(n log n)">
+                    <span class="algorithm-icon" aria-hidden="true">⚡</span>
+                    <h3 class="algorithm-name" data-i18n="cards.quickSort.name">快速排序</h3>
+                    <div class="algorithm-complexity" data-i18n="cards.quickSort.complexity">O(n log n) | O(log n)</div>
+                    <p class="algorithm-desc" data-i18n="cards.quickSort.desc">分治策略，基准元素分区</p>
+                </a>
+                <a href="sorting/merge-sort/index.html" class="algorithm-card merge" aria-label="归并排序 - 时间复杂度O(n log n)">
+                    <span class="algorithm-icon" aria-hidden="true">🔀</span>
+                    <h3 class="algorithm-name" data-i18n="cards.mergeSort.name">归并排序</h3>
+                    <div class="algorithm-complexity" data-i18n="cards.mergeSort.complexity">O(n log n) | O(n)</div>
+                    <p class="algorithm-desc" data-i18n="cards.mergeSort.desc">分解子数组后合并</p>
+                </a>
+            </div>
+        </section>
+        
+        <!-- 字符串/序列算法 -->
+        <section class="category-section sequence-category fade-in" style="animation-delay: 0.15s;" aria-labelledby="sequence-title">
+            <div class="category-header">
+                <span class="category-icon" aria-hidden="true">🔤</span>
+                <h2 class="category-title" id="sequence-title" data-i18n="home.sequenceCategory">字符串算法</h2>
+                <span class="category-desc" data-i18n="home.sequenceDesc">序列匹配与比较</span>
+            </div>
+            <div class="algorithms-grid">
+                <a href="sequence/myers-diff/index.html" class="algorithm-card myers" aria-label="Myers差异算法">
+                    <span class="algorithm-icon" aria-hidden="true">📝</span>
+                    <h3 class="algorithm-name" data-i18n="cards.myersDiff.name">Myers差异</h3>
+                    <div class="algorithm-complexity" data-i18n="cards.myersDiff.complexity">O((N+M)D) | O(N+M)</div>
+                    <p class="algorithm-desc" data-i18n="cards.myersDiff.desc">最小编辑距离，Git diff核心</p>
+                </a>
+                <a href="sequence/lcs/index.html" class="algorithm-card lcs" aria-label="LCS最长公共子序列">
+                    <span class="algorithm-icon" aria-hidden="true">🔗</span>
+                    <h3 class="algorithm-name" data-i18n="cards.lcs.name">LCS公共子序列</h3>
+                    <div class="algorithm-complexity" data-i18n="cards.lcs.complexity">O(MN) | O(MN)</div>
+                    <p class="algorithm-desc" data-i18n="cards.lcs.desc">动态规划找最长公共子序列</p>
+                </a>
+                <a href="sequence/kmp/index.html" class="algorithm-card kmp" aria-label="KMP字符串匹配算法">
+                    <span class="algorithm-icon" aria-hidden="true">🔍</span>
+                    <h3 class="algorithm-name" data-i18n="cards.kmp.name">KMP匹配</h3>
+                    <div class="algorithm-complexity" data-i18n="cards.kmp.complexity">O(N+M) | O(M)</div>
+                    <p class="algorithm-desc" data-i18n="cards.kmp.desc">前缀表加速字符串匹配</p>
+                </a>
+            </div>
+        </section>
+        
+        <!-- 图算法 -->
+        <section class="category-section graph-category fade-in" style="animation-delay: 0.2s;" aria-labelledby="graph-title">
+            <div class="category-header">
+                <span class="category-icon" aria-hidden="true">🕸️</span>
+                <h2 class="category-title" id="graph-title" data-i18n="home.graphCategory">图算法</h2>
+                <span class="category-desc" data-i18n="home.graphDesc">图结构遍历与路径搜索</span>
+            </div>
+            <div class="algorithms-grid">
+                <a href="graph/dijkstra/index.html" class="algorithm-card dijkstra" aria-label="Dijkstra最短路径算法">
+                    <span class="algorithm-icon" aria-hidden="true">🛤️</span>
+                    <h3 class="algorithm-name" data-i18n="cards.dijkstra.name">Dijkstra</h3>
+                    <div class="algorithm-complexity" data-i18n="cards.dijkstra.complexity">O((V+E)logV) | O(V)</div>
+                    <p class="algorithm-desc" data-i18n="cards.dijkstra.desc">单源最短路径算法</p>
+                </a>
+                <a href="graph/bfs-dfs/index.html" class="algorithm-card bfs" aria-label="BFS广度优先和DFS深度优先遍历">
+                    <span class="algorithm-icon" aria-hidden="true">🌊</span>
+                    <h3 class="algorithm-name" data-i18n="cards.bfsDfs.name">BFS/DFS</h3>
+                    <div class="algorithm-complexity" data-i18n="cards.bfsDfs.complexity">O(V+E) | O(V)</div>
+                    <p class="algorithm-desc" data-i18n="cards.bfsDfs.desc">广度/深度优先遍历对比</p>
+                </a>
+                <a href="graph/astar/index.html" class="algorithm-card astar" aria-label="A*启发式寻路算法">
+                    <span class="algorithm-icon" aria-hidden="true">⭐</span>
+                    <h3 class="algorithm-name" data-i18n="cards.astar.name">A*寻路</h3>
+                    <div class="algorithm-complexity" data-i18n="cards.astar.complexity">O(E) | O(V)</div>
+                    <p class="algorithm-desc" data-i18n="cards.astar.desc">启发式最短路径搜索</p>
+                </a>
+            </div>
+        </section>
+        
+        <!-- 搜索与优化 -->
+        <section class="category-section search-category fade-in" style="animation-delay: 0.25s;" aria-labelledby="search-title">
+            <div class="category-header">
+                <span class="category-icon" aria-hidden="true">🎯</span>
+                <h2 class="category-title" id="search-title" data-i18n="home.searchCategory">搜索与优化</h2>
+                <span class="category-desc" data-i18n="home.searchDesc">高效查找与决策优化</span>
+            </div>
+            <div class="algorithms-grid">
+                <a href="search/binary-search/index.html" class="algorithm-card binary" aria-label="二分查找算法">
+                    <span class="algorithm-icon" aria-hidden="true">🔎</span>
+                    <h3 class="algorithm-name" data-i18n="cards.binarySearch.name">二分查找</h3>
+                    <div class="algorithm-complexity" data-i18n="cards.binarySearch.complexity">O(log n) | O(1)</div>
+                    <p class="algorithm-desc" data-i18n="cards.binarySearch.desc">有序数组中的高效查找</p>
+                </a>
+                <a href="search/knapsack/index.html" class="algorithm-card knapsack" aria-label="0/1背包动态规划问题">
+                    <span class="algorithm-icon" aria-hidden="true">🎒</span>
+                    <h3 class="algorithm-name" data-i18n="cards.knapsack.name">0/1背包</h3>
+                    <div class="algorithm-complexity" data-i18n="cards.knapsack.complexity">O(NW) | O(NW)</div>
+                    <p class="algorithm-desc" data-i18n="cards.knapsack.desc">动态规划经典优化问题</p>
+                </a>
+            </div>
+        </section>
+        
+        <!-- 计算几何 -->
+        <section class="category-section geometry-category fade-in" style="animation-delay: 0.3s;" aria-labelledby="geometry-title">
+            <div class="category-header">
+                <span class="category-icon" aria-hidden="true">📐</span>
+                <h2 class="category-title" id="geometry-title" data-i18n="home.geometryCategory">计算几何</h2>
+                <span class="category-desc" data-i18n="home.geometryDesc">几何图形与空间计算</span>
+            </div>
+            <div class="algorithms-grid">
+                <a href="geometry/convex-hull/index.html" class="algorithm-card convex" aria-label="Graham Scan凸包算法">
+                    <span class="algorithm-icon" aria-hidden="true">⬡</span>
+                    <h3 class="algorithm-name" data-i18n="cards.convexHull.name">凸包算法</h3>
+                    <div class="algorithm-complexity" data-i18n="cards.convexHull.complexity">O(n log n) | O(n)</div>
+                    <p class="algorithm-desc" data-i18n="cards.convexHull.desc">Graham Scan计算点集凸包</p>
+                </a>
+            </div>
+        </section>
+        
+        <!-- 平台特性 -->
+        <section class="features-section fade-in" style="animation-delay: 0.35s;">
+            <h2 class="features-title" data-i18n="home.featuresTitle">平台特性</h2>
+            <div class="features-grid">
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">🎬</div>
+                    <h3 class="feature-title" data-i18n="home.feature1Title">流畅动画</h3>
+                    <p class="feature-desc" data-i18n="home.feature1Desc">精心设计的CSS动画效果，让每一步操作都清晰可见，帮助你理解算法的执行过程。</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">🎮</div>
+                    <h3 class="feature-title" data-i18n="home.feature2Title">交互控制</h3>
+                    <p class="feature-desc" data-i18n="home.feature2Desc">可随时暂停、重置，部分算法支持自定义输入数据，让学习更加灵活自主。</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">📚</div>
+                    <h3 class="feature-title" data-i18n="home.feature3Title">详细说明</h3>
+                    <p class="feature-desc" data-i18n="home.feature3Desc">每个算法页面都配有原理介绍、复杂度分析和应用场景，理论与实践相结合。</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">📱</div>
+                    <h3 class="feature-title" data-i18n="home.feature4Title">响应式设计</h3>
+                    <p class="feature-desc" data-i18n="home.feature4Desc">完美适配桌面和移动设备，随时随地都能学习算法知识。</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">🚀</div>
+                    <h3 class="feature-title" data-i18n="home.feature5Title">零依赖</h3>
+                    <p class="feature-desc" data-i18n="home.feature5Desc">纯原生HTML/CSS/JavaScript实现，无需任何框架，代码简洁易懂，可作为学习参考。</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">🌙</div>
+                    <h3 class="feature-title" data-i18n="home.feature6Title">护眼暗色</h3>
+                    <p class="feature-desc" data-i18n="home.feature6Desc">采用舒适的深色主题设计，长时间学习也不易疲劳，保护你的眼睛。</p>
+                </article>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="site-footer fade-in" style="animation-delay: 0.4s;">
+        <div class="footer-content">
+            <nav class="footer-links" aria-label="页脚导航">
+                <a href="#sorting-title" class="footer-link" data-i18n="home.sortingCategory">排序算法</a>
+                <a href="#sequence-title" class="footer-link" data-i18n="home.sequenceCategory">字符串算法</a>
+                <a href="#graph-title" class="footer-link" data-i18n="home.graphCategory">图算法</a>
+                <a href="#search-title" class="footer-link" data-i18n="home.searchCategory">搜索优化</a>
+                <a href="#geometry-title" class="footer-link" data-i18n="home.geometryCategory">计算几何</a>
+            </nav>
+            <p class="footer-copyright" data-i18n="home.footerCopyright">
+                &copy; 2026 算法可视化. 使用 HTML / CSS / JavaScript 构建
+            </p>
+            <p class="footer-tech" data-i18n="home.footerNote">
+                本项目为开源学习项目，欢迎贡献代码和反馈建议
+            </p>
+        </div>
+    </footer>
+    
+    <script type="module" src="common/i18n.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

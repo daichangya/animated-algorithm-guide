@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冒泡排序可视化 - 算法动画演示 | 算法可视化</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="通过交互式动画学习冒泡排序算法。观察元素如何像气泡一样逐步上浮到正确位置，理解O(n²)时间复杂度的排序过程。">
+    <meta name="keywords" content="冒泡排序,Bubble Sort,排序算法,算法可视化,算法动画,时间复杂度O(n²),交换排序">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algorithm-visualizer.example.com/sorting/bubble-sort/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="冒泡排序可视化 - 算法动画演示">
+    <meta property="og:description" content="通过交互式动画学习冒泡排序算法，观察元素上浮过程。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algorithm-visualizer.example.com/sorting/bubble-sort/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="冒泡排序可视化">
+    <meta name="twitter:description" content="交互式动画演示冒泡排序算法">
+    
+    <link rel="stylesheet" href="../../common/styles.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-decoration">
+    <!-- 语言切换器 -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="zh">中文</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <div class="container">
+        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        
+        <header class="page-header">
+            <h1 class="title" data-i18n="bubbleSort.title">冒泡排序可视化</h1>
+            <p class="subtitle" data-i18n="bubbleSort.subtitle">观察元素如何像气泡一样上浮到正确位置</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p data-i18n="bubbleSort.intro">冒泡排序（Bubble Sort）是一种简单直观的排序算法。它重复地遍历待排序的数列，一次比较两个相邻元素，如果顺序错误就把它们交换过来。每一轮遍历后，最大的元素会"浮"到数组末尾，就像水中的气泡上浮一样。</p>
+        </div>
+        
+        <div class="array-container" id="arrayContainer">
+            <!-- 柱状条将由 JavaScript 动态生成 -->
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn" data-i18n="common.startSort">开始排序</button>
+            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText" data-i18n="common.clickToStart">点击"开始排序"查看动画</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle" data-i18n="common.tabPrinciple">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-i18n="common.tabComplexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-i18n="common.tabUsage">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-i18n="common.tabCode">📝 代码实现</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4 data-i18n="bubbleSort.principleTitle">算法步骤</h4>
+                <ol id="principleSteps">
+                    <li data-i18n="bubbleSort.principleSteps.0">从数组的第一个元素开始，比较相邻的两个元素</li>
+                    <li data-i18n="bubbleSort.principleSteps.1">如果前一个元素比后一个元素大，则交换它们的位置</li>
+                    <li data-i18n="bubbleSort.principleSteps.2">对每一对相邻元素做同样的工作，从开始第一对到结尾的最后一对</li>
+                    <li data-i18n="bubbleSort.principleSteps.3">完成一轮后，最大的元素会排到最后</li>
+                    <li data-i18n="bubbleSort.principleSteps.4">重复以上步骤，每次比较范围减少一个（已排好的元素不再参与）</li>
+                    <li data-i18n="bubbleSort.principleSteps.5">当没有任何交换发生时，排序完成</li>
+                </ol>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4 data-i18n="common.timeComplexity">时间与空间复杂度</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th data-i18n="common.situation">情况</th>
+                        <th data-i18n="common.timeComplexity">时间复杂度</th>
+                        <th data-i18n="common.description">说明</th>
+                    </tr>
+                    <tr>
+                        <td data-i18n="common.bestCase">最好情况</td>
+                        <td class="highlight">O(n)</td>
+                        <td data-i18n="bubbleSort.complexityBest">数组已经有序，只需一次遍历</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="common.averageCase">平均情况</td>
+                        <td>O(n²)</td>
+                        <td data-i18n="bubbleSort.complexityAvg">需要多次遍历和交换</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="common.worstCase">最坏情况</td>
+                        <td>O(n²)</td>
+                        <td data-i18n="bubbleSort.complexityWorst">数组完全逆序</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="common.spaceComplexity">空间复杂度</td>
+                        <td class="highlight">O(1)</td>
+                        <td data-i18n="bubbleSort.complexitySpace">只需常数级额外空间（原地排序）</td>
+                    </tr>
+                </table>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-i18n="bubbleSort.stabilityNote" data-i18n-html>
+                    冒泡排序是<strong>稳定排序</strong>，相等元素的相对顺序不会改变。
+                </p>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4 data-i18n="bubbleSort.usageTitle">适用场景</h4>
+                <ul id="usageList">
+                    <li data-i18n="bubbleSort.usageList.0">教学演示：作为最简单的排序算法之一，非常适合算法入门学习</li>
+                    <li data-i18n="bubbleSort.usageList.1">小规模数据：当数据量很小时（n < 50），简单实现的优势明显</li>
+                    <li data-i18n="bubbleSort.usageList.2">几乎有序的数组：如果数组大部分已经有序，冒泡排序效率较高</li>
+                    <li data-i18n="bubbleSort.usageList.3">需要稳定性：当需要保持相等元素的原始顺序时</li>
+                </ul>
+                <div class="use-cases" id="usageTags">
+                    <span class="use-case-tag" data-i18n="bubbleSort.usageTags.0">算法教学</span>
+                    <span class="use-case-tag" data-i18n="bubbleSort.usageTags.1">小数据集</span>
+                    <span class="use-case-tag" data-i18n="bubbleSort.usageTags.2">稳定排序需求</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4 data-i18n="common.tabCode">代码实现</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">def</span> <span class="function">bubble_sort</span>(arr):
+    <span class="string">"""冒泡排序算法"""</span>
+    n = <span class="function">len</span>(arr)
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n):
+        swapped = <span class="keyword">False</span>
+        
+        <span class="comment"># 每轮将最大元素"冒泡"到末尾</span>
+        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="function">range</span>(<span class="number">0</span>, n - i - <span class="number">1</span>):
+            <span class="keyword">if</span> arr[j] > arr[j + <span class="number">1</span>]:
+                <span class="comment"># 交换相邻元素</span>
+                arr[j], arr[j + <span class="number">1</span>] = arr[j + <span class="number">1</span>], arr[j]
+                swapped = <span class="keyword">True</span>
+        
+        <span class="comment"># 如果没有交换发生，数组已有序</span>
+        <span class="keyword">if not</span> swapped:
+            <span class="keyword">break</span>
+    
+    <span class="keyword">return</span> arr
+
+
+<span class="comment"># 使用示例</span>
+arr = [<span class="number">64</span>, <span class="number">34</span>, <span class="number">25</span>, <span class="number">12</span>, <span class="number">22</span>, <span class="number">11</span>, <span class="number">90</span>]
+<span class="function">print</span>(<span class="function">bubble_sort</span>(arr))
+<span class="comment"># 输出: [11, 12, 22, 25, 34, 64, 90]</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">public class</span> <span class="type">BubbleSort</span> {
+    
+    <span class="comment">/**
+     * 冒泡排序算法
+     * @param arr 待排序数组
+     */</span>
+    <span class="keyword">public static void</span> <span class="function">bubbleSort</span>(<span class="type">int</span>[] arr) {
+        <span class="type">int</span> n = arr.length;
+        
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i < n - <span class="number">1</span>; i++) {
+            <span class="type">boolean</span> swapped = <span class="keyword">false</span>;
+            
+            <span class="comment">// 每轮将最大元素"冒泡"到末尾</span>
+            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j < n - i - <span class="number">1</span>; j++) {
+                <span class="keyword">if</span> (arr[j] > arr[j + <span class="number">1</span>]) {
+                    <span class="comment">// 交换相邻元素</span>
+                    <span class="type">int</span> temp = arr[j];
+                    arr[j] = arr[j + <span class="number">1</span>];
+                    arr[j + <span class="number">1</span>] = temp;
+                    swapped = <span class="keyword">true</span>;
+                }
+            }
+            
+            <span class="comment">// 如果没有交换发生，数组已有序</span>
+            <span class="keyword">if</span> (!swapped) {
+                <span class="keyword">break</span>;
+            }
+        }
+    }
+    
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">int</span>[] arr = {<span class="number">64</span>, <span class="number">34</span>, <span class="number">25</span>, <span class="number">12</span>, <span class="number">22</span>, <span class="number">11</span>, <span class="number">90</span>};
+        <span class="function">bubbleSort</span>(arr);
+        System.out.<span class="function">println</span>(Arrays.<span class="function">toString</span>(arr));
+        <span class="comment">// 输出: [11, 12, 22, 25, 34, 64, 90]</span>
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../common/i18n.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+        
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

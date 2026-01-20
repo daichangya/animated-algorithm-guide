@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KMP字符串匹配可视化 - 前缀表算法 | 算法可视化</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="通过交互式动画学习KMP字符串匹配算法。理解前缀表（Next数组）的构建过程，观察如何利用已匹配信息避免重复比较，实现O(n+m)的高效匹配。">
+    <meta name="keywords" content="KMP,字符串匹配,Knuth-Morris-Pratt,前缀表,Next数组,模式匹配,算法可视化">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algorithm-visualizer.example.com/sequence/kmp/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="KMP字符串匹配可视化 - 前缀表算法">
+    <meta property="og:description" content="通过交互式动画学习KMP算法，理解前缀表的工作原理。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algorithm-visualizer.example.com/sequence/kmp/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="KMP字符串匹配可视化">
+    <meta name="twitter:description" content="交互式动画演示KMP字符串匹配">
+    
+    <link rel="stylesheet" href="../../common/styles.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-decoration">
+    <!-- 语言切换器 -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="zh">中文</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <div class="container">
+        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        
+        <header class="page-header">
+            <h1 class="title" data-i18n="kmp.title">KMP字符串匹配可视化</h1>
+            <p class="subtitle" data-i18n="kmp.subtitle">利用前缀表跳过无效比较</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p data-i18n="kmp.intro">KMP（Knuth-Morris-Pratt）算法是一种高效的字符串匹配算法。它利用已匹配部分的信息，避免从头开始重新匹配，通过"前缀表"（也叫next数组）实现O(n+m)的时间复杂度。</p>
+        </div>
+        
+        <!-- 输入 -->
+        <div class="input-section">
+            <div class="input-group">
+                <label>文本串 (T)</label>
+                <input type="text" id="textInput" value="ABABDABACDABABCABAB" placeholder="输入文本串">
+            </div>
+            <div class="input-group">
+                <label>模式串 (P)</label>
+                <input type="text" id="patternInput" value="ABABCABAB" placeholder="输入模式串">
+            </div>
+        </div>
+        
+        <!-- 前缀表 -->
+        <div class="prefix-section">
+            <div class="section-label">前缀表 (Next数组)</div>
+            <div class="prefix-table" id="prefixTable"></div>
+        </div>
+        
+        <!-- 匹配过程 -->
+        <div class="match-section">
+            <div class="section-label">匹配过程</div>
+            <div class="match-container">
+                <div class="text-row" id="textRow"></div>
+                <div class="pattern-row" id="patternRow"></div>
+            </div>
+        </div>
+        
+        <!-- 匹配结果 -->
+        <div class="result-section">
+            <div class="section-label">匹配位置</div>
+            <div class="match-results" id="matchResults">-</div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn" data-i18n="common.start">开始</button>
+            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText" data-i18n="common.clickStartToView">点击"开始"查看动画</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>前缀表的含义</h4>
+                <p>前缀表（也称Next数组或失配函数）记录了模式串中每个位置之前的子串的"最长相等前后缀"长度。</p>
+                <ul>
+                    <li><strong>前缀</strong>：不包含最后一个字符的所有以第一个字符开头的连续子串</li>
+                    <li><strong>后缀</strong>：不包含第一个字符的所有以最后一个字符结尾的连续子串</li>
+                    <li>当匹配失败时，根据前缀表将模式串右移，跳过不必要的比较</li>
+                </ul>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    例如 "ABAB" 的最长相等前后缀是 "AB"，长度为2。
+                </p>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>时间与空间复杂度</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>阶段</th>
+                        <th>复杂度</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>构建前缀表</td>
+                        <td class="highlight">O(M)</td>
+                        <td>M是模式串长度</td>
+                    </tr>
+                    <tr>
+                        <td>匹配过程</td>
+                        <td class="highlight">O(N)</td>
+                        <td>N是文本串长度</td>
+                    </tr>
+                    <tr>
+                        <td>总时间</td>
+                        <td class="highlight">O(N+M)</td>
+                        <td>远优于朴素算法的O(N×M)</td>
+                    </tr>
+                    <tr>
+                        <td>空间复杂度</td>
+                        <td>O(M)</td>
+                        <td>存储前缀表</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>应用场景</h4>
+                <ul>
+                    <li>文本编辑器的查找功能</li>
+                    <li>搜索引擎的关键词匹配</li>
+                    <li>DNA序列模式搜索</li>
+                    <li>网络入侵检测（特征码匹配）</li>
+                    <li>数据压缩算法</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag">文本搜索</span>
+                    <span class="use-case-tag">模式匹配</span>
+                    <span class="use-case-tag">生物信息学</span>
+                    <span class="use-case-tag">网络安全</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>代码实现</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">def</span> <span class="function">build_next</span>(pattern):
+    <span class="string">"""构建前缀表（Next数组）"""</span>
+    m = <span class="function">len</span>(pattern)
+    next_arr = [<span class="number">0</span>] * m
+    j = <span class="number">0</span>
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="number">1</span>, m):
+        <span class="keyword">while</span> j > <span class="number">0</span> <span class="keyword">and</span> pattern[i] != pattern[j]:
+            j = next_arr[j - <span class="number">1</span>]
+        <span class="keyword">if</span> pattern[i] == pattern[j]:
+            j += <span class="number">1</span>
+        next_arr[i] = j
+    
+    <span class="keyword">return</span> next_arr
+
+
+<span class="keyword">def</span> <span class="function">kmp_search</span>(text, pattern):
+    <span class="string">"""KMP字符串匹配"""</span>
+    <span class="keyword">if not</span> pattern:
+        <span class="keyword">return</span> []
+    
+    next_arr = <span class="function">build_next</span>(pattern)
+    results = []
+    j = <span class="number">0</span>
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="function">len</span>(text)):
+        <span class="keyword">while</span> j > <span class="number">0</span> <span class="keyword">and</span> text[i] != pattern[j]:
+            j = next_arr[j - <span class="number">1</span>]
+        <span class="keyword">if</span> text[i] == pattern[j]:
+            j += <span class="number">1</span>
+        <span class="keyword">if</span> j == <span class="function">len</span>(pattern):
+            results.<span class="function">append</span>(i - j + <span class="number">1</span>)
+            j = next_arr[j - <span class="number">1</span>]
+    
+    <span class="keyword">return</span> results
+
+
+<span class="comment"># 使用示例</span>
+text = <span class="string">"ABABDABACDABABCABAB"</span>
+pattern = <span class="string">"ABABCABAB"</span>
+positions = <span class="function">kmp_search</span>(text, pattern)
+<span class="function">print</span>(<span class="string">f"匹配位置: {positions}"</span>)
+<span class="comment"># 输出: 匹配位置: [10]</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">import</span> java.util.*;
+
+<span class="keyword">public class</span> <span class="type">KMP</span> {
+    
+    <span class="comment">/**
+     * 构建前缀表（Next数组）
+     */</span>
+    <span class="keyword">private static int</span>[] <span class="function">buildNext</span>(<span class="type">String</span> pattern) {
+        <span class="type">int</span> m = pattern.<span class="function">length</span>();
+        <span class="type">int</span>[] next = <span class="keyword">new</span> <span class="type">int</span>[m];
+        <span class="type">int</span> j = <span class="number">0</span>;
+        
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i < m; i++) {
+            <span class="keyword">while</span> (j > <span class="number">0</span> && pattern.<span class="function">charAt</span>(i) != pattern.<span class="function">charAt</span>(j)) {
+                j = next[j - <span class="number">1</span>];
+            }
+            <span class="keyword">if</span> (pattern.<span class="function">charAt</span>(i) == pattern.<span class="function">charAt</span>(j)) {
+                j++;
+            }
+            next[i] = j;
+        }
+        
+        <span class="keyword">return</span> next;
+    }
+    
+    <span class="comment">/**
+     * KMP字符串匹配
+     */</span>
+    <span class="keyword">public static</span> <span class="type">List</span>&lt;<span class="type">Integer</span>&gt; <span class="function">kmpSearch</span>(<span class="type">String</span> text, <span class="type">String</span> pattern) {
+        <span class="type">List</span>&lt;<span class="type">Integer</span>&gt; results = <span class="keyword">new</span> <span class="type">ArrayList</span>&lt;&gt;();
+        <span class="keyword">if</span> (pattern.<span class="function">isEmpty</span>()) <span class="keyword">return</span> results;
+        
+        <span class="type">int</span>[] next = <span class="function">buildNext</span>(pattern);
+        <span class="type">int</span> j = <span class="number">0</span>;
+        
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i < text.<span class="function">length</span>(); i++) {
+            <span class="keyword">while</span> (j > <span class="number">0</span> && text.<span class="function">charAt</span>(i) != pattern.<span class="function">charAt</span>(j)) {
+                j = next[j - <span class="number">1</span>];
+            }
+            <span class="keyword">if</span> (text.<span class="function">charAt</span>(i) == pattern.<span class="function">charAt</span>(j)) {
+                j++;
+            }
+            <span class="keyword">if</span> (j == pattern.<span class="function">length</span>()) {
+                results.<span class="function">add</span>(i - j + <span class="number">1</span>);
+                j = next[j - <span class="number">1</span>];
+            }
+        }
+        
+        <span class="keyword">return</span> results;
+    }
+    
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">String</span> text = <span class="string">"ABABDABACDABABCABAB"</span>;
+        <span class="type">String</span> pattern = <span class="string">"ABABCABAB"</span>;
+        <span class="type">List</span>&lt;<span class="type">Integer</span>&gt; positions = <span class="function">kmpSearch</span>(text, pattern);
+        System.out.<span class="function">println</span>(<span class="string">"匹配位置: "</span> + positions);
+        <span class="comment">// 输出: 匹配位置: [10]</span>
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../common/i18n.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

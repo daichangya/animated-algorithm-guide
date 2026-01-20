@@ -1,0 +1,370 @@
+/**
+ * LCS最长公共子序列可视化样式
+ * @author changyadai
+ */
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px;
+}
+
+.container {
+    text-align: center;
+    padding: 25px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.nav-link {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}
+
+/* ==================== 输入区域 ==================== */
+.input-section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.input-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.input-group {
+    flex: 1;
+    max-width: 300px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Consolas', 'Monaco', monospace;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #8b5cf6;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+}
+
+/* ==================== 序列显示 ==================== */
+.sequences-display {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+}
+
+.sequence-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.sequence-row:last-child {
+    margin-bottom: 0;
+}
+
+.seq-label {
+    width: 30px;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.sequence-chars {
+    display: flex;
+    gap: 5px;
+}
+
+.seq-char {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.seq-char.comparing {
+    background: rgba(251, 191, 36, 0.4);
+    border: 2px solid #fbbf24;
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+    transform: scale(1.1);
+}
+
+.seq-char.matched {
+    background: rgba(139, 92, 246, 0.4);
+    border: 2px solid #8b5cf6;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+}
+
+.seq-char.in-lcs {
+    background: rgba(34, 197, 94, 0.4);
+    border: 2px solid #22c55e;
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+}
+
+/* ==================== DP矩阵 ==================== */
+.dp-matrix-section {
+    margin-bottom: 20px;
+}
+
+.section-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.dp-matrix-container {
+    overflow: auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dp-matrix {
+    border-collapse: separate;
+    border-spacing: 3px;
+    margin: 0 auto;
+}
+
+.dp-matrix th, .dp-matrix td {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 13px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.dp-matrix th {
+    background: rgba(139, 92, 246, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: bold;
+}
+
+.dp-matrix th.corner {
+    background: transparent;
+}
+
+.dp-matrix td {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.6);
+    position: relative;
+}
+
+.dp-matrix td.empty {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.dp-matrix td.current {
+    background: rgba(251, 191, 36, 0.4);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+.dp-matrix td.filled {
+    background: rgba(139, 92, 246, 0.3);
+    color: #fff;
+}
+
+.dp-matrix td.match {
+    background: rgba(34, 197, 94, 0.4);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+}
+
+.dp-matrix td.path {
+    background: rgba(34, 197, 94, 0.5);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
+}
+
+.dp-matrix td.diagonal-arrow::before {
+    content: '↖';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.dp-matrix td.up-arrow::before {
+    content: '↑';
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.dp-matrix td.left-arrow::before {
+    content: '←';
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    transform: translateY(-50%);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ==================== LCS结果 ==================== */
+.lcs-result-section {
+    margin-bottom: 20px;
+}
+
+.lcs-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lcs-chars {
+    display: flex;
+    gap: 8px;
+    min-height: 50px;
+    align-items: center;
+}
+
+.lcs-char {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    border-radius: 8px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+    animation: lcsCharAppear 0.4s ease-out;
+}
+
+@keyframes lcsCharAppear {
+    from {
+        opacity: 0;
+        transform: scale(0) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.lcs-length {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 10px 25px;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 20px;
+}
+
+.lcs-length span {
+    color: #22c55e;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+/* ==================== 动画效果 ==================== */
+.dp-matrix td.highlight-source {
+    box-shadow: inset 0 -3px 0 #3b82f6;
+}
+
+.dp-matrix td.highlight-target {
+    box-shadow: inset -3px 0 0 #ec4899;
+}
+
+/* 回溯路径动画 */
+@keyframes pathPulse {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(34, 197, 94, 0.9);
+    }
+}
+
+.dp-matrix td.path-animate {
+    animation: pathPulse 0.5s ease-in-out;
+}
+
+/* 完成动画 */
+.lcs-char.celebrate {
+    animation: celebrateLcs 0.5s ease-in-out;
+}
+
+@keyframes celebrateLcs {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2) rotate(5deg); }
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 768px) {
+    .input-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .input-group {
+        max-width: 100%;
+    }
+    
+    .dp-matrix th, .dp-matrix td {
+        width: 32px;
+        height: 32px;
+        font-size: 11px;
+    }
+    
+    .seq-char {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+}

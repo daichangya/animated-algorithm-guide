@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>堆排序可视化 - 二叉堆算法动画 | 算法可视化</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="通过交互式动画学习堆排序算法。观察二叉堆的构建与调整过程，理解O(n log n)时间复杂度的高效排序原理。">
+    <meta name="keywords" content="堆排序,Heap Sort,二叉堆,最大堆,排序算法,算法可视化,堆化,heapify,数据结构">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algorithm-visualizer.example.com/sorting/heap-sort/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="堆排序可视化 - 二叉堆算法动画">
+    <meta property="og:description" content="通过交互式动画学习堆排序算法，观察堆的构建和调整过程。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algorithm-visualizer.example.com/sorting/heap-sort/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="堆排序可视化">
+    <meta name="twitter:description" content="交互式动画演示堆排序算法">
+    
+    <link rel="stylesheet" href="../../common/styles.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-decoration">
+    <!-- 语言切换器 -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="zh">中文</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <div class="container">
+        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        
+        <header class="page-header">
+            <h1 class="title" data-i18n="heapSort.title">堆排序可视化</h1>
+            <p class="subtitle" data-i18n="heapSort.subtitle">观察二叉堆的构建与调整过程</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p data-i18n="heapSort.intro">堆排序（Heap Sort）是一种利用堆数据结构设计的排序算法。它首先将数组构建成一个最大堆（父节点总是大于子节点），然后不断取出堆顶的最大元素，放到数组末尾，同时调整剩余元素重新形成堆，直到所有元素都被取出。</p>
+        </div>
+        
+        <!-- 树形视图 -->
+        <div class="heap-tree-container" id="heapTreeContainer">
+            <svg class="tree-lines" id="treeLines"></svg>
+            <div class="tree-nodes" id="treeNodes">
+                <!-- 树节点将由 JavaScript 动态生成 -->
+            </div>
+        </div>
+        
+        <!-- 数组视图 -->
+        <div class="array-section">
+            <div class="section-label">数组视图</div>
+            <div class="array-container" id="arrayContainer">
+                <!-- 数组元素将由 JavaScript 动态生成 -->
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn" data-i18n="common.startSort">开始排序</button>
+            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText" data-i18n="common.clickToStart">点击"开始排序"查看动画</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle" data-i18n="common.tabPrinciple">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-i18n="common.tabComplexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-i18n="common.tabUsage">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-i18n="common.tabCode">📝 代码实现</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>算法步骤</h4>
+                <ol>
+                    <li><strong>建堆</strong>：将无序数组构建成最大堆（从最后一个非叶节点开始向上调整）</li>
+                    <li><strong>交换</strong>：将堆顶元素（最大值）与数组末尾元素交换</li>
+                    <li><strong>调整</strong>：减小堆的大小，对新的堆顶元素执行下沉操作（heapify）</li>
+                    <li><strong>重复</strong>：重复步骤2-3，直到堆的大小为1</li>
+                </ol>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    堆的特性：对于最大堆，任意节点的值都大于等于其子节点的值。数组中索引为i的节点，其左子节点索引为2i+1，右子节点索引为2i+2。
+                </p>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>时间与空间复杂度</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>情况</th>
+                        <th>时间复杂度</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>建堆</td>
+                        <td class="highlight">O(n)</td>
+                        <td>自底向上建堆的时间复杂度</td>
+                    </tr>
+                    <tr>
+                        <td>排序（所有情况）</td>
+                        <td>O(n log n)</td>
+                        <td>每次取出堆顶需要O(log n)调整</td>
+                    </tr>
+                    <tr>
+                        <td>空间复杂度</td>
+                        <td class="highlight">O(1)</td>
+                        <td>原地排序，只需常数额外空间</td>
+                    </tr>
+                </table>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    堆排序是<strong>不稳定排序</strong>，相等元素的相对顺序可能改变。
+                </p>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>适用场景</h4>
+                <ul>
+                    <li>需要原地排序且保证O(n log n)最坏情况性能</li>
+                    <li>实现优先队列数据结构</li>
+                    <li>找出数组中前K大/小的元素</li>
+                    <li>系统调度、任务优先级管理</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag">优先队列</span>
+                    <span class="use-case-tag">Top-K问题</span>
+                    <span class="use-case-tag">任务调度</span>
+                    <span class="use-case-tag">内存受限场景</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>代码实现</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">def</span> <span class="function">heapify</span>(arr, n, i):
+    <span class="string">"""维护最大堆性质"""</span>
+    largest = i
+    left = <span class="number">2</span> * i + <span class="number">1</span>
+    right = <span class="number">2</span> * i + <span class="number">2</span>
+    
+    <span class="comment"># 左子节点更大</span>
+    <span class="keyword">if</span> left < n <span class="keyword">and</span> arr[left] > arr[largest]:
+        largest = left
+    
+    <span class="comment"># 右子节点更大</span>
+    <span class="keyword">if</span> right < n <span class="keyword">and</span> arr[right] > arr[largest]:
+        largest = right
+    
+    <span class="comment"># 如果最大值不是根节点，交换并继续调整</span>
+    <span class="keyword">if</span> largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        <span class="function">heapify</span>(arr, n, largest)
+
+
+<span class="keyword">def</span> <span class="function">heap_sort</span>(arr):
+    <span class="string">"""堆排序算法"""</span>
+    n = <span class="function">len</span>(arr)
+    
+    <span class="comment"># 构建最大堆（从最后一个非叶节点开始）</span>
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n // <span class="number">2</span> - <span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>):
+        <span class="function">heapify</span>(arr, n, i)
+    
+    <span class="comment"># 逐个取出堆顶元素</span>
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n - <span class="number">1</span>, <span class="number">0</span>, -<span class="number">1</span>):
+        arr[<span class="number">0</span>], arr[i] = arr[i], arr[<span class="number">0</span>]  <span class="comment"># 交换堆顶和末尾</span>
+        <span class="function">heapify</span>(arr, i, <span class="number">0</span>)  <span class="comment"># 重新调整堆</span>
+    
+    <span class="keyword">return</span> arr
+
+
+<span class="comment"># 使用示例</span>
+arr = [<span class="number">12</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]
+<span class="function">print</span>(<span class="function">heap_sort</span>(arr))
+<span class="comment"># 输出: [5, 6, 7, 11, 12, 13]</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">public class</span> <span class="type">HeapSort</span> {
+    
+    <span class="comment">/**
+     * 维护最大堆性质
+     */</span>
+    <span class="keyword">private static void</span> <span class="function">heapify</span>(<span class="type">int</span>[] arr, <span class="type">int</span> n, <span class="type">int</span> i) {
+        <span class="type">int</span> largest = i;
+        <span class="type">int</span> left = <span class="number">2</span> * i + <span class="number">1</span>;
+        <span class="type">int</span> right = <span class="number">2</span> * i + <span class="number">2</span>;
+        
+        <span class="comment">// 左子节点更大</span>
+        <span class="keyword">if</span> (left < n && arr[left] > arr[largest]) {
+            largest = left;
+        }
+        
+        <span class="comment">// 右子节点更大</span>
+        <span class="keyword">if</span> (right < n && arr[right] > arr[largest]) {
+            largest = right;
+        }
+        
+        <span class="comment">// 如果最大值不是根节点</span>
+        <span class="keyword">if</span> (largest != i) {
+            <span class="type">int</span> temp = arr[i];
+            arr[i] = arr[largest];
+            arr[largest] = temp;
+            
+            <span class="function">heapify</span>(arr, n, largest);
+        }
+    }
+    
+    <span class="comment">/**
+     * 堆排序算法
+     */</span>
+    <span class="keyword">public static void</span> <span class="function">heapSort</span>(<span class="type">int</span>[] arr) {
+        <span class="type">int</span> n = arr.length;
+        
+        <span class="comment">// 构建最大堆</span>
+        <span class="keyword">for</span> (<span class="type">int</span> i = n / <span class="number">2</span> - <span class="number">1</span>; i >= <span class="number">0</span>; i--) {
+            <span class="function">heapify</span>(arr, n, i);
+        }
+        
+        <span class="comment">// 逐个取出堆顶元素</span>
+        <span class="keyword">for</span> (<span class="type">int</span> i = n - <span class="number">1</span>; i > <span class="number">0</span>; i--) {
+            <span class="type">int</span> temp = arr[<span class="number">0</span>];
+            arr[<span class="number">0</span>] = arr[i];
+            arr[i] = temp;
+            
+            <span class="function">heapify</span>(arr, i, <span class="number">0</span>);
+        }
+    }
+    
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">int</span>[] arr = {<span class="number">12</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>};
+        <span class="function">heapSort</span>(arr);
+        System.out.<span class="function">println</span>(Arrays.<span class="function">toString</span>(arr));
+        <span class="comment">// 输出: [5, 6, 7, 11, 12, 13]</span>
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../common/i18n.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

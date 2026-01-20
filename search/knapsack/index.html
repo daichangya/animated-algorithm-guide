@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0/1背包问题可视化 - 动态规划 | 算法可视化</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="通过交互式动画学习0/1背包问题的动态规划解法。观察DP表格的填充过程，理解如何在容量限制下最大化价值。">
+    <meta name="keywords" content="0/1背包问题,背包问题,动态规划,DP,Knapsack Problem,组合优化,算法可视化">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algorithm-visualizer.example.com/search/knapsack/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="0/1背包问题可视化 - 动态规划">
+    <meta property="og:description" content="通过交互式动画学习背包问题，观察DP表填充过程。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algorithm-visualizer.example.com/search/knapsack/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="0/1背包问题可视化">
+    <meta name="twitter:description" content="交互式动画演示动态规划解决背包问题">
+    
+    <link rel="stylesheet" href="../../common/styles.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-decoration">
+    <!-- 语言切换器 -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="zh">中文</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <div class="container">
+        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        
+        <header class="page-header">
+            <h1 class="title" data-i18n="knapsack.title">0/1背包问题可视化</h1>
+            <p class="subtitle" data-i18n="knapsack.subtitle">动态规划经典优化问题</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p data-i18n="knapsack.intro">0/1背包问题是一个经典的组合优化问题：给定n个物品（每个有重量和价值）和一个容量为W的背包，如何选择物品使得总价值最大，同时不超过背包容量？</p>
+        </div>
+        
+        <!-- 物品列表 -->
+        <div class="items-section">
+            <div class="section-label">物品列表 (容量: <span id="capacityValue">10</span>)</div>
+            <div class="items-list" id="itemsList"></div>
+        </div>
+        
+        <!-- DP表格 -->
+        <div class="dp-section">
+            <div class="section-label">DP表格</div>
+            <div class="dp-table-container">
+                <table class="dp-table" id="dpTable"></table>
+            </div>
+        </div>
+        
+        <!-- 结果 -->
+        <div class="result-section">
+            <div class="result-box">
+                <span class="result-label">最大价值</span>
+                <span class="result-value" id="maxValue">?</span>
+            </div>
+            <div class="selected-items">
+                <span class="result-label">选中物品</span>
+                <div class="selected-list" id="selectedItems"></div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn" data-i18n="common.start">开始</button>
+            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText" data-i18n="common.clickStartToView">点击"开始"查看动画</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>动态规划状态定义</h4>
+                <p>设 dp[i][w] 表示考虑前i个物品、背包容量为w时的最大价值。</p>
+                <ul>
+                    <li><strong>不选第i个物品</strong>：dp[i][w] = dp[i-1][w]</li>
+                    <li><strong>选第i个物品</strong>（需要 w >= weight[i]）：dp[i][w] = dp[i-1][w-weight[i]] + value[i]</li>
+                    <li><strong>状态转移</strong>：dp[i][w] = max(不选, 选)</li>
+                </ul>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    最终答案是 dp[n][W]，其中n是物品数量，W是背包容量。
+                </p>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>时间与空间复杂度</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>指标</th>
+                        <th>复杂度</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>时间复杂度</td>
+                        <td>O(N × W)</td>
+                        <td>N是物品数，W是容量</td>
+                    </tr>
+                    <tr>
+                        <td>空间复杂度</td>
+                        <td>O(N × W)</td>
+                        <td>存储DP表格</td>
+                    </tr>
+                    <tr>
+                        <td>优化空间</td>
+                        <td class="highlight">O(W)</td>
+                        <td>使用一维数组，逆序遍历</td>
+                    </tr>
+                </table>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    注意：这是伪多项式时间，因为W可能很大。当W以二进制表示时，算法是指数级的。
+                </p>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>应用场景</h4>
+                <ul>
+                    <li>资源分配问题（预算分配）</li>
+                    <li>货物装载优化</li>
+                    <li>投资组合选择</li>
+                    <li>文件选择备份（磁盘空间限制）</li>
+                    <li>密码学中的子集和问题</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag">资源分配</span>
+                    <span class="use-case-tag">货运优化</span>
+                    <span class="use-case-tag">投资决策</span>
+                    <span class="use-case-tag">组合优化</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>代码实现</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">def</span> <span class="function">knapsack_01</span>(weights, values, capacity):
+    <span class="string">"""0/1背包问题 - 二维DP"""</span>
+    n = <span class="function">len</span>(weights)
+    dp = [[<span class="number">0</span>] * (capacity + <span class="number">1</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="function">range</span>(n + <span class="number">1</span>)]
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="number">1</span>, n + <span class="number">1</span>):
+        <span class="keyword">for</span> w <span class="keyword">in</span> <span class="function">range</span>(capacity + <span class="number">1</span>):
+            <span class="comment"># 不选第i个物品</span>
+            dp[i][w] = dp[i - <span class="number">1</span>][w]
+            
+            <span class="comment"># 选第i个物品</span>
+            <span class="keyword">if</span> w >= weights[i - <span class="number">1</span>]:
+                dp[i][w] = <span class="function">max</span>(dp[i][w],
+                    dp[i - <span class="number">1</span>][w - weights[i - <span class="number">1</span>]] + values[i - <span class="number">1</span>])
+    
+    <span class="keyword">return</span> dp[n][capacity]
+
+
+<span class="keyword">def</span> <span class="function">knapsack_01_optimized</span>(weights, values, capacity):
+    <span class="string">"""0/1背包问题 - 空间优化O(W)"""</span>
+    dp = [<span class="number">0</span>] * (capacity + <span class="number">1</span>)
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="function">len</span>(weights)):
+        <span class="comment"># 逆序遍历，保证每个物品只使用一次</span>
+        <span class="keyword">for</span> w <span class="keyword">in</span> <span class="function">range</span>(capacity, weights[i] - <span class="number">1</span>, -<span class="number">1</span>):
+            dp[w] = <span class="function">max</span>(dp[w], dp[w - weights[i]] + values[i])
+    
+    <span class="keyword">return</span> dp[capacity]
+
+
+<span class="comment"># 使用示例</span>
+weights = [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]
+values = [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]
+capacity = <span class="number">8</span>
+<span class="function">print</span>(<span class="function">knapsack_01</span>(weights, values, capacity))  <span class="comment"># 10</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">public class</span> <span class="type">Knapsack</span> {
+    
+    <span class="comment">/**
+     * 0/1背包问题 - 二维DP
+     */</span>
+    <span class="keyword">public static int</span> <span class="function">knapsack01</span>(
+            <span class="type">int</span>[] weights, <span class="type">int</span>[] values, <span class="type">int</span> capacity) {
+        
+        <span class="type">int</span> n = weights.length;
+        <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="type">int</span>[n + <span class="number">1</span>][capacity + <span class="number">1</span>];
+        
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i <= n; i++) {
+            <span class="keyword">for</span> (<span class="type">int</span> w = <span class="number">0</span>; w <= capacity; w++) {
+                <span class="comment">// 不选第i个物品</span>
+                dp[i][w] = dp[i - <span class="number">1</span>][w];
+                
+                <span class="comment">// 选第i个物品</span>
+                <span class="keyword">if</span> (w >= weights[i - <span class="number">1</span>]) {
+                    dp[i][w] = Math.<span class="function">max</span>(dp[i][w],
+                        dp[i - <span class="number">1</span>][w - weights[i - <span class="number">1</span>]] + values[i - <span class="number">1</span>]);
+                }
+            }
+        }
+        
+        <span class="keyword">return</span> dp[n][capacity];
+    }
+    
+    <span class="comment">/**
+     * 0/1背包问题 - 空间优化O(W)
+     */</span>
+    <span class="keyword">public static int</span> <span class="function">knapsack01Optimized</span>(
+            <span class="type">int</span>[] weights, <span class="type">int</span>[] values, <span class="type">int</span> capacity) {
+        
+        <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="type">int</span>[capacity + <span class="number">1</span>];
+        
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i < weights.length; i++) {
+            <span class="comment">// 逆序遍历</span>
+            <span class="keyword">for</span> (<span class="type">int</span> w = capacity; w >= weights[i]; w--) {
+                dp[w] = Math.<span class="function">max</span>(dp[w], 
+                    dp[w - weights[i]] + values[i]);
+            }
+        }
+        
+        <span class="keyword">return</span> dp[capacity];
+    }
+    
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">int</span>[] weights = {<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>};
+        <span class="type">int</span>[] values = {<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>};
+        System.out.<span class="function">println</span>(<span class="function">knapsack01</span>(weights, values, <span class="number">8</span>));  <span class="comment">// 10</span>
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../common/i18n.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

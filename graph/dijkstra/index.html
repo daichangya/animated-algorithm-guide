@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijkstra最短路径可视化 - 图算法动画 | 算法可视化</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="通过交互式动画学习Dijkstra最短路径算法。观察贪心策略如何逐步扩展最短路径树，理解单源最短路径的求解过程。">
+    <meta name="keywords" content="Dijkstra,最短路径,图算法,贪心算法,单源最短路径,优先队列,算法可视化,路径规划">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algorithm-visualizer.example.com/graph/dijkstra/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Dijkstra最短路径可视化 - 图算法动画">
+    <meta property="og:description" content="通过交互式动画学习Dijkstra算法，观察最短路径的求解过程。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algorithm-visualizer.example.com/graph/dijkstra/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Dijkstra最短路径可视化">
+    <meta name="twitter:description" content="交互式动画演示Dijkstra最短路径算法">
+    
+    <link rel="stylesheet" href="../../common/styles.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-decoration">
+    <!-- 语言切换器 -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="zh">中文</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <div class="container">
+        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        
+        <header class="page-header">
+            <h1 class="title" data-i18n="dijkstra.title">Dijkstra最短路径可视化</h1>
+            <p class="subtitle" data-i18n="dijkstra.subtitle">单源最短路径的经典算法</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p data-i18n="dijkstra.intro">Dijkstra算法用于在带权图中找到从源点到所有其他顶点的最短路径。它采用贪心策略，每次选择当前距离最小的未访问顶点进行扩展。</p>
+        </div>
+        
+        <!-- 图形区域 -->
+        <div class="graph-container" id="graphContainer">
+            <svg id="graphSvg"></svg>
+        </div>
+        
+        <!-- 距离表 -->
+        <div class="distance-table-section">
+            <div class="section-label" data-i18n="dijkstra.distanceTable">距离表</div>
+            <div class="distance-table" id="distanceTable"></div>
+        </div>
+        
+        <!-- 控制 -->
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn" data-i18n="common.start">开始</button>
+            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText" data-i18n="common.clickStartToView">点击"开始"查看动画</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle" data-i18n="common.tabPrinciple">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-i18n="common.tabComplexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-i18n="common.tabUsage">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-i18n="common.tabCode">📝 代码实现</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4 data-i18n="dijkstra.principleTitle">算法步骤</h4>
+                <ol>
+                    <li data-i18n="dijkstra.step1">初始化：源点距离设为0，其他所有节点距离设为无穷大</li>
+                    <li data-i18n="dijkstra.step2">将源点加入优先队列（最小堆）</li>
+                    <li data-i18n="dijkstra.step3">取出队列中距离最小的节点u</li>
+                    <li data-i18n="dijkstra.step4">对于u的每个邻居v，如果通过u到达v的距离更短，则更新v的距离</li>
+                    <li data-i18n="dijkstra.step5">将更新后的邻居加入优先队列</li>
+                    <li data-i18n="dijkstra.step6">重复步骤3-5直到队列为空</li>
+                </ol>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-i18n="dijkstra.keyInsight">
+                    关键洞察：已确定最短距离的节点不会再被更新，因为所有边权重非负。
+                </p>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4 data-i18n="dijkstra.complexityTitle">时间与空间复杂度</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th data-i18n="dijkstra.implMethod">实现方式</th>
+                        <th data-i18n="common.timeComplexity">时间复杂度</th>
+                        <th data-i18n="common.description">说明</th>
+                    </tr>
+                    <tr>
+                        <td data-i18n="dijkstra.simpleArray">数组实现</td>
+                        <td>O(V²)</td>
+                        <td data-i18n="dijkstra.simpleArrayDesc">每次线性查找最小值</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="dijkstra.binaryHeap">二叉堆</td>
+                        <td class="highlight">O((V+E)log V)</td>
+                        <td data-i18n="dijkstra.binaryHeapDesc">常用实现方式</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="dijkstra.fibonacciHeap">斐波那契堆</td>
+                        <td>O(E + V log V)</td>
+                        <td data-i18n="dijkstra.fibonacciHeapDesc">理论最优但实现复杂</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="common.spaceComplexity">空间复杂度</td>
+                        <td>O(V)</td>
+                        <td data-i18n="dijkstra.complexitySpace">存储距离和优先队列</td>
+                    </tr>
+                </table>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-i18n="dijkstra.limitationNote">
+                    注意：Dijkstra不能处理负权边。对于负权图，应使用Bellman-Ford算法。
+                </p>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4 data-i18n="dijkstra.usageTitle">应用场景</h4>
+                <ul>
+                    <li data-i18n="dijkstra.usage1">GPS导航系统的最短路线规划</li>
+                    <li data-i18n="dijkstra.usage2">网络路由协议（OSPF、IS-IS）</li>
+                    <li data-i18n="dijkstra.usage3">社交网络中的最短关系链</li>
+                    <li data-i18n="dijkstra.usage4">游戏中的NPC寻路</li>
+                    <li data-i18n="dijkstra.usage5">航班/铁路最优路线查询</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag" data-i18n="dijkstra.tag1">导航系统</span>
+                    <span class="use-case-tag" data-i18n="dijkstra.tag2">网络路由</span>
+                    <span class="use-case-tag" data-i18n="dijkstra.tag3">游戏开发</span>
+                    <span class="use-case-tag" data-i18n="dijkstra.tag4">路径规划</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4 data-i18n="common.codeImplementation">代码实现</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">import</span> heapq
+
+<span class="keyword">def</span> <span class="function">dijkstra</span>(graph, start):
+    <span class="string">"""Dijkstra最短路径算法
+    graph: 邻接表 {node: [(neighbor, weight), ...]}
+    """</span>
+    distances = {node: <span class="function">float</span>(<span class="string">'inf'</span>) <span class="keyword">for</span> node <span class="keyword">in</span> graph}
+    distances[start] = <span class="number">0</span>
+    previous = {node: <span class="keyword">None</span> <span class="keyword">for</span> node <span class="keyword">in</span> graph}
+    
+    <span class="comment"># 优先队列: (距离, 节点)</span>
+    pq = [(<span class="number">0</span>, start)]
+    
+    <span class="keyword">while</span> pq:
+        current_dist, current = heapq.<span class="function">heappop</span>(pq)
+        
+        <span class="comment"># 跳过已处理的节点</span>
+        <span class="keyword">if</span> current_dist > distances[current]:
+            <span class="keyword">continue</span>
+        
+        <span class="keyword">for</span> neighbor, weight <span class="keyword">in</span> graph[current]:
+            distance = current_dist + weight
+            
+            <span class="keyword">if</span> distance < distances[neighbor]:
+                distances[neighbor] = distance
+                previous[neighbor] = current
+                heapq.<span class="function">heappush</span>(pq, (distance, neighbor))
+    
+    <span class="keyword">return</span> distances, previous
+
+
+<span class="comment"># 使用示例</span>
+graph = {
+    <span class="string">'A'</span>: [(<span class="string">'B'</span>, <span class="number">4</span>), (<span class="string">'C'</span>, <span class="number">2</span>)],
+    <span class="string">'B'</span>: [(<span class="string">'A'</span>, <span class="number">4</span>), (<span class="string">'C'</span>, <span class="number">1</span>), (<span class="string">'D'</span>, <span class="number">5</span>)],
+    <span class="string">'C'</span>: [(<span class="string">'A'</span>, <span class="number">2</span>), (<span class="string">'B'</span>, <span class="number">1</span>), (<span class="string">'D'</span>, <span class="number">8</span>)],
+    <span class="string">'D'</span>: [(<span class="string">'B'</span>, <span class="number">5</span>), (<span class="string">'C'</span>, <span class="number">8</span>)]
+}
+dist, prev = <span class="function">dijkstra</span>(graph, <span class="string">'A'</span>)
+<span class="function">print</span>(dist)  <span class="comment"># {'A': 0, 'B': 3, 'C': 2, 'D': 8}</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">import</span> java.util.*;
+
+<span class="keyword">public class</span> <span class="type">Dijkstra</span> {
+    
+    <span class="keyword">public static</span> <span class="type">Map</span>&lt;<span class="type">String</span>, <span class="type">Integer</span>&gt; <span class="function">dijkstra</span>(
+            <span class="type">Map</span>&lt;<span class="type">String</span>, <span class="type">List</span>&lt;<span class="type">int</span>[]&gt;&gt; graph, 
+            <span class="type">String</span> start) {
+        
+        <span class="type">Map</span>&lt;<span class="type">String</span>, <span class="type">Integer</span>&gt; distances = <span class="keyword">new</span> <span class="type">HashMap</span>&lt;&gt;();
+        <span class="keyword">for</span> (<span class="type">String</span> node : graph.<span class="function">keySet</span>()) {
+            distances.<span class="function">put</span>(node, <span class="type">Integer</span>.MAX_VALUE);
+        }
+        distances.<span class="function">put</span>(start, <span class="number">0</span>);
+        
+        <span class="comment">// 优先队列: [距离, 节点索引]</span>
+        <span class="type">PriorityQueue</span>&lt;<span class="type">int</span>[]&gt; pq = <span class="keyword">new</span> <span class="type">PriorityQueue</span>&lt;&gt;(
+            (a, b) -> a[<span class="number">0</span>] - b[<span class="number">0</span>]
+        );
+        pq.<span class="function">offer</span>(<span class="keyword">new</span> <span class="type">int</span>[]{<span class="number">0</span>, start.<span class="function">hashCode</span>()});
+        
+        <span class="type">Set</span>&lt;<span class="type">String</span>&gt; visited = <span class="keyword">new</span> <span class="type">HashSet</span>&lt;&gt;();
+        
+        <span class="keyword">while</span> (!pq.<span class="function">isEmpty</span>()) {
+            <span class="type">int</span>[] curr = pq.<span class="function">poll</span>();
+            <span class="type">int</span> currDist = curr[<span class="number">0</span>];
+            
+            <span class="comment">// 找到对应节点</span>
+            <span class="type">String</span> currNode = <span class="keyword">null</span>;
+            <span class="keyword">for</span> (<span class="type">String</span> n : graph.<span class="function">keySet</span>()) {
+                <span class="keyword">if</span> (n.<span class="function">hashCode</span>() == curr[<span class="number">1</span>]) {
+                    currNode = n;
+                    <span class="keyword">break</span>;
+                }
+            }
+            
+            <span class="keyword">if</span> (visited.<span class="function">contains</span>(currNode)) <span class="keyword">continue</span>;
+            visited.<span class="function">add</span>(currNode);
+            
+            <span class="keyword">for</span> (<span class="type">int</span>[] edge : graph.<span class="function">get</span>(currNode)) {
+                <span class="comment">// edge[0] = neighbor index, edge[1] = weight</span>
+                <span class="type">int</span> newDist = currDist + edge[<span class="number">1</span>];
+                <span class="comment">// 更新距离并加入队列...</span>
+            }
+        }
+        
+        <span class="keyword">return</span> distances;
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../common/i18n.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

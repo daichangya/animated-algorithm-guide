@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCS最长公共子序列可视化 - 动态规划 | 算法可视化</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="通过交互式动画学习LCS最长公共子序列算法。观察动态规划表的填充过程，理解如何找出两个序列的最长公共子序列。">
+    <meta name="keywords" content="LCS,最长公共子序列,Longest Common Subsequence,动态规划,DP,序列匹配,算法可视化">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algorithm-visualizer.example.com/sequence/lcs/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="LCS最长公共子序列可视化 - 动态规划">
+    <meta property="og:description" content="通过交互式动画学习LCS算法，观察DP表填充过程。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algorithm-visualizer.example.com/sequence/lcs/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="LCS最长公共子序列可视化">
+    <meta name="twitter:description" content="交互式动画演示动态规划求解LCS">
+    
+    <link rel="stylesheet" href="../../common/styles.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-decoration">
+    <!-- 语言切换器 -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="zh">中文</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <div class="container">
+        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        
+        <header class="page-header">
+            <h1 class="title" data-i18n="lcs.title">最长公共子序列可视化</h1>
+            <p class="subtitle" data-i18n="lcs.subtitle">动态规划经典问题 - LCS</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p data-i18n="lcs.intro">最长公共子序列（LCS）问题是寻找两个序列共有的最长子序列。子序列不要求连续，但必须保持相对顺序。LCS是许多文本比较和生物信息学应用的基础。</p>
+        </div>
+        
+        <!-- 输入区域 -->
+        <div class="input-section">
+            <div class="input-row">
+                <div class="input-group">
+                    <label>序列 A</label>
+                    <input type="text" id="seqAInput" value="ABCBDAB" placeholder="输入序列A">
+                </div>
+                <div class="input-group">
+                    <label>序列 B</label>
+                    <input type="text" id="seqBInput" value="BDCABA" placeholder="输入序列B">
+                </div>
+            </div>
+        </div>
+        
+        <!-- 序列显示 -->
+        <div class="sequences-display">
+            <div class="sequence-row">
+                <span class="seq-label">A:</span>
+                <div class="sequence-chars" id="seqAChars"></div>
+            </div>
+            <div class="sequence-row">
+                <span class="seq-label">B:</span>
+                <div class="sequence-chars" id="seqBChars"></div>
+            </div>
+        </div>
+        
+        <!-- DP矩阵 -->
+        <div class="dp-matrix-section">
+            <div class="section-label">DP 矩阵</div>
+            <div class="dp-matrix-container" id="dpMatrixContainer">
+                <table class="dp-matrix" id="dpMatrix">
+                    <!-- 由JS生成 -->
+                </table>
+            </div>
+        </div>
+        
+        <!-- LCS结果 -->
+        <div class="lcs-result-section">
+            <div class="section-label">最长公共子序列</div>
+            <div class="lcs-result">
+                <div class="lcs-chars" id="lcsChars"></div>
+                <div class="lcs-length">
+                    长度: <span id="lcsLength">?</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn" data-i18n="common.start">开始</button>
+            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText" data-i18n="common.clickStartToView">点击"开始"查看动画</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>动态规划思路</h4>
+                <p>设 dp[i][j] 表示序列A的前i个字符与序列B的前j个字符的LCS长度。</p>
+                <ul>
+                    <li>如果 A[i-1] == B[j-1]：dp[i][j] = dp[i-1][j-1] + 1（当前字符匹配，LCS长度+1）</li>
+                    <li>如果 A[i-1] != B[j-1]：dp[i][j] = max(dp[i-1][j], dp[i][j-1])（取左边或上边的较大值）</li>
+                </ul>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    最终 dp[m][n] 就是LCS的长度。通过回溯DP表可以还原出具体的LCS序列。
+                </p>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>时间与空间复杂度</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>指标</th>
+                        <th>复杂度</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>时间复杂度</td>
+                        <td>O(M × N)</td>
+                        <td>需要填充整个DP表</td>
+                    </tr>
+                    <tr>
+                        <td>空间复杂度</td>
+                        <td>O(M × N)</td>
+                        <td>需要存储DP表</td>
+                    </tr>
+                    <tr>
+                        <td>优化空间</td>
+                        <td class="highlight">O(min(M,N))</td>
+                        <td>只存储两行即可（如果只需长度）</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>应用场景</h4>
+                <ul>
+                    <li>文本比较：diff工具比较文件差异</li>
+                    <li>生物信息学：DNA/蛋白质序列比对</li>
+                    <li>版本控制：检测代码变更</li>
+                    <li>拼写检查：计算编辑距离的基础</li>
+                    <li>数据去重：识别相似内容</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag">文本比较</span>
+                    <span class="use-case-tag">DNA比对</span>
+                    <span class="use-case-tag">版本控制</span>
+                    <span class="use-case-tag">相似度计算</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>代码实现</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">def</span> <span class="function">lcs</span>(a, b):
+    <span class="string">"""计算最长公共子序列"""</span>
+    m, n = <span class="function">len</span>(a), <span class="function">len</span>(b)
+    
+    <span class="comment"># 创建DP表</span>
+    dp = [[<span class="number">0</span>] * (n + <span class="number">1</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="function">range</span>(m + <span class="number">1</span>)]
+    
+    <span class="comment"># 填充DP表</span>
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="number">1</span>, m + <span class="number">1</span>):
+        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="function">range</span>(<span class="number">1</span>, n + <span class="number">1</span>):
+            <span class="keyword">if</span> a[i - <span class="number">1</span>] == b[j - <span class="number">1</span>]:
+                dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>
+            <span class="keyword">else</span>:
+                dp[i][j] = <span class="function">max</span>(dp[i - <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>])
+    
+    <span class="comment"># 回溯获取LCS字符串</span>
+    lcs_str = []
+    i, j = m, n
+    <span class="keyword">while</span> i > <span class="number">0</span> <span class="keyword">and</span> j > <span class="number">0</span>:
+        <span class="keyword">if</span> a[i - <span class="number">1</span>] == b[j - <span class="number">1</span>]:
+            lcs_str.<span class="function">append</span>(a[i - <span class="number">1</span>])
+            i -= <span class="number">1</span>
+            j -= <span class="number">1</span>
+        <span class="keyword">elif</span> dp[i - <span class="number">1</span>][j] > dp[i][j - <span class="number">1</span>]:
+            i -= <span class="number">1</span>
+        <span class="keyword">else</span>:
+            j -= <span class="number">1</span>
+    
+    <span class="keyword">return</span> <span class="string">''</span>.<span class="function">join</span>(<span class="function">reversed</span>(lcs_str))
+
+
+<span class="comment"># 使用示例</span>
+a = <span class="string">"ABCBDAB"</span>
+b = <span class="string">"BDCABA"</span>
+result = <span class="function">lcs</span>(a, b)
+<span class="function">print</span>(<span class="string">f"LCS: {result}, 长度: {len(result)}"</span>)
+<span class="comment"># 输出: LCS: BCBA, 长度: 4</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">public class</span> <span class="type">LCS</span> {
+    
+    <span class="comment">/**
+     * 计算最长公共子序列
+     */</span>
+    <span class="keyword">public static</span> <span class="type">String</span> <span class="function">lcs</span>(<span class="type">String</span> a, <span class="type">String</span> b) {
+        <span class="type">int</span> m = a.<span class="function">length</span>();
+        <span class="type">int</span> n = b.<span class="function">length</span>();
+        
+        <span class="comment">// 创建DP表</span>
+        <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="type">int</span>[m + <span class="number">1</span>][n + <span class="number">1</span>];
+        
+        <span class="comment">// 填充DP表</span>
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i <= m; i++) {
+            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j <= n; j++) {
+                <span class="keyword">if</span> (a.<span class="function">charAt</span>(i - <span class="number">1</span>) == b.<span class="function">charAt</span>(j - <span class="number">1</span>)) {
+                    dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;
+                } <span class="keyword">else</span> {
+                    dp[i][j] = Math.<span class="function">max</span>(dp[i - <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>]);
+                }
+            }
+        }
+        
+        <span class="comment">// 回溯获取LCS字符串</span>
+        <span class="type">StringBuilder</span> lcsStr = <span class="keyword">new</span> <span class="type">StringBuilder</span>();
+        <span class="type">int</span> i = m, j = n;
+        <span class="keyword">while</span> (i > <span class="number">0</span> && j > <span class="number">0</span>) {
+            <span class="keyword">if</span> (a.<span class="function">charAt</span>(i - <span class="number">1</span>) == b.<span class="function">charAt</span>(j - <span class="number">1</span>)) {
+                lcsStr.<span class="function">insert</span>(<span class="number">0</span>, a.<span class="function">charAt</span>(i - <span class="number">1</span>));
+                i--; j--;
+            } <span class="keyword">else if</span> (dp[i - <span class="number">1</span>][j] > dp[i][j - <span class="number">1</span>]) {
+                i--;
+            } <span class="keyword">else</span> {
+                j--;
+            }
+        }
+        
+        <span class="keyword">return</span> lcsStr.<span class="function">toString</span>();
+    }
+    
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">String</span> a = <span class="string">"ABCBDAB"</span>;
+        <span class="type">String</span> b = <span class="string">"BDCABA"</span>;
+        <span class="type">String</span> result = <span class="function">lcs</span>(a, b);
+        System.out.<span class="function">println</span>(<span class="string">"LCS: "</span> + result + 
+            <span class="string">", 长度: "</span> + result.<span class="function">length</span>());
+        <span class="comment">// 输出: LCS: BCBA, 长度: 4</span>
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../common/i18n.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

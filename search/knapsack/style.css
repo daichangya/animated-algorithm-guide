@@ -1,0 +1,220 @@
+/**
+ * 0/1背包问题可视化样式
+ * @author changyadai
+ */
+
+.container {
+    max-width: 950px;
+    padding: 25px;
+}
+
+.nav-link {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}
+
+.section-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+/* 物品列表 */
+.items-section {
+    margin-bottom: 20px;
+}
+
+.items-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+}
+
+.item-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.item-card.considering {
+    background: rgba(251, 191, 36, 0.2);
+    border-color: #fbbf24;
+    transform: scale(1.05);
+}
+
+.item-card.selected {
+    background: rgba(34, 197, 94, 0.3);
+    border-color: #22c55e;
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+}
+
+.item-icon {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.item-name {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 8px;
+}
+
+.item-stats {
+    display: flex;
+    gap: 10px;
+    font-size: 0.75rem;
+}
+
+.item-weight, .item-value {
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.item-weight {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+}
+
+.item-value {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+}
+
+/* DP表格 */
+.dp-section {
+    margin-bottom: 20px;
+}
+
+.dp-table-container {
+    overflow-x: auto;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+}
+
+.dp-table {
+    border-collapse: separate;
+    border-spacing: 3px;
+    margin: 0 auto;
+}
+
+.dp-table th, .dp-table td {
+    width: 38px;
+    height: 38px;
+    text-align: center;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+
+.dp-table th {
+    background: rgba(20, 184, 166, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+}
+
+.dp-table th.row-header {
+    background: rgba(168, 85, 247, 0.2);
+}
+
+.dp-table th.corner {
+    background: transparent;
+}
+
+.dp-table td {
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.dp-table td.filled {
+    background: rgba(20, 184, 166, 0.15);
+    color: #fff;
+}
+
+.dp-table td.current {
+    background: rgba(251, 191, 36, 0.4);
+    color: #fff;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+    z-index: 10;
+}
+
+.dp-table td.from {
+    background: rgba(168, 85, 247, 0.3);
+    border: 1px solid #a855f7;
+}
+
+.dp-table td.path {
+    background: rgba(34, 197, 94, 0.4);
+    color: #fff;
+    border: 2px solid #22c55e;
+}
+
+/* 结果区域 */
+.result-section {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+}
+
+.result-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.result-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 8px;
+}
+
+.result-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #22c55e;
+}
+
+.selected-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.selected-list {
+    display: flex;
+    gap: 8px;
+    min-height: 40px;
+    align-items: center;
+}
+
+.selected-item {
+    padding: 8px 12px;
+    background: rgba(34, 197, 94, 0.3);
+    border: 1px solid #22c55e;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    animation: itemPop 0.3s ease-out;
+}
+
+@keyframes itemPop {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}

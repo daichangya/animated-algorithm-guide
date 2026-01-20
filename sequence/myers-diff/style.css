@@ -1,0 +1,436 @@
+/**
+ * Myers差异算法可视化样式
+ * @author changyadai
+ */
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px;
+}
+
+.container {
+    text-align: center;
+    padding: 25px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.nav-link {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}
+
+/* ==================== 输入区域 ==================== */
+.input-section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.input-mode-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.mode-btn {
+    padding: 8px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.mode-btn.active {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: #ef4444;
+    color: #fff;
+}
+
+.input-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.input-group {
+    flex: 1;
+    max-width: 300px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Consolas', 'Monaco', monospace;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #ef4444;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+}
+
+/* ==================== 序列显示 ==================== */
+.sequences-display {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+}
+
+.sequence-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.sequence-row:last-child {
+    margin-bottom: 0;
+}
+
+.seq-label {
+    width: 50px;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+}
+
+.sequence-chars {
+    display: flex;
+    gap: 5px;
+}
+
+.seq-char {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.seq-char.highlight {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.seq-char.delete {
+    background: rgba(239, 68, 68, 0.4);
+    border: 1px solid #ef4444;
+}
+
+.seq-char.insert {
+    background: rgba(34, 197, 94, 0.4);
+    border: 1px solid #22c55e;
+}
+
+.seq-char.keep {
+    background: rgba(156, 163, 175, 0.3);
+    border: 1px solid rgba(156, 163, 175, 0.5);
+}
+
+/* ==================== 编辑图 ==================== */
+.edit-graph-section {
+    margin-bottom: 20px;
+}
+
+.section-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.edit-graph-container {
+    overflow: auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.edit-graph {
+    display: inline-block;
+    position: relative;
+}
+
+.graph-row {
+    display: flex;
+}
+
+.graph-cell {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.graph-node {
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.graph-node.visited {
+    background: rgba(239, 68, 68, 0.6);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.graph-node.path {
+    background: #fbbf24;
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.8);
+    transform: scale(1.3);
+}
+
+.graph-node.current {
+    background: #22c55e;
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.8);
+    transform: scale(1.5);
+    animation: pulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+    from { transform: scale(1.3); }
+    to { transform: scale(1.6); }
+}
+
+/* 边（箭头） */
+.graph-edge {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.15);
+    transition: all 0.3s ease;
+}
+
+.graph-edge.horizontal {
+    width: 28px;
+    height: 2px;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.graph-edge.vertical {
+    width: 2px;
+    height: 28px;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.graph-edge.diagonal {
+    width: 36px;
+    height: 2px;
+    left: 6px;
+    top: 6px;
+    transform-origin: left center;
+    transform: rotate(45deg);
+}
+
+.graph-edge.visited {
+    background: rgba(239, 68, 68, 0.5);
+}
+
+.graph-edge.path {
+    background: #fbbf24;
+    height: 3px;
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.6);
+}
+
+/* 头部标签 */
+.graph-header {
+    display: flex;
+}
+
+.header-cell {
+    width: 40px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.side-label {
+    width: 30px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* D值指示器 */
+.d-value-indicator {
+    margin-top: 15px;
+    padding: 10px 25px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 20px;
+    display: inline-block;
+    color: #ef4444;
+    font-size: 1rem;
+}
+
+#dValue {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* ==================== 差异结果 ==================== */
+.diff-result-section {
+    margin-bottom: 20px;
+}
+
+.diff-result {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-height: 60px;
+}
+
+.diff-item {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    animation: diffAppear 0.3s ease-out;
+}
+
+@keyframes diffAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.diff-item.keep {
+    background: rgba(156, 163, 175, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(156, 163, 175, 0.4);
+}
+
+.diff-item.delete {
+    background: rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+    border: 1px solid #ef4444;
+    text-decoration: line-through;
+}
+
+.diff-item.insert {
+    background: rgba(34, 197, 94, 0.3);
+    color: #86efac;
+    border: 1px solid #22c55e;
+}
+
+.diff-item.delete::before {
+    content: '- ';
+}
+
+.diff-item.insert::before {
+    content: '+ ';
+}
+
+/* ==================== 蛇形移动动画 ==================== */
+.snake-trail {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(34, 197, 94, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: snakeFade 0.5s ease-out forwards;
+}
+
+@keyframes snakeFade {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
+/* ==================== 完成动画 ==================== */
+.diff-item.celebrate {
+    animation: celebrateDiff 0.4s ease-in-out;
+}
+
+@keyframes celebrateDiff {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 768px) {
+    .input-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .input-group {
+        max-width: 100%;
+    }
+    
+    .graph-cell {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .header-cell, .side-label {
+        width: 32px;
+        height: 32px;
+    }
+}

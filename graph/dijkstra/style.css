@@ -1,0 +1,216 @@
+/**
+ * Dijkstra最短路径可视化样式
+ * @author changyadai
+ */
+
+.container {
+    max-width: 900px;
+    padding: 25px;
+}
+
+.nav-link {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}
+
+/* 图形区域 */
+.graph-container {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+#graphSvg {
+    width: 100%;
+    height: 400px;
+    display: block;
+}
+
+/* 节点 */
+.node {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.node circle {
+    fill: rgba(255, 255, 255, 0.1);
+    stroke: rgba(255, 255, 255, 0.3);
+    stroke-width: 2;
+    transition: all 0.3s ease;
+}
+
+.node text {
+    fill: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+}
+
+.node.start circle {
+    fill: rgba(34, 197, 94, 0.4);
+    stroke: #22c55e;
+    stroke-width: 3;
+}
+
+.node.current circle {
+    fill: rgba(251, 191, 36, 0.5);
+    stroke: #fbbf24;
+    stroke-width: 3;
+    animation: nodePulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes nodePulse {
+    from { r: 25; }
+    to { r: 30; }
+}
+
+.node.visited circle {
+    fill: rgba(249, 115, 22, 0.4);
+    stroke: #f97316;
+}
+
+.node.finalized circle {
+    fill: rgba(34, 197, 94, 0.3);
+    stroke: #22c55e;
+}
+
+.node:hover circle {
+    stroke-width: 4;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+}
+
+/* 边 */
+.edge {
+    stroke: rgba(255, 255, 255, 0.2);
+    stroke-width: 2;
+    transition: all 0.3s ease;
+}
+
+.edge.considering {
+    stroke: #fbbf24;
+    stroke-width: 3;
+    animation: edgePulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes edgePulse {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+
+.edge.path {
+    stroke: #22c55e;
+    stroke-width: 4;
+    filter: drop-shadow(0 0 5px rgba(34, 197, 94, 0.6));
+}
+
+.edge.relaxed {
+    stroke: #f97316;
+    stroke-width: 3;
+}
+
+/* 权重标签 */
+.weight-label {
+    fill: rgba(255, 255, 255, 0.6);
+    font-size: 11px;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+.weight-label.highlight {
+    fill: #fbbf24;
+    font-weight: bold;
+}
+
+/* 距离表 */
+.distance-table-section {
+    margin-bottom: 20px;
+}
+
+.section-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.distance-table {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dist-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    min-width: 60px;
+    transition: all 0.3s ease;
+}
+
+.dist-item.start {
+    background: rgba(34, 197, 94, 0.2);
+    border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.dist-item.current {
+    background: rgba(251, 191, 36, 0.3);
+    border: 1px solid #fbbf24;
+    transform: scale(1.1);
+}
+
+.dist-item.updated {
+    animation: distUpdate 0.3s ease-out;
+}
+
+@keyframes distUpdate {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); background: rgba(249, 115, 22, 0.4); }
+}
+
+.dist-item.finalized {
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.dist-node {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.dist-value {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.9rem;
+    color: var(--accent-cyan);
+}
+
+.dist-value.infinity {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* 路径动画 */
+@keyframes pathDraw {
+    from { stroke-dashoffset: 1000; }
+    to { stroke-dashoffset: 0; }
+}
+
+.edge.path-animate {
+    stroke-dasharray: 1000;
+    animation: pathDraw 1s ease forwards;
+}

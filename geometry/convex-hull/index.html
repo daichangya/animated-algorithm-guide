@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>凸包算法可视化 - Graham Scan | 算法可视化</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="通过交互式动画学习Graham Scan凸包算法。观察如何用栈结构逐步构建包围点集的最小凸多边形。支持手动添加点或随机生成。">
+    <meta name="keywords" content="凸包,Graham Scan,计算几何,凸多边形,点集,栈,算法可视化,几何算法">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algorithm-visualizer.example.com/geometry/convex-hull/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="凸包算法可视化 - Graham Scan">
+    <meta property="og:description" content="通过交互式动画学习凸包算法，观察栈的变化过程。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algorithm-visualizer.example.com/geometry/convex-hull/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="凸包算法可视化">
+    <meta name="twitter:description" content="交互式动画演示Graham Scan凸包算法">
+    
+    <link rel="stylesheet" href="../../common/styles.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-decoration">
+    <!-- 语言切换器 -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="zh">中文</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <div class="container">
+        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        
+        <header class="page-header">
+            <h1 class="title" data-i18n="convexHull.title">凸包算法可视化</h1>
+            <p class="subtitle" data-i18n="convexHull.subtitle">Graham Scan - 计算点集的凸包</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p data-i18n="convexHull.intro">凸包（Convex Hull）是包含所有给定点的最小凸多边形。Graham Scan算法通过极角排序和栈操作，以O(n log n)的时间复杂度高效计算凸包。</p>
+        </div>
+        
+        <!-- 画布 -->
+        <div class="canvas-section">
+            <canvas id="canvas" width="700" height="450"></canvas>
+            <div class="canvas-hint">点击画布添加点，或自动生成</div>
+        </div>
+        
+        <!-- 栈显示 -->
+        <div class="stack-section">
+            <div class="section-label">凸包栈</div>
+            <div class="stack-content" id="stackContent"></div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn" data-i18n="common.start">开始</button>
+            <button class="btn btn-secondary" id="generateBtn" data-i18n="convexHull.generateRandom">随机生成</button>
+            <button class="btn btn-secondary" id="clearBtn" data-i18n="convexHull.clear">清空</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText" data-i18n="common.clickStartToView">点击"开始"查看动画</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>Graham Scan 步骤</h4>
+                <ol>
+                    <li><strong>找基点</strong>：选择y坐标最小的点（若有多个，选x最小的）作为起点P0</li>
+                    <li><strong>极角排序</strong>：将其他点按相对于P0的极角从小到大排序</li>
+                    <li><strong>栈处理</strong>：依次处理排序后的点：
+                        <ul>
+                            <li>将点压入栈</li>
+                            <li>检查栈顶三个点是否构成"左转"（逆时针）</li>
+                            <li>如果不是左转（右转或共线），弹出栈顶第二个点</li>
+                            <li>重复检查直到满足左转条件</li>
+                        </ul>
+                    </li>
+                    <li>处理完所有点后，栈中的点就是凸包顶点</li>
+                </ol>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>时间与空间复杂度</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>步骤</th>
+                        <th>复杂度</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>找基点</td>
+                        <td>O(n)</td>
+                        <td>遍历所有点</td>
+                    </tr>
+                    <tr>
+                        <td>极角排序</td>
+                        <td>O(n log n)</td>
+                        <td>决定整体复杂度</td>
+                    </tr>
+                    <tr>
+                        <td>栈处理</td>
+                        <td>O(n)</td>
+                        <td>每个点最多入栈出栈各一次</td>
+                    </tr>
+                    <tr>
+                        <td>总时间</td>
+                        <td class="highlight">O(n log n)</td>
+                        <td>排序主导</td>
+                    </tr>
+                    <tr>
+                        <td>空间复杂度</td>
+                        <td>O(n)</td>
+                        <td>存储栈</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>应用场景</h4>
+                <ul>
+                    <li>图形学中的碰撞检测</li>
+                    <li>地理信息系统（GIS）边界计算</li>
+                    <li>机器人运动规划</li>
+                    <li>图像处理中的物体轮廓</li>
+                    <li>最小包围盒计算</li>
+                    <li>统计学中的离群点检测</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag">碰撞检测</span>
+                    <span class="use-case-tag">GIS</span>
+                    <span class="use-case-tag">机器人</span>
+                    <span class="use-case-tag">图像处理</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>代码实现</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">def</span> <span class="function">cross</span>(o, a, b):
+    <span class="string">"""叉积判断转向方向"""</span>
+    <span class="keyword">return</span> (a[<span class="number">0</span>] - o[<span class="number">0</span>]) * (b[<span class="number">1</span>] - o[<span class="number">1</span>]) - (a[<span class="number">1</span>] - o[<span class="number">1</span>]) * (b[<span class="number">0</span>] - o[<span class="number">0</span>])
+
+
+<span class="keyword">def</span> <span class="function">convex_hull</span>(points):
+    <span class="string">"""Graham Scan算法计算凸包"""</span>
+    points = <span class="function">sorted</span>(<span class="function">set</span>(<span class="function">map</span>(<span class="function">tuple</span>, points)))
+    
+    <span class="keyword">if</span> <span class="function">len</span>(points) <= <span class="number">1</span>:
+        <span class="keyword">return</span> points
+    
+    <span class="comment"># 构建下凸壳</span>
+    lower = []
+    <span class="keyword">for</span> p <span class="keyword">in</span> points:
+        <span class="keyword">while</span> <span class="function">len</span>(lower) >= <span class="number">2</span> <span class="keyword">and</span> <span class="function">cross</span>(lower[-<span class="number">2</span>], lower[-<span class="number">1</span>], p) <= <span class="number">0</span>:
+            lower.<span class="function">pop</span>()
+        lower.<span class="function">append</span>(p)
+    
+    <span class="comment"># 构建上凸壳</span>
+    upper = []
+    <span class="keyword">for</span> p <span class="keyword">in</span> <span class="function">reversed</span>(points):
+        <span class="keyword">while</span> <span class="function">len</span>(upper) >= <span class="number">2</span> <span class="keyword">and</span> <span class="function">cross</span>(upper[-<span class="number">2</span>], upper[-<span class="number">1</span>], p) <= <span class="number">0</span>:
+            upper.<span class="function">pop</span>()
+        upper.<span class="function">append</span>(p)
+    
+    <span class="comment"># 合并（去除重复端点）</span>
+    <span class="keyword">return</span> lower[:-<span class="number">1</span>] + upper[:-<span class="number">1</span>]
+
+
+<span class="comment"># 使用示例</span>
+points = [(<span class="number">0</span>, <span class="number">0</span>), (<span class="number">1</span>, <span class="number">1</span>), (<span class="number">2</span>, <span class="number">2</span>), (<span class="number">0</span>, <span class="number">2</span>), (<span class="number">2</span>, <span class="number">0</span>), (<span class="number">1</span>, <span class="number">0</span>)]
+hull = <span class="function">convex_hull</span>(points)
+<span class="function">print</span>(hull)  <span class="comment"># [(0, 0), (2, 0), (2, 2), (0, 2)]</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">import</span> java.util.*;
+
+<span class="keyword">public class</span> <span class="type">ConvexHull</span> {
+    
+    <span class="comment">/**
+     * 叉积判断转向
+     */</span>
+    <span class="keyword">private static long</span> <span class="function">cross</span>(<span class="type">int</span>[] o, <span class="type">int</span>[] a, <span class="type">int</span>[] b) {
+        <span class="keyword">return</span> (<span class="keyword">long</span>)(a[<span class="number">0</span>] - o[<span class="number">0</span>]) * (b[<span class="number">1</span>] - o[<span class="number">1</span>]) 
+             - (<span class="keyword">long</span>)(a[<span class="number">1</span>] - o[<span class="number">1</span>]) * (b[<span class="number">0</span>] - o[<span class="number">0</span>]);
+    }
+    
+    <span class="comment">/**
+     * Graham Scan算法计算凸包
+     */</span>
+    <span class="keyword">public static</span> <span class="type">List</span>&lt;<span class="type">int</span>[]&gt; <span class="function">convexHull</span>(<span class="type">int</span>[][] points) {
+        <span class="type">int</span> n = points.length;
+        <span class="keyword">if</span> (n < <span class="number">3</span>) <span class="keyword">return</span> Arrays.<span class="function">asList</span>(points);
+        
+        <span class="comment">// 按坐标排序</span>
+        Arrays.<span class="function">sort</span>(points, (a, b) -> 
+            a[<span class="number">0</span>] != b[<span class="number">0</span>] ? a[<span class="number">0</span>] - b[<span class="number">0</span>] : a[<span class="number">1</span>] - b[<span class="number">1</span>]);
+        
+        <span class="type">List</span>&lt;<span class="type">int</span>[]&gt; hull = <span class="keyword">new</span> <span class="type">ArrayList</span>&lt;&gt;();
+        
+        <span class="comment">// 下凸壳</span>
+        <span class="keyword">for</span> (<span class="type">int</span>[] p : points) {
+            <span class="keyword">while</span> (hull.<span class="function">size</span>() >= <span class="number">2</span> && 
+                   <span class="function">cross</span>(hull.<span class="function">get</span>(hull.<span class="function">size</span>()-<span class="number">2</span>), 
+                        hull.<span class="function">get</span>(hull.<span class="function">size</span>()-<span class="number">1</span>), p) <= <span class="number">0</span>) {
+                hull.<span class="function">remove</span>(hull.<span class="function">size</span>() - <span class="number">1</span>);
+            }
+            hull.<span class="function">add</span>(p);
+        }
+        
+        <span class="comment">// 上凸壳</span>
+        <span class="type">int</span> lowerSize = hull.<span class="function">size</span>();
+        <span class="keyword">for</span> (<span class="type">int</span> i = n - <span class="number">2</span>; i >= <span class="number">0</span>; i--) {
+            <span class="keyword">while</span> (hull.<span class="function">size</span>() > lowerSize && 
+                   <span class="function">cross</span>(hull.<span class="function">get</span>(hull.<span class="function">size</span>()-<span class="number">2</span>),
+                        hull.<span class="function">get</span>(hull.<span class="function">size</span>()-<span class="number">1</span>), points[i]) <= <span class="number">0</span>) {
+                hull.<span class="function">remove</span>(hull.<span class="function">size</span>() - <span class="number">1</span>);
+            }
+            hull.<span class="function">add</span>(points[i]);
+        }
+        
+        hull.<span class="function">remove</span>(hull.<span class="function">size</span>() - <span class="number">1</span>);
+        <span class="keyword">return</span> hull;
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../common/i18n.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BFS/DFS图遍历可视化 - 广度优先与深度优先 | 算法可视化</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="通过交互式动画对比学习BFS广度优先搜索和DFS深度优先搜索。观察队列和栈的工作方式，理解两种遍历策略的差异。">
+    <meta name="keywords" content="BFS,DFS,广度优先搜索,深度优先搜索,图遍历,队列,栈,算法可视化,图论">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algorithm-visualizer.example.com/graph/bfs-dfs/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="BFS/DFS图遍历可视化 - 广度优先与深度优先">
+    <meta property="og:description" content="通过交互式动画对比BFS和DFS两种图遍历算法。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algorithm-visualizer.example.com/graph/bfs-dfs/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="BFS/DFS图遍历可视化">
+    <meta name="twitter:description" content="交互式动画演示广度优先和深度优先搜索">
+    
+    <link rel="stylesheet" href="../../common/styles.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-decoration">
+    <!-- 语言切换器 -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="zh">中文</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <div class="container">
+        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        
+        <header class="page-header">
+            <h1 class="title" data-i18n="bfsDfs.title">BFS与DFS图遍历可视化</h1>
+            <p class="subtitle" data-i18n="bfsDfs.subtitle">广度优先 vs 深度优先搜索</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p data-i18n="bfsDfs.intro">BFS（广度优先搜索）和DFS（深度优先搜索）是两种基本的图遍历算法。BFS使用队列，逐层扩展；DFS使用栈（或递归），尽可能深入探索。</p>
+        </div>
+        
+        <!-- 模式切换 -->
+        <div class="mode-toggle">
+            <button class="mode-btn active" data-mode="bfs">BFS 广度优先</button>
+            <button class="mode-btn" data-mode="dfs">DFS 深度优先</button>
+            <button class="mode-btn" data-mode="both">并行对比</button>
+        </div>
+        
+        <!-- 图形区域 -->
+        <div class="graphs-wrapper">
+            <div class="graph-panel" id="bfsPanel">
+                <div class="panel-title">BFS (队列)</div>
+                <div class="graph-container">
+                    <svg id="bfsSvg"></svg>
+                </div>
+                <div class="data-structure">
+                    <div class="ds-label">队列</div>
+                    <div class="ds-content" id="bfsQueue"></div>
+                </div>
+                <div class="visit-order">
+                    <div class="ds-label">访问顺序</div>
+                    <div class="ds-content" id="bfsOrder"></div>
+                </div>
+            </div>
+            
+            <div class="graph-panel" id="dfsPanel" style="display: none;">
+                <div class="panel-title">DFS (栈)</div>
+                <div class="graph-container">
+                    <svg id="dfsSvg"></svg>
+                </div>
+                <div class="data-structure">
+                    <div class="ds-label">栈</div>
+                    <div class="ds-content" id="dfsStack"></div>
+                </div>
+                <div class="visit-order">
+                    <div class="ds-label">访问顺序</div>
+                    <div class="ds-content" id="dfsOrder"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn">开始遍历</button>
+            <button class="btn btn-secondary" id="resetBtn">重置</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText">选择模式后点击开始</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>BFS vs DFS 对比</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>特性</th>
+                        <th>BFS</th>
+                        <th>DFS</th>
+                    </tr>
+                    <tr>
+                        <td>数据结构</td>
+                        <td>队列 (FIFO)</td>
+                        <td>栈 (LIFO) / 递归</td>
+                    </tr>
+                    <tr>
+                        <td>访问顺序</td>
+                        <td>按层次，先近后远</td>
+                        <td>深入分支，再回溯</td>
+                    </tr>
+                    <tr>
+                        <td>最短路径</td>
+                        <td class="highlight">保证找到（无权图）</td>
+                        <td>不保证</td>
+                    </tr>
+                    <tr>
+                        <td>空间消耗</td>
+                        <td>可能较大（存储整层）</td>
+                        <td>通常较小</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>时间与空间复杂度</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>指标</th>
+                        <th>BFS</th>
+                        <th>DFS</th>
+                    </tr>
+                    <tr>
+                        <td>时间复杂度</td>
+                        <td class="highlight">O(V + E)</td>
+                        <td class="highlight">O(V + E)</td>
+                    </tr>
+                    <tr>
+                        <td>空间复杂度</td>
+                        <td>O(V)</td>
+                        <td>O(V)</td>
+                    </tr>
+                </table>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    V是顶点数，E是边数。两种算法时间复杂度相同，但实际空间使用取决于图的结构。
+                </p>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>应用场景</h4>
+                <p><strong>BFS适用于：</strong></p>
+                <ul>
+                    <li>无权图的最短路径</li>
+                    <li>社交网络中的"六度分隔"</li>
+                    <li>迷宫的最短路径</li>
+                    <li>网页爬虫</li>
+                </ul>
+                <p style="margin-top: var(--spacing-sm);"><strong>DFS适用于：</strong></p>
+                <ul>
+                    <li>拓扑排序</li>
+                    <li>检测图中的环</li>
+                    <li>寻找连通分量</li>
+                    <li>解决迷宫问题（所有路径）</li>
+                    <li>回溯算法</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag">最短路径</span>
+                    <span class="use-case-tag">拓扑排序</span>
+                    <span class="use-case-tag">连通性检测</span>
+                    <span class="use-case-tag">迷宫求解</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>代码实现</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">from</span> collections <span class="keyword">import</span> deque
+
+<span class="keyword">def</span> <span class="function">bfs</span>(graph, start):
+    <span class="string">"""广度优先搜索"""</span>
+    visited = <span class="function">set</span>()
+    queue = <span class="function">deque</span>([start])
+    visited.<span class="function">add</span>(start)
+    order = []
+    
+    <span class="keyword">while</span> queue:
+        node = queue.<span class="function">popleft</span>()
+        order.<span class="function">append</span>(node)
+        
+        <span class="keyword">for</span> neighbor <span class="keyword">in</span> graph[node]:
+            <span class="keyword">if</span> neighbor <span class="keyword">not in</span> visited:
+                visited.<span class="function">add</span>(neighbor)
+                queue.<span class="function">append</span>(neighbor)
+    
+    <span class="keyword">return</span> order
+
+
+<span class="keyword">def</span> <span class="function">dfs</span>(graph, start, visited=<span class="keyword">None</span>):
+    <span class="string">"""深度优先搜索（递归）"""</span>
+    <span class="keyword">if</span> visited <span class="keyword">is None</span>:
+        visited = <span class="function">set</span>()
+    
+    visited.<span class="function">add</span>(start)
+    order = [start]
+    
+    <span class="keyword">for</span> neighbor <span class="keyword">in</span> graph[start]:
+        <span class="keyword">if</span> neighbor <span class="keyword">not in</span> visited:
+            order.<span class="function">extend</span>(<span class="function">dfs</span>(graph, neighbor, visited))
+    
+    <span class="keyword">return</span> order
+
+
+<span class="comment"># 使用示例</span>
+graph = {
+    <span class="string">'A'</span>: [<span class="string">'B'</span>, <span class="string">'C'</span>],
+    <span class="string">'B'</span>: [<span class="string">'A'</span>, <span class="string">'D'</span>, <span class="string">'E'</span>],
+    <span class="string">'C'</span>: [<span class="string">'A'</span>, <span class="string">'F'</span>],
+    <span class="string">'D'</span>: [<span class="string">'B'</span>], <span class="string">'E'</span>: [<span class="string">'B'</span>], <span class="string">'F'</span>: [<span class="string">'C'</span>]
+}
+<span class="function">print</span>(<span class="string">"BFS:"</span>, <span class="function">bfs</span>(graph, <span class="string">'A'</span>))  <span class="comment"># ['A', 'B', 'C', 'D', 'E', 'F']</span>
+<span class="function">print</span>(<span class="string">"DFS:"</span>, <span class="function">dfs</span>(graph, <span class="string">'A'</span>))  <span class="comment"># ['A', 'B', 'D', 'E', 'C', 'F']</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">import</span> java.util.*;
+
+<span class="keyword">public class</span> <span class="type">BfsDfs</span> {
+    
+    <span class="comment">/**
+     * 广度优先搜索
+     */</span>
+    <span class="keyword">public static</span> <span class="type">List</span>&lt;<span class="type">String</span>&gt; <span class="function">bfs</span>(
+            <span class="type">Map</span>&lt;<span class="type">String</span>, <span class="type">List</span>&lt;<span class="type">String</span>&gt;&gt; graph, 
+            <span class="type">String</span> start) {
+        
+        <span class="type">List</span>&lt;<span class="type">String</span>&gt; order = <span class="keyword">new</span> <span class="type">ArrayList</span>&lt;&gt;();
+        <span class="type">Set</span>&lt;<span class="type">String</span>&gt; visited = <span class="keyword">new</span> <span class="type">HashSet</span>&lt;&gt;();
+        <span class="type">Queue</span>&lt;<span class="type">String</span>&gt; queue = <span class="keyword">new</span> <span class="type">LinkedList</span>&lt;&gt;();
+        
+        queue.<span class="function">offer</span>(start);
+        visited.<span class="function">add</span>(start);
+        
+        <span class="keyword">while</span> (!queue.<span class="function">isEmpty</span>()) {
+            <span class="type">String</span> node = queue.<span class="function">poll</span>();
+            order.<span class="function">add</span>(node);
+            
+            <span class="keyword">for</span> (<span class="type">String</span> neighbor : graph.<span class="function">get</span>(node)) {
+                <span class="keyword">if</span> (!visited.<span class="function">contains</span>(neighbor)) {
+                    visited.<span class="function">add</span>(neighbor);
+                    queue.<span class="function">offer</span>(neighbor);
+                }
+            }
+        }
+        <span class="keyword">return</span> order;
+    }
+    
+    <span class="comment">/**
+     * 深度优先搜索
+     */</span>
+    <span class="keyword">public static void</span> <span class="function">dfs</span>(
+            <span class="type">Map</span>&lt;<span class="type">String</span>, <span class="type">List</span>&lt;<span class="type">String</span>&gt;&gt; graph,
+            <span class="type">String</span> node,
+            <span class="type">Set</span>&lt;<span class="type">String</span>&gt; visited,
+            <span class="type">List</span>&lt;<span class="type">String</span>&gt; order) {
+        
+        visited.<span class="function">add</span>(node);
+        order.<span class="function">add</span>(node);
+        
+        <span class="keyword">for</span> (<span class="type">String</span> neighbor : graph.<span class="function">get</span>(node)) {
+            <span class="keyword">if</span> (!visited.<span class="function">contains</span>(neighbor)) {
+                <span class="function">dfs</span>(graph, neighbor, visited, order);
+            }
+        }
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../common/i18n.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
