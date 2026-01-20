@@ -9,7 +9,6 @@ edit_uri: edit/main/docs/
 # 导航菜单
 nav:
   - Home: index.md
-  - About: about.md
   - Algorithms:
       - Sorting Algorithms:
           - Bubble Sort: sorting/bubble-sort.md
@@ -21,7 +20,7 @@ nav:
           - Improved Myers Diff: diff/myers-diff-improved.md
           - Longest Common Subsequence: diff/lcs.md
   - ZThinker官网: https://algo.jsdiff.com/
-
+  - About: about.md
 
 # 支持HTML文件
 extra_javascript:
