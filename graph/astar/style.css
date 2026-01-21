@@ -53,6 +53,8 @@
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
+    overflow-x: auto;
+    max-width: 100%;
 }
 
 .grid {
