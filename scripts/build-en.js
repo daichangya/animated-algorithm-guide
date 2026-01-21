@@ -273,15 +273,39 @@ function processHtmlFile(relativePath, translations) {
     console.log(`  -> Generated: en/${relativePath}`);
 }
 
+// 清理 /en/ 目录（保留 docs 子目录）
+function cleanEnDir() {
+    if (!fs.existsSync(EN_DIR)) {
+        fs.mkdirSync(EN_DIR);
+        return;
+    }
+    
+    // 获取 /en/ 目录下的所有内容
+    const items = fs.readdirSync(EN_DIR);
+    
+    // 需要保留的目录列表
+    const preserveDirs = ['docs'];
+    
+    for (const item of items) {
+        const itemPath = path.join(EN_DIR, item);
+        
+        // 跳过需要保留的目录
+        if (preserveDirs.includes(item)) {
+            console.log(`Preserving: en/${item}/`);
+            continue;
+        }
+        
+        // 删除其他文件和目录
+        fs.rmSync(itemPath, { recursive: true });
+    }
+}
+
 // 主函数
 function main() {
     console.log('=== Building English Version ===\n');
     
-    // 清理并创建 /en/ 目录
-    if (fs.existsSync(EN_DIR)) {
-        fs.rmSync(EN_DIR, { recursive: true });
-    }
-    fs.mkdirSync(EN_DIR);
+    // 清理 /en/ 目录（保留 docs 子目录）
+    cleanEnDir();
     
     // 加载翻译字典
     console.log('Loading translations...');
