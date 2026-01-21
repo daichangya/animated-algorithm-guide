@@ -350,8 +350,10 @@ body > .site-footer {
 /* ==================== Tab面板 ==================== */
 .tabs-container {
     max-width: 900px;
+    width: 100%;
     margin: var(--spacing-lg) auto 0;
     text-align: left;
+    overflow: hidden;
 }
 
 .tabs-header {
@@ -359,6 +361,24 @@ body > .site-footer {
     gap: var(--spacing-xs);
     border-bottom: 1px solid var(--border-subtle);
     margin-bottom: var(--spacing-md);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+/* 移动端 Tab 按钮样式 */
+@media (max-width: 480px) {
+    .tabs-header {
+        gap: 0;
+        padding-bottom: 2px;
+    }
+    
+    .tab-btn {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
 }
 
 .tab-btn {
