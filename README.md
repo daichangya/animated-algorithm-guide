@@ -19,6 +19,26 @@ Welcome to the Algorithm Visualization Learning Platform! This platform helps yo
 - 🚀 **Zero Dependencies** - Pure HTML/CSS/JavaScript, no frameworks required
 - 🌙 **Dark Mode** - Eye-friendly dark theme design
 
+## Platform Comparison | 平台对比
+
+Wondering how we compare to other algorithm visualization platforms? Check out our detailed comparison:
+
+想知道我们与其他算法可视化平台有什么区别？查看我们的详细对比评测：
+
+📊 **[Comparison Review | 对比评测](https://algo.jsdiff.com/docs/comparison/)**
+
+| Platform | Visual Design | UX | Chinese Support |
+|----------|--------------|-----|-----------------|
+| **algo.jsdiff.com** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| VisuAlgo | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
+| USFCA | ⭐⭐ | ⭐⭐⭐ | ❌ |
+| Toptal | ⭐⭐⭐ | ⭐⭐⭐ | ❌ |
+
+Detailed comparisons:
+- [algo.jsdiff.com vs VisuAlgo](https://algo.jsdiff.com/docs/comparison/vs-visualgo.html)
+- [algo.jsdiff.com vs USFCA](https://algo.jsdiff.com/docs/comparison/vs-usfca.html)
+- [algo.jsdiff.com vs Toptal](https://algo.jsdiff.com/docs/comparison/vs-toptal.html)
+
 ## Algorithms | 算法列表
 
 ### Sorting Algorithms | 排序算法 (4)
@@ -66,7 +86,12 @@ Welcome to the Algorithm Visualization Learning Platform! This platform helps yo
 ├── search/                # Search & optimization | 搜索优化
 ├── geometry/              # Computational geometry | 计算几何
 └── docs/                  # Documentation | 文档
-    └── auto-i18n-architecture.md  # i18n architecture docs | i18n架构文档
+    ├── auto-i18n-architecture.md  # i18n architecture docs | i18n架构文档
+    └── comparison/        # Platform comparison articles | 平台对比评测
+        ├── index.html     # Overview | 综合对比
+        ├── vs-visualgo.html
+        ├── vs-usfca.html
+        └── vs-toptal.html
 ```
 
 ## Internationalization | 国际化
