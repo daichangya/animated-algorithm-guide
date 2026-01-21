@@ -55,5 +55,10 @@ export const homepage = {
     '零依赖': 'Zero Dependencies',
     '纯原生HTML/CSS/JavaScript实现，无需任何框架，代码简洁易懂，可作为学习参考。': 'Pure HTML/CSS/JavaScript implementation. No frameworks needed. Clean code for learning.',
     '护眼暗色': 'Eye-Friendly Dark Mode',
-    '采用舒适的深色主题设计，长时间学习也不易疲劳，保护你的眼睛。': 'Comfortable dark theme design for long study sessions without eye strain.'
+    '采用舒适的深色主题设计，长时间学习也不易疲劳，保护你的眼睛。': 'Comfortable dark theme design for long study sessions without eye strain.',
+    
+    // ===== 对比评测推广 =====
+    '想了解我们与其他平台的区别？': 'Want to see how we compare?',
+    '深度对比 algo.jsdiff.com 与 VisuAlgo、USFCA、Toptal 等算法可视化平台': 'In-depth comparison of algo.jsdiff.com with VisuAlgo, USFCA, Toptal and more',
+    '查看对比评测': 'View Comparison'
 };
