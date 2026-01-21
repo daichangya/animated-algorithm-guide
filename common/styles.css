@@ -789,6 +789,7 @@ pre.code .annotation {
     font-weight: 500;
     cursor: pointer;
     transition: all var(--transition-fast);
+    white-space: nowrap;
 }
 
 .lang-btn:hover {
@@ -884,12 +885,32 @@ pre.code .annotation {
 
 @media (max-width: 768px) {
     .site-header {
-        padding: 0 1rem;
+        padding: 0 0.75rem;
         height: 50px;
     }
     
     .site-header .logo {
-        font-size: 1rem;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+    }
+    
+    .site-header .header-nav {
+        gap: 0.5rem;
+    }
+    
+    .site-header .header-nav a {
+        font-size: 0.8rem;
+        padding: 4px 6px;
+    }
+    
+    .site-header .header-nav a svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    /* 移动端隐藏 GitHub 文字，只显示图标 */
+    .site-header .header-nav .github-text {
+        display: none;
     }
     
     .has-site-header main,
