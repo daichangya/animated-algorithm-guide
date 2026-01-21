@@ -9,40 +9,56 @@
     <meta name="description" content="通过交互式动画学习堆排序算法。观察二叉堆的构建与调整过程，理解O(n log n)时间复杂度的高效排序原理。">
     <meta name="keywords" content="堆排序,Heap Sort,二叉堆,最大堆,排序算法,算法可视化,堆化,heapify,数据结构">
     <meta name="author" content="Algorithm Visualization">
-    <link rel="canonical" href="https://algorithm-visualizer.example.com/sorting/heap-sort/">
+    <link rel="canonical" href="https://algo.jsdiff.com/sorting/heap-sort/">
     
     <!-- Open Graph -->
     <meta property="og:title" content="堆排序可视化 - 二叉堆算法动画">
     <meta property="og:description" content="通过交互式动画学习堆排序算法，观察堆的构建和调整过程。">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://algorithm-visualizer.example.com/sorting/heap-sort/">
+    <meta property="og:url" content="https://algo.jsdiff.com/sorting/heap-sort/">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="堆排序可视化">
     <meta name="twitter:description" content="交互式动画演示堆排序算法">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
     <link rel="stylesheet" href="../../common/styles.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/heap-sort/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/heap-sort/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/heap-sort/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body class="bg-decoration">
-    <!-- 语言切换器 -->
-    <div class="lang-switcher">
-        <button class="lang-btn" data-lang="zh">中文</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../common/header.js"></script>
 
     <div class="container">
-        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        <a href="../../index.html" class="nav-link">← 返回首页</a>
         
         <header class="page-header">
-            <h1 class="title" data-i18n="heapSort.title">堆排序可视化</h1>
-            <p class="subtitle" data-i18n="heapSort.subtitle">观察二叉堆的构建与调整过程</p>
+            <h1 class="title">堆排序可视化</h1>
+            <p class="subtitle">观察二叉堆的构建与调整过程</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p data-i18n="heapSort.intro">堆排序（Heap Sort）是一种利用堆数据结构设计的排序算法。它首先将数组构建成一个最大堆（父节点总是大于子节点），然后不断取出堆顶的最大元素，放到数组末尾，同时调整剩余元素重新形成堆，直到所有元素都被取出。</p>
+            <p>堆排序（Heap Sort）是一种利用堆数据结构设计的排序算法。它首先将数组构建成一个最大堆（父节点总是大于子节点），然后不断取出堆顶的最大元素，放到数组末尾，同时调整剩余元素重新形成堆，直到所有元素都被取出。</p>
         </div>
         
         <!-- 树形视图 -->
@@ -62,34 +78,33 @@
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn" data-i18n="common.startSort">开始排序</button>
-            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
+            <button class="btn btn-primary" id="startBtn">开始排序</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText" data-i18n="common.clickToStart">点击"开始排序"查看动画</span>
+            <span class="status-badge" id="statusText">点击"开始排序"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle" data-i18n="common.tabPrinciple">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity" data-i18n="common.tabComplexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage" data-i18n="common.tabUsage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code" data-i18n="common.tabCode">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
                 <h4>算法步骤</h4>
                 <ol>
-                    <li><strong>建堆</strong>：将无序数组构建成最大堆（从最后一个非叶节点开始向上调整）</li>
-                    <li><strong>交换</strong>：将堆顶元素（最大值）与数组末尾元素交换</li>
-                    <li><strong>调整</strong>：减小堆的大小，对新的堆顶元素执行下沉操作（heapify）</li>
-                    <li><strong>重复</strong>：重复步骤2-3，直到堆的大小为1</li>
+                    <li>将待排序数组构建成一个最大堆（Build Max-Heap）</li>
+                    <li>此时堆顶元素（arr[0]）为最大值</li>
+                    <li>将堆顶元素与最后一个元素交换</li>
+                    <li>堆大小减1，对新的堆顶执行下沉操作（Heapify）</li>
+                    <li>重复步骤3-4，直到堆大小为1</li>
                 </ol>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
-                    堆的特性：对于最大堆，任意节点的值都大于等于其子节点的值。数组中索引为i的节点，其左子节点索引为2i+1，右子节点索引为2i+2。
-                </p>
             </div>
             
             <div class="tab-content" id="complexity">
@@ -257,6 +272,7 @@ arr = [<span class="number">12</span>, <span class="number">11</span>, <span cla
         </div>
     </div>
     
+    <script type="module" src="../../common/footer.js"></script>
     <script type="module" src="../../common/i18n.js"></script>
     <script src="script.js"></script>
     <script>

@@ -16,11 +16,13 @@ const CONFIG = {
 // 状态
 let array = [];
 let isSorting = false;
+let isPaused = false;
 
 // DOM 元素
 const arrayContainer = document.getElementById('arrayContainer');
 const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
+const pauseBtn = document.getElementById('pauseBtn');
 const statusText = document.getElementById('statusText');
 
 /**
@@ -59,10 +61,50 @@ function getBars() {
 }
 
 /**
- * 延迟函数
+ * 延迟函数（支持暂停）
  */
 function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => {
+        const startTime = Date.now();
+        let remaining = ms;
+        
+        const checkPause = () => {
+            if (!isSorting) {
+                resolve();
+                return;
+            }
+            if (isPaused) {
+                setTimeout(checkPause, 50);
+            } else {
+                const elapsed = Date.now() - startTime;
+                remaining = Math.max(0, ms - elapsed);
+                if (remaining <= 0) {
+                    resolve();
+                } else {
+                    setTimeout(resolve, remaining);
+                }
+            }
+        };
+        
+        setTimeout(checkPause, ms);
+    });
+}
+
+/**
+ * 切换暂停状态
+ */
+function togglePause() {
+    isPaused = !isPaused;
+    
+    if (isPaused) {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+        pauseBtn.classList.add('paused');
+        updateStatus('已暂停 - 点击继续');
+    } else {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+        updateStatus('运行中...');
+    }
 }
 
 /**
@@ -174,7 +216,7 @@ function markSorted(index) {
  * 更新状态文本
  */
 function updateStatus(text) {
-    statusText.textContent = text;
+    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
 }
 
 /**
@@ -192,13 +234,13 @@ async function bubbleSort() {
             if (!isSorting) return; // 检查是否被中断
             
             comparisons++;
-            updateStatus(`正在比较: 位置 ${j + 1} 和 位置 ${j + 2}`);
+            updateStatus(window.I18n.t('正在比较: 位置 {0} 和 位置 {1}', j + 1, j + 2));
             
             // 高亮正在比较的元素
             await highlightComparing(j, j + 1);
             
             if (array[j] > array[j + 1]) {
-                updateStatus(`交换: ${Math.floor(array[j] / 10)} 和 ${Math.floor(array[j + 1] / 10)}`);
+                updateStatus(window.I18n.t('交换: {0} 和 {1}', Math.floor(array[j] / 10), Math.floor(array[j + 1] / 10)));
                 await swap(j, j + 1);
                 swapped = true;
                 swaps++;
@@ -227,7 +269,7 @@ async function bubbleSort() {
     // 完成动画
     await celebrateCompletion();
     
-    updateStatus(`排序完成！比较次数: ${comparisons}, 交换次数: ${swaps}`);
+    updateStatus(window.I18n.t('排序完成！比较次数: {0}, 交换次数: {1}', comparisons, swaps));
 }
 
 /**
@@ -254,8 +296,14 @@ async function startSorting() {
     if (isSorting) return;
     
     isSorting = true;
+    isPaused = false;
     startBtn.disabled = true;
     resetBtn.disabled = true;
+    if (pauseBtn) {
+        pauseBtn.disabled = false;
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+    }
     
     // 移除所有之前的状态类
     const bars = getBars();
@@ -268,8 +316,13 @@ async function startSorting() {
     await bubbleSort();
     
     isSorting = false;
+    isPaused = false;
     startBtn.disabled = false;
     resetBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+    }
 }
 
 /**
@@ -277,8 +330,14 @@ async function startSorting() {
  */
 function reset() {
     isSorting = false;
+    isPaused = false;
     startBtn.disabled = false;
     resetBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+    }
     
     // 清除所有气泡
     document.querySelectorAll('.bubble').forEach(b => b.remove());
@@ -290,6 +349,9 @@ function reset() {
 // 事件监听
 startBtn.addEventListener('click', startSorting);
 resetBtn.addEventListener('click', reset);
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', togglePause);
+}
 
 // 初始化
 generateArray();

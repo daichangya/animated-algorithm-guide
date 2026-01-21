@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualization - Interactive Learning Platform | Sorting, Graph Theory, Dynamic Programming</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn 13 classic algorithms through interactive animations. Covers sorting (Bubble, Heap, Quick, Merge), string matching (KMP, LCS, Myers Diff), graph algorithms (Dijkstra, BFS/DFS, A*), dynamic programming (Knapsack), and computational geometry (Convex Hull).">
+    <meta name="keywords" content="Algorithm Visualization,Sorting Algorithms,Bubble Sort,Quick Sort,Heap Sort,Merge Sort,Graph Algorithms,Dijkstra,BFS,DFS,A* Pathfinding,Dynamic Programming,Knapsack Problem,KMP,LCS,Myers Diff,Convex Hull,Data Structures,Programming Learning,Algorithm Animation">
+    <meta name="author" content="Algorithm Visualization">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://algo.jsdiff.com/en/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://algo.jsdiff.com/">
+    <meta property="og:title" content="Algorithm Visualization - Interactive Learning Platform">
+    <meta property="og:description" content="Learn 13 classic algorithms through interactive animations, covering sorting, graph theory, dynamic programming and more.">
+    <!-- <meta property="og:image" content="https://algo.jsdiff.com/og-image.png"> -->
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Algorithm Visualization - Interactive Learning Platform">
+    <meta name="twitter:description" content="Learn 13 classic algorithms through interactive animations.">
+    <!-- <meta name="twitter:image" content="https://algo.jsdiff.com/twitter-card.png"> -->
+    
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#0f0c29">
+    <meta name="application-name" content="Algorithm Visualization">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <link rel="stylesheet" href="../common/styles.css">
+    <style>
+        .hero {
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 200;
+            letter-spacing: 8px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        
+        /* 分类区域 */
+        .category-section {
+            margin-bottom: var(--spacing-lg);
+            text-align: left;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: var(--spacing-sm);
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        
+        .category-icon {
+            font-size: 1.6rem;
+        }
+        
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            letter-spacing: 2px;
+        }
+        
+        .category-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+        
+        .algorithms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+        }
+        
+        .algorithm-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            padding: 18px;
+            text-decoration: none;
+            color: inherit;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .algorithm-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            opacity: 0;
+            transition: opacity var(--transition-normal);
+        }
+        
+        .algorithm-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--border-light);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .algorithm-card:hover::before {
+            opacity: 1;
+        }
+        
+        /* 各分类卡片颜色 */
+        .sorting-category .algorithm-card::before { background: linear-gradient(90deg, #00d9ff, #22c55e); }
+        .sequence-category .algorithm-card::before { background: linear-gradient(90deg, #a855f7, #ec4899); }
+        .graph-category .algorithm-card::before { background: linear-gradient(90deg, #f97316, #eab308); }
+        .search-category .algorithm-card::before { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+        .geometry-category .algorithm-card::before { background: linear-gradient(90deg, #10b981, #84cc16); }
+        
+        .algorithm-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .algorithm-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .algorithm-complexity {
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        .algorithm-desc {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+        
+        /* Algorithm icon colors */
+        .algorithm-card.bubble .algorithm-icon { color: #00d9ff; }
+        .algorithm-card.heap .algorithm-icon { color: #a855f7; }
+        .algorithm-card.quick .algorithm-icon { color: #f97316; }
+        .algorithm-card.merge .algorithm-icon { color: #22c55e; }
+        .algorithm-card.myers .algorithm-icon { color: #ef4444; }
+        .algorithm-card.lcs .algorithm-icon { color: #8b5cf6; }
+        .algorithm-card.kmp .algorithm-icon { color: #ec4899; }
+        .algorithm-card.dijkstra .algorithm-icon { color: #f59e0b; }
+        .algorithm-card.bfs .algorithm-icon { color: #06b6d4; }
+        .algorithm-card.astar .algorithm-icon { color: #eab308; }
+        .algorithm-card.binary .algorithm-icon { color: #3b82f6; }
+        .algorithm-card.knapsack .algorithm-icon { color: #14b8a6; }
+        .algorithm-card.convex .algorithm-icon { color: #84cc16; }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        /* 介绍区域 */
+        .intro-section {
+            max-width: 900px;
+            margin: 0 auto var(--spacing-xl);
+            text-align: center;
+        }
+        
+        .intro-title {
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
+        
+        .intro-text {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Quick Start区域 */
+        .quickstart-section {
+            max-width: 800px;
+            margin: 0 auto var(--spacing-xl);
+            text-align: center;
+            padding: var(--spacing-lg);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+        }
+        
+        .quickstart-title {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
+        
+        .quickstart-steps {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+        
+        .quickstart-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            max-width: 150px;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green));
+            color: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        
+        .step-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* Feature展示 */
+        .features-section {
+            max-width: 1000px;
+            margin: 0 auto var(--spacing-xl);
+        }
+        
+        .features-title {
+            font-size: 1.5rem;
+            font-weight: 400;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+            padding: var(--spacing-md);
+            text-align: left;
+            transition: all var(--transition-normal);
+        }
+        
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--border-light);
+            transform: translateY(-3px);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .feature-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* 页脚 */
+        .site-footer {
+            margin-top: var(--spacing-xl);
+            padding: var(--spacing-lg) 0;
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+        
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color var(--transition-fast);
+        }
+        
+        .footer-link:hover {
+            color: var(--accent-cyan);
+        }
+        
+        .footer-copyright {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        .footer-tech {
+            margin-top: var(--spacing-sm);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+            
+            .quickstart-steps {
+                gap: var(--spacing-md);
+            }
+            
+            .quickstart-step {
+                max-width: 120px;
+            }
+        }
+    </style>
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Algorithm Visualization",
+        "description": "Understand classic algorithms through interactive animations",
+        "url": "https://algo.jsdiff.com/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://algo.jsdiff.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Algorithm List",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Bubble Sort", "url": "sorting/bubble-sort/index.html"},
+            {"@type": "ListItem", "position": 2, "name": "Heap Sort", "url": "sorting/heap-sort/index.html"},
+            {"@type": "ListItem", "position": 3, "name": "Quick Sort", "url": "sorting/quick-sort/index.html"},
+            {"@type": "ListItem", "position": 4, "name": "Merge Sort", "url": "sorting/merge-sort/index.html"},
+            {"@type": "ListItem", "position": 5, "name": "Myers Diff Algorithm", "url": "sequence/myers-diff/index.html"},
+            {"@type": "ListItem", "position": 6, "name": "LCS Subsequence", "url": "sequence/lcs/index.html"},
+            {"@type": "ListItem", "position": 7, "name": "KMPString Matching", "url": "sequence/kmp/index.html"},
+            {"@type": "ListItem", "position": 8, "name": "DijkstraShortest Path", "url": "graph/dijkstra/index.html"},
+            {"@type": "ListItem", "position": 9, "name": "BFS/DFS Traversal", "url": "graph/bfs-dfs/index.html"},
+            {"@type": "ListItem", "position": 10, "name": "A* Pathfinding", "url": "graph/astar/index.html"},
+            {"@type": "ListItem", "position": 11, "name": "Binary Search", "url": "search/binary-search/index.html"},
+            {"@type": "ListItem", "position": 12, "name": "0/1 Knapsack Problem", "url": "search/knapsack/index.html"},
+            {"@type": "ListItem", "position": 13, "name": "Convex Hull", "url": "geometry/convex-hull/index.html"}
+        ]
+    }
+    </script>
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/" />
+    
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/" />
+</head>
+<body class="bg-decoration">
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../common/header.js"></script>
+
+    <main class="container" style="max-width: 1200px;">
+        <!-- Hero区域 -->
+        <header class="hero fade-in" style="text-align: center;">
+            <h1 class="hero-title">Algorithm Visualization</h1>
+            <p class="hero-subtitle">Understand classic algorithms through interactive animations</p>
+            <div class="stats" style="margin-top: 20px;">
+                <div class="stat-item">
+                    <div class="stat-value">13</div>
+                    <div class="stat-label">Total Algorithms</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Categories</div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- 什么是算法可视化 -->
+        <section class="intro-section fade-in" style="animation-delay: 0.05s;">
+            <h2 class="intro-title">What is Algorithm Visualization?</h2>
+            <p class="intro-text">Algorithm visualization transforms abstract algorithmic logic into intuitive animations. By observing how elements move, compare, and transform, you can deeply understand the core ideas behind algorithms, not just memorize code. Each algorithm has its unique "personality" - Bubble Sort's floating bubbles, Quick Sort's partitioning, Dijkstra's ripple expansion... making learning algorithms fun and engaging.</p>
+        </section>
+        
+        <!-- 快速开始 -->
+        <section class="quickstart-section fade-in" style="animation-delay: 0.08s;">
+            <h2 class="quickstart-title">Quick Start</h2>
+            <div class="quickstart-steps">
+                <div class="quickstart-step">
+                    <div class="step-number">1</div>
+                    <p class="step-text">Choose an algorithm category</p>
+                </div>
+                <div class="quickstart-step">
+                    <div class="step-number">2</div>
+                    <p class="step-text">Click a card to enter the page</p>
+                </div>
+                <div class="quickstart-step">
+                    <div class="step-number">3</div>
+                    <p class="step-text">Click "Start" to watch the animation</p>
+                </div>
+                <div class="quickstart-step">
+                    <div class="step-number">4</div>
+                    <p class="step-text">Read explanations to understand</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 排序算法 -->
+        <section class="category-section sorting-category fade-in" style="animation-delay: 0.1s;" aria-labelledby="sorting-title">
+            <div class="category-header">
+                <span class="category-icon" aria-hidden="true">📊</span>
+                <h2 class="category-title" id="sorting-title">Sorting Algorithms</h2>
+                <span class="category-desc">Array element arrangement</span>
+            </div>
+            <div class="algorithms-grid">
+                <a href="sorting/bubble-sort/index.html" class="algorithm-card bubble" aria-label="Bubble Sort - Time Complexity O(n²)">
+                    <span class="algorithm-icon" aria-hidden="true">🫧</span>
+                    <h3 class="algorithm-name">Bubble Sort</h3>
+                    <div class="algorithm-complexity">O(n²) | O(1)</div>
+                    <p class="algorithm-desc">Compare adjacent elements, larger floats up</p>
+                </a>
+                <a href="sorting/heap-sort/index.html" class="algorithm-card heap" aria-label="Heap Sort - Time Complexity O(n log n)">
+                    <span class="algorithm-icon" aria-hidden="true">🌳</span>
+                    <h3 class="algorithm-name">Heap Sort</h3>
+                    <div class="algorithm-complexity">O(n log n) | O(1)</div>
+                    <p class="algorithm-desc">Uses binary heap properties for sorting</p>
+                </a>
+                <a href="sorting/quick-sort/index.html" class="algorithm-card quick" aria-label="Quick Sort - Time Complexity O(n log n)">
+                    <span class="algorithm-icon" aria-hidden="true">⚡</span>
+                    <h3 class="algorithm-name">Quick Sort</h3>
+                    <div class="algorithm-complexity">O(n log n) | O(log n)</div>
+                    <p class="algorithm-desc">Divide and conquer with pivot partitioning</p>
+                </a>
+                <a href="sorting/merge-sort/index.html" class="algorithm-card merge" aria-label="Merge Sort - Time Complexity O(n log n)">
+                    <span class="algorithm-icon" aria-hidden="true">🔀</span>
+                    <h3 class="algorithm-name">Merge Sort</h3>
+                    <div class="algorithm-complexity">O(n log n) | O(n)</div>
+                    <p class="algorithm-desc">Divide into subarrays then merge</p>
+                </a>
+            </div>
+        </section>
+        
+        <!-- 字符串/序列算法 -->
+        <section class="category-section sequence-category fade-in" style="animation-delay: 0.15s;" aria-labelledby="sequence-title">
+            <div class="category-header">
+                <span class="category-icon" aria-hidden="true">🔤</span>
+                <h2 class="category-title" id="sequence-title">String Algorithms</h2>
+                <span class="category-desc">Sequence matching and comparison</span>
+            </div>
+            <div class="algorithms-grid">
+                <a href="sequence/myers-diff/index.html" class="algorithm-card myers" aria-label="Myers Diff Algorithm">
+                    <span class="algorithm-icon" aria-hidden="true">📝</span>
+                    <h3 class="algorithm-name">Myers Diff</h3>
+                    <div class="algorithm-complexity">O((N+M)D) | O(N+M)</div>
+                    <p class="algorithm-desc">Minimum edit distance, Git diff core</p>
+                </a>
+                <a href="sequence/lcs/index.html" class="algorithm-card lcs" aria-label="LCS Longest Common Subsequence">
+                    <span class="algorithm-icon" aria-hidden="true">🔗</span>
+                    <h3 class="algorithm-name">LCS Subsequence</h3>
+                    <div class="algorithm-complexity">O(MN) | O(MN)</div>
+                    <p class="algorithm-desc">DP for longest common subsequence</p>
+                </a>
+                <a href="sequence/kmp/index.html" class="algorithm-card kmp" aria-label="KMP String Matching Algorithm">
+                    <span class="algorithm-icon" aria-hidden="true">🔍</span>
+                    <h3 class="algorithm-name">KMP Matching</h3>
+                    <div class="algorithm-complexity">O(N+M) | O(M)</div>
+                    <p class="algorithm-desc">Prefix table accelerates string matching</p>
+                </a>
+            </div>
+        </section>
+        
+        <!-- 图算法 -->
+        <section class="category-section graph-category fade-in" style="animation-delay: 0.2s;" aria-labelledby="graph-title">
+            <div class="category-header">
+                <span class="category-icon" aria-hidden="true">🕸️</span>
+                <h2 class="category-title" id="graph-title">Graph Algorithms</h2>
+                <span class="category-desc">Graph traversal and pathfinding</span>
+            </div>
+            <div class="algorithms-grid">
+                <a href="graph/dijkstra/index.html" class="algorithm-card dijkstra" aria-label="Dijkstra's Shortest Path Algorithm">
+                    <span class="algorithm-icon" aria-hidden="true">🛤️</span>
+                    <h3 class="algorithm-name">Dijkstra</h3>
+                    <div class="algorithm-complexity">O((V+E)logV) | O(V)</div>
+                    <p class="algorithm-desc">Single-source shortest path algorithm</p>
+                </a>
+                <a href="graph/bfs-dfs/index.html" class="algorithm-card bfs" aria-label="BFS Breadth-First and DFS Depth-First Traversal">
+                    <span class="algorithm-icon" aria-hidden="true">🌊</span>
+                    <h3 class="algorithm-name">BFS/DFS</h3>
+                    <div class="algorithm-complexity">O(V+E) | O(V)</div>
+                    <p class="algorithm-desc">Breadth/depth first traversal comparison</p>
+                </a>
+                <a href="graph/astar/index.html" class="algorithm-card astar" aria-label="A* Heuristic Pathfinding Algorithm">
+                    <span class="algorithm-icon" aria-hidden="true">⭐</span>
+                    <h3 class="algorithm-name">A* Pathfinding</h3>
+                    <div class="algorithm-complexity">O(E) | O(V)</div>
+                    <p class="algorithm-desc">Heuristic shortest path search</p>
+                </a>
+            </div>
+        </section>
+        
+        <!-- 搜索与优化 -->
+        <section class="category-section search-category fade-in" style="animation-delay: 0.25s;" aria-labelledby="search-title">
+            <div class="category-header">
+                <span class="category-icon" aria-hidden="true">🎯</span>
+                <h2 class="category-title" id="search-title">Search & Optimization</h2>
+                <span class="category-desc">Efficient search and decision optimization</span>
+            </div>
+            <div class="algorithms-grid">
+                <a href="search/binary-search/index.html" class="algorithm-card binary" aria-label="Binary Search Algorithm">
+                    <span class="algorithm-icon" aria-hidden="true">🔎</span>
+                    <h3 class="algorithm-name">Binary Search</h3>
+                    <div class="algorithm-complexity">O(log n) | O(1)</div>
+                    <p class="algorithm-desc">Efficient search in sorted arrays</p>
+                </a>
+                <a href="search/knapsack/index.html" class="algorithm-card knapsack" aria-label="0/1 Knapsack Dynamic Programming Problem">
+                    <span class="algorithm-icon" aria-hidden="true">🎒</span>
+                    <h3 class="algorithm-name">0/1 Knapsack</h3>
+                    <div class="algorithm-complexity">O(NW) | O(NW)</div>
+                    <p class="algorithm-desc">Classic dynamic programming optimization problem</p>
+                </a>
+            </div>
+        </section>
+        
+        <!-- 计算几何 -->
+        <section class="category-section geometry-category fade-in" style="animation-delay: 0.3s;" aria-labelledby="geometry-title">
+            <div class="category-header">
+                <span class="category-icon" aria-hidden="true">📐</span>
+                <h2 class="category-title" id="geometry-title">Computational Geometry</h2>
+                <span class="category-desc">Geometric shapes and spatial computation</span>
+            </div>
+            <div class="algorithms-grid">
+                <a href="geometry/convex-hull/index.html" class="algorithm-card convex" aria-label="Graham Scan Convex Hull Algorithm">
+                    <span class="algorithm-icon" aria-hidden="true">⬡</span>
+                    <h3 class="algorithm-name">Convex Hull</h3>
+                    <div class="algorithm-complexity">O(n log n) | O(n)</div>
+                    <p class="algorithm-desc">Graham Scan for point set hull</p>
+                </a>
+            </div>
+        </section>
+        
+        <!-- 平台特性 -->
+        <section class="features-section fade-in" style="animation-delay: 0.35s;">
+            <h2 class="features-title">Platform Features</h2>
+            <div class="features-grid">
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">🎬</div>
+                    <h3 class="feature-title">Smooth Animations</h3>
+                    <p class="feature-desc">Carefully designed CSS animations make every step visible, helping you understand the execution process.</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">🎮</div>
+                    <h3 class="feature-title">Interactive Controls</h3>
+                    <p class="feature-desc">Pause and reset anytime. Some algorithms support custom input data for flexible learning.</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">📚</div>
+                    <h3 class="feature-title">Detailed Explanations</h3>
+                    <p class="feature-desc">Each algorithm page includes principles, complexity analysis, and real-world applications.</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">📱</div>
+                    <h3 class="feature-title">Responsive Design</h3>
+                    <p class="feature-desc">Works perfectly on desktop and mobile devices. Learn algorithms anywhere, anytime.</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">🚀</div>
+                    <h3 class="feature-title">Zero Dependencies</h3>
+                    <p class="feature-desc">Pure HTML/CSS/JavaScript implementation. No frameworks needed. Clean code for learning.</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">🌙</div>
+                    <h3 class="feature-title">Eye-Friendly Dark Mode</h3>
+                    <p class="feature-desc">Comfortable dark theme design for long study sessions without eye strain.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 公共页脚由 JS 注入 -->
+    <script type="module" src="../common/footer.js"></script>
+    
+    <script type="module" src="../common/i18n.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

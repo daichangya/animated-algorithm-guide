@@ -9,51 +9,67 @@
     <meta name="description" content="通过交互式动画学习KMP字符串匹配算法。理解前缀表（Next数组）的构建过程，观察如何利用已匹配信息避免重复比较，实现O(n+m)的高效匹配。">
     <meta name="keywords" content="KMP,字符串匹配,Knuth-Morris-Pratt,前缀表,Next数组,模式匹配,算法可视化">
     <meta name="author" content="Algorithm Visualization">
-    <link rel="canonical" href="https://algorithm-visualizer.example.com/sequence/kmp/">
+    <link rel="canonical" href="https://algo.jsdiff.com/sequence/kmp/">
     
     <!-- Open Graph -->
     <meta property="og:title" content="KMP字符串匹配可视化 - 前缀表算法">
     <meta property="og:description" content="通过交互式动画学习KMP算法，理解前缀表的工作原理。">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://algorithm-visualizer.example.com/sequence/kmp/">
+    <meta property="og:url" content="https://algo.jsdiff.com/sequence/kmp/">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="KMP字符串匹配可视化">
     <meta name="twitter:description" content="交互式动画演示KMP字符串匹配">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
     <link rel="stylesheet" href="../../common/styles.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sequence/kmp/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sequence/kmp/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sequence/kmp/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body class="bg-decoration">
-    <!-- 语言切换器 -->
-    <div class="lang-switcher">
-        <button class="lang-btn" data-lang="zh">中文</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../common/header.js"></script>
 
     <div class="container">
-        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        <a href="../../index.html" class="nav-link">← 返回首页</a>
         
         <header class="page-header">
-            <h1 class="title" data-i18n="kmp.title">KMP字符串匹配可视化</h1>
-            <p class="subtitle" data-i18n="kmp.subtitle">利用前缀表跳过无效比较</p>
+            <h1 class="title">KMP字符串匹配可视化</h1>
+            <p class="subtitle">利用前缀表跳过无效比较</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p data-i18n="kmp.intro">KMP（Knuth-Morris-Pratt）算法是一种高效的字符串匹配算法。它利用已匹配部分的信息，避免从头开始重新匹配，通过"前缀表"（也叫next数组）实现O(n+m)的时间复杂度。</p>
+            <p>KMP（Knuth-Morris-Pratt）算法是一种高效的字符串匹配算法。它利用已匹配部分的信息，避免从头开始重新匹配，通过"前缀表"（也叫next数组）实现O(n+m)的时间复杂度。</p>
         </div>
         
         <!-- 输入 -->
         <div class="input-section">
             <div class="input-group">
                 <label>文本串 (T)</label>
-                <input type="text" id="textInput" value="ABABDABACDABABCABAB" placeholder="输入文本串">
+                <input type="text" id="textInput" value="ABABDABACDABABCABAB">
             </div>
             <div class="input-group">
                 <label>模式串 (P)</label>
-                <input type="text" id="patternInput" value="ABABCABAB" placeholder="输入模式串">
+                <input type="text" id="patternInput" value="ABABCABAB">
             </div>
         </div>
         
@@ -79,12 +95,13 @@
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn" data-i18n="common.start">开始</button>
-            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
+            <button class="btn btn-primary" id="startBtn">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText" data-i18n="common.clickStartToView">点击"开始"查看动画</span>
+            <span class="status-badge" id="statusText">点击"开始"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
@@ -97,12 +114,11 @@
             </div>
             
             <div class="tab-content active" id="principle">
-                <h4>前缀表的含义</h4>
-                <p>前缀表（也称Next数组或失配函数）记录了模式串中每个位置之前的子串的"最长相等前后缀"长度。</p>
+                <h4>核心概念</h4>
                 <ul>
-                    <li><strong>前缀</strong>：不包含最后一个字符的所有以第一个字符开头的连续子串</li>
-                    <li><strong>后缀</strong>：不包含第一个字符的所有以最后一个字符结尾的连续子串</li>
-                    <li>当匹配失败时，根据前缀表将模式串右移，跳过不必要的比较</li>
+                    <li>前缀表记录模式串每个位置的"最长相等前后缀"长度</li>
+                    <li>当匹配失败时，利用前缀表跳过已知不可能匹配的位置</li>
+                    <li>模式串不需要回退到起点，而是跳到前缀表指示的位置</li>
                 </ul>
                 <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
                     例如 "ABAB" 的最长相等前后缀是 "AB"，长度为2。
@@ -281,6 +297,7 @@ positions = <span class="function">kmp_search</span>(text, pattern)
         </div>
     </div>
     
+    <script type="module" src="../../common/footer.js"></script>
     <script type="module" src="../../common/i18n.js"></script>
     <script src="script.js"></script>
     <script>

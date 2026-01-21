@@ -9,40 +9,56 @@
     <meta name="description" content="通过交互式动画学习归并排序算法。观察分治策略的分解与合并过程，理解稳定的O(n log n)排序原理。">
     <meta name="keywords" content="归并排序,Merge Sort,分治算法,合并排序,排序算法,算法可视化,稳定排序,递归">
     <meta name="author" content="Algorithm Visualization">
-    <link rel="canonical" href="https://algorithm-visualizer.example.com/sorting/merge-sort/">
+    <link rel="canonical" href="https://algo.jsdiff.com/sorting/merge-sort/">
     
     <!-- Open Graph -->
     <meta property="og:title" content="归并排序可视化 - 分治合并动画">
     <meta property="og:description" content="通过交互式动画学习归并排序算法，观察分解与合并过程。">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://algorithm-visualizer.example.com/sorting/merge-sort/">
+    <meta property="og:url" content="https://algo.jsdiff.com/sorting/merge-sort/">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="归并排序可视化">
     <meta name="twitter:description" content="交互式动画演示归并排序分治策略">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
     <link rel="stylesheet" href="../../common/styles.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/merge-sort/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/merge-sort/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/merge-sort/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body class="bg-decoration">
-    <!-- 语言切换器 -->
-    <div class="lang-switcher">
-        <button class="lang-btn" data-lang="zh">中文</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../common/header.js"></script>
 
     <div class="container">
-        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        <a href="../../index.html" class="nav-link">← 返回首页</a>
         
         <header class="page-header">
-            <h1 class="title" data-i18n="mergeSort.title">归并排序可视化</h1>
-            <p class="subtitle" data-i18n="mergeSort.subtitle">观察分治策略的分解与合并过程</p>
+            <h1 class="title">归并排序可视化</h1>
+            <p class="subtitle">观察分治策略的分解与合并过程</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p data-i18n="mergeSort.intro">归并排序（Merge Sort）是一种基于分治思想的稳定排序算法。它将数组不断二分直到每个子数组只有一个元素，然后自底向上地将相邻的有序子数组合并成更大的有序数组。归并排序在任何情况下都能保证O(n log n)的时间复杂度。</p>
+            <p>归并排序（Merge Sort）是一种基于分治思想的稳定排序算法。它将数组不断二分直到每个子数组只有一个元素，然后自底向上地将相邻的有序子数组合并成更大的有序数组。归并排序在任何情况下都能保证O(n log n)的时间复杂度。</p>
         </div>
         
         <!-- 阶段指示器 -->
@@ -94,29 +110,30 @@
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn" data-i18n="common.startSort">开始排序</button>
-            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
+            <button class="btn btn-primary" id="startBtn">开始排序</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText" data-i18n="common.clickToStart">点击"开始排序"查看动画</span>
+            <span class="status-badge" id="statusText">点击"开始排序"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle" data-i18n="common.tabPrinciple">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity" data-i18n="common.tabComplexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage" data-i18n="common.tabUsage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code" data-i18n="common.tabCode">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
                 <h4>算法步骤</h4>
                 <ol>
-                    <li><strong>分解</strong>：将数组从中间分成两个子数组</li>
-                    <li><strong>递归</strong>：对左右两个子数组分别进行归并排序</li>
-                    <li><strong>合并</strong>：将两个有序的子数组合并成一个有序数组</li>
+                    <li>将数组从中间分成两个子数组</li>
+                    <li>对左右两个子数组分别进行归并排序</li>
+                    <li>将两个有序的子数组合并成一个有序数组</li>
                 </ol>
                 <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
                     合并操作是关键：使用两个指针分别指向左右子数组的起始位置，每次比较后将较小的元素放入结果数组，直到所有元素都被处理完毕。
@@ -266,6 +283,7 @@ sorted_arr = <span class="function">merge_sort</span>(arr)
         </div>
     </div>
     
+    <script type="module" src="../../common/footer.js"></script>
     <script type="module" src="../../common/i18n.js"></script>
     <script src="script.js"></script>
     <script>

@@ -9,50 +9,66 @@
     <meta name="description" content="通过交互式动画学习A*寻路算法。观察启发式函数如何引导搜索方向，理解为什么A*比Dijkstra更快找到最短路径。支持自定义障碍物。">
     <meta name="keywords" content="A*算法,A星,寻路算法,启发式搜索,最短路径,游戏开发,路径规划,算法可视化">
     <meta name="author" content="Algorithm Visualization">
-    <link rel="canonical" href="https://algorithm-visualizer.example.com/graph/astar/">
+    <link rel="canonical" href="https://algo.jsdiff.com/graph/astar/">
     
     <!-- Open Graph -->
     <meta property="og:title" content="A*寻路算法可视化 - 启发式搜索">
     <meta property="og:description" content="通过交互式动画学习A*算法，自定义障碍物观察寻路过程。">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://algorithm-visualizer.example.com/graph/astar/">
+    <meta property="og:url" content="https://algo.jsdiff.com/graph/astar/">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="A*寻路算法可视化">
     <meta name="twitter:description" content="交互式动画演示A*启发式寻路算法">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
     <link rel="stylesheet" href="../../common/styles.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/astar/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/astar/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/graph/astar/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body class="bg-decoration">
-    <!-- 语言切换器 -->
-    <div class="lang-switcher">
-        <button class="lang-btn" data-lang="zh">中文</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../common/header.js"></script>
 
     <div class="container">
-        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        <a href="../../index.html" class="nav-link">← 返回首页</a>
         
         <header class="page-header">
-            <h1 class="title" data-i18n="astar.title">A*寻路算法可视化</h1>
-            <p class="subtitle" data-i18n="astar.subtitle">启发式最短路径搜索</p>
+            <h1 class="title">A*寻路算法可视化</h1>
+            <p class="subtitle">启发式最短路径搜索</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p data-i18n="astar.intro">A*算法是一种启发式搜索算法，结合了Dijkstra的最短路径保证和贪心搜索的效率。它使用估价函数 f(n) = g(n) + h(n) 来指导搜索方向。</p>
+            <p>A*算法是一种启发式搜索算法，结合了Dijkstra的最短路径保证和贪心搜索的效率。它使用估价函数 f(n) = g(n) + h(n) 来指导搜索方向。</p>
         </div>
         
         <!-- 图例 -->
         <div class="legend">
-            <span class="legend-item"><span class="cell-demo start"></span>起点</span>
-            <span class="legend-item"><span class="cell-demo end"></span>终点</span>
-            <span class="legend-item"><span class="cell-demo wall"></span>障碍物</span>
-            <span class="legend-item"><span class="cell-demo open"></span>待探索</span>
-            <span class="legend-item"><span class="cell-demo closed"></span>已探索</span>
-            <span class="legend-item"><span class="cell-demo path"></span>最短路径</span>
+            <span class="legend-item"><span class="cell-demo start"></span><span>起点</span></span>
+            <span class="legend-item"><span class="cell-demo end"></span><span>终点</span></span>
+            <span class="legend-item"><span class="cell-demo wall"></span><span>障碍物</span></span>
+            <span class="legend-item"><span class="cell-demo open"></span><span>待探索</span></span>
+            <span class="legend-item"><span class="cell-demo closed"></span><span>已探索</span></span>
+            <span class="legend-item"><span class="cell-demo path"></span><span>最短路径</span></span>
         </div>
         
         <!-- 网格 -->
@@ -64,13 +80,14 @@
         <div class="hint">点击网格绘制/清除障碍物</div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn" data-i18n="common.start">开始</button>
-            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
-            <button class="btn btn-secondary" id="clearWallsBtn" data-i18n="astar.clearGrid">清空网格</button>
+            <button class="btn btn-primary" id="startBtn">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn">重置</button>
+            <button class="btn btn-secondary" id="clearWallsBtn">清空网格</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText" data-i18n="common.clickStartToView">点击"开始"查看动画</span>
+            <span class="status-badge" id="statusText">点击"开始"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
@@ -85,14 +102,14 @@
             <div class="tab-content active" id="principle">
                 <h4>核心概念</h4>
                 <ul>
-                    <li><strong>f(n) = g(n) + h(n)</strong>：总估价 = 已走代价 + 估计剩余代价</li>
-                    <li><strong>g(n)</strong>：从起点到节点n的实际路径代价</li>
-                    <li><strong>h(n)</strong>：从节点n到目标的启发式估计（本演示使用曼哈顿距离）</li>
-                    <li><strong>Open列表</strong>：待探索的节点，按f值排序</li>
-                    <li><strong>Closed列表</strong>：已探索的节点</li>
+                    <li>g(n)：从起点到节点n的实际代价</li>
+                    <li>h(n)：从节点n到终点的启发式估计（如曼哈顿距离）</li>
+                    <li>f(n) = g(n) + h(n)：节点n的总估价</li>
+                    <li>每次从Open列表中选择f值最小的节点扩展</li>
+                    <li>当选中的节点是终点时，搜索结束</li>
                 </ul>
                 <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
-                    曼哈顿距离 h(n) = |x1-x2| + |y1-y2|，适用于只能水平/垂直移动的网格。
+                    启发函数h(n)必须是"可采纳的"（不高估实际代价），才能保证找到最短路径。
                 </p>
             </div>
             
@@ -264,6 +281,7 @@
         </div>
     </div>
     
+    <script type="module" src="../../common/footer.js"></script>
     <script type="module" src="../../common/i18n.js"></script>
     <script src="script.js"></script>
     <script>

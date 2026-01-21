@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Search Visualization - O(log n) Efficient Search | Algorithm Visualization</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn Binary Search through interactive animation. Watch search range halve each time, understand the origin of O(log n) time complexity. Supports custom target value.">
+    <meta name="keywords" content="Binary Search,Binary Search,Half-interval Search,Sorted Array,Search Algorithm,O(log n),Algorithm Visualization,Divide and Conquer">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algo.jsdiff.com/en/search/binary-search/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Binary Search Visualization - O(log n) Efficient Search">
+    <meta property="og:description" content="Learn Binary Search through interactive animation, watch range halving process.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algo.jsdiff.com/search/binary-search/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Binary Search Visualization">
+    <meta name="twitter:description" content="Interactive animation demonstrating Binary Search algorithm">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <link rel="stylesheet" href="../../../common/styles.css">
+    <link rel="stylesheet" href="../../../search/binary-search/style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/search/binary-search/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/search/binary-search/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/search/binary-search/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/search/binary-search" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/search/binary-search/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/search/binary-search" />
+</head>
+<body class="bg-decoration">
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../../common/header.js"></script>
+
+    <div class="container">
+        <a href="../../../en/index.html" class="nav-link">← Back to Home</a>
+        
+        <header class="page-header">
+            <h1 class="title">Binary Search Visualization</h1>
+            <p class="subtitle">Efficient search in sorted arrays</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p>Binary Search finds a specific element in a sorted array. Each comparison halves the search range, achieving O(log n) time complexity.</p>
+        </div>
+        
+        <!-- 目标输入 -->
+        <div class="target-section">
+            <label>Search Target:</label>
+            <input type="number" id="targetInput" value="42" min="1" max="100">
+            <span class="hint">Range: 1-100</span>
+        </div>
+        
+        <!-- 数组显示 -->
+        <div class="array-section">
+            <div class="pointer-labels">
+                <div class="pointer-label left" id="leftLabel">L</div>
+                <div class="pointer-label mid" id="midLabel">M</div>
+                <div class="pointer-label right" id="rightLabel">R</div>
+            </div>
+            <div class="array-container" id="arrayContainer"></div>
+            <div class="index-row" id="indexRow"></div>
+        </div>
+        
+        <!-- 比较信息 -->
+        <div class="comparison-info" id="comparisonInfo">
+            <div class="compare-box">
+                <span class="compare-label">Mid Value</span>
+                <span class="compare-value" id="midValue">-</span>
+            </div>
+            <div class="compare-op" id="compareOp">=</div>
+            <div class="compare-box target">
+                <span class="compare-label">Target</span>
+                <span class="compare-value" id="targetValue">-</span>
+            </div>
+        </div>
+        
+        <!-- 步骤信息 -->
+        <div class="steps-info">
+            <span>Step: <strong id="stepCount">0</strong></span>
+            <span>Range: [<strong id="rangeLeft">0</strong>, <strong id="rangeRight">0</strong>]</span>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn">Start</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>Pause</button>
+            <button class="btn btn-secondary" id="resetBtn">Reset</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText">Click "Start" to view animation</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle">📖 How It Works</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ Complexity</button>
+                <button class="tab-btn" data-tab="usage">💡 Applications</button>
+                <button class="tab-btn" data-tab="code">📝 Implementation</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>Algorithm Steps</h4>
+                <ol>
+                    <li>Initialize left pointer = 0, right pointer = n-1</li>
+                    <li>Calculate middle position mid = (left + right) / 2</li>
+                    <li>Compare arr[mid] with target:</li>
+                    <li>Equal: Found target, return mid</li>
+                    <li>arr[mid] > target: Target in left half, right = mid - 1</li>
+                    <li>arr[mid] < target：目标在右半部分，left = mid + 1</li>
+                    <li>Repeat 2-3 until left > right (not found)</li>
+                </ol>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>Time & Space Complexity</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>Case</th>
+                        <th>Complexity</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Best Case</td>
+                        <td class="highlight">O(1)</td>
+                        <td>Target is exactly in the middle</td>
+                    </tr>
+                    <tr>
+                        <td>Average/Worst</td>
+                        <td class="highlight">O(log n)</td>
+                        <td>Search range halves each time</td>
+                    </tr>
+                    <tr>
+                        <td>Space Complexity</td>
+                        <td class="highlight">O(1)</td>
+                        <td>Only constant extra space</td>
+                    </tr>
+                </table>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    Why O(log n)? Range halves after each comparison, at most log₂(n) comparisons needed. For 1 million elements, only ~20 comparisons!
+                </p>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>Applications</h4>
+                <ul>
+                    <li>Finding elements in sorted arrays/lists</li>
+                    <li>Database index queries (B-tree, B+tree)</li>
+                    <li>Finding insertion positions (like bisect)</li>
+                    <li>Finding roots of monotonic functions</li>
+                    <li>"Binary search the answer" in competitive programming</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag">Sorted Search</span>
+                    <span class="use-case-tag">Database Index</span>
+                    <span class="use-case-tag">Binary Answer</span>
+                    <span class="use-case-tag">Numerical Methods</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>Implementation</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">def</span> <span class="function">binary_search</span>(arr, target):
+    <span class="string">"""二分查找 - 返回目标索引，未找到返回-1"""</span>
+    left, right = <span class="number">0</span>, <span class="function">len</span>(arr) - <span class="number">1</span>
+    
+    <span class="keyword">while</span> left <= right:
+        mid = left + (right - left) // <span class="number">2</span>  <span class="comment"># 防止溢出</span>
+        
+        <span class="keyword">if</span> arr[mid] == target:
+            <span class="keyword">return</span> mid
+        <span class="keyword">elif</span> arr[mid] < target:
+            left = mid + <span class="number">1</span>
+        <span class="keyword">else</span>:
+            right = mid - <span class="number">1</span>
+    
+    <span class="keyword">return</span> -<span class="number">1</span>
+
+
+<span class="keyword">def</span> <span class="function">lower_bound</span>(arr, target):
+    <span class="string">"""查找第一个 >= target 的位置"""</span>
+    left, right = <span class="number">0</span>, <span class="function">len</span>(arr)
+    
+    <span class="keyword">while</span> left < right:
+        mid = (left + right) // <span class="number">2</span>
+        <span class="keyword">if</span> arr[mid] < target:
+            left = mid + <span class="number">1</span>
+        <span class="keyword">else</span>:
+            right = mid
+    
+    <span class="keyword">return</span> left
+
+
+<span class="comment"># 使用示例</span>
+arr = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">11</span>, <span class="number">13</span>]
+<span class="function">print</span>(<span class="function">binary_search</span>(arr, <span class="number">7</span>))   <span class="comment"># 输出: 3</span>
+<span class="function">print</span>(<span class="function">binary_search</span>(arr, <span class="number">6</span>))   <span class="comment"># 输出: -1</span>
+<span class="function">print</span>(<span class="function">lower_bound</span>(arr, <span class="number">6</span>))     <span class="comment"># 输出: 3 (第一个>=6的位置)</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">public class</span> <span class="type">BinarySearch</span> {
+    
+    <span class="comment">/**
+     * 二分查找 - 返回目标索引，未找到返回-1
+     */</span>
+    <span class="keyword">public static int</span> <span class="function">binarySearch</span>(<span class="type">int</span>[] arr, <span class="type">int</span> target) {
+        <span class="type">int</span> left = <span class="number">0</span>, right = arr.length - <span class="number">1</span>;
+        
+        <span class="keyword">while</span> (left <= right) {
+            <span class="type">int</span> mid = left + (right - left) / <span class="number">2</span>;  <span class="comment">// 防止溢出</span>
+            
+            <span class="keyword">if</span> (arr[mid] == target) {
+                <span class="keyword">return</span> mid;
+            } <span class="keyword">else if</span> (arr[mid] < target) {
+                left = mid + <span class="number">1</span>;
+            } <span class="keyword">else</span> {
+                right = mid - <span class="number">1</span>;
+            }
+        }
+        
+        <span class="keyword">return</span> -<span class="number">1</span>;
+    }
+    
+    <span class="comment">/**
+     * 查找第一个 >= target 的位置
+     */</span>
+    <span class="keyword">public static int</span> <span class="function">lowerBound</span>(<span class="type">int</span>[] arr, <span class="type">int</span> target) {
+        <span class="type">int</span> left = <span class="number">0</span>, right = arr.length;
+        
+        <span class="keyword">while</span> (left < right) {
+            <span class="type">int</span> mid = (left + right) / <span class="number">2</span>;
+            <span class="keyword">if</span> (arr[mid] < target) {
+                left = mid + <span class="number">1</span>;
+            } <span class="keyword">else</span> {
+                right = mid;
+            }
+        }
+        
+        <span class="keyword">return</span> left;
+    }
+    
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">int</span>[] arr = {<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">11</span>, <span class="number">13</span>};
+        System.out.<span class="function">println</span>(<span class="function">binarySearch</span>(arr, <span class="number">7</span>));  <span class="comment">// 3</span>
+        System.out.<span class="function">println</span>(<span class="function">binarySearch</span>(arr, <span class="number">6</span>));  <span class="comment">// -1</span>
+        System.out.<span class="function">println</span>(<span class="function">lowerBound</span>(arr, <span class="number">6</span>));   <span class="comment">// 3</span>
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../../common/footer.js"></script>
+    <script type="module" src="../../../common/i18n.js"></script>
+    <script src="../../../search/binary-search/script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

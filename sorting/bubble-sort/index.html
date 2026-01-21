@@ -9,40 +9,56 @@
     <meta name="description" content="通过交互式动画学习冒泡排序算法。观察元素如何像气泡一样逐步上浮到正确位置，理解O(n²)时间复杂度的排序过程。">
     <meta name="keywords" content="冒泡排序,Bubble Sort,排序算法,算法可视化,算法动画,时间复杂度O(n²),交换排序">
     <meta name="author" content="Algorithm Visualization">
-    <link rel="canonical" href="https://algorithm-visualizer.example.com/sorting/bubble-sort/">
+    <link rel="canonical" href="https://algo.jsdiff.com/sorting/bubble-sort/">
     
     <!-- Open Graph -->
     <meta property="og:title" content="冒泡排序可视化 - 算法动画演示">
     <meta property="og:description" content="通过交互式动画学习冒泡排序算法，观察元素上浮过程。">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://algorithm-visualizer.example.com/sorting/bubble-sort/">
+    <meta property="og:url" content="https://algo.jsdiff.com/sorting/bubble-sort/">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="冒泡排序可视化">
     <meta name="twitter:description" content="交互式动画演示冒泡排序算法">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
     <link rel="stylesheet" href="../../common/styles.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/bubble-sort/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/bubble-sort/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/bubble-sort/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body class="bg-decoration">
-    <!-- 语言切换器 -->
-    <div class="lang-switcher">
-        <button class="lang-btn" data-lang="zh">中文</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../common/header.js"></script>
 
     <div class="container">
-        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        <a href="../../index.html" class="nav-link">← 返回首页</a>
         
         <header class="page-header">
-            <h1 class="title" data-i18n="bubbleSort.title">冒泡排序可视化</h1>
-            <p class="subtitle" data-i18n="bubbleSort.subtitle">观察元素如何像气泡一样上浮到正确位置</p>
+            <h1 class="title">冒泡排序可视化</h1>
+            <p class="subtitle">观察元素如何像气泡一样上浮到正确位置</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p data-i18n="bubbleSort.intro">冒泡排序（Bubble Sort）是一种简单直观的排序算法。它重复地遍历待排序的数列，一次比较两个相邻元素，如果顺序错误就把它们交换过来。每一轮遍历后，最大的元素会"浮"到数组末尾，就像水中的气泡上浮一样。</p>
+            <p>冒泡排序（Bubble Sort）是一种简单直观的排序算法。它重复地遍历待排序的数列，一次比较两个相邻元素，如果顺序错误就把它们交换过来。每一轮遍历后，最大的元素会"浮"到数组末尾，就像水中的气泡上浮一样。</p>
         </div>
         
         <div class="array-container" id="arrayContainer">
@@ -50,86 +66,87 @@
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn" data-i18n="common.startSort">开始排序</button>
-            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
+            <button class="btn btn-primary" id="startBtn">开始排序</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText" data-i18n="common.clickToStart">点击"开始排序"查看动画</span>
+            <span class="status-badge" id="statusText">点击"开始排序"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle" data-i18n="common.tabPrinciple">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity" data-i18n="common.tabComplexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage" data-i18n="common.tabUsage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code" data-i18n="common.tabCode">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
-                <h4 data-i18n="bubbleSort.principleTitle">算法步骤</h4>
+                <h4>算法步骤</h4>
                 <ol id="principleSteps">
-                    <li data-i18n="bubbleSort.principleSteps.0">从数组的第一个元素开始，比较相邻的两个元素</li>
-                    <li data-i18n="bubbleSort.principleSteps.1">如果前一个元素比后一个元素大，则交换它们的位置</li>
-                    <li data-i18n="bubbleSort.principleSteps.2">对每一对相邻元素做同样的工作，从开始第一对到结尾的最后一对</li>
-                    <li data-i18n="bubbleSort.principleSteps.3">完成一轮后，最大的元素会排到最后</li>
-                    <li data-i18n="bubbleSort.principleSteps.4">重复以上步骤，每次比较范围减少一个（已排好的元素不再参与）</li>
-                    <li data-i18n="bubbleSort.principleSteps.5">当没有任何交换发生时，排序完成</li>
+                    <li>从数组的第一个元素开始，比较相邻的两个元素</li>
+                    <li>如果前一个元素比后一个元素大，则交换它们的位置</li>
+                    <li>对每一对相邻元素做同样的工作，从开始第一对到结尾的最后一对</li>
+                    <li>完成一轮后，最大的元素会排到最后</li>
+                    <li>重复以上步骤，每次比较范围减少一个（已排好的元素不再参与）</li>
+                    <li>当没有任何交换发生时，排序完成</li>
                 </ol>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4 data-i18n="common.timeComplexity">时间与空间复杂度</h4>
+                <h4>时间与空间复杂度</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th data-i18n="common.situation">情况</th>
-                        <th data-i18n="common.timeComplexity">时间复杂度</th>
-                        <th data-i18n="common.description">说明</th>
+                        <th>情况</th>
+                        <th>时间复杂度</th>
+                        <th>说明</th>
                     </tr>
                     <tr>
-                        <td data-i18n="common.bestCase">最好情况</td>
+                        <td>最好情况</td>
                         <td class="highlight">O(n)</td>
-                        <td data-i18n="bubbleSort.complexityBest">数组已经有序，只需一次遍历</td>
+                        <td>数组已经有序，只需一次遍历</td>
                     </tr>
                     <tr>
-                        <td data-i18n="common.averageCase">平均情况</td>
+                        <td>平均情况</td>
                         <td>O(n²)</td>
-                        <td data-i18n="bubbleSort.complexityAvg">需要多次遍历和交换</td>
+                        <td>需要多次遍历和交换</td>
                     </tr>
                     <tr>
-                        <td data-i18n="common.worstCase">最坏情况</td>
+                        <td>最坏情况</td>
                         <td>O(n²)</td>
-                        <td data-i18n="bubbleSort.complexityWorst">数组完全逆序</td>
+                        <td>数组完全逆序</td>
                     </tr>
                     <tr>
-                        <td data-i18n="common.spaceComplexity">空间复杂度</td>
+                        <td>空间复杂度</td>
                         <td class="highlight">O(1)</td>
-                        <td data-i18n="bubbleSort.complexitySpace">只需常数级额外空间（原地排序）</td>
+                        <td>只需常数级额外空间（原地排序）</td>
                     </tr>
                 </table>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-i18n="bubbleSort.stabilityNote" data-i18n-html>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
                     冒泡排序是<strong>稳定排序</strong>，相等元素的相对顺序不会改变。
                 </p>
             </div>
             
             <div class="tab-content" id="usage">
-                <h4 data-i18n="bubbleSort.usageTitle">适用场景</h4>
+                <h4>适用场景</h4>
                 <ul id="usageList">
-                    <li data-i18n="bubbleSort.usageList.0">教学演示：作为最简单的排序算法之一，非常适合算法入门学习</li>
-                    <li data-i18n="bubbleSort.usageList.1">小规模数据：当数据量很小时（n < 50），简单实现的优势明显</li>
-                    <li data-i18n="bubbleSort.usageList.2">几乎有序的数组：如果数组大部分已经有序，冒泡排序效率较高</li>
-                    <li data-i18n="bubbleSort.usageList.3">需要稳定性：当需要保持相等元素的原始顺序时</li>
+                    <li>教学演示：作为最简单的排序算法之一，非常适合算法入门学习</li>
+                    <li>小规模数据：当数据量很小时（n &lt; 50），简单实现的优势明显</li>
+                    <li>几乎有序的数组：如果数组大部分已经有序，冒泡排序效率较高</li>
+                    <li>需要稳定性：当需要保持相等元素的原始顺序时</li>
                 </ul>
                 <div class="use-cases" id="usageTags">
-                    <span class="use-case-tag" data-i18n="bubbleSort.usageTags.0">算法教学</span>
-                    <span class="use-case-tag" data-i18n="bubbleSort.usageTags.1">小数据集</span>
-                    <span class="use-case-tag" data-i18n="bubbleSort.usageTags.2">稳定排序需求</span>
+                    <span class="use-case-tag">算法教学</span>
+                    <span class="use-case-tag">小数据集</span>
+                    <span class="use-case-tag">稳定排序需求</span>
                 </div>
             </div>
             
             <div class="tab-content" id="code">
-                <h4 data-i18n="common.tabCode">代码实现</h4>
+                <h4>代码实现</h4>
                 <div class="code-lang-tabs">
                     <button class="code-lang-btn active" data-lang="python">
                         <span class="lang-icon">🐍</span> Python
@@ -212,6 +229,7 @@ arr = [<span class="number">64</span>, <span class="number">34</span>, <span cla
         </div>
     </div>
     
+    <script type="module" src="../../common/footer.js"></script>
     <script type="module" src="../../common/i18n.js"></script>
     <script src="script.js"></script>
     <script>

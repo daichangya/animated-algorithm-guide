@@ -13,11 +13,13 @@ let grid = [];
 let startPos = { row: 7, col: 2 };
 let endPos = { row: 7, col: 17 };
 let isRunning = false;
+let isPaused = false;
 let isDrawing = false;
 
 const gridEl = document.getElementById('grid');
 const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
+const pauseBtn = document.getElementById('pauseBtn');
 const clearWallsBtn = document.getElementById('clearWallsBtn');
 const statusText = document.getElementById('statusText');
 
@@ -119,11 +121,37 @@ function getNeighbors(node) {
 }
 
 function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => {
+        const startTime = Date.now();
+        const checkPause = () => {
+            if (!isRunning) { resolve(); return; }
+            if (isPaused) {
+                setTimeout(checkPause, 50);
+            } else {
+                const remaining = Math.max(0, ms - (Date.now() - startTime));
+                if (remaining <= 0) resolve();
+                else setTimeout(resolve, remaining);
+            }
+        };
+        setTimeout(checkPause, ms);
+    });
+}
+
+function togglePause() {
+    isPaused = !isPaused;
+    if (isPaused) {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+        pauseBtn.classList.add('paused');
+        updateStatus('已暂停 - 点击继续');
+    } else {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+        updateStatus('运行中...');
+    }
 }
 
 function updateStatus(text) {
-    statusText.textContent = text;
+    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
 }
 
 async function astar() {
@@ -160,7 +188,7 @@ async function astar() {
             cellEl.classList.add('closed');
         }
         
-        updateStatus(`探索节点 (${current.row}, ${current.col}), f=${current.f}`);
+        updateStatus(window.I18n.t('探索节点 ({0}, {1}), f={2}', current.row, current.col, current.f));
         
         // 检查邻居
         for (const neighbor of getNeighbors(current)) {
@@ -217,7 +245,13 @@ async function reconstructPath(endNode) {
 async function start() {
     if (isRunning) return;
     isRunning = true;
+    isPaused = false;
     startBtn.disabled = true;
+    if (pauseBtn) {
+        pauseBtn.disabled = false;
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+    }
     
     // 重置状态但保留墙
     for (let r = 0; r < CONFIG.rows; r++) {
@@ -236,12 +270,23 @@ async function start() {
     await astar();
     
     isRunning = false;
+    isPaused = false;
     startBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+    }
 }
 
 function reset() {
     isRunning = false;
+    isPaused = false;
     startBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+    }
     init();
     updateStatus('绘制障碍物后点击开始');
 }
@@ -258,6 +303,14 @@ function clearWalls() {
 
 startBtn.addEventListener('click', start);
 resetBtn.addEventListener('click', reset);
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', togglePause);
+}
 clearWallsBtn.addEventListener('click', clearWalls);
 
-init();
+// 等待 I18n 模块加载完成后初始化
+if (document.readyState === 'complete') {
+    setTimeout(init, 50);
+} else {
+    window.addEventListener('load', () => setTimeout(init, 50));
+}

@@ -133,6 +133,26 @@ body {
     box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
 }
 
+.btn-warning {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    border: none;
+    color: #fff;
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #e67e22, #d35400);
+    box-shadow: 0 4px 20px rgba(243, 156, 18, 0.4);
+}
+
+.btn-warning.paused {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+}
+
+.btn-warning.paused:hover {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    box-shadow: 0 4px 20px rgba(46, 204, 113, 0.4);
+}
+
 .btn:active {
     transform: translateY(-1px);
 }
@@ -779,5 +799,122 @@ pre.code .annotation {
     .lang-btn {
         padding: 4px 8px;
         font-size: 0.75rem;
+    }
+}
+
+/* ========== 全站页头 ========== */
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(15, 12, 41, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    z-index: 1000;
+}
+
+.site-header .logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.site-header .logo:hover {
+    color: var(--accent-cyan);
+}
+
+.site-header .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.site-header .header-nav a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.site-header .header-nav a:hover {
+    color: #fff;
+}
+
+.site-header .header-nav svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* 有页头时的语言切换器位置 */
+.has-site-header .lang-switcher {
+    position: static;
+    margin-left: 1rem;
+}
+
+/* 有页头时的内容区域上边距 */
+.has-site-header main,
+.has-site-header .container {
+    padding-top: 80px !important;
+}
+
+@media (max-width: 768px) {
+    .site-header {
+        padding: 0 1rem;
+        height: 50px;
+    }
+    
+    .site-header .logo {
+        font-size: 1rem;
+    }
+    
+    .has-site-header main,
+    .has-site-header .container {
+        padding-top: 70px !important;
+    }
+}
+
+/* ========== GitHub 链接 ========== */
+.github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.github-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.github-link svg {
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .github-link {
+        display: flex;
+        margin-left: 0;
+        margin-top: 0.75rem;
+        justify-content: center;
     }
 }

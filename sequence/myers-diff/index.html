@@ -9,40 +9,56 @@
     <meta name="description" content="通过交互式动画学习Myers差异算法。这是Git diff的核心算法，用于找出两个序列之间的最小编辑距离。可视化编辑图和蛇形路径。">
     <meta name="keywords" content="Myers差异算法,Myers Diff,Git Diff,最小编辑距离,编辑图,序列比较,算法可视化,版本控制">
     <meta name="author" content="Algorithm Visualization">
-    <link rel="canonical" href="https://algorithm-visualizer.example.com/sequence/myers-diff/">
+    <link rel="canonical" href="https://algo.jsdiff.com/sequence/myers-diff/">
     
     <!-- Open Graph -->
     <meta property="og:title" content="Myers差异算法可视化 - Git Diff核心">
     <meta property="og:description" content="通过交互式动画学习Myers差异算法，理解Git diff的工作原理。">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://algorithm-visualizer.example.com/sequence/myers-diff/">
+    <meta property="og:url" content="https://algo.jsdiff.com/sequence/myers-diff/">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Myers差异算法可视化">
     <meta name="twitter:description" content="交互式动画演示Git diff核心算法">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
     <link rel="stylesheet" href="../../common/styles.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sequence/myers-diff/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sequence/myers-diff/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sequence/myers-diff/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body class="bg-decoration">
-    <!-- 语言切换器 -->
-    <div class="lang-switcher">
-        <button class="lang-btn" data-lang="zh">中文</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../common/header.js"></script>
 
     <div class="container">
-        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        <a href="../../index.html" class="nav-link">← 返回首页</a>
         
         <header class="page-header">
-            <h1 class="title" data-i18n="myersDiff.title">Myers差异算法可视化</h1>
-            <p class="subtitle" data-i18n="myersDiff.subtitle">Git Diff 的核心算法 - 最小编辑距离</p>
+            <h1 class="title">Myers差异算法可视化</h1>
+            <p class="subtitle">Git Diff 的核心算法 - 最小编辑距离</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p data-i18n="myersDiff.intro">Myers差异算法是由Eugene W. Myers在1986年提出的，用于计算两个序列之间的最小编辑距离。它是Git diff、GNU diff等工具的核心算法。该算法通过在"编辑图"上搜索从左上角到右下角的最短路径来找出差异，每次向右移动表示删除，向下移动表示插入，对角线移动表示匹配。</p>
+            <p>Myers差异算法是由Eugene W. Myers在1986年提出的，用于计算两个序列之间的最小编辑距离。它是Git diff、GNU diff等工具的核心算法。该算法通过在"编辑图"上搜索从左上角到右下角的最短路径来找出差异，每次向右移动表示删除，向下移动表示插入，对角线移动表示匹配。</p>
         </div>
         
         <!-- 输入区域 -->
@@ -54,11 +70,11 @@
             <div class="input-row">
                 <div class="input-group">
                     <label>源序列 (A)</label>
-                    <input type="text" id="sourceInput" value="ABCDEF" placeholder="输入源序列">
+                    <input type="text" id="sourceInput" value="ABCDEF">
                 </div>
                 <div class="input-group">
                     <label>目标序列 (B)</label>
-                    <input type="text" id="targetInput" value="ABXDEF" placeholder="输入目标序列">
+                    <input type="text" id="targetInput" value="ABXDEF">
                 </div>
             </div>
         </div>
@@ -98,12 +114,13 @@
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn" data-i18n="common.start">开始</button>
-            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
+            <button class="btn btn-primary" id="startBtn">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText" data-i18n="common.clickStartToView">点击"开始"查看动画</span>
+            <span class="status-badge" id="statusText">点击"开始"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
@@ -118,10 +135,11 @@
             <div class="tab-content active" id="principle">
                 <h4>核心概念</h4>
                 <ul>
-                    <li><strong>编辑图</strong>：一个(N+1) x (M+1)的网格，N和M分别是两个序列的长度</li>
-                    <li><strong>移动操作</strong>：向右移动=删除源字符，向下移动=插入目标字符，对角线=字符匹配</li>
-                    <li><strong>D值</strong>：从起点到某位置所需的最小编辑操作数</li>
-                    <li><strong>蛇形路径</strong>：连续的对角线移动序列（匹配字符）</li>
+                    <li>构建编辑图：X轴代表源序列，Y轴代表目标序列</li>
+                    <li>水平移动 = 删除源序列字符，垂直移动 = 插入目标序列字符</li>
+                    <li>对角线移动 = 字符匹配（免费）</li>
+                    <li>目标：找到从(0,0)到(N,M)的最短路径</li>
+                    <li>使用D值（编辑距离）逐层搜索，找到最小D的路径</li>
                 </ul>
                 <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
                     算法从D=0开始，逐步增加D值，直到找到一条从(0,0)到(N,M)的路径。这保证了找到的是最短编辑路径。
@@ -285,6 +303,7 @@ distance = <span class="function">myers_diff</span>(a, b)
         </div>
     </div>
     
+    <script type="module" src="../../common/footer.js"></script>
     <script type="module" src="../../common/i18n.js"></script>
     <script src="script.js"></script>
     <script>

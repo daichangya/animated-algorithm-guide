@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Sort Visualization - Algorithm Animation | Algorithm Visualization</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn Bubble Sort through interactive animation. Watch elements float up like bubbles to their correct positions and understand the O(n²) time complexity sorting process.">
+    <meta name="keywords" content="Bubble Sort,Bubble Sort,Sorting Algorithms,Algorithm Visualization,Algorithm Animation,Time Complexity O(n²),Exchange Sort">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algo.jsdiff.com/en/sorting/bubble-sort/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Bubble Sort Visualization - Algorithm Animation">
+    <meta property="og:description" content="Learn Bubble Sort through interactive animation, watch elements float up.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algo.jsdiff.com/sorting/bubble-sort/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Bubble Sort Visualization">
+    <meta name="twitter:description" content="Interactive animation demonstrating Bubble Sort algorithm">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <link rel="stylesheet" href="../../../common/styles.css">
+    <link rel="stylesheet" href="../../../sorting/bubble-sort/style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/bubble-sort/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/bubble-sort/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/bubble-sort/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/bubble-sort" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/bubble-sort/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/bubble-sort" />
+</head>
+<body class="bg-decoration">
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../../common/header.js"></script>
+
+    <div class="container">
+        <a href="../../../en/index.html" class="nav-link">← Back to Home</a>
+        
+        <header class="page-header">
+            <h1 class="title">Bubble Sort Visualization</h1>
+            <p class="subtitle">Watch elements float up like bubbles to their correct positions</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p>Bubble Sort is a simple and intuitive sorting algorithm. It repeatedly traverses the list, compares adjacent elements, and swaps them if they're in the wrong order. After each pass, the largest element "bubbles up" to the end, like bubbles rising in water.</p>
+        </div>
+        
+        <div class="array-container" id="arrayContainer">
+            <!-- 柱状条将由 JavaScript 动态生成 -->
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn">Start Sorting</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>Pause</button>
+            <button class="btn btn-secondary" id="resetBtn">Reset</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText">Click "Start Sorting" to view animation</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle">📖 How It Works</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ Complexity</button>
+                <button class="tab-btn" data-tab="usage">💡 Applications</button>
+                <button class="tab-btn" data-tab="code">📝 Implementation</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>Algorithm Steps</h4>
+                <ol id="principleSteps">
+                    <li>Start from the first element, compare adjacent pairs</li>
+                    <li>If the left element is larger, swap their positions</li>
+                    <li>Do the same for every adjacent pair from start to end</li>
+                    <li>After one pass, the largest element is at the end</li>
+                    <li>Repeat, reducing the comparison range each time</li>
+                    <li>Stop when no swaps occur in a pass</li>
+                </ol>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>Time & Space Complexity</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>Case</th>
+                        <th>Time Complexity</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Best Case</td>
+                        <td class="highlight">O(n)</td>
+                        <td>Array is already sorted, only one pass needed</td>
+                    </tr>
+                    <tr>
+                        <td>Average Case</td>
+                        <td>O(n²)</td>
+                        <td>Multiple passes and swaps required</td>
+                    </tr>
+                    <tr>
+                        <td>Worst Case</td>
+                        <td>O(n²)</td>
+                        <td>Array is in reverse order</td>
+                    </tr>
+                    <tr>
+                        <td>Space Complexity</td>
+                        <td class="highlight">O(1)</td>
+                        <td>Only constant extra space needed (in-place)</td>
+                    </tr>
+                </table>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    Bubble Sort is a <strong>Stable Sort</strong>, preserving the relative order of equal elements.
+                </p>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>Use Cases</h4>
+                <ul id="usageList">
+                    <li>Teaching: As one of the simplest algorithms, great for beginners</li>
+                    <li>Small-scale Data: When data size is small (n < 50), simple implementation has clear advantages</li>
+                    <li>Nearly sorted arrays: Efficient when data is almost sorted</li>
+                    <li>Stability required: When preserving original order matters</li>
+                </ul>
+                <div class="use-cases" id="usageTags">
+                    <span class="use-case-tag">Education</span>
+                    <span class="use-case-tag">Small Data</span>
+                    <span class="use-case-tag">Stable Sorting</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>Implementation</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">def</span> <span class="function">bubble_sort</span>(arr):
+    <span class="string">"""冒泡排序算法"""</span>
+    n = <span class="function">len</span>(arr)
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n):
+        swapped = <span class="keyword">False</span>
+        
+        <span class="comment"># 每轮将最大元素"冒泡"到末尾</span>
+        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="function">range</span>(<span class="number">0</span>, n - i - <span class="number">1</span>):
+            <span class="keyword">if</span> arr[j] > arr[j + <span class="number">1</span>]:
+                <span class="comment"># 交换相邻元素</span>
+                arr[j], arr[j + <span class="number">1</span>] = arr[j + <span class="number">1</span>], arr[j]
+                swapped = <span class="keyword">True</span>
+        
+        <span class="comment"># 如果没有交换发生，数组已有序</span>
+        <span class="keyword">if not</span> swapped:
+            <span class="keyword">break</span>
+    
+    <span class="keyword">return</span> arr
+
+
+<span class="comment"># 使用示例</span>
+arr = [<span class="number">64</span>, <span class="number">34</span>, <span class="number">25</span>, <span class="number">12</span>, <span class="number">22</span>, <span class="number">11</span>, <span class="number">90</span>]
+<span class="function">print</span>(<span class="function">bubble_sort</span>(arr))
+<span class="comment"># 输出: [11, 12, 22, 25, 34, 64, 90]</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">public class</span> <span class="type">BubbleSort</span> {
+    
+    <span class="comment">/**
+     * 冒泡排序算法
+     * @param arr 待排序数组
+     */</span>
+    <span class="keyword">public static void</span> <span class="function">bubbleSort</span>(<span class="type">int</span>[] arr) {
+        <span class="type">int</span> n = arr.length;
+        
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i < n - <span class="number">1</span>; i++) {
+            <span class="type">boolean</span> swapped = <span class="keyword">false</span>;
+            
+            <span class="comment">// 每轮将最大元素"冒泡"到末尾</span>
+            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j < n - i - <span class="number">1</span>; j++) {
+                <span class="keyword">if</span> (arr[j] > arr[j + <span class="number">1</span>]) {
+                    <span class="comment">// 交换相邻元素</span>
+                    <span class="type">int</span> temp = arr[j];
+                    arr[j] = arr[j + <span class="number">1</span>];
+                    arr[j + <span class="number">1</span>] = temp;
+                    swapped = <span class="keyword">true</span>;
+                }
+            }
+            
+            <span class="comment">// 如果没有交换发生，数组已有序</span>
+            <span class="keyword">if</span> (!swapped) {
+                <span class="keyword">break</span>;
+            }
+        }
+    }
+    
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">int</span>[] arr = {<span class="number">64</span>, <span class="number">34</span>, <span class="number">25</span>, <span class="number">12</span>, <span class="number">22</span>, <span class="number">11</span>, <span class="number">90</span>};
+        <span class="function">bubbleSort</span>(arr);
+        System.out.<span class="function">println</span>(Arrays.<span class="function">toString</span>(arr));
+        <span class="comment">// 输出: [11, 12, 22, 25, 34, 64, 90]</span>
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../../common/footer.js"></script>
+    <script type="module" src="../../../common/i18n.js"></script>
+    <script src="../../../sorting/bubble-sort/script.js"></script>
+    <script>
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+        
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

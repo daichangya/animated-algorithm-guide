@@ -1,176 +1,61 @@
 /**
- * 国际化(i18n)核心模块
+ * 国际化(i18n)核心模块 - 混合方案
+ * 静态HTML生成（SEO友好）+ 运行时JS翻译
  * @author changyadai
  */
 
+import { translations } from './lang/translations.js';
+
 const I18n = {
-    // 当前语言
     currentLang: 'zh',
-    
-    // 语言包缓存
-    translations: {},
-    
-    // 支持的语言
     supportedLangs: ['zh', 'en'],
+    translations: translations,
     
     /**
-     * 初始化i18n
+     * 初始化
      */
-    async init() {
-        // 检测语言偏好
+    init() {
         this.currentLang = this.detectLanguage();
-        
-        // 加载语言包
-        await this.loadLanguage(this.currentLang);
-        
-        // 应用翻译
-        this.applyTranslations();
-        
-        // 更新语言切换器状态
         this.updateSwitcher();
-        
-        // 更新HTML lang属性
         document.documentElement.lang = this.currentLang === 'zh' ? 'zh-CN' : 'en';
     },
-    
+
     /**
-     * 检测用户语言偏好
+     * 检测当前语言
+     * 基于 URL 路径判断（/en/ 开头为英文）
      */
     detectLanguage() {
-        // 1. 检查localStorage
-        const saved = localStorage.getItem('preferred-lang');
-        if (saved && this.supportedLangs.includes(saved)) {
-            return saved;
+        const path = window.location.pathname;
+        if (path.startsWith('/en/') || path === '/en') {
+            return 'en';
         }
-        
-        // 2. 检测浏览器语言
-        const browserLang = navigator.language || navigator.userLanguage;
-        if (browserLang.startsWith('zh')) {
-            return 'zh';
-        }
-        
-        // 3. 默认英文
-        return 'en';
+        return 'zh';
     },
-    
+
     /**
-     * 加载语言包
+     * 切换语言 - 通过页面跳转实现
      */
-    async loadLanguage(lang) {
-        if (this.translations[lang]) {
-            return; // 已缓存
-        }
-        
-        try {
-            // 使用fetch加载并执行语言包
-            const basePath = window.location.pathname.includes('/sorting/') ||
-                           window.location.pathname.includes('/sequence/') ||
-                           window.location.pathname.includes('/graph/') ||
-                           window.location.pathname.includes('/search/') ||
-                           window.location.pathname.includes('/geometry/')
-                           ? '../../common' : './common';
-            
-            const response = await fetch(`${basePath}/lang/${lang}.js`);
-            const text = await response.text();
-            
-            // 解析ES模块
-            const blob = new Blob([text], { type: 'application/javascript' });
-            const url = URL.createObjectURL(blob);
-            const module = await import(url);
-            URL.revokeObjectURL(url);
-            
-            this.translations[lang] = module.default;
-        } catch (error) {
-            console.error(`Failed to load language: ${lang}`, error);
-            // 回退到中文
-            if (lang !== 'zh') {
-                await this.loadLanguage('zh');
-            }
-        }
-    },
-    
-    /**
-     * 切换语言
-     */
-    async switchLanguage(lang) {
+    switchLanguage(lang) {
         if (!this.supportedLangs.includes(lang)) return;
         if (lang === this.currentLang) return;
         
-        this.currentLang = lang;
-        localStorage.setItem('preferred-lang', lang);
+        const path = window.location.pathname;
+        let newPath;
         
-        await this.loadLanguage(lang);
-        this.applyTranslations();
-        this.updateSwitcher();
-        
-        // 更新HTML lang属性
-        document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
-    },
-    
-    /**
-     * 应用翻译到DOM
-     */
-    applyTranslations() {
-        const elements = document.querySelectorAll('[data-i18n]');
-        elements.forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            const translation = this.t(key);
-            if (translation) {
-                // 检查是否是HTML内容
-                if (el.hasAttribute('data-i18n-html')) {
-                    el.innerHTML = translation;
-                } else {
-                    el.textContent = translation;
-                }
-            }
-        });
-        
-        // 处理placeholder
-        const placeholders = document.querySelectorAll('[data-i18n-placeholder]');
-        placeholders.forEach(el => {
-            const key = el.getAttribute('data-i18n-placeholder');
-            const translation = this.t(key);
-            if (translation) {
-                el.placeholder = translation;
-            }
-        });
-        
-        // 处理title属性
-        const titles = document.querySelectorAll('[data-i18n-title]');
-        titles.forEach(el => {
-            const key = el.getAttribute('data-i18n-title');
-            const translation = this.t(key);
-            if (translation) {
-                el.title = translation;
-            }
-        });
-    },
-    
-    /**
-     * 获取翻译文本
-     * @param {string} key - 点分隔的键，如 "common.startSort"
-     * @param {object} params - 可选的替换参数
-     */
-    t(key, params = {}) {
-        const keys = key.split('.');
-        let value = this.translations[this.currentLang];
-        
-        for (const k of keys) {
-            if (value && typeof value === 'object') {
-                value = value[k];
-            } else {
-                return key; // 未找到，返回键本身
-            }
+        if (lang === 'en' && !path.startsWith('/en/')) {
+            // 中文 -> 英文：添加 /en 前缀
+            newPath = '/en' + (path === '/' ? '/index.html' : path);
+        } else if (lang === 'zh' && path.startsWith('/en/')) {
+            // 英文 -> 中文：移除 /en 前缀
+            newPath = path.replace(/^\/en/, '') || '/';
+        } else if (lang === 'zh' && path === '/en') {
+            newPath = '/';
+        } else {
+            return;
         }
         
-        if (typeof value !== 'string') {
-            return key;
-        }
-        
-        // 替换参数 {name} -> value
-        return value.replace(/\{(\w+)\}/g, (match, name) => {
-            return params[name] !== undefined ? params[name] : match;
-        });
+        // 跳转到新页面
+        window.location.href = newPath;
     },
     
     /**
@@ -187,7 +72,7 @@ const I18n = {
     },
     
     /**
-     * 创建语言切换器HTML
+     * 创建语言切换器（如果不存在）
      */
     createSwitcher() {
         const switcher = document.createElement('div');
@@ -196,22 +81,84 @@ const I18n = {
             <button class="lang-btn" data-lang="zh">中文</button>
             <button class="lang-btn" data-lang="en">EN</button>
         `;
-        
+
         switcher.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const lang = btn.getAttribute('data-lang');
                 this.switchLanguage(lang);
             });
         });
-        
+
         return switcher;
+    },
+    
+    /**
+     * 获取翻译（支持占位符参数）
+     * 中文页面返回原文，英文页面返回翻译
+     * @param {string} text - 中文原文（可包含 {0}, {1} 等占位符）
+     * @param {...any} args - 替换占位符的参数
+     * @returns {string} - 翻译后的文本或原文
+     */
+    t(text, ...args) {
+        // 中文页面直接返回原文，但仍需替换占位符
+        if (this.currentLang === 'zh') {
+            let result = text;
+            args.forEach((arg, i) => {
+                result = result.replace(new RegExp(`\\{${i}\\}`, 'g'), arg);
+            });
+            return result;
+        }
+        
+        // 英文页面进行翻译
+        if (!text || typeof text !== 'string') {
+            return text;
+        }
+        
+        // 规范化空白
+        const normalized = text.trim().replace(/\s+/g, ' ');
+        
+        let result = text;
+        
+        // 先尝试完全匹配
+        if (this.translations[normalized]) {
+            result = this.translations[normalized];
+        } else if (this.translations[text]) {
+            // 尝试原文匹配
+            result = this.translations[text];
+        } else {
+            // 部分替换：按中文长度降序匹配
+            const sortedEntries = Object.entries(this.translations)
+                .filter(([cn]) => result.includes(cn))
+                .sort((a, b) => b[0].length - a[0].length);
+            
+            for (const [cn, en] of sortedEntries) {
+                result = result.split(cn).join(en);
+            }
+        }
+        
+        // 替换占位符 {0}, {1}, {2}...
+        args.forEach((arg, i) => {
+            result = result.replace(new RegExp(`\\{${i}\\}`, 'g'), arg);
+        });
+        
+        return result;
     }
 };
 
 // 页面加载时初始化
 document.addEventListener('DOMContentLoaded', () => {
     I18n.init();
+    
+    // 为语言切换按钮添加事件
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            I18n.switchLanguage(lang);
+        });
+    });
 });
 
-// 导出供外部使用
+// 暴露到全局
 window.I18n = I18n;
+
+export default I18n;

@@ -1,0 +1,19 @@
+{
+  "name": "algorithm-visualization",
+  "version": "1.0.0",
+  "description": "Interactive algorithm visualization platform with animations",
+  "scripts": {
+    "build:en": "node scripts/build-en.js",
+    "build": "npm run build:en"
+  },
+  "keywords": [
+    "algorithm",
+    "visualization",
+    "sorting",
+    "graph",
+    "animation",
+    "education"
+  ],
+  "author": "changyadai",
+  "license": "MIT"
+}

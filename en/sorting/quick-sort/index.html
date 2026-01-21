@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Sort Visualization - Divide and Conquer Animation | Algorithm Visualization</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn Quick Sort through interactive animation. Watch the divide-and-conquer strategy and pivot partitioning process, understand the average O(n log n) efficient sorting principle.">
+    <meta name="keywords" content="Quick Sort,Quick Sort,Divide and Conquer,Pivot Element,Partition,Sorting Algorithms,Algorithm Visualization,Recursion">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algo.jsdiff.com/en/sorting/quick-sort/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Quick Sort Visualization - Divide and Conquer Animation">
+    <meta property="og:description" content="Learn Quick Sort through interactive animation, watch the partitioning process.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algo.jsdiff.com/sorting/quick-sort/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Quick Sort Visualization">
+    <meta name="twitter:description" content="Interactive animation demonstrating Quick Sort divide-and-conquer strategy">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <link rel="stylesheet" href="../../../common/styles.css">
+    <link rel="stylesheet" href="../../../sorting/quick-sort/style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/quick-sort/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/quick-sort/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/quick-sort/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/quick-sort" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/quick-sort/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/quick-sort" />
+</head>
+<body class="bg-decoration">
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../../common/header.js"></script>
+
+    <div class="container">
+        <a href="../../../en/index.html" class="nav-link">← Back to Home</a>
+        
+        <header class="page-header">
+            <h1 class="title">Quick Sort Visualization</h1>
+            <p class="subtitle">Watch the divide-and-conquer partitioning process</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p>Quick Sort is an efficient divide-and-conquer sorting algorithm. It selects a "pivot" element and partitions the array into two parts: elements smaller than the pivot go to the left, larger ones to the right. Then recursively sorts both parts. Due to its excellent average performance, Quick Sort is one of the most commonly used sorting algorithms in practice.</p>
+        </div>
+        
+        <!-- 递归深度指示器 -->
+        <div class="depth-indicator" id="depthIndicator">
+            <span class="depth-label">Recursion Depth:</span>
+            <div class="depth-bars" id="depthBars"></div>
+        </div>
+        
+        <!-- 指针指示器 -->
+        <div class="pointer-legend">
+            <span class="legend-item pivot"><span class="icon">⚡</span> <span>Pivot Element</span></span>
+            <span class="legend-item left-ptr"><span class="icon">◀</span> <span>Left Pointer</span></span>
+            <span class="legend-item right-ptr"><span class="icon">▶</span> <span>Right Pointer</span></span>
+        </div>
+        
+        <!-- 数组容器 -->
+        <div class="array-wrapper">
+            <div class="array-container" id="arrayContainer">
+                <!-- 柱状条将由 JavaScript 动态生成 -->
+            </div>
+            <!-- 指针层 -->
+            <div class="pointers-layer" id="pointersLayer"></div>
+        </div>
+        
+        <!-- 分区范围指示 -->
+        <div class="partition-info" id="partitionInfo">
+            <span id="partitionText">Click Start to see partition process</span>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn">Start Sorting</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>Pause</button>
+            <button class="btn btn-secondary" id="resetBtn">Reset</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText">Click "Start Sorting" to view animation</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle">📖 How It Works</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ Complexity</button>
+                <button class="tab-btn" data-tab="usage">💡 Applications</button>
+                <button class="tab-btn" data-tab="code">📝 Implementation</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>Algorithm Steps</h4>
+                <ol>
+                    <li>Choose a pivot element (usually the last element)</li>
+                    <li>Set two pointers: i (boundary of smaller section) and j (scanner)</li>
+                    <li>j scans left to right; swap elements smaller than pivot with i+1, increment i</li>
+                    <li>After scanning, swap pivot with position i+1; pivot is now in place</li>
+                    <li>Recursively apply to left and right partitions</li>
+                </ol>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>Time & Space Complexity</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>Case</th>
+                        <th>Time Complexity</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Best Case</td>
+                        <td class="highlight">O(n log n)</td>
+                        <td>Each partition splits array evenly</td>
+                    </tr>
+                    <tr>
+                        <td>Average Case</td>
+                        <td class="highlight">O(n log n)</td>
+                        <td>Expected performance on random input</td>
+                    </tr>
+                    <tr>
+                        <td>Worst Case</td>
+                        <td>O(n²)</td>
+                        <td>Always picking smallest or largest as pivot</td>
+                    </tr>
+                    <tr>
+                        <td>Space Complexity</td>
+                        <td>O(log n)</td>
+                        <td>Recursive call stack depth</td>
+                    </tr>
+                </table>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    Quick Sort是<strong>不Stable Sort</strong>，但可以通过三路划分等变体来优化。
+                </p>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>Use Cases</h4>
+                <ul>
+                    <li>General sorting: Most language standard libraries use Quick Sort</li>
+                    <li>Large-scale data: Excellent average performance, good cache locality</li>
+                    <li>When stability not required: e.g., numerical sorting</li>
+                    <li>Hybrid approaches: Use insertion sort for small arrays</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag">General Sorting</span>
+                    <span class="use-case-tag">Large Data</span>
+                    <span class="use-case-tag">Standard Library</span>
+                    <span class="use-case-tag">Competitive Programming</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>Implementation</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">def</span> <span class="function">partition</span>(arr, low, high):
+    <span class="string">"""分区函数：选择最后一个元素作为基准"""</span>
+    pivot = arr[high]
+    i = low - <span class="number">1</span>
+    
+    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="function">range</span>(low, high):
+        <span class="keyword">if</span> arr[j] <= pivot:
+            i += <span class="number">1</span>
+            arr[i], arr[j] = arr[j], arr[i]
+    
+    arr[i + <span class="number">1</span>], arr[high] = arr[high], arr[i + <span class="number">1</span>]
+    <span class="keyword">return</span> i + <span class="number">1</span>
+
+
+<span class="keyword">def</span> <span class="function">quick_sort</span>(arr, low, high):
+    <span class="string">"""快速排序算法"""</span>
+    <span class="keyword">if</span> low < high:
+        <span class="comment"># 获取分区点</span>
+        pi = <span class="function">partition</span>(arr, low, high)
+        
+        <span class="comment"># 递归排序左右两部分</span>
+        <span class="function">quick_sort</span>(arr, low, pi - <span class="number">1</span>)
+        <span class="function">quick_sort</span>(arr, pi + <span class="number">1</span>, high)
+
+
+<span class="comment"># 使用示例</span>
+arr = [<span class="number">10</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">5</span>]
+<span class="function">quick_sort</span>(arr, <span class="number">0</span>, <span class="function">len</span>(arr) - <span class="number">1</span>)
+<span class="function">print</span>(arr)
+<span class="comment"># 输出: [1, 5, 7, 8, 9, 10]</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">public class</span> <span class="type">QuickSort</span> {
+    
+    <span class="comment">/**
+     * 分区函数
+     */</span>
+    <span class="keyword">private static int</span> <span class="function">partition</span>(<span class="type">int</span>[] arr, <span class="type">int</span> low, <span class="type">int</span> high) {
+        <span class="type">int</span> pivot = arr[high];
+        <span class="type">int</span> i = low - <span class="number">1</span>;
+        
+        <span class="keyword">for</span> (<span class="type">int</span> j = low; j < high; j++) {
+            <span class="keyword">if</span> (arr[j] <= pivot) {
+                i++;
+                <span class="comment">// 交换</span>
+                <span class="type">int</span> temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        
+        <span class="comment">// 将基准放到正确位置</span>
+        <span class="type">int</span> temp = arr[i + <span class="number">1</span>];
+        arr[i + <span class="number">1</span>] = arr[high];
+        arr[high] = temp;
+        
+        <span class="keyword">return</span> i + <span class="number">1</span>;
+    }
+    
+    <span class="comment">/**
+     * 快速排序算法
+     */</span>
+    <span class="keyword">public static void</span> <span class="function">quickSort</span>(<span class="type">int</span>[] arr, <span class="type">int</span> low, <span class="type">int</span> high) {
+        <span class="keyword">if</span> (low < high) {
+            <span class="type">int</span> pi = <span class="function">partition</span>(arr, low, high);
+            
+            <span class="function">quickSort</span>(arr, low, pi - <span class="number">1</span>);
+            <span class="function">quickSort</span>(arr, pi + <span class="number">1</span>, high);
+        }
+    }
+    
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">int</span>[] arr = {<span class="number">10</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">5</span>};
+        <span class="function">quickSort</span>(arr, <span class="number">0</span>, arr.length - <span class="number">1</span>);
+        System.out.<span class="function">println</span>(Arrays.<span class="function">toString</span>(arr));
+        <span class="comment">// 输出: [1, 5, 7, 8, 9, 10]</span>
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../../common/footer.js"></script>
+    <script type="module" src="../../../common/i18n.js"></script>
+    <script src="../../../sorting/quick-sort/script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

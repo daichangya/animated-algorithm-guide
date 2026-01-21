@@ -10,25 +10,28 @@
     <meta name="keywords" content="算法可视化,排序算法,冒泡排序,快速排序,堆排序,归并排序,图算法,Dijkstra,BFS,DFS,A*寻路,动态规划,背包问题,KMP,LCS,Myers Diff,凸包,数据结构,编程学习,算法动画">
     <meta name="author" content="Algorithm Visualization">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://algorithm-visualizer.example.com/">
+    <link rel="canonical" href="https://algo.jsdiff.com/">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://algorithm-visualizer.example.com/">
+    <meta property="og:url" content="https://algo.jsdiff.com/">
     <meta property="og:title" content="算法可视化 - 交互式动画学习平台">
     <meta property="og:description" content="通过交互式动画深入理解13种经典算法的工作原理，涵盖排序、图论、动态规划等核心算法。">
-    <meta property="og:image" content="https://algorithm-visualizer.example.com/og-image.png">
+    <!-- <meta property="og:image" content="https://algo.jsdiff.com/og-image.png"> -->
     <meta property="og:locale" content="zh_CN">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="算法可视化 - 交互式动画学习平台">
     <meta name="twitter:description" content="通过交互式动画深入理解13种经典算法的工作原理。">
-    <meta name="twitter:image" content="https://algorithm-visualizer.example.com/twitter-card.png">
+    <!-- <meta name="twitter:image" content="https://algo.jsdiff.com/twitter-card.png"> -->
     
     <!-- Additional SEO -->
     <meta name="theme-color" content="#0f0c29">
     <meta name="application-name" content="算法可视化">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     
     <link rel="stylesheet" href="common/styles.css">
     <style>
@@ -389,10 +392,10 @@
         "@type": "WebSite",
         "name": "算法可视化",
         "description": "通过交互式动画深入理解经典算法的工作原理",
-        "url": "https://algorithm-visualizer.example.com/",
+        "url": "https://algo.jsdiff.com/",
         "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://algorithm-visualizer.example.com/search?q={search_term_string}",
+            "target": "https://algo.jsdiff.com/search?q={search_term_string}",
             "query-input": "required name=search_term_string"
         }
     }
@@ -419,60 +422,69 @@
         ]
     }
     </script>
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/" />
+    
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body class="bg-decoration">
-    <!-- 语言切换器 -->
-    <div class="lang-switcher">
-        <button class="lang-btn" data-lang="zh">中文</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="common/header.js"></script>
 
-    <main class="container" style="max-width: 1200px; padding-top: 30px;">
+    <main class="container" style="max-width: 1200px;">
         <!-- Hero区域 -->
         <header class="hero fade-in" style="text-align: center;">
-            <h1 class="hero-title" data-i18n="home.title">算法可视化</h1>
-            <p class="hero-subtitle" data-i18n="home.subtitle">通过交互式动画深入理解经典算法的工作原理</p>
+            <h1 class="hero-title">算法可视化</h1>
+            <p class="hero-subtitle">通过交互式动画深入理解经典算法的工作原理</p>
             <div class="stats" style="margin-top: 20px;">
                 <div class="stat-item">
                     <div class="stat-value">13</div>
-                    <div class="stat-label" data-i18n="home.algorithmCount">算法总数</div>
+                    <div class="stat-label">算法总数</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value">5</div>
-                    <div class="stat-label" data-i18n="home.categoryCount">算法分类</div>
+                    <div class="stat-label">算法分类</div>
                 </div>
             </div>
         </header>
         
         <!-- 什么是算法可视化 -->
         <section class="intro-section fade-in" style="animation-delay: 0.05s;">
-            <h2 class="intro-title" data-i18n="home.introTitle">什么是算法可视化？</h2>
-            <p class="intro-text" data-i18n="home.introText">
-                算法可视化是一种将抽象的算法逻辑转化为直观动画的学习方式。通过观察元素的移动、比较和变换过程，
-                你可以更深入地理解算法的核心思想，而不仅仅是记忆代码。每种算法都有其独特的"个性"——
-                冒泡排序的气泡上浮、快速排序的分区划分、Dijkstra的波纹扩散...让学习算法变得生动有趣。
-            </p>
+            <h2 class="intro-title">什么是算法可视化？</h2>
+            <p class="intro-text">算法可视化是一种将抽象的算法逻辑转化为直观动画的学习方式。通过观察元素的移动、比较和变换过程，你可以更深入地理解算法的核心思想，而不仅仅是记忆代码。每种算法都有其独特的"个性"——冒泡排序的气泡上浮、快速排序的分区划分、Dijkstra的波纹扩散...让学习算法变得生动有趣。</p>
         </section>
         
         <!-- 快速开始 -->
         <section class="quickstart-section fade-in" style="animation-delay: 0.08s;">
-            <h2 class="quickstart-title" data-i18n="home.quickStartTitle">快速开始</h2>
+            <h2 class="quickstart-title">快速开始</h2>
             <div class="quickstart-steps">
                 <div class="quickstart-step">
                     <div class="step-number">1</div>
-                    <p class="step-text" data-i18n="home.step1">选择感兴趣的算法类别</p>
+                    <p class="step-text">选择感兴趣的算法类别</p>
                 </div>
                 <div class="quickstart-step">
                     <div class="step-number">2</div>
-                    <p class="step-text" data-i18n="home.step2">点击卡片进入算法页面</p>
+                    <p class="step-text">点击卡片进入算法页面</p>
                 </div>
                 <div class="quickstart-step">
                     <div class="step-number">3</div>
-                    <p class="step-text" data-i18n="home.step3">点击"开始"观看动画演示</p>
+                    <p class="step-text">点击"开始"观看动画演示</p>
                 </div>
                 <div class="quickstart-step">
                     <div class="step-number">4</div>
-                    <p class="step-text" data-i18n="home.step4">阅读说明理解算法原理</p>
+                    <p class="step-text">阅读说明理解算法原理</p>
                 </div>
             </div>
         </section>
@@ -481,33 +493,33 @@
         <section class="category-section sorting-category fade-in" style="animation-delay: 0.1s;" aria-labelledby="sorting-title">
             <div class="category-header">
                 <span class="category-icon" aria-hidden="true">📊</span>
-                <h2 class="category-title" id="sorting-title" data-i18n="home.sortingCategory">排序算法</h2>
-                <span class="category-desc" data-i18n="home.sortingDesc">数组元素排列与重组</span>
+                <h2 class="category-title" id="sorting-title">排序算法</h2>
+                <span class="category-desc">数组元素排列与重组</span>
             </div>
             <div class="algorithms-grid">
                 <a href="sorting/bubble-sort/index.html" class="algorithm-card bubble" aria-label="冒泡排序 - 时间复杂度O(n²)">
                     <span class="algorithm-icon" aria-hidden="true">🫧</span>
-                    <h3 class="algorithm-name" data-i18n="cards.bubbleSort.name">冒泡排序</h3>
-                    <div class="algorithm-complexity" data-i18n="cards.bubbleSort.complexity">O(n²) | O(1)</div>
-                    <p class="algorithm-desc" data-i18n="cards.bubbleSort.desc">相邻元素两两比较，较大元素上浮</p>
+                    <h3 class="algorithm-name">冒泡排序</h3>
+                    <div class="algorithm-complexity">O(n²) | O(1)</div>
+                    <p class="algorithm-desc">相邻元素两两比较，较大元素上浮</p>
                 </a>
                 <a href="sorting/heap-sort/index.html" class="algorithm-card heap" aria-label="堆排序 - 时间复杂度O(n log n)">
                     <span class="algorithm-icon" aria-hidden="true">🌳</span>
-                    <h3 class="algorithm-name" data-i18n="cards.heapSort.name">堆排序</h3>
-                    <div class="algorithm-complexity" data-i18n="cards.heapSort.complexity">O(n log n) | O(1)</div>
-                    <p class="algorithm-desc" data-i18n="cards.heapSort.desc">利用二叉堆特性完成排序</p>
+                    <h3 class="algorithm-name">堆排序</h3>
+                    <div class="algorithm-complexity">O(n log n) | O(1)</div>
+                    <p class="algorithm-desc">利用二叉堆特性完成排序</p>
                 </a>
                 <a href="sorting/quick-sort/index.html" class="algorithm-card quick" aria-label="快速排序 - 时间复杂度O(n log n)">
                     <span class="algorithm-icon" aria-hidden="true">⚡</span>
-                    <h3 class="algorithm-name" data-i18n="cards.quickSort.name">快速排序</h3>
-                    <div class="algorithm-complexity" data-i18n="cards.quickSort.complexity">O(n log n) | O(log n)</div>
-                    <p class="algorithm-desc" data-i18n="cards.quickSort.desc">分治策略，基准元素分区</p>
+                    <h3 class="algorithm-name">快速排序</h3>
+                    <div class="algorithm-complexity">O(n log n) | O(log n)</div>
+                    <p class="algorithm-desc">分治策略，基准元素分区</p>
                 </a>
                 <a href="sorting/merge-sort/index.html" class="algorithm-card merge" aria-label="归并排序 - 时间复杂度O(n log n)">
                     <span class="algorithm-icon" aria-hidden="true">🔀</span>
-                    <h3 class="algorithm-name" data-i18n="cards.mergeSort.name">归并排序</h3>
-                    <div class="algorithm-complexity" data-i18n="cards.mergeSort.complexity">O(n log n) | O(n)</div>
-                    <p class="algorithm-desc" data-i18n="cards.mergeSort.desc">分解子数组后合并</p>
+                    <h3 class="algorithm-name">归并排序</h3>
+                    <div class="algorithm-complexity">O(n log n) | O(n)</div>
+                    <p class="algorithm-desc">分解子数组后合并</p>
                 </a>
             </div>
         </section>
@@ -516,27 +528,27 @@
         <section class="category-section sequence-category fade-in" style="animation-delay: 0.15s;" aria-labelledby="sequence-title">
             <div class="category-header">
                 <span class="category-icon" aria-hidden="true">🔤</span>
-                <h2 class="category-title" id="sequence-title" data-i18n="home.sequenceCategory">字符串算法</h2>
-                <span class="category-desc" data-i18n="home.sequenceDesc">序列匹配与比较</span>
+                <h2 class="category-title" id="sequence-title">字符串算法</h2>
+                <span class="category-desc">序列匹配与比较</span>
             </div>
             <div class="algorithms-grid">
                 <a href="sequence/myers-diff/index.html" class="algorithm-card myers" aria-label="Myers差异算法">
                     <span class="algorithm-icon" aria-hidden="true">📝</span>
-                    <h3 class="algorithm-name" data-i18n="cards.myersDiff.name">Myers差异</h3>
-                    <div class="algorithm-complexity" data-i18n="cards.myersDiff.complexity">O((N+M)D) | O(N+M)</div>
-                    <p class="algorithm-desc" data-i18n="cards.myersDiff.desc">最小编辑距离，Git diff核心</p>
+                    <h3 class="algorithm-name">Myers差异</h3>
+                    <div class="algorithm-complexity">O((N+M)D) | O(N+M)</div>
+                    <p class="algorithm-desc">最小编辑距离，Git diff核心</p>
                 </a>
                 <a href="sequence/lcs/index.html" class="algorithm-card lcs" aria-label="LCS最长公共子序列">
                     <span class="algorithm-icon" aria-hidden="true">🔗</span>
-                    <h3 class="algorithm-name" data-i18n="cards.lcs.name">LCS公共子序列</h3>
-                    <div class="algorithm-complexity" data-i18n="cards.lcs.complexity">O(MN) | O(MN)</div>
-                    <p class="algorithm-desc" data-i18n="cards.lcs.desc">动态规划找最长公共子序列</p>
+                    <h3 class="algorithm-name">LCS公共子序列</h3>
+                    <div class="algorithm-complexity">O(MN) | O(MN)</div>
+                    <p class="algorithm-desc">动态规划找最长公共子序列</p>
                 </a>
                 <a href="sequence/kmp/index.html" class="algorithm-card kmp" aria-label="KMP字符串匹配算法">
                     <span class="algorithm-icon" aria-hidden="true">🔍</span>
-                    <h3 class="algorithm-name" data-i18n="cards.kmp.name">KMP匹配</h3>
-                    <div class="algorithm-complexity" data-i18n="cards.kmp.complexity">O(N+M) | O(M)</div>
-                    <p class="algorithm-desc" data-i18n="cards.kmp.desc">前缀表加速字符串匹配</p>
+                    <h3 class="algorithm-name">KMP匹配</h3>
+                    <div class="algorithm-complexity">O(N+M) | O(M)</div>
+                    <p class="algorithm-desc">前缀表加速字符串匹配</p>
                 </a>
             </div>
         </section>
@@ -545,27 +557,27 @@
         <section class="category-section graph-category fade-in" style="animation-delay: 0.2s;" aria-labelledby="graph-title">
             <div class="category-header">
                 <span class="category-icon" aria-hidden="true">🕸️</span>
-                <h2 class="category-title" id="graph-title" data-i18n="home.graphCategory">图算法</h2>
-                <span class="category-desc" data-i18n="home.graphDesc">图结构遍历与路径搜索</span>
+                <h2 class="category-title" id="graph-title">图算法</h2>
+                <span class="category-desc">图结构遍历与路径搜索</span>
             </div>
             <div class="algorithms-grid">
                 <a href="graph/dijkstra/index.html" class="algorithm-card dijkstra" aria-label="Dijkstra最短路径算法">
                     <span class="algorithm-icon" aria-hidden="true">🛤️</span>
-                    <h3 class="algorithm-name" data-i18n="cards.dijkstra.name">Dijkstra</h3>
-                    <div class="algorithm-complexity" data-i18n="cards.dijkstra.complexity">O((V+E)logV) | O(V)</div>
-                    <p class="algorithm-desc" data-i18n="cards.dijkstra.desc">单源最短路径算法</p>
+                    <h3 class="algorithm-name">Dijkstra</h3>
+                    <div class="algorithm-complexity">O((V+E)logV) | O(V)</div>
+                    <p class="algorithm-desc">单源最短路径算法</p>
                 </a>
                 <a href="graph/bfs-dfs/index.html" class="algorithm-card bfs" aria-label="BFS广度优先和DFS深度优先遍历">
                     <span class="algorithm-icon" aria-hidden="true">🌊</span>
-                    <h3 class="algorithm-name" data-i18n="cards.bfsDfs.name">BFS/DFS</h3>
-                    <div class="algorithm-complexity" data-i18n="cards.bfsDfs.complexity">O(V+E) | O(V)</div>
-                    <p class="algorithm-desc" data-i18n="cards.bfsDfs.desc">广度/深度优先遍历对比</p>
+                    <h3 class="algorithm-name">BFS/DFS</h3>
+                    <div class="algorithm-complexity">O(V+E) | O(V)</div>
+                    <p class="algorithm-desc">广度/深度优先遍历对比</p>
                 </a>
                 <a href="graph/astar/index.html" class="algorithm-card astar" aria-label="A*启发式寻路算法">
                     <span class="algorithm-icon" aria-hidden="true">⭐</span>
-                    <h3 class="algorithm-name" data-i18n="cards.astar.name">A*寻路</h3>
-                    <div class="algorithm-complexity" data-i18n="cards.astar.complexity">O(E) | O(V)</div>
-                    <p class="algorithm-desc" data-i18n="cards.astar.desc">启发式最短路径搜索</p>
+                    <h3 class="algorithm-name">A*寻路</h3>
+                    <div class="algorithm-complexity">O(E) | O(V)</div>
+                    <p class="algorithm-desc">启发式最短路径搜索</p>
                 </a>
             </div>
         </section>
@@ -574,21 +586,21 @@
         <section class="category-section search-category fade-in" style="animation-delay: 0.25s;" aria-labelledby="search-title">
             <div class="category-header">
                 <span class="category-icon" aria-hidden="true">🎯</span>
-                <h2 class="category-title" id="search-title" data-i18n="home.searchCategory">搜索与优化</h2>
-                <span class="category-desc" data-i18n="home.searchDesc">高效查找与决策优化</span>
+                <h2 class="category-title" id="search-title">搜索与优化</h2>
+                <span class="category-desc">高效查找与决策优化</span>
             </div>
             <div class="algorithms-grid">
                 <a href="search/binary-search/index.html" class="algorithm-card binary" aria-label="二分查找算法">
                     <span class="algorithm-icon" aria-hidden="true">🔎</span>
-                    <h3 class="algorithm-name" data-i18n="cards.binarySearch.name">二分查找</h3>
-                    <div class="algorithm-complexity" data-i18n="cards.binarySearch.complexity">O(log n) | O(1)</div>
-                    <p class="algorithm-desc" data-i18n="cards.binarySearch.desc">有序数组中的高效查找</p>
+                    <h3 class="algorithm-name">二分查找</h3>
+                    <div class="algorithm-complexity">O(log n) | O(1)</div>
+                    <p class="algorithm-desc">有序数组中的高效查找</p>
                 </a>
                 <a href="search/knapsack/index.html" class="algorithm-card knapsack" aria-label="0/1背包动态规划问题">
                     <span class="algorithm-icon" aria-hidden="true">🎒</span>
-                    <h3 class="algorithm-name" data-i18n="cards.knapsack.name">0/1背包</h3>
-                    <div class="algorithm-complexity" data-i18n="cards.knapsack.complexity">O(NW) | O(NW)</div>
-                    <p class="algorithm-desc" data-i18n="cards.knapsack.desc">动态规划经典优化问题</p>
+                    <h3 class="algorithm-name">0/1背包</h3>
+                    <div class="algorithm-complexity">O(NW) | O(NW)</div>
+                    <p class="algorithm-desc">动态规划经典优化问题</p>
                 </a>
             </div>
         </section>
@@ -597,75 +609,59 @@
         <section class="category-section geometry-category fade-in" style="animation-delay: 0.3s;" aria-labelledby="geometry-title">
             <div class="category-header">
                 <span class="category-icon" aria-hidden="true">📐</span>
-                <h2 class="category-title" id="geometry-title" data-i18n="home.geometryCategory">计算几何</h2>
-                <span class="category-desc" data-i18n="home.geometryDesc">几何图形与空间计算</span>
+                <h2 class="category-title" id="geometry-title">计算几何</h2>
+                <span class="category-desc">几何图形与空间计算</span>
             </div>
             <div class="algorithms-grid">
                 <a href="geometry/convex-hull/index.html" class="algorithm-card convex" aria-label="Graham Scan凸包算法">
                     <span class="algorithm-icon" aria-hidden="true">⬡</span>
-                    <h3 class="algorithm-name" data-i18n="cards.convexHull.name">凸包算法</h3>
-                    <div class="algorithm-complexity" data-i18n="cards.convexHull.complexity">O(n log n) | O(n)</div>
-                    <p class="algorithm-desc" data-i18n="cards.convexHull.desc">Graham Scan计算点集凸包</p>
+                    <h3 class="algorithm-name">凸包算法</h3>
+                    <div class="algorithm-complexity">O(n log n) | O(n)</div>
+                    <p class="algorithm-desc">Graham Scan计算点集凸包</p>
                 </a>
             </div>
         </section>
         
         <!-- 平台特性 -->
         <section class="features-section fade-in" style="animation-delay: 0.35s;">
-            <h2 class="features-title" data-i18n="home.featuresTitle">平台特性</h2>
+            <h2 class="features-title">平台特性</h2>
             <div class="features-grid">
                 <article class="feature-card">
                     <div class="feature-icon" aria-hidden="true">🎬</div>
-                    <h3 class="feature-title" data-i18n="home.feature1Title">流畅动画</h3>
-                    <p class="feature-desc" data-i18n="home.feature1Desc">精心设计的CSS动画效果，让每一步操作都清晰可见，帮助你理解算法的执行过程。</p>
+                    <h3 class="feature-title">流畅动画</h3>
+                    <p class="feature-desc">精心设计的CSS动画效果，让每一步操作都清晰可见，帮助你理解算法的执行过程。</p>
                 </article>
                 <article class="feature-card">
                     <div class="feature-icon" aria-hidden="true">🎮</div>
-                    <h3 class="feature-title" data-i18n="home.feature2Title">交互控制</h3>
-                    <p class="feature-desc" data-i18n="home.feature2Desc">可随时暂停、重置，部分算法支持自定义输入数据，让学习更加灵活自主。</p>
+                    <h3 class="feature-title">交互控制</h3>
+                    <p class="feature-desc">可随时暂停、重置，部分算法支持自定义输入数据，让学习更加灵活自主。</p>
                 </article>
                 <article class="feature-card">
                     <div class="feature-icon" aria-hidden="true">📚</div>
-                    <h3 class="feature-title" data-i18n="home.feature3Title">详细说明</h3>
-                    <p class="feature-desc" data-i18n="home.feature3Desc">每个算法页面都配有原理介绍、复杂度分析和应用场景，理论与实践相结合。</p>
+                    <h3 class="feature-title">详细说明</h3>
+                    <p class="feature-desc">每个算法页面都配有原理介绍、复杂度分析和应用场景，理论与实践相结合。</p>
                 </article>
                 <article class="feature-card">
                     <div class="feature-icon" aria-hidden="true">📱</div>
-                    <h3 class="feature-title" data-i18n="home.feature4Title">响应式设计</h3>
-                    <p class="feature-desc" data-i18n="home.feature4Desc">完美适配桌面和移动设备，随时随地都能学习算法知识。</p>
+                    <h3 class="feature-title">响应式设计</h3>
+                    <p class="feature-desc">完美适配桌面和移动设备，随时随地都能学习算法知识。</p>
                 </article>
                 <article class="feature-card">
                     <div class="feature-icon" aria-hidden="true">🚀</div>
-                    <h3 class="feature-title" data-i18n="home.feature5Title">零依赖</h3>
-                    <p class="feature-desc" data-i18n="home.feature5Desc">纯原生HTML/CSS/JavaScript实现，无需任何框架，代码简洁易懂，可作为学习参考。</p>
+                    <h3 class="feature-title">零依赖</h3>
+                    <p class="feature-desc">纯原生HTML/CSS/JavaScript实现，无需任何框架，代码简洁易懂，可作为学习参考。</p>
                 </article>
                 <article class="feature-card">
                     <div class="feature-icon" aria-hidden="true">🌙</div>
-                    <h3 class="feature-title" data-i18n="home.feature6Title">护眼暗色</h3>
-                    <p class="feature-desc" data-i18n="home.feature6Desc">采用舒适的深色主题设计，长时间学习也不易疲劳，保护你的眼睛。</p>
+                    <h3 class="feature-title">护眼暗色</h3>
+                    <p class="feature-desc">采用舒适的深色主题设计，长时间学习也不易疲劳，保护你的眼睛。</p>
                 </article>
             </div>
         </section>
     </main>
     
-    <!-- 页脚 -->
-    <footer class="site-footer fade-in" style="animation-delay: 0.4s;">
-        <div class="footer-content">
-            <nav class="footer-links" aria-label="页脚导航">
-                <a href="#sorting-title" class="footer-link" data-i18n="home.sortingCategory">排序算法</a>
-                <a href="#sequence-title" class="footer-link" data-i18n="home.sequenceCategory">字符串算法</a>
-                <a href="#graph-title" class="footer-link" data-i18n="home.graphCategory">图算法</a>
-                <a href="#search-title" class="footer-link" data-i18n="home.searchCategory">搜索优化</a>
-                <a href="#geometry-title" class="footer-link" data-i18n="home.geometryCategory">计算几何</a>
-            </nav>
-            <p class="footer-copyright" data-i18n="home.footerCopyright">
-                &copy; 2026 算法可视化. 使用 HTML / CSS / JavaScript 构建
-            </p>
-            <p class="footer-tech" data-i18n="home.footerNote">
-                本项目为开源学习项目，欢迎贡献代码和反馈建议
-            </p>
-        </div>
-    </footer>
+    <!-- 公共页脚由 JS 注入 -->
+    <script type="module" src="common/footer.js"></script>
     
     <script type="module" src="common/i18n.js"></script>
     <script>

@@ -9,40 +9,56 @@
     <meta name="description" content="通过交互式动画学习快速排序算法。观察分治策略和基准元素分区过程，理解平均O(n log n)时间复杂度的高效排序原理。">
     <meta name="keywords" content="快速排序,Quick Sort,分治算法,基准元素,分区,排序算法,算法可视化,递归">
     <meta name="author" content="Algorithm Visualization">
-    <link rel="canonical" href="https://algorithm-visualizer.example.com/sorting/quick-sort/">
+    <link rel="canonical" href="https://algo.jsdiff.com/sorting/quick-sort/">
     
     <!-- Open Graph -->
     <meta property="og:title" content="快速排序可视化 - 分治算法动画">
     <meta property="og:description" content="通过交互式动画学习快速排序算法，观察分区过程。">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://algorithm-visualizer.example.com/sorting/quick-sort/">
+    <meta property="og:url" content="https://algo.jsdiff.com/sorting/quick-sort/">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="快速排序可视化">
     <meta name="twitter:description" content="交互式动画演示快速排序分治策略">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
     <link rel="stylesheet" href="../../common/styles.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/quick-sort/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/quick-sort/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/quick-sort/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body class="bg-decoration">
-    <!-- 语言切换器 -->
-    <div class="lang-switcher">
-        <button class="lang-btn" data-lang="zh">中文</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../common/header.js"></script>
 
     <div class="container">
-        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        <a href="../../index.html" class="nav-link">← 返回首页</a>
         
         <header class="page-header">
-            <h1 class="title" data-i18n="quickSort.title">快速排序可视化</h1>
-            <p class="subtitle" data-i18n="quickSort.subtitle">观察分治策略与基准元素的分区过程</p>
+            <h1 class="title">快速排序可视化</h1>
+            <p class="subtitle">观察分治策略与基准元素的分区过程</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p data-i18n="quickSort.intro">快速排序（Quick Sort）是一种高效的分治排序算法。它选择一个"基准"元素，将数组分成两部分：比基准小的元素放在左边，比基准大的元素放在右边。然后递归地对左右两部分继续排序。因其出色的平均性能，快速排序是实际应用中最常用的排序算法之一。</p>
+            <p>快速排序（Quick Sort）是一种高效的分治排序算法。它选择一个"基准"元素，将数组分成两部分：比基准小的元素放在左边，比基准大的元素放在右边。然后递归地对左右两部分继续排序。因其出色的平均性能，快速排序是实际应用中最常用的排序算法之一。</p>
         </div>
         
         <!-- 递归深度指示器 -->
@@ -53,9 +69,9 @@
         
         <!-- 指针指示器 -->
         <div class="pointer-legend">
-            <span class="legend-item pivot"><span class="icon">⚡</span> 基准元素</span>
-            <span class="legend-item left-ptr"><span class="icon">◀</span> 左指针</span>
-            <span class="legend-item right-ptr"><span class="icon">▶</span> 右指针</span>
+            <span class="legend-item pivot"><span class="icon">⚡</span> <span>基准元素</span></span>
+            <span class="legend-item left-ptr"><span class="icon">◀</span> <span>左指针</span></span>
+            <span class="legend-item right-ptr"><span class="icon">▶</span> <span>右指针</span></span>
         </div>
         
         <!-- 数组容器 -->
@@ -73,30 +89,32 @@
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn" data-i18n="common.startSort">开始排序</button>
-            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
+            <button class="btn btn-primary" id="startBtn">开始排序</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText" data-i18n="common.clickToStart">点击"开始排序"查看动画</span>
+            <span class="status-badge" id="statusText">点击"开始排序"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle" data-i18n="common.tabPrinciple">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity" data-i18n="common.tabComplexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage" data-i18n="common.tabUsage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code" data-i18n="common.tabCode">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
                 <h4>算法步骤</h4>
                 <ol>
-                    <li><strong>选择基准</strong>：从数组中选择一个元素作为基准（pivot），常见策略有选择第一个、最后一个、中间元素或随机选择</li>
-                    <li><strong>分区操作</strong>：重新排列数组，使所有比基准小的元素放在基准前面，所有比基准大的元素放在基准后面</li>
-                    <li><strong>递归排序</strong>：递归地对基准左右两边的子数组进行快速排序</li>
-                    <li><strong>合并结果</strong>：由于是原地排序，子数组排序完成后整个数组就有序了</li>
+                    <li>选择一个元素作为"基准"（pivot），通常选择最后一个元素</li>
+                    <li>设置两个指针：i（小于基准区域的边界）和j（扫描指针）</li>
+                    <li>j从左向右扫描，遇到小于基准的元素就与i+1位置交换，i右移</li>
+                    <li>扫描完成后，将基准与i+1位置交换，此时基准就位</li>
+                    <li>递归地对基准左右两部分执行相同操作</li>
                 </ol>
             </div>
             
@@ -248,6 +266,7 @@ arr = [<span class="number">10</span>, <span class="number">7</span>, <span clas
         </div>
     </div>
     
+    <script type="module" src="../../common/footer.js"></script>
     <script type="module" src="../../common/i18n.js"></script>
     <script src="script.js"></script>
     <script>

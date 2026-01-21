@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A* Pathfinding Algorithm Visualization - Heuristic Search | Algorithm Visualization</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn A* pathfinding through interactive animation. Watch how heuristic function guides search direction, understand why A* finds shortest path faster than Dijkstra. Supports custom obstacles.">
+    <meta name="keywords" content="A* Algorithm,A Star,Pathfinding Algorithm,Heuristic Search,Shortest Path,Game Development,Path Planning,Algorithm Visualization">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algo.jsdiff.com/en/graph/astar/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="A* Pathfinding Algorithm Visualization - Heuristic Search">
+    <meta property="og:description" content="Learn A* algorithm through interactive animation, customize obstacles to watch pathfinding.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algo.jsdiff.com/graph/astar/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="A* Pathfinding Visualization">
+    <meta name="twitter:description" content="Interactive animation demonstrating A* heuristic pathfinding algorithm">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <link rel="stylesheet" href="../../../common/styles.css">
+    <link rel="stylesheet" href="../../../graph/astar/style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/astar/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/astar/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/graph/astar/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/astar" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/astar/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/graph/astar" />
+</head>
+<body class="bg-decoration">
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../../common/header.js"></script>
+
+    <div class="container">
+        <a href="../../../en/index.html" class="nav-link">← Back to Home</a>
+        
+        <header class="page-header">
+            <h1 class="title">A* Pathfinding Visualization</h1>
+            <p class="subtitle">Heuristic shortest path search</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p>A* is a heuristic search algorithm combining Dijkstra's shortest path guarantee with greedy search efficiency. It uses evaluation function f(n) = g(n) + h(n) to guide the search direction.</p>
+        </div>
+        
+        <!-- 图例 -->
+        <div class="legend">
+            <span class="legend-item"><span class="cell-demo start"></span><span>Start</span></span>
+            <span class="legend-item"><span class="cell-demo end"></span><span>End</span></span>
+            <span class="legend-item"><span class="cell-demo wall"></span><span>Obstacle</span></span>
+            <span class="legend-item"><span class="cell-demo open"></span><span>Open</span></span>
+            <span class="legend-item"><span class="cell-demo closed"></span><span>Closed</span></span>
+            <span class="legend-item"><span class="cell-demo path"></span><span>Shortest Path</span></span>
+        </div>
+        
+        <!-- 网格 -->
+        <div class="grid-container">
+            <div class="grid" id="grid"></div>
+        </div>
+        
+        <!-- 提示 -->
+        <div class="hint">Click grid to draw/clear obstacles</div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn">Start</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>Pause</button>
+            <button class="btn btn-secondary" id="resetBtn">Reset</button>
+            <button class="btn btn-secondary" id="clearWallsBtn">Clear Grid</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText">Click "Start" to view animation</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle">📖 How It Works</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ Complexity</button>
+                <button class="tab-btn" data-tab="usage">💡 Applications</button>
+                <button class="tab-btn" data-tab="code">📝 Implementation</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>Core Concepts</h4>
+                <ul>
+                    <li>g(n): Actual cost from start to node n</li>
+                    <li>h(n): Heuristic estimate from n to goal (e.g., Manhattan distance)</li>
+                    <li>f(n) = g(n) + h(n): Total evaluation of node n</li>
+                    <li>Always expand node with smallest f value from Open list</li>
+                    <li>Search ends when selected node is the goal</li>
+                </ul>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    Heuristic h(n) must be "admissible" (never overestimate) to guarantee shortest path.
+                </p>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>Time & Space Complexity</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>指标</th>
+                        <th>Complexity</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Time Complexity</td>
+                        <td>O(E)</td>
+                        <td>Worst case, depends on heuristic quality</td>
+                    </tr>
+                    <tr>
+                        <td>Actual Performance</td>
+                        <td class="highlight">远优于Dijkstra</td>
+                        <td>Heuristic guidance reduces nodes explored</td>
+                    </tr>
+                    <tr>
+                        <td>Space Complexity</td>
+                        <td>O(V)</td>
+                        <td>Store Open and Closed lists</td>
+                    </tr>
+                </table>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    A* vs Dijkstra: Dijkstra expands uniformly in all directions, A* prioritizes toward the goal.
+                </p>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>Applications</h4>
+                <ul>
+                    <li>NPC pathfinding and unit movement in games</li>
+                    <li>Robot path planning</li>
+                    <li>GPS navigation systems</li>
+                    <li>Autonomous driving path decisions</li>
+                    <li>Logistics delivery route optimization</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag">Game Development</span>
+                    <span class="use-case-tag">Robot Navigation</span>
+                    <span class="use-case-tag">Autonomous Driving</span>
+                    <span class="use-case-tag">Logistics</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>Implementation</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">import</span> heapq
+
+<span class="keyword">def</span> <span class="function">heuristic</span>(a, b):
+    <span class="string">"""曼哈顿距离"""</span>
+    <span class="keyword">return</span> <span class="function">abs</span>(a[<span class="number">0</span>] - b[<span class="number">0</span>]) + <span class="function">abs</span>(a[<span class="number">1</span>] - b[<span class="number">1</span>])
+
+
+<span class="keyword">def</span> <span class="function">astar</span>(grid, start, goal):
+    <span class="string">"""A*寻路算法
+    grid: 2D网格, 0=可通行, 1=障碍
+    """</span>
+    rows, cols = <span class="function">len</span>(grid), <span class="function">len</span>(grid[<span class="number">0</span>])
+    
+    <span class="comment"># 四方向移动</span>
+    directions = [(<span class="number">0</span>, <span class="number">1</span>), (<span class="number">1</span>, <span class="number">0</span>), (<span class="number">0</span>, -<span class="number">1</span>), (-<span class="number">1</span>, <span class="number">0</span>)]
+    
+    open_set = []
+    heapq.<span class="function">heappush</span>(open_set, (<span class="number">0</span>, start))
+    
+    came_from = {}
+    g_score = {start: <span class="number">0</span>}
+    f_score = {start: <span class="function">heuristic</span>(start, goal)}
+    
+    <span class="keyword">while</span> open_set:
+        _, current = heapq.<span class="function">heappop</span>(open_set)
+        
+        <span class="keyword">if</span> current == goal:
+            <span class="comment"># 重建路径</span>
+            path = []
+            <span class="keyword">while</span> current <span class="keyword">in</span> came_from:
+                path.<span class="function">append</span>(current)
+                current = came_from[current]
+            path.<span class="function">append</span>(start)
+            <span class="keyword">return</span> path[::-<span class="number">1</span>]
+        
+        <span class="keyword">for</span> dx, dy <span class="keyword">in</span> directions:
+            neighbor = (current[<span class="number">0</span>] + dx, current[<span class="number">1</span>] + dy)
+            
+            <span class="comment"># 边界和障碍检查</span>
+            <span class="keyword">if</span> (<span class="number">0</span> <= neighbor[<span class="number">0</span>] < rows <span class="keyword">and</span>
+                <span class="number">0</span> <= neighbor[<span class="number">1</span>] < cols <span class="keyword">and</span>
+                grid[neighbor[<span class="number">0</span>]][neighbor[<span class="number">1</span>]] == <span class="number">0</span>):
+                
+                tentative_g = g_score[current] + <span class="number">1</span>
+                
+                <span class="keyword">if</span> tentative_g < g_score.<span class="function">get</span>(neighbor, <span class="function">float</span>(<span class="string">'inf'</span>)):
+                    came_from[neighbor] = current
+                    g_score[neighbor] = tentative_g
+                    f = tentative_g + <span class="function">heuristic</span>(neighbor, goal)
+                    heapq.<span class="function">heappush</span>(open_set, (f, neighbor))
+    
+    <span class="keyword">return</span> <span class="keyword">None</span>  <span class="comment"># 无路径</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">import</span> java.util.*;
+
+<span class="keyword">public class</span> <span class="type">AStar</span> {
+    
+    <span class="keyword">static int</span> <span class="function">heuristic</span>(<span class="type">int</span>[] a, <span class="type">int</span>[] b) {
+        <span class="keyword">return</span> Math.<span class="function">abs</span>(a[<span class="number">0</span>] - b[<span class="number">0</span>]) + Math.<span class="function">abs</span>(a[<span class="number">1</span>] - b[<span class="number">1</span>]);
+    }
+    
+    <span class="keyword">public static</span> <span class="type">List</span>&lt;<span class="type">int</span>[]&gt; <span class="function">astar</span>(
+            <span class="type">int</span>[][] grid, <span class="type">int</span>[] start, <span class="type">int</span>[] goal) {
+        
+        <span class="type">int</span> rows = grid.length, cols = grid[<span class="number">0</span>].length;
+        <span class="type">int</span>[][] dirs = {{<span class="number">0</span>,<span class="number">1</span>}, {<span class="number">1</span>,<span class="number">0</span>}, {<span class="number">0</span>,-<span class="number">1</span>}, {-<span class="number">1</span>,<span class="number">0</span>}};
+        
+        <span class="comment">// 优先队列: [f值, x, y]</span>
+        <span class="type">PriorityQueue</span>&lt;<span class="type">int</span>[]&gt; openSet = <span class="keyword">new</span> <span class="type">PriorityQueue</span>&lt;&gt;(
+            (a, b) -> a[<span class="number">0</span>] - b[<span class="number">0</span>]
+        );
+        
+        <span class="type">Map</span>&lt;<span class="type">String</span>, <span class="type">int</span>[]&gt; cameFrom = <span class="keyword">new</span> <span class="type">HashMap</span>&lt;&gt;();
+        <span class="type">Map</span>&lt;<span class="type">String</span>, <span class="type">Integer</span>&gt; gScore = <span class="keyword">new</span> <span class="type">HashMap</span>&lt;&gt;();
+        
+        <span class="type">String</span> startKey = start[<span class="number">0</span>] + <span class="string">","</span> + start[<span class="number">1</span>];
+        gScore.<span class="function">put</span>(startKey, <span class="number">0</span>);
+        openSet.<span class="function">offer</span>(<span class="keyword">new</span> <span class="type">int</span>[]{
+            <span class="function">heuristic</span>(start, goal), start[<span class="number">0</span>], start[<span class="number">1</span>]
+        });
+        
+        <span class="keyword">while</span> (!openSet.<span class="function">isEmpty</span>()) {
+            <span class="type">int</span>[] curr = openSet.<span class="function">poll</span>();
+            <span class="type">int</span> x = curr[<span class="number">1</span>], y = curr[<span class="number">2</span>];
+            
+            <span class="keyword">if</span> (x == goal[<span class="number">0</span>] && y == goal[<span class="number">1</span>]) {
+                <span class="comment">// 重建路径</span>
+                <span class="keyword">return</span> <span class="function">reconstructPath</span>(cameFrom, goal);
+            }
+            
+            <span class="keyword">for</span> (<span class="type">int</span>[] d : dirs) {
+                <span class="type">int</span> nx = x + d[<span class="number">0</span>], ny = y + d[<span class="number">1</span>];
+                <span class="keyword">if</span> (nx >= <span class="number">0</span> && nx < rows && ny >= <span class="number">0</span> && ny < cols
+                    && grid[nx][ny] == <span class="number">0</span>) {
+                    <span class="comment">// 更新邻居...</span>
+                }
+            }
+        }
+        <span class="keyword">return null</span>;
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../../common/footer.js"></script>
+    <script type="module" src="../../../common/i18n.js"></script>
+    <script src="../../../graph/astar/script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

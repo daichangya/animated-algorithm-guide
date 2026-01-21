@@ -14,6 +14,7 @@ const CONFIG = {
 let source = '';
 let target = '';
 let isRunning = false;
+let isPaused = false;
 let currentMode = 'string';
 
 // DOM元素
@@ -26,6 +27,7 @@ const dValueEl = document.getElementById('dValue');
 const diffResult = document.getElementById('diffResult');
 const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
+const pauseBtn = document.getElementById('pauseBtn');
 const statusText = document.getElementById('statusText');
 const modeBtns = document.querySelectorAll('.mode-btn');
 
@@ -146,17 +148,46 @@ function renderEditGraph() {
 }
 
 /**
- * 延迟函数
+ * 延迟函数（支持暂停）
  */
 function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => {
+        const startTime = Date.now();
+        const checkPause = () => {
+            if (!isRunning) { resolve(); return; }
+            if (isPaused) {
+                setTimeout(checkPause, 50);
+            } else {
+                const remaining = Math.max(0, ms - (Date.now() - startTime));
+                if (remaining <= 0) resolve();
+                else setTimeout(resolve, remaining);
+            }
+        };
+        setTimeout(checkPause, ms);
+    });
+}
+
+/**
+ * 切换暂停状态
+ */
+function togglePause() {
+    isPaused = !isPaused;
+    if (isPaused) {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+        pauseBtn.classList.add('paused');
+        updateStatus('已暂停 - 点击继续');
+    } else {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+        updateStatus('运行中...');
+    }
 }
 
 /**
  * 更新状态
  */
 function updateStatus(text) {
-    statusText.textContent = text;
+    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
 }
 
 /**
@@ -224,7 +255,7 @@ async function myersDiff() {
         if (!isRunning) return null;
         
         dValueEl.textContent = d;
-        updateStatus(`探索编辑距离 D = ${d}`);
+        updateStatus(window.I18n.t('探索编辑距离 D = {0}', d));
         
         const vCopy = [...v];
         trace.push(vCopy);
@@ -280,7 +311,7 @@ async function myersDiff() {
             
             // 检查是否到达终点
             if (x >= n && y >= m) {
-                updateStatus(`找到最短路径! 编辑距离 D = ${d}`);
+                updateStatus(window.I18n.t('找到最短路径! 编辑距离 D = {0}', d));
                 
                 // 回溯路径
                 await backtrack(trace, n, m);
@@ -410,8 +441,14 @@ async function start() {
     }
     
     isRunning = true;
+    isPaused = false;
     startBtn.disabled = true;
     resetBtn.disabled = true;
+    if (pauseBtn) {
+        pauseBtn.disabled = false;
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+    }
     
     // 重置显示
     renderSequences();
@@ -423,12 +460,17 @@ async function start() {
     const d = await myersDiff();
     
     if (isRunning && d !== null) {
-        updateStatus(`算法完成! 最小编辑距离: ${d}`);
+        updateStatus(window.I18n.t('算法完成! 最小编辑距离: {0}', d));
     }
     
     isRunning = false;
+    isPaused = false;
     startBtn.disabled = false;
     resetBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+    }
 }
 
 /**
@@ -436,8 +478,14 @@ async function start() {
  */
 function reset() {
     isRunning = false;
+    isPaused = false;
     startBtn.disabled = false;
     resetBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+    }
     
     init();
     updateStatus('点击"开始算法"查看动画');
@@ -446,6 +494,9 @@ function reset() {
 // 事件监听
 startBtn.addEventListener('click', start);
 resetBtn.addEventListener('click', reset);
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', togglePause);
+}
 
 sourceInput.addEventListener('input', () => {
     if (!isRunning) init();
@@ -472,4 +523,9 @@ modeBtns.forEach(btn => {
 });
 
 // 初始化
-init();
+// 等待 I18n 模块加载完成后初始化
+if (document.readyState === 'complete') {
+    setTimeout(init, 50);
+} else {
+    window.addEventListener('load', () => setTimeout(init, 50));
+}

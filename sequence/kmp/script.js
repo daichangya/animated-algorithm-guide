@@ -12,6 +12,7 @@ let text = '';
 let pattern = '';
 let next = [];
 let isRunning = false;
+let isPaused = false;
 
 const textInput = document.getElementById('textInput');
 const patternInput = document.getElementById('patternInput');
@@ -21,6 +22,7 @@ const patternRow = document.getElementById('patternRow');
 const matchResults = document.getElementById('matchResults');
 const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
+const pauseBtn = document.getElementById('pauseBtn');
 const statusText = document.getElementById('statusText');
 
 function init() {
@@ -85,11 +87,37 @@ function renderMatchArea(patternOffset = 0) {
 }
 
 function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => {
+        const startTime = Date.now();
+        const checkPause = () => {
+            if (!isRunning) { resolve(); return; }
+            if (isPaused) {
+                setTimeout(checkPause, 50);
+            } else {
+                const remaining = Math.max(0, ms - (Date.now() - startTime));
+                if (remaining <= 0) resolve();
+                else setTimeout(resolve, remaining);
+            }
+        };
+        setTimeout(checkPause, ms);
+    });
+}
+
+function togglePause() {
+    isPaused = !isPaused;
+    if (isPaused) {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+        pauseBtn.classList.add('paused');
+        updateStatus('已暂停 - 点击继续');
+    } else {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+        updateStatus('运行中...');
+    }
 }
 
 function updateStatus(msg) {
-    statusText.textContent = msg;
+    statusText.textContent = window.I18n ? window.I18n.t(msg) : msg;
 }
 
 async function buildNextArray() {
@@ -112,16 +140,16 @@ async function buildNextArray() {
         prefixItem.classList.add('building');
         
         while (j > 0 && pattern[i] !== pattern[j]) {
-            updateStatus(`位置${i}: P[${i}]='${pattern[i]}' ≠ P[${j}]='${pattern[j]}', 回退 j=${next[j-1]}`);
+            updateStatus(window.I18n.t('位置{0}: P[{0}]=\'{1}\' ≠ P[{2}]=\'{3}\', 回退 j={4}', i, pattern[i], j, pattern[j], next[j-1]));
             await delay(CONFIG.buildDelay);
             j = next[j - 1];
         }
         
         if (pattern[i] === pattern[j]) {
             j++;
-            updateStatus(`位置${i}: P[${i}]='${pattern[i]}' = P[${j-1}]='${pattern[j-1]}', next[${i}]=${j}`);
+            updateStatus(window.I18n.t('位置{0}: P[{0}]=\'{1}\' = P[{2}]=\'{3}\', next[{0}]={4}', i, pattern[i], j-1, pattern[j-1], j));
         } else {
-            updateStatus(`位置${i}: 无匹配前缀, next[${i}]=0`);
+            updateStatus(window.I18n.t('位置{0}: 无匹配前缀, next[{0}]=0', i));
         }
         
         next[i] = j;
@@ -155,7 +183,7 @@ async function kmpMatch() {
         textBox.classList.add('comparing');
         if (patternBox) patternBox.classList.add('comparing');
         
-        updateStatus(`比较 T[${i}]='${text[i]}' 与 P[${j}]='${pattern[j]}'`);
+        updateStatus(window.I18n.t('比较 T[{0}]=\'{1}\' 与 P[{2}]=\'{3}\'', i, text[i], j, pattern[j]));
         await delay(CONFIG.matchDelay);
         
         while (j > 0 && text[i] !== pattern[j]) {
@@ -166,7 +194,7 @@ async function kmpMatch() {
                 patternBox.classList.add('mismatch');
             }
             
-            updateStatus(`失配! 利用next[${j-1}]=${next[j-1]}回退`);
+            updateStatus(window.I18n.t('失配! 利用next[{0}]={1}回退', j-1, next[j-1]));
             await delay(CONFIG.matchDelay);
             
             j = next[j - 1];
@@ -204,7 +232,7 @@ async function kmpMatch() {
                     document.getElementById(`text-${k}`).classList.add('found');
                 }
                 
-                updateStatus(`找到匹配! 位置: ${matchPos}`);
+                updateStatus(window.I18n.t('找到匹配! 位置: {0}', matchPos));
                 
                 // 添加结果
                 addMatchResult(matchPos);
@@ -245,7 +273,13 @@ async function start() {
     }
     
     isRunning = true;
+    isPaused = false;
     startBtn.disabled = true;
+    if (pauseBtn) {
+        pauseBtn.disabled = false;
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+    }
     
     matchResults.innerHTML = '-';
     renderPrefixTable();
@@ -260,24 +294,43 @@ async function start() {
             updateStatus('未找到匹配');
             matchResults.innerHTML = '<span style="color:#ef4444">无匹配</span>';
         } else {
-            updateStatus(`匹配完成! 共找到 ${matches.length} 处匹配`);
+            updateStatus(window.I18n.t('匹配完成! 共找到 {0} 处匹配', matches.length));
         }
     }
     
     isRunning = false;
+    isPaused = false;
     startBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+    }
 }
 
 function reset() {
     isRunning = false;
+    isPaused = false;
     startBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+    }
     init();
 }
 
 startBtn.addEventListener('click', start);
 resetBtn.addEventListener('click', reset);
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', togglePause);
+}
 
 textInput.addEventListener('input', () => { if (!isRunning) init(); });
 patternInput.addEventListener('input', () => { if (!isRunning) init(); });
 
-init();
+// 等待 I18n 模块加载完成后初始化
+if (document.readyState === 'complete') {
+    setTimeout(init, 50);
+} else {
+    window.addEventListener('load', () => setTimeout(init, 50));
+}

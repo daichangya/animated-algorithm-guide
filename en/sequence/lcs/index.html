@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCS Longest Common Subsequence Visualization - Dynamic Programming | Algorithm Visualization</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn LCS algorithm through interactive animation. Watch the DP table filling process, understand how to find the longest common subsequence of two sequences.">
+    <meta name="keywords" content="LCS,Longest Common Subsequence,Longest Common Subsequence,Dynamic Programming,DP,Sequence Matching,Algorithm Visualization">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algo.jsdiff.com/en/sequence/lcs/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="LCS Longest Common Subsequence Visualization - Dynamic Programming">
+    <meta property="og:description" content="Learn LCS algorithm through interactive animation, watch DP table filling.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algo.jsdiff.com/sequence/lcs/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="LCSLongest Common Subsequence Visualization">
+    <meta name="twitter:description" content="Interactive animation demonstrating dynamic programming for LCS">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <link rel="stylesheet" href="../../../common/styles.css">
+    <link rel="stylesheet" href="../../../sequence/lcs/style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sequence/lcs/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sequence/lcs/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sequence/lcs/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sequence/lcs" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sequence/lcs/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sequence/lcs" />
+</head>
+<body class="bg-decoration">
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../../common/header.js"></script>
+
+    <div class="container">
+        <a href="../../../en/index.html" class="nav-link">← Back to Home</a>
+        
+        <header class="page-header">
+            <h1 class="title">Longest Common Subsequence Visualization</h1>
+            <p class="subtitle">Classic Dynamic Programming Problem - LCS</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p>The Longest Common Subsequence (LCS) problem finds the longest subsequence common to two sequences. Subsequences don't need to be contiguous but must maintain relative order. LCS is fundamental to text comparison and bioinformatics.</p>
+        </div>
+        
+        <!-- 输入区域 -->
+        <div class="input-section">
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Sequence A</label>
+                    <input type="text" id="seqAInput" value="ABCBDAB">
+                </div>
+                <div class="input-group">
+                    <label>Sequence B</label>
+                    <input type="text" id="seqBInput" value="BDCABA">
+                </div>
+            </div>
+        </div>
+        
+        <!-- 序列显示 -->
+        <div class="sequences-display">
+            <div class="sequence-row">
+                <span class="seq-label">A:</span>
+                <div class="sequence-chars" id="seqAChars"></div>
+            </div>
+            <div class="sequence-row">
+                <span class="seq-label">B:</span>
+                <div class="sequence-chars" id="seqBChars"></div>
+            </div>
+        </div>
+        
+        <!-- DP矩阵 -->
+        <div class="dp-matrix-section">
+            <div class="section-label">DP Matrix</div>
+            <div class="dp-matrix-container" id="dpMatrixContainer">
+                <table class="dp-matrix" id="dpMatrix">
+                    <!-- 由JS生成 -->
+                </table>
+            </div>
+        </div>
+        
+        <!-- LCS结果 -->
+        <div class="lcs-result-section">
+            <div class="section-label">Longest Common Subsequence</div>
+            <div class="lcs-result">
+                <div class="lcs-chars" id="lcsChars"></div>
+                <div class="lcs-length">
+                    <span>Length</span>: <span id="lcsLength">?</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn">Start</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>Pause</button>
+            <button class="btn btn-secondary" id="resetBtn">Reset</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText">Click "Start" to view animation</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle">📖 How It Works</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ Complexity</button>
+                <button class="tab-btn" data-tab="usage">💡 Applications</button>
+                <button class="tab-btn" data-tab="code">📝 Implementation</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>Dynamic Programming Approach</h4>
+                <p>Let dp[i][j] represent the LCS length of first i chars of A and first j chars of B.</p>
+                <ul>
+                    <li>If A[i-1] == B[j-1]: dp[i][j] = dp[i-1][j-1] + 1 (match, LCS length +1)</li>
+                    <li>If A[i-1] != B[j-1]: dp[i][j] = max(dp[i-1][j], dp[i][j-1]) (take max of left/top)</li>
+                </ul>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    dp[m][n] is the LCS length. Backtrack through the DP table to reconstruct the actual LCS.
+                </p>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>Time & Space Complexity</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>指标</th>
+                        <th>Complexity</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Time Complexity</td>
+                        <td>O(M × N)</td>
+                        <td>Need to fill entire DP table</td>
+                    </tr>
+                    <tr>
+                        <td>Space Complexity</td>
+                        <td>O(M × N)</td>
+                        <td>Need to store DP table</td>
+                    </tr>
+                    <tr>
+                        <td>Optimized Space</td>
+                        <td class="highlight">O(min(M,N))</td>
+                        <td>Store only two rows (if only length needed)</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>Applications</h4>
+                <ul>
+                    <li>Text comparison: diff tools for file comparison</li>
+                    <li>Bioinformatics: DNA/protein sequence alignment</li>
+                    <li>Version control: Detecting code changes</li>
+                    <li>Spell checking: Basis for edit distance</li>
+                    <li>Data deduplication: Identifying similar content</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag">Text Comparison</span>
+                    <span class="use-case-tag">DNA Alignment</span>
+                    <span class="use-case-tag">Version Control</span>
+                    <span class="use-case-tag">Similarity</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>Implementation</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">def</span> <span class="function">lcs</span>(a, b):
+    <span class="string">"""计算最长公共子序列"""</span>
+    m, n = <span class="function">len</span>(a), <span class="function">len</span>(b)
+    
+    <span class="comment"># 创建DP表</span>
+    dp = [[<span class="number">0</span>] * (n + <span class="number">1</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="function">range</span>(m + <span class="number">1</span>)]
+    
+    <span class="comment"># 填充DP表</span>
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="number">1</span>, m + <span class="number">1</span>):
+        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="function">range</span>(<span class="number">1</span>, n + <span class="number">1</span>):
+            <span class="keyword">if</span> a[i - <span class="number">1</span>] == b[j - <span class="number">1</span>]:
+                dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>
+            <span class="keyword">else</span>:
+                dp[i][j] = <span class="function">max</span>(dp[i - <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>])
+    
+    <span class="comment"># 回溯获取LCS字符串</span>
+    lcs_str = []
+    i, j = m, n
+    <span class="keyword">while</span> i > <span class="number">0</span> <span class="keyword">and</span> j > <span class="number">0</span>:
+        <span class="keyword">if</span> a[i - <span class="number">1</span>] == b[j - <span class="number">1</span>]:
+            lcs_str.<span class="function">append</span>(a[i - <span class="number">1</span>])
+            i -= <span class="number">1</span>
+            j -= <span class="number">1</span>
+        <span class="keyword">elif</span> dp[i - <span class="number">1</span>][j] > dp[i][j - <span class="number">1</span>]:
+            i -= <span class="number">1</span>
+        <span class="keyword">else</span>:
+            j -= <span class="number">1</span>
+    
+    <span class="keyword">return</span> <span class="string">''</span>.<span class="function">join</span>(<span class="function">reversed</span>(lcs_str))
+
+
+<span class="comment"># 使用示例</span>
+a = <span class="string">"ABCBDAB"</span>
+b = <span class="string">"BDCABA"</span>
+result = <span class="function">lcs</span>(a, b)
+<span class="function">print</span>(<span class="string">f"LCS: {result}, 长度: {len(result)}"</span>)
+<span class="comment"># 输出: LCS: BCBA, 长度: 4</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">public class</span> <span class="type">LCS</span> {
+    
+    <span class="comment">/**
+     * 计算最长公共子序列
+     */</span>
+    <span class="keyword">public static</span> <span class="type">String</span> <span class="function">lcs</span>(<span class="type">String</span> a, <span class="type">String</span> b) {
+        <span class="type">int</span> m = a.<span class="function">length</span>();
+        <span class="type">int</span> n = b.<span class="function">length</span>();
+        
+        <span class="comment">// 创建DP表</span>
+        <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="type">int</span>[m + <span class="number">1</span>][n + <span class="number">1</span>];
+        
+        <span class="comment">// 填充DP表</span>
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i <= m; i++) {
+            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j <= n; j++) {
+                <span class="keyword">if</span> (a.<span class="function">charAt</span>(i - <span class="number">1</span>) == b.<span class="function">charAt</span>(j - <span class="number">1</span>)) {
+                    dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;
+                } <span class="keyword">else</span> {
+                    dp[i][j] = Math.<span class="function">max</span>(dp[i - <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>]);
+                }
+            }
+        }
+        
+        <span class="comment">// 回溯获取LCS字符串</span>
+        <span class="type">StringBuilder</span> lcsStr = <span class="keyword">new</span> <span class="type">StringBuilder</span>();
+        <span class="type">int</span> i = m, j = n;
+        <span class="keyword">while</span> (i > <span class="number">0</span> && j > <span class="number">0</span>) {
+            <span class="keyword">if</span> (a.<span class="function">charAt</span>(i - <span class="number">1</span>) == b.<span class="function">charAt</span>(j - <span class="number">1</span>)) {
+                lcsStr.<span class="function">insert</span>(<span class="number">0</span>, a.<span class="function">charAt</span>(i - <span class="number">1</span>));
+                i--; j--;
+            } <span class="keyword">else if</span> (dp[i - <span class="number">1</span>][j] > dp[i][j - <span class="number">1</span>]) {
+                i--;
+            } <span class="keyword">else</span> {
+                j--;
+            }
+        }
+        
+        <span class="keyword">return</span> lcsStr.<span class="function">toString</span>();
+    }
+    
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">String</span> a = <span class="string">"ABCBDAB"</span>;
+        <span class="type">String</span> b = <span class="string">"BDCABA"</span>;
+        <span class="type">String</span> result = <span class="function">lcs</span>(a, b);
+        System.out.<span class="function">println</span>(<span class="string">"LCS: "</span> + result + 
+            <span class="string">", 长度: "</span> + result.<span class="function">length</span>());
+        <span class="comment">// 输出: LCS: BCBA, 长度: 4</span>
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../../common/footer.js"></script>
+    <script type="module" src="../../../common/i18n.js"></script>
+    <script src="../../../sequence/lcs/script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

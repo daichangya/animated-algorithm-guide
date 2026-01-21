@@ -8,12 +8,14 @@ const CONFIG = { stepDelay: 800 };
 let array = [];
 let target = 42;
 let isRunning = false;
+let isPaused = false;
 
 const arrayContainer = document.getElementById('arrayContainer');
 const indexRow = document.getElementById('indexRow');
 const targetInput = document.getElementById('targetInput');
 const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
+const pauseBtn = document.getElementById('pauseBtn');
 const statusText = document.getElementById('statusText');
 
 const leftLabel = document.getElementById('leftLabel');
@@ -115,11 +117,37 @@ function updateArrayDisplay(left, right, mid = -1) {
 }
 
 function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => {
+        const startTime = Date.now();
+        const checkPause = () => {
+            if (!isRunning) { resolve(); return; }
+            if (isPaused) {
+                setTimeout(checkPause, 50);
+            } else {
+                const remaining = Math.max(0, ms - (Date.now() - startTime));
+                if (remaining <= 0) resolve();
+                else setTimeout(resolve, remaining);
+            }
+        };
+        setTimeout(checkPause, ms);
+    });
+}
+
+function togglePause() {
+    isPaused = !isPaused;
+    if (isPaused) {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+        pauseBtn.classList.add('paused');
+        updateStatus('已暂停 - 点击继续');
+    } else {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+        updateStatus('运行中...');
+    }
 }
 
 function updateStatus(text) {
-    statusText.textContent = text;
+    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
 }
 
 async function binarySearch() {
@@ -140,7 +168,7 @@ async function binarySearch() {
         
         midValue.textContent = array[mid];
         
-        updateStatus(`第${step}步: 检查中点 arr[${mid}] = ${array[mid]}`);
+        updateStatus(window.I18n.t('第{0}步: 检查中点 arr[{1}] = {2}', step, mid, array[mid]));
         
         await delay(CONFIG.stepDelay);
         
@@ -152,13 +180,13 @@ async function binarySearch() {
             const item = document.getElementById(`item-${mid}`);
             item.classList.add('found');
             
-            updateStatus(`找到目标! 位置: ${mid}, 共 ${step} 步`);
+            updateStatus(window.I18n.t('找到目标! 位置: {0}, 共 {1} 步', mid, step));
             return mid;
         } else if (array[mid] < target) {
             // 目标在右半部分
             compareOp.textContent = '<';
             compareOp.className = 'compare-op less';
-            updateStatus(`${array[mid]} < ${target}, 搜索右半部分`);
+            updateStatus(window.I18n.t('{0} < {1}, 搜索右半部分', array[mid], target));
             
             await delay(CONFIG.stepDelay / 2);
             left = mid + 1;
@@ -166,7 +194,7 @@ async function binarySearch() {
             // 目标在左半部分
             compareOp.textContent = '>';
             compareOp.className = 'compare-op greater';
-            updateStatus(`${array[mid]} > ${target}, 搜索左半部分`);
+            updateStatus(window.I18n.t('{0} > {1}, 搜索左半部分', array[mid], target));
             
             await delay(CONFIG.stepDelay / 2);
             right = mid - 1;
@@ -177,7 +205,7 @@ async function binarySearch() {
     document.querySelectorAll('.array-item').forEach(item => {
         item.classList.add('not-found');
     });
-    updateStatus(`未找到目标 ${target}`);
+    updateStatus(window.I18n.t('未找到目标 {0}', target));
     return -1;
 }
 
@@ -187,7 +215,13 @@ async function start() {
     target = parseInt(targetInput.value) || 42;
     
     isRunning = true;
+    isPaused = false;
     startBtn.disabled = true;
+    if (pauseBtn) {
+        pauseBtn.disabled = false;
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+    }
     
     resetLabels();
     renderArray();
@@ -195,21 +229,40 @@ async function start() {
     await binarySearch();
     
     isRunning = false;
+    isPaused = false;
     startBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+    }
 }
 
 function reset() {
     isRunning = false;
+    isPaused = false;
     startBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+    }
     init();
 }
 
 startBtn.addEventListener('click', start);
 resetBtn.addEventListener('click', reset);
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', togglePause);
+}
 targetInput.addEventListener('change', () => {
     if (!isRunning) {
         target = parseInt(targetInput.value) || 42;
     }
 });
 
-init();
+// 等待 I18n 模块加载完成后初始化
+if (document.readyState === 'complete') {
+    setTimeout(init, 50);
+} else {
+    window.addEventListener('load', () => setTimeout(init, 50));
+}

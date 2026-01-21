@@ -9,40 +9,56 @@
     <meta name="description" content="通过交互式动画对比学习BFS广度优先搜索和DFS深度优先搜索。观察队列和栈的工作方式，理解两种遍历策略的差异。">
     <meta name="keywords" content="BFS,DFS,广度优先搜索,深度优先搜索,图遍历,队列,栈,算法可视化,图论">
     <meta name="author" content="Algorithm Visualization">
-    <link rel="canonical" href="https://algorithm-visualizer.example.com/graph/bfs-dfs/">
+    <link rel="canonical" href="https://algo.jsdiff.com/graph/bfs-dfs/">
     
     <!-- Open Graph -->
     <meta property="og:title" content="BFS/DFS图遍历可视化 - 广度优先与深度优先">
     <meta property="og:description" content="通过交互式动画对比BFS和DFS两种图遍历算法。">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://algorithm-visualizer.example.com/graph/bfs-dfs/">
+    <meta property="og:url" content="https://algo.jsdiff.com/graph/bfs-dfs/">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="BFS/DFS图遍历可视化">
     <meta name="twitter:description" content="交互式动画演示广度优先和深度优先搜索">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
     <link rel="stylesheet" href="../../common/styles.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/bfs-dfs/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/bfs-dfs/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/graph/bfs-dfs/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body class="bg-decoration">
-    <!-- 语言切换器 -->
-    <div class="lang-switcher">
-        <button class="lang-btn" data-lang="zh">中文</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../common/header.js"></script>
 
     <div class="container">
-        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        <a href="../../index.html" class="nav-link">← 返回首页</a>
         
         <header class="page-header">
-            <h1 class="title" data-i18n="bfsDfs.title">BFS与DFS图遍历可视化</h1>
-            <p class="subtitle" data-i18n="bfsDfs.subtitle">广度优先 vs 深度优先搜索</p>
+            <h1 class="title">BFS与DFS图遍历可视化</h1>
+            <p class="subtitle">广度优先 vs 深度优先搜索</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p data-i18n="bfsDfs.intro">BFS（广度优先搜索）和DFS（深度优先搜索）是两种基本的图遍历算法。BFS使用队列，逐层扩展；DFS使用栈（或递归），尽可能深入探索。</p>
+            <p>BFS（广度优先搜索）和DFS（深度优先搜索）是两种基本的图遍历算法。BFS使用队列，逐层扩展；DFS使用栈（或递归），尽可能深入探索。</p>
         </div>
         
         <!-- 模式切换 -->
@@ -86,7 +102,8 @@
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn">开始遍历</button>
+            <button class="btn btn-primary" id="startBtn">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
             <button class="btn btn-secondary" id="resetBtn">重置</button>
         </div>
         
@@ -118,8 +135,8 @@
                     </tr>
                     <tr>
                         <td>访问顺序</td>
-                        <td>按层次，先近后远</td>
-                        <td>深入分支，再回溯</td>
+                        <td>逐层扩展（由近及远）</td>
+                        <td>尽可能深入，再回溯</td>
                     </tr>
                     <tr>
                         <td>最短路径</td>
@@ -301,6 +318,7 @@ graph = {
         </div>
     </div>
     
+    <script type="module" src="../../common/footer.js"></script>
     <script type="module" src="../../common/i18n.js"></script>
     <script src="script.js"></script>
     <script>

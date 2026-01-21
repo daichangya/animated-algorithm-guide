@@ -1,0 +1,11 @@
+# robots.txt for algo.jsdiff.com
+# Algorithm Visualization Learning Platform
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://algo.jsdiff.com/sitemap.xml
+
+# Crawl delay (optional, be friendly to search engines)
+Crawl-delay: 1

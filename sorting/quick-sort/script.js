@@ -16,6 +16,7 @@ const CONFIG = {
 // 状态
 let array = [];
 let isSorting = false;
+let isPaused = false;
 let currentDepth = 0;
 
 // DOM 元素
@@ -24,6 +25,7 @@ const depthBars = document.getElementById('depthBars');
 const partitionText = document.getElementById('partitionText');
 const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
+const pauseBtn = document.getElementById('pauseBtn');
 const statusText = document.getElementById('statusText');
 
 /**
@@ -82,17 +84,46 @@ function renderArray() {
 }
 
 /**
- * 延迟函数
+ * 延迟函数（支持暂停）
  */
 function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => {
+        const startTime = Date.now();
+        const checkPause = () => {
+            if (!isSorting) { resolve(); return; }
+            if (isPaused) {
+                setTimeout(checkPause, 50);
+            } else {
+                const remaining = Math.max(0, ms - (Date.now() - startTime));
+                if (remaining <= 0) resolve();
+                else setTimeout(resolve, remaining);
+            }
+        };
+        setTimeout(checkPause, ms);
+    });
+}
+
+/**
+ * 切换暂停状态
+ */
+function togglePause() {
+    isPaused = !isPaused;
+    if (isPaused) {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+        pauseBtn.classList.add('paused');
+        updateStatus('已暂停 - 点击继续');
+    } else {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+        updateStatus('运行中...');
+    }
 }
 
 /**
  * 更新状态文本
  */
 function updateStatus(text) {
-    statusText.textContent = text;
+    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
 }
 
 /**
@@ -265,7 +296,7 @@ async function partition(low, high, depth) {
         if (!isSorting) return -1;
         
         highlightPointers(i + 1, j);
-        updateStatus(`比较: 元素[${j}]=${Math.floor(array[j] / 10)} 与 基准=${Math.floor(pivotValue / 10)}`);
+        updateStatus(window.I18n.t('比较: 元素[{0}]={1} 与 基准={2}', j, Math.floor(array[j] / 10), Math.floor(pivotValue / 10)));
         
         const currentBar = getBar(j);
         currentBar.classList.add('comparing');
@@ -275,7 +306,7 @@ async function partition(low, high, depth) {
         if (array[j] < pivotValue) {
             i++;
             if (i !== j) {
-                updateStatus(`交换: 元素[${i}] 和 元素[${j}]`);
+                updateStatus(window.I18n.t('交换: 元素[{0}] 和 元素[{1}]', i, j));
                 await swap(i, j);
             }
         }
@@ -286,7 +317,7 @@ async function partition(low, high, depth) {
     // 将基准放到正确的位置
     const pivotFinalPos = i + 1;
     if (pivotFinalPos !== high) {
-        updateStatus(`基准就位: 移动到位置 ${pivotFinalPos}`);
+        updateStatus(window.I18n.t('基准就位: 移动到位置 {0}', pivotFinalPos));
         await swap(pivotFinalPos, high);
     }
     
@@ -310,7 +341,7 @@ async function quickSort(low, high, depth = 0) {
     updateDepth(depth);
     
     if (low < high) {
-        updateStatus(`递归深度: ${depth}, 处理范围: [${low} - ${high}]`);
+        updateStatus(window.I18n.t('递归深度: {0}, 处理范围: [{1} - {2}]', depth, low, high));
         
         const pivotIndex = await partition(low, high, depth);
         
@@ -362,8 +393,14 @@ async function startSorting() {
     if (isSorting) return;
     
     isSorting = true;
+    isPaused = false;
     startBtn.disabled = true;
     resetBtn.disabled = true;
+    if (pauseBtn) {
+        pauseBtn.disabled = false;
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+    }
     
     // 重置所有状态
     document.querySelectorAll('.bar').forEach(bar => {
@@ -389,8 +426,13 @@ async function startSorting() {
     }
     
     isSorting = false;
+    isPaused = false;
     startBtn.disabled = false;
     resetBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+    }
 }
 
 /**
@@ -398,8 +440,14 @@ async function startSorting() {
  */
 function reset() {
     isSorting = false;
+    isPaused = false;
     startBtn.disabled = false;
     resetBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+    }
     
     // 清除粒子
     document.querySelectorAll('.spark-particle, .pivot-explosion').forEach(p => p.remove());
@@ -413,6 +461,9 @@ function reset() {
 // 事件监听
 startBtn.addEventListener('click', startSorting);
 resetBtn.addEventListener('click', reset);
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', togglePause);
+}
 
 // 初始化
 generateArray();

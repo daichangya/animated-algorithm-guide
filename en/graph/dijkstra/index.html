@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijkstra Shortest Path Visualization - Graph Algorithm Animation | Algorithm Visualization</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn Dijkstra shortest path through interactive animation. Watch greedy strategy gradually expand shortest path tree, understand single-source shortest path solving process.">
+    <meta name="keywords" content="Dijkstra,Shortest Path,Graph Algorithms,Greedy Algorithm,Single-Source Shortest Path,Priority Queue,Algorithm Visualization,Path Planning">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algo.jsdiff.com/en/graph/dijkstra/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Dijkstra Shortest Path Visualization - Graph Algorithm Animation">
+    <meta property="og:description" content="Learn Dijkstra algorithm through interactive animation, watch shortest path solving.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algo.jsdiff.com/graph/dijkstra/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Dijkstra's Shortest Path Visualization">
+    <meta name="twitter:description" content="Interactive animation demonstrating Dijkstra shortest path algorithm">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <link rel="stylesheet" href="../../../common/styles.css">
+    <link rel="stylesheet" href="../../../graph/dijkstra/style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/dijkstra/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/dijkstra/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/graph/dijkstra/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/dijkstra" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/dijkstra/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/graph/dijkstra" />
+</head>
+<body class="bg-decoration">
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../../common/header.js"></script>
+
+    <div class="container">
+        <a href="../../../en/index.html" class="nav-link">← Back to Home</a>
+        
+        <header class="page-header">
+            <h1 class="title">Dijkstra's Shortest Path Visualization</h1>
+            <p class="subtitle">Classic single-source shortest path algorithm</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p>Dijkstra's algorithm finds shortest paths from a source vertex to all other vertices in a weighted graph. It uses a greedy strategy, always expanding the unvisited vertex with minimum current distance.</p>
+        </div>
+        
+        <!-- 图形区域 -->
+        <div class="graph-container" id="graphContainer">
+            <svg id="graphSvg"></svg>
+        </div>
+        
+        <!-- 距离表 -->
+        <div class="distance-table-section">
+            <div class="section-label">Distance Table</div>
+            <div class="distance-table" id="distanceTable"></div>
+        </div>
+        
+        <!-- 控制 -->
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn">Start</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>Pause</button>
+            <button class="btn btn-secondary" id="resetBtn">Reset</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText">Click "Start" to view animation</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle">📖 How It Works</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ Complexity</button>
+                <button class="tab-btn" data-tab="usage">💡 Applications</button>
+                <button class="tab-btn" data-tab="code">📝 Implementation</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>Algorithm Steps</h4>
+                <ol>
+                    <li>Initialize: source distance = 0, all other nodes = infinity</li>
+                    <li>Add the source to a priority queue (min-heap)</li>
+                    <li>Extract the node u with the smallest distance from the queue</li>
+                    <li>For each neighbor v of u, if the path through u is shorter, update v's distance</li>
+                    <li>Add the updated neighbor to the priority queue</li>
+                    <li>Repeat steps 3-5 until the queue is empty</li>
+                </ol>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    Key insight: Once a node's shortest distance is finalized, it won't be updated again because all edge weights are non-negative.
+                </p>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>Time & Space Complexity</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>Implementation</th>
+                        <th>Time Complexity</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Array Implementation</td>
+                        <td>O(V²)</td>
+                        <td>Linear search for minimum each time</td>
+                    </tr>
+                    <tr>
+                        <td>Binary Heap</td>
+                        <td class="highlight">O((V+E)log V)</td>
+                        <td>Common implementation</td>
+                    </tr>
+                    <tr>
+                        <td>Fibonacci Heap</td>
+                        <td>O(E + V log V)</td>
+                        <td>Theoretical best, complex implementation</td>
+                    </tr>
+                    <tr>
+                        <td>Space Complexity</td>
+                        <td>O(V)</td>
+                        <td>Store distances and priority queue</td>
+                    </tr>
+                </table>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    Note: Dijkstra cannot handle negative edge weights. Use Bellman-Ford for graphs with negative edges.
+                </p>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>Applications</h4>
+                <ul>
+                    <li>GPS navigation shortest route planning</li>
+                    <li>Network routing protocols (OSPF, IS-IS)</li>
+                    <li>Shortest relationship chain in social networks</li>
+                    <li>NPC pathfinding in games</li>
+                    <li>Flight/railway optimal route queries</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag">Navigation</span>
+                    <span class="use-case-tag">Network Routing</span>
+                    <span class="use-case-tag">Game Development</span>
+                    <span class="use-case-tag">Path Planning</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>Implementation</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">import</span> heapq
+
+<span class="keyword">def</span> <span class="function">dijkstra</span>(graph, start):
+    <span class="string">"""Dijkstra最短路径算法
+    graph: 邻接表 {node: [(neighbor, weight), ...]}
+    """</span>
+    distances = {node: <span class="function">float</span>(<span class="string">'inf'</span>) <span class="keyword">for</span> node <span class="keyword">in</span> graph}
+    distances[start] = <span class="number">0</span>
+    previous = {node: <span class="keyword">None</span> <span class="keyword">for</span> node <span class="keyword">in</span> graph}
+    
+    <span class="comment"># 优先队列: (距离, 节点)</span>
+    pq = [(<span class="number">0</span>, start)]
+    
+    <span class="keyword">while</span> pq:
+        current_dist, current = heapq.<span class="function">heappop</span>(pq)
+        
+        <span class="comment"># 跳过已处理的节点</span>
+        <span class="keyword">if</span> current_dist > distances[current]:
+            <span class="keyword">continue</span>
+        
+        <span class="keyword">for</span> neighbor, weight <span class="keyword">in</span> graph[current]:
+            distance = current_dist + weight
+            
+            <span class="keyword">if</span> distance < distances[neighbor]:
+                distances[neighbor] = distance
+                previous[neighbor] = current
+                heapq.<span class="function">heappush</span>(pq, (distance, neighbor))
+    
+    <span class="keyword">return</span> distances, previous
+
+
+<span class="comment"># 使用示例</span>
+graph = {
+    <span class="string">'A'</span>: [(<span class="string">'B'</span>, <span class="number">4</span>), (<span class="string">'C'</span>, <span class="number">2</span>)],
+    <span class="string">'B'</span>: [(<span class="string">'A'</span>, <span class="number">4</span>), (<span class="string">'C'</span>, <span class="number">1</span>), (<span class="string">'D'</span>, <span class="number">5</span>)],
+    <span class="string">'C'</span>: [(<span class="string">'A'</span>, <span class="number">2</span>), (<span class="string">'B'</span>, <span class="number">1</span>), (<span class="string">'D'</span>, <span class="number">8</span>)],
+    <span class="string">'D'</span>: [(<span class="string">'B'</span>, <span class="number">5</span>), (<span class="string">'C'</span>, <span class="number">8</span>)]
+}
+dist, prev = <span class="function">dijkstra</span>(graph, <span class="string">'A'</span>)
+<span class="function">print</span>(dist)  <span class="comment"># {'A': 0, 'B': 3, 'C': 2, 'D': 8}</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">import</span> java.util.*;
+
+<span class="keyword">public class</span> <span class="type">Dijkstra</span> {
+    
+    <span class="keyword">public static</span> <span class="type">Map</span>&lt;<span class="type">String</span>, <span class="type">Integer</span>&gt; <span class="function">dijkstra</span>(
+            <span class="type">Map</span>&lt;<span class="type">String</span>, <span class="type">List</span>&lt;<span class="type">int</span>[]&gt;&gt; graph, 
+            <span class="type">String</span> start) {
+        
+        <span class="type">Map</span>&lt;<span class="type">String</span>, <span class="type">Integer</span>&gt; distances = <span class="keyword">new</span> <span class="type">HashMap</span>&lt;&gt;();
+        <span class="keyword">for</span> (<span class="type">String</span> node : graph.<span class="function">keySet</span>()) {
+            distances.<span class="function">put</span>(node, <span class="type">Integer</span>.MAX_VALUE);
+        }
+        distances.<span class="function">put</span>(start, <span class="number">0</span>);
+        
+        <span class="comment">// 优先队列: [距离, 节点索引]</span>
+        <span class="type">PriorityQueue</span>&lt;<span class="type">int</span>[]&gt; pq = <span class="keyword">new</span> <span class="type">PriorityQueue</span>&lt;&gt;(
+            (a, b) -> a[<span class="number">0</span>] - b[<span class="number">0</span>]
+        );
+        pq.<span class="function">offer</span>(<span class="keyword">new</span> <span class="type">int</span>[]{<span class="number">0</span>, start.<span class="function">hashCode</span>()});
+        
+        <span class="type">Set</span>&lt;<span class="type">String</span>&gt; visited = <span class="keyword">new</span> <span class="type">HashSet</span>&lt;&gt;();
+        
+        <span class="keyword">while</span> (!pq.<span class="function">isEmpty</span>()) {
+            <span class="type">int</span>[] curr = pq.<span class="function">poll</span>();
+            <span class="type">int</span> currDist = curr[<span class="number">0</span>];
+            
+            <span class="comment">// 找到对应节点</span>
+            <span class="type">String</span> currNode = <span class="keyword">null</span>;
+            <span class="keyword">for</span> (<span class="type">String</span> n : graph.<span class="function">keySet</span>()) {
+                <span class="keyword">if</span> (n.<span class="function">hashCode</span>() == curr[<span class="number">1</span>]) {
+                    currNode = n;
+                    <span class="keyword">break</span>;
+                }
+            }
+            
+            <span class="keyword">if</span> (visited.<span class="function">contains</span>(currNode)) <span class="keyword">continue</span>;
+            visited.<span class="function">add</span>(currNode);
+            
+            <span class="keyword">for</span> (<span class="type">int</span>[] edge : graph.<span class="function">get</span>(currNode)) {
+                <span class="comment">// edge[0] = neighbor index, edge[1] = weight</span>
+                <span class="type">int</span> newDist = currDist + edge[<span class="number">1</span>];
+                <span class="comment">// 更新距离并加入队列...</span>
+            }
+        }
+        
+        <span class="keyword">return</span> distances;
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../../common/footer.js"></script>
+    <script type="module" src="../../../common/i18n.js"></script>
+    <script src="../../../graph/dijkstra/script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

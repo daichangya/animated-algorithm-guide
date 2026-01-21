@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convex Hull Visualization - Graham Scan | Algorithm Visualization</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn Graham Scan convex hull through interactive animation. Watch how stack structure gradually builds minimum convex polygon enclosing point set. Supports manual point addition or random generation.">
+    <meta name="keywords" content="Convex Hull,Graham Scan,Computational Geometry,Convex Polygon,Point Set,Stack,Algorithm Visualization,Geometric Algorithm">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algo.jsdiff.com/en/geometry/convex-hull/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Convex Hull Visualization - Graham Scan">
+    <meta property="og:description" content="Learn convex hull algorithm through interactive animation, watch stack changes.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algo.jsdiff.com/geometry/convex-hull/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Convex Hull Visualization">
+    <meta name="twitter:description" content="Interactive animation demonstrating Graham Scan convex hull algorithm">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <link rel="stylesheet" href="../../../common/styles.css">
+    <link rel="stylesheet" href="../../../geometry/convex-hull/style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/geometry/convex-hull/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/geometry/convex-hull/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/geometry/convex-hull/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/geometry/convex-hull" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/geometry/convex-hull/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/geometry/convex-hull" />
+</head>
+<body class="bg-decoration">
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../../common/header.js"></script>
+
+    <div class="container">
+        <a href="../../../en/index.html" class="nav-link">← Back to Home</a>
+        
+        <header class="page-header">
+            <h1 class="title">Convex Hull Visualization</h1>
+            <p class="subtitle">Graham Scan - Computing point set convex hull</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p>Convex Hull is the smallest convex polygon containing all given points. Graham Scan uses polar angle sorting and stack operations to efficiently compute the convex hull in O(n log n) time.</p>
+        </div>
+        
+        <!-- 画布 -->
+        <div class="canvas-section">
+            <canvas id="canvas" width="700" height="450"></canvas>
+            <div class="canvas-hint">Click canvas to add points, or generate automatically</div>
+        </div>
+        
+        <!-- 栈显示 -->
+        <div class="stack-section">
+            <div class="section-label">Hull Stack</div>
+            <div class="stack-content" id="stackContent"></div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn">Start</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>Pause</button>
+            <button class="btn btn-secondary" id="generateBtn">Random Generate</button>
+            <button class="btn btn-secondary" id="clearBtn">Clear</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText">Click "Start" to view animation</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle">📖 How It Works</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ Complexity</button>
+                <button class="tab-btn" data-tab="usage">💡 Applications</button>
+                <button class="tab-btn" data-tab="code">📝 Implementation</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>Graham Scan Steps</h4>
+                <ol>
+                    <li>Find point P0 with minimum y-coordinate (then minimum x if tie)</li>
+                    <li>Sort all other points by polar angle relative to P0</li>
+                    <li>Initialize stack with P0 and first sorted point</li>
+                    <li>Process remaining points:</li>
+                    <li>If new point causes "right turn" with top two stack elements, pop top</li>
+                    <li>Repeat until "left turn", then push new point</li>
+                    <li>Stack contains convex hull vertices</li>
+                </ol>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>Time & Space Complexity</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>Step</th>
+                        <th>Complexity</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Find Base Point</td>
+                        <td>O(n)</td>
+                        <td>Traverse all points</td>
+                    </tr>
+                    <tr>
+                        <td>Polar Angle Sort</td>
+                        <td>O(n log n)</td>
+                        <td>Dominates overall complexity</td>
+                    </tr>
+                    <tr>
+                        <td>Stack Processing</td>
+                        <td>O(n)</td>
+                        <td>Each point pushed/popped at most once</td>
+                    </tr>
+                    <tr>
+                        <td>Total Time</td>
+                        <td class="highlight">O(n log n)</td>
+                        <td>Dominated by sorting</td>
+                    </tr>
+                    <tr>
+                        <td>Space Complexity</td>
+                        <td>O(n)</td>
+                        <td>Store stack</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>Applications</h4>
+                <ul>
+                    <li>Collision detection in graphics</li>
+                    <li>Boundary computation in GIS</li>
+                    <li>Robotics运动规划</li>
+                    <li>Object contours in image processing</li>
+                    <li>Minimum bounding box computation</li>
+                    <li>Outlier detection in statistics</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag">Collision Detection</span>
+                    <span class="use-case-tag">GIS</span>
+                    <span class="use-case-tag">Robotics</span>
+                    <span class="use-case-tag">Image Processing</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>Implementation</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">def</span> <span class="function">cross</span>(o, a, b):
+    <span class="string">"""叉积判断转向方向"""</span>
+    <span class="keyword">return</span> (a[<span class="number">0</span>] - o[<span class="number">0</span>]) * (b[<span class="number">1</span>] - o[<span class="number">1</span>]) - (a[<span class="number">1</span>] - o[<span class="number">1</span>]) * (b[<span class="number">0</span>] - o[<span class="number">0</span>])
+
+
+<span class="keyword">def</span> <span class="function">convex_hull</span>(points):
+    <span class="string">"""Graham Scan算法计算凸包"""</span>
+    points = <span class="function">sorted</span>(<span class="function">set</span>(<span class="function">map</span>(<span class="function">tuple</span>, points)))
+    
+    <span class="keyword">if</span> <span class="function">len</span>(points) <= <span class="number">1</span>:
+        <span class="keyword">return</span> points
+    
+    <span class="comment"># 构建下凸壳</span>
+    lower = []
+    <span class="keyword">for</span> p <span class="keyword">in</span> points:
+        <span class="keyword">while</span> <span class="function">len</span>(lower) >= <span class="number">2</span> <span class="keyword">and</span> <span class="function">cross</span>(lower[-<span class="number">2</span>], lower[-<span class="number">1</span>], p) <= <span class="number">0</span>:
+            lower.<span class="function">pop</span>()
+        lower.<span class="function">append</span>(p)
+    
+    <span class="comment"># 构建上凸壳</span>
+    upper = []
+    <span class="keyword">for</span> p <span class="keyword">in</span> <span class="function">reversed</span>(points):
+        <span class="keyword">while</span> <span class="function">len</span>(upper) >= <span class="number">2</span> <span class="keyword">and</span> <span class="function">cross</span>(upper[-<span class="number">2</span>], upper[-<span class="number">1</span>], p) <= <span class="number">0</span>:
+            upper.<span class="function">pop</span>()
+        upper.<span class="function">append</span>(p)
+    
+    <span class="comment"># 合并（去除重复端点）</span>
+    <span class="keyword">return</span> lower[:-<span class="number">1</span>] + upper[:-<span class="number">1</span>]
+
+
+<span class="comment"># 使用示例</span>
+points = [(<span class="number">0</span>, <span class="number">0</span>), (<span class="number">1</span>, <span class="number">1</span>), (<span class="number">2</span>, <span class="number">2</span>), (<span class="number">0</span>, <span class="number">2</span>), (<span class="number">2</span>, <span class="number">0</span>), (<span class="number">1</span>, <span class="number">0</span>)]
+hull = <span class="function">convex_hull</span>(points)
+<span class="function">print</span>(hull)  <span class="comment"># [(0, 0), (2, 0), (2, 2), (0, 2)]</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">import</span> java.util.*;
+
+<span class="keyword">public class</span> <span class="type">ConvexHull</span> {
+    
+    <span class="comment">/**
+     * 叉积判断转向
+     */</span>
+    <span class="keyword">private static long</span> <span class="function">cross</span>(<span class="type">int</span>[] o, <span class="type">int</span>[] a, <span class="type">int</span>[] b) {
+        <span class="keyword">return</span> (<span class="keyword">long</span>)(a[<span class="number">0</span>] - o[<span class="number">0</span>]) * (b[<span class="number">1</span>] - o[<span class="number">1</span>]) 
+             - (<span class="keyword">long</span>)(a[<span class="number">1</span>] - o[<span class="number">1</span>]) * (b[<span class="number">0</span>] - o[<span class="number">0</span>]);
+    }
+    
+    <span class="comment">/**
+     * Graham Scan算法计算凸包
+     */</span>
+    <span class="keyword">public static</span> <span class="type">List</span>&lt;<span class="type">int</span>[]&gt; <span class="function">convexHull</span>(<span class="type">int</span>[][] points) {
+        <span class="type">int</span> n = points.length;
+        <span class="keyword">if</span> (n < <span class="number">3</span>) <span class="keyword">return</span> Arrays.<span class="function">asList</span>(points);
+        
+        <span class="comment">// 按坐标排序</span>
+        Arrays.<span class="function">sort</span>(points, (a, b) -> 
+            a[<span class="number">0</span>] != b[<span class="number">0</span>] ? a[<span class="number">0</span>] - b[<span class="number">0</span>] : a[<span class="number">1</span>] - b[<span class="number">1</span>]);
+        
+        <span class="type">List</span>&lt;<span class="type">int</span>[]&gt; hull = <span class="keyword">new</span> <span class="type">ArrayList</span>&lt;&gt;();
+        
+        <span class="comment">// 下凸壳</span>
+        <span class="keyword">for</span> (<span class="type">int</span>[] p : points) {
+            <span class="keyword">while</span> (hull.<span class="function">size</span>() >= <span class="number">2</span> && 
+                   <span class="function">cross</span>(hull.<span class="function">get</span>(hull.<span class="function">size</span>()-<span class="number">2</span>), 
+                        hull.<span class="function">get</span>(hull.<span class="function">size</span>()-<span class="number">1</span>), p) <= <span class="number">0</span>) {
+                hull.<span class="function">remove</span>(hull.<span class="function">size</span>() - <span class="number">1</span>);
+            }
+            hull.<span class="function">add</span>(p);
+        }
+        
+        <span class="comment">// 上凸壳</span>
+        <span class="type">int</span> lowerSize = hull.<span class="function">size</span>();
+        <span class="keyword">for</span> (<span class="type">int</span> i = n - <span class="number">2</span>; i >= <span class="number">0</span>; i--) {
+            <span class="keyword">while</span> (hull.<span class="function">size</span>() > lowerSize && 
+                   <span class="function">cross</span>(hull.<span class="function">get</span>(hull.<span class="function">size</span>()-<span class="number">2</span>),
+                        hull.<span class="function">get</span>(hull.<span class="function">size</span>()-<span class="number">1</span>), points[i]) <= <span class="number">0</span>) {
+                hull.<span class="function">remove</span>(hull.<span class="function">size</span>() - <span class="number">1</span>);
+            }
+            hull.<span class="function">add</span>(points[i]);
+        }
+        
+        hull.<span class="function">remove</span>(hull.<span class="function">size</span>() - <span class="number">1</span>);
+        <span class="keyword">return</span> hull;
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../../common/footer.js"></script>
+    <script type="module" src="../../../common/i18n.js"></script>
+    <script src="../../../geometry/convex-hull/script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

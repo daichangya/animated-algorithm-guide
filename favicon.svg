@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="url(#grad)"/>
+  <!-- Algorithm bars visualization -->
+  <rect x="20" y="55" width="12" height="30" rx="2" fill="#fff" opacity="0.9"/>
+  <rect x="36" y="40" width="12" height="45" rx="2" fill="#fff" opacity="0.9"/>
+  <rect x="52" y="25" width="12" height="60" rx="2" fill="#fff" opacity="0.9"/>
+  <rect x="68" y="35" width="12" height="50" rx="2" fill="#fff" opacity="0.9"/>
+  <!-- Connecting lines (algorithm flow) -->
+  <path d="M26 50 L42 35 L58 20 L74 30" stroke="#fff" stroke-width="2" fill="none" opacity="0.6"/>
+</svg>

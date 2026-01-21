@@ -8,11 +8,13 @@ const CONFIG = { stepDelay: 400 };
 let points = [];
 let hull = [];
 let isRunning = false;
+let isPaused = false;
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const stackContent = document.getElementById('stackContent');
 const startBtn = document.getElementById('startBtn');
+const pauseBtn = document.getElementById('pauseBtn');
 const generateBtn = document.getElementById('generateBtn');
 const clearBtn = document.getElementById('clearBtn');
 const statusText = document.getElementById('statusText');
@@ -36,7 +38,7 @@ function generateRandomPoints() {
     hull = [];
     render();
     updateStack([]);
-    updateStatus(`已生成 ${points.length} 个点`);
+    updateStatus(window.I18n.t('已生成 {0} 个点', points.length));
 }
 
 function render(sortedPoints = null, currentLine = null, checkLine = null) {
@@ -111,7 +113,8 @@ function updateStack(stack, currentIdx = -1, checkIdx = -1) {
     stackContent.innerHTML = '';
     
     if (stack.length === 0) {
-        stackContent.innerHTML = '<span style="color:rgba(255,255,255,0.4)">空</span>';
+        const t = window.I18n ? window.I18n.t.bind(window.I18n) : (s) => s;
+        stackContent.innerHTML = `<span style="color:rgba(255,255,255,0.4)">${t('空')}</span>`;
         return;
     }
     
@@ -139,11 +142,37 @@ function updateStack(stack, currentIdx = -1, checkIdx = -1) {
 }
 
 function updateStatus(text) {
-    statusText.textContent = text;
+    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
 }
 
 function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => {
+        const startTime = Date.now();
+        const checkPause = () => {
+            if (!isRunning) { resolve(); return; }
+            if (isPaused) {
+                setTimeout(checkPause, 50);
+            } else {
+                const remaining = Math.max(0, ms - (Date.now() - startTime));
+                if (remaining <= 0) resolve();
+                else setTimeout(resolve, remaining);
+            }
+        };
+        setTimeout(checkPause, ms);
+    });
+}
+
+function togglePause() {
+    isPaused = !isPaused;
+    if (isPaused) {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+        pauseBtn.classList.add('paused');
+        updateStatus('已暂停 - 点击继续');
+    } else {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+        updateStatus('运行中...');
+    }
 }
 
 // 叉积：判断转向
@@ -180,7 +209,7 @@ async function grahamScan() {
     }
     
     const pivot = points[lowestIdx];
-    updateStatus(`找到最低点 P${lowestIdx}`);
+    updateStatus(window.I18n.t('找到最低点 P{0}', lowestIdx));
     await delay(CONFIG.stepDelay);
     
     // 极角排序
@@ -204,7 +233,7 @@ async function grahamScan() {
         const currentPoint = sorted[i];
         const currentIdx = sortedIndices[i];
         
-        updateStatus(`考虑点 P${currentIdx}`);
+        updateStatus(window.I18n.t('考虑点 P{0}', currentIdx));
         
         // 检查是否需要弹出栈顶
         while (stack.length > 1) {
@@ -219,7 +248,7 @@ async function grahamScan() {
             
             if (crossProduct <= 0) {
                 // 右转或共线，弹出栈顶
-                updateStatus(`P${stack[stack.length - 1]} 不在凸包上，弹出`);
+                updateStatus(window.I18n.t('P{0} 不在凸包上，弹出', stack[stack.length - 1]));
                 await delay(CONFIG.stepDelay);
                 
                 stack.pop();
@@ -238,13 +267,13 @@ async function grahamScan() {
         updateStack(stack, currentIdx);
         render(sorted);
         
-        updateStatus(`将 P${currentIdx} 加入凸包`);
+        updateStatus(window.I18n.t('将 P{0} 加入凸包', currentIdx));
         await delay(CONFIG.stepDelay);
     }
     
     // 完成
     render(sorted);
-    updateStatus(`凸包完成! 共 ${hull.length} 个顶点`);
+    updateStatus(window.I18n.t('凸包完成! 共 {0} 个顶点', hull.length));
 }
 
 async function start() {
@@ -255,7 +284,13 @@ async function start() {
     }
     
     isRunning = true;
+    isPaused = false;
     startBtn.disabled = true;
+    if (pauseBtn) {
+        pauseBtn.disabled = false;
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+    }
     
     hull = [];
     render();
@@ -264,12 +299,23 @@ async function start() {
     await grahamScan();
     
     isRunning = false;
+    isPaused = false;
     startBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+    }
 }
 
 function clear() {
     isRunning = false;
+    isPaused = false;
     startBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+    }
     points = [];
     hull = [];
     render();
@@ -288,11 +334,19 @@ canvas.addEventListener('click', (e) => {
     points.push({ x, y });
     hull = [];
     render();
-    updateStatus(`已添加 ${points.length} 个点`);
+    updateStatus(window.I18n.t('已添加 {0} 个点', points.length));
 });
 
 startBtn.addEventListener('click', start);
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', togglePause);
+}
 generateBtn.addEventListener('click', generateRandomPoints);
 clearBtn.addEventListener('click', clear);
 
-init();
+// 等待 I18n 模块加载完成后初始化
+if (document.readyState === 'complete') {
+    setTimeout(init, 50);
+} else {
+    window.addEventListener('load', () => setTimeout(init, 50));
+}

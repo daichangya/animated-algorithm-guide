@@ -35,11 +35,13 @@ let distances = {};
 let previous = {};
 let visited = new Set();
 let isRunning = false;
+let isPaused = false;
 
 const svg = document.getElementById('graphSvg');
 const distanceTable = document.getElementById('distanceTable');
 const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
+const pauseBtn = document.getElementById('pauseBtn');
 const statusText = document.getElementById('statusText');
 
 function init() {
@@ -110,7 +112,7 @@ function selectStartNode(nodeId) {
     highlightStartNode();
     initDistances();
     renderDistanceTable();
-    updateStatus(`已选择起点: ${nodeId}`);
+    updateStatus(window.I18n.t('已选择起点: {0}', nodeId));
 }
 
 function highlightStartNode() {
@@ -163,11 +165,37 @@ function renderDistanceTable() {
 }
 
 function updateStatus(text) {
-    statusText.textContent = text;
+    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
 }
 
 function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => {
+        const startTime = Date.now();
+        const checkPause = () => {
+            if (!isRunning) { resolve(); return; }
+            if (isPaused) {
+                setTimeout(checkPause, 50);
+            } else {
+                const remaining = Math.max(0, ms - (Date.now() - startTime));
+                if (remaining <= 0) resolve();
+                else setTimeout(resolve, remaining);
+            }
+        };
+        setTimeout(checkPause, ms);
+    });
+}
+
+function togglePause() {
+    isPaused = !isPaused;
+    if (isPaused) {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+        pauseBtn.classList.add('paused');
+        updateStatus('已暂停 - 点击继续');
+    } else {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+        updateStatus('运行中...');
+    }
 }
 
 function getMinDistanceNode() {
@@ -210,7 +238,7 @@ async function dijkstra() {
         nodeEl.classList.add('current');
         distEl.classList.add('current');
         
-        updateStatus(`处理节点 ${current}，当前距离: ${distances[current]}`);
+        updateStatus(window.I18n.t('处理节点 {0}，当前距离: {1}', current, distances[current]));
         await delay(CONFIG.stepDelay);
         
         // 检查邻居
@@ -227,7 +255,7 @@ async function dijkstra() {
             
             const newDist = distances[current] + neighbor.weight;
             
-            updateStatus(`检查边 ${current}-${neighbor.node}，新距离: ${distances[current]} + ${neighbor.weight} = ${newDist}`);
+            updateStatus(window.I18n.t('检查边 {0}-{1}，新距离: {2} + {3} = {4}', current, neighbor.node, distances[current], neighbor.weight, newDist));
             await delay(CONFIG.stepDelay);
             
             if (newDist < distances[neighbor.node]) {
@@ -246,7 +274,7 @@ async function dijkstra() {
                     edgeEl.classList.add('relaxed');
                 }
                 
-                updateStatus(`更新 ${neighbor.node} 的距离: ${newDist}`);
+                updateStatus(window.I18n.t('更新 {0} 的距离: {1}', neighbor.node, newDist));
                 await delay(CONFIG.stepDelay / 2);
                 
                 neighborDistEl.classList.remove('updated');
@@ -295,7 +323,13 @@ async function start() {
     if (isRunning) return;
     
     isRunning = true;
+    isPaused = false;
     startBtn.disabled = true;
+    if (pauseBtn) {
+        pauseBtn.disabled = false;
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+    }
     
     // 重置状态
     initDistances();
@@ -311,12 +345,23 @@ async function start() {
     await dijkstra();
     
     isRunning = false;
+    isPaused = false;
     startBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+    }
 }
 
 function reset() {
     isRunning = false;
+    isPaused = false;
     startBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+    }
     
     initDistances();
     renderGraph();
@@ -326,5 +371,13 @@ function reset() {
 
 startBtn.addEventListener('click', start);
 resetBtn.addEventListener('click', reset);
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', togglePause);
+}
 
-init();
+// 等待 I18n 模块加载完成后初始化
+if (document.readyState === 'complete') {
+    setTimeout(init, 50);
+} else {
+    window.addEventListener('load', () => setTimeout(init, 50));
+}

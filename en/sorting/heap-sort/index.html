@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heap Sort Visualization - Binary Heap Algorithm Animation | Algorithm Visualization</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn Heap Sort through interactive animation. Watch the binary heap construction and adjustment process, understand the O(n log n) efficient sorting principle.">
+    <meta name="keywords" content="Heap Sort,Heap Sort,Binary Heap,Max Heap,Sorting Algorithms,Algorithm Visualization,Heapify,heapify,Data Structures">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algo.jsdiff.com/en/sorting/heap-sort/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Heap Sort Visualization - Binary Heap Algorithm Animation">
+    <meta property="og:description" content="Learn Heap Sort through interactive animation, watch heap construction and adjustment.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algo.jsdiff.com/sorting/heap-sort/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Heap Sort Visualization">
+    <meta name="twitter:description" content="Interactive animation demonstrating Heap Sort algorithm">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <link rel="stylesheet" href="../../../common/styles.css">
+    <link rel="stylesheet" href="../../../sorting/heap-sort/style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/heap-sort/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/heap-sort/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/heap-sort/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/heap-sort" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/heap-sort/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/heap-sort" />
+</head>
+<body class="bg-decoration">
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../../common/header.js"></script>
+
+    <div class="container">
+        <a href="../../../en/index.html" class="nav-link">← Back to Home</a>
+        
+        <header class="page-header">
+            <h1 class="title">Heap Sort Visualization</h1>
+            <p class="subtitle">Watch the binary heap construction and adjustment process</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p>Heap Sort is a sorting algorithm that uses the heap data structure. It first builds a max-heap from the array (where parent nodes are always larger than children), then repeatedly extracts the maximum element from the top, places it at the end of the array, and adjusts the remaining elements to reform the heap, until all elements are extracted.</p>
+        </div>
+        
+        <!-- 树形视图 -->
+        <div class="heap-tree-container" id="heapTreeContainer">
+            <svg class="tree-lines" id="treeLines"></svg>
+            <div class="tree-nodes" id="treeNodes">
+                <!-- 树节点将由 JavaScript 动态生成 -->
+            </div>
+        </div>
+        
+        <!-- 数组视图 -->
+        <div class="array-section">
+            <div class="section-label">Array View</div>
+            <div class="array-container" id="arrayContainer">
+                <!-- 数组元素将由 JavaScript 动态生成 -->
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn">Start Sorting</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>Pause</button>
+            <button class="btn btn-secondary" id="resetBtn">Reset</button>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText">Click "Start Sorting" to view animation</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="principle">📖 How It Works</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ Complexity</button>
+                <button class="tab-btn" data-tab="usage">💡 Applications</button>
+                <button class="tab-btn" data-tab="code">📝 Implementation</button>
+            </div>
+            
+            <div class="tab-content active" id="principle">
+                <h4>Algorithm Steps</h4>
+                <ol>
+                    <li>Build a max-heap from the array (Build Max-Heap)</li>
+                    <li>The root element (arr[0]) is now the maximum</li>
+                    <li>Swap root with the last element</li>
+                    <li>Reduce heap size by 1, heapify the new root</li>
+                    <li>Repeat steps 3-4 until heap size is 1</li>
+                </ol>
+            </div>
+            
+            <div class="tab-content" id="complexity">
+                <h4>Time & Space Complexity</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>Case</th>
+                        <th>Time Complexity</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Build Heap</td>
+                        <td class="highlight">O(n)</td>
+                        <td>Bottom-up heap construction complexity</td>
+                    </tr>
+                    <tr>
+                        <td>Sort (All Cases)</td>
+                        <td>O(n log n)</td>
+                        <td>O(log n) adjustment per extraction</td>
+                    </tr>
+                    <tr>
+                        <td>Space Complexity</td>
+                        <td class="highlight">O(1)</td>
+                        <td>In-place sorting, only constant extra space</td>
+                    </tr>
+                </table>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                    Heap Sort是<strong>不Stable Sort</strong>，相等元素的相对顺序可能改变。
+                </p>
+            </div>
+            
+            <div class="tab-content" id="usage">
+                <h4>Use Cases</h4>
+                <ul>
+                    <li>Need in-place sorting with guaranteed O(n log n) worst case</li>
+                    <li>Implementing priority queue data structures</li>
+                    <li>Finding top K largest/smallest elements</li>
+                    <li>System scheduling and task priority management</li>
+                </ul>
+                <div class="use-cases">
+                    <span class="use-case-tag">Priority Queue</span>
+                    <span class="use-case-tag">Top-K Problem</span>
+                    <span class="use-case-tag">Task Scheduling</span>
+                    <span class="use-case-tag">Memory-Constrained</span>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="code">
+                <h4>Implementation</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div class="code-container">
+                    <div class="code-block active" id="python-code">
+                        <pre class="code"><span class="keyword">def</span> <span class="function">heapify</span>(arr, n, i):
+    <span class="string">"""维护最大堆性质"""</span>
+    largest = i
+    left = <span class="number">2</span> * i + <span class="number">1</span>
+    right = <span class="number">2</span> * i + <span class="number">2</span>
+    
+    <span class="comment"># 左子节点更大</span>
+    <span class="keyword">if</span> left < n <span class="keyword">and</span> arr[left] > arr[largest]:
+        largest = left
+    
+    <span class="comment"># 右子节点更大</span>
+    <span class="keyword">if</span> right < n <span class="keyword">and</span> arr[right] > arr[largest]:
+        largest = right
+    
+    <span class="comment"># 如果最大值不是根节点，交换并继续调整</span>
+    <span class="keyword">if</span> largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        <span class="function">heapify</span>(arr, n, largest)
+
+
+<span class="keyword">def</span> <span class="function">heap_sort</span>(arr):
+    <span class="string">"""堆排序算法"""</span>
+    n = <span class="function">len</span>(arr)
+    
+    <span class="comment"># 构建最大堆（从最后一个非叶节点开始）</span>
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n // <span class="number">2</span> - <span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>):
+        <span class="function">heapify</span>(arr, n, i)
+    
+    <span class="comment"># 逐个取出堆顶元素</span>
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n - <span class="number">1</span>, <span class="number">0</span>, -<span class="number">1</span>):
+        arr[<span class="number">0</span>], arr[i] = arr[i], arr[<span class="number">0</span>]  <span class="comment"># 交换堆顶和末尾</span>
+        <span class="function">heapify</span>(arr, i, <span class="number">0</span>)  <span class="comment"># 重新调整堆</span>
+    
+    <span class="keyword">return</span> arr
+
+
+<span class="comment"># 使用示例</span>
+arr = [<span class="number">12</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]
+<span class="function">print</span>(<span class="function">heap_sort</span>(arr))
+<span class="comment"># 输出: [5, 6, 7, 11, 12, 13]</span></pre>
+                    </div>
+                    
+                    <div class="code-block" id="java-code">
+                        <pre class="code"><span class="keyword">public class</span> <span class="type">HeapSort</span> {
+    
+    <span class="comment">/**
+     * 维护最大堆性质
+     */</span>
+    <span class="keyword">private static void</span> <span class="function">heapify</span>(<span class="type">int</span>[] arr, <span class="type">int</span> n, <span class="type">int</span> i) {
+        <span class="type">int</span> largest = i;
+        <span class="type">int</span> left = <span class="number">2</span> * i + <span class="number">1</span>;
+        <span class="type">int</span> right = <span class="number">2</span> * i + <span class="number">2</span>;
+        
+        <span class="comment">// 左子节点更大</span>
+        <span class="keyword">if</span> (left < n && arr[left] > arr[largest]) {
+            largest = left;
+        }
+        
+        <span class="comment">// 右子节点更大</span>
+        <span class="keyword">if</span> (right < n && arr[right] > arr[largest]) {
+            largest = right;
+        }
+        
+        <span class="comment">// 如果最大值不是根节点</span>
+        <span class="keyword">if</span> (largest != i) {
+            <span class="type">int</span> temp = arr[i];
+            arr[i] = arr[largest];
+            arr[largest] = temp;
+            
+            <span class="function">heapify</span>(arr, n, largest);
+        }
+    }
+    
+    <span class="comment">/**
+     * 堆排序算法
+     */</span>
+    <span class="keyword">public static void</span> <span class="function">heapSort</span>(<span class="type">int</span>[] arr) {
+        <span class="type">int</span> n = arr.length;
+        
+        <span class="comment">// 构建最大堆</span>
+        <span class="keyword">for</span> (<span class="type">int</span> i = n / <span class="number">2</span> - <span class="number">1</span>; i >= <span class="number">0</span>; i--) {
+            <span class="function">heapify</span>(arr, n, i);
+        }
+        
+        <span class="comment">// 逐个取出堆顶元素</span>
+        <span class="keyword">for</span> (<span class="type">int</span> i = n - <span class="number">1</span>; i > <span class="number">0</span>; i--) {
+            <span class="type">int</span> temp = arr[<span class="number">0</span>];
+            arr[<span class="number">0</span>] = arr[i];
+            arr[i] = temp;
+            
+            <span class="function">heapify</span>(arr, i, <span class="number">0</span>);
+        }
+    }
+    
+    <span class="keyword">public static void</span> <span class="function">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">int</span>[] arr = {<span class="number">12</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>};
+        <span class="function">heapSort</span>(arr);
+        System.out.<span class="function">println</span>(Arrays.<span class="function">toString</span>(arr));
+        <span class="comment">// 输出: [5, 6, 7, 11, 12, 13]</span>
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../../../common/footer.js"></script>
+    <script type="module" src="../../../common/i18n.js"></script>
+    <script src="../../../sorting/heap-sort/script.js"></script>
+    <script>
+        // 语言切换器事件
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (window.I18n) {
+                    window.I18n.switchLanguage(lang);
+                }
+            });
+        });
+        
+        // Tab切换逻辑
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // 代码语言切换
+        document.querySelectorAll('.code-lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

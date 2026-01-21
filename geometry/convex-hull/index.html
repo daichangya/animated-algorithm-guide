@@ -9,40 +9,56 @@
     <meta name="description" content="通过交互式动画学习Graham Scan凸包算法。观察如何用栈结构逐步构建包围点集的最小凸多边形。支持手动添加点或随机生成。">
     <meta name="keywords" content="凸包,Graham Scan,计算几何,凸多边形,点集,栈,算法可视化,几何算法">
     <meta name="author" content="Algorithm Visualization">
-    <link rel="canonical" href="https://algorithm-visualizer.example.com/geometry/convex-hull/">
+    <link rel="canonical" href="https://algo.jsdiff.com/geometry/convex-hull/">
     
     <!-- Open Graph -->
     <meta property="og:title" content="凸包算法可视化 - Graham Scan">
     <meta property="og:description" content="通过交互式动画学习凸包算法，观察栈的变化过程。">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://algorithm-visualizer.example.com/geometry/convex-hull/">
+    <meta property="og:url" content="https://algo.jsdiff.com/geometry/convex-hull/">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="凸包算法可视化">
     <meta name="twitter:description" content="交互式动画演示Graham Scan凸包算法">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
     <link rel="stylesheet" href="../../common/styles.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/geometry/convex-hull/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/geometry/convex-hull/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/geometry/convex-hull/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body class="bg-decoration">
-    <!-- 语言切换器 -->
-    <div class="lang-switcher">
-        <button class="lang-btn" data-lang="zh">中文</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../common/header.js"></script>
 
     <div class="container">
-        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        <a href="../../index.html" class="nav-link">← 返回首页</a>
         
         <header class="page-header">
-            <h1 class="title" data-i18n="convexHull.title">凸包算法可视化</h1>
-            <p class="subtitle" data-i18n="convexHull.subtitle">Graham Scan - 计算点集的凸包</p>
+            <h1 class="title">凸包算法可视化</h1>
+            <p class="subtitle">Graham Scan - 计算点集的凸包</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p data-i18n="convexHull.intro">凸包（Convex Hull）是包含所有给定点的最小凸多边形。Graham Scan算法通过极角排序和栈操作，以O(n log n)的时间复杂度高效计算凸包。</p>
+            <p>凸包（Convex Hull）是包含所有给定点的最小凸多边形。Graham Scan算法通过极角排序和栈操作，以O(n log n)的时间复杂度高效计算凸包。</p>
         </div>
         
         <!-- 画布 -->
@@ -58,13 +74,14 @@
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn" data-i18n="common.start">开始</button>
-            <button class="btn btn-secondary" id="generateBtn" data-i18n="convexHull.generateRandom">随机生成</button>
-            <button class="btn btn-secondary" id="clearBtn" data-i18n="convexHull.clear">清空</button>
+            <button class="btn btn-primary" id="startBtn">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
+            <button class="btn btn-secondary" id="generateBtn">随机生成</button>
+            <button class="btn btn-secondary" id="clearBtn">清空</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText" data-i18n="common.clickStartToView">点击"开始"查看动画</span>
+            <span class="status-badge" id="statusText">点击"开始"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
@@ -79,17 +96,13 @@
             <div class="tab-content active" id="principle">
                 <h4>Graham Scan 步骤</h4>
                 <ol>
-                    <li><strong>找基点</strong>：选择y坐标最小的点（若有多个，选x最小的）作为起点P0</li>
-                    <li><strong>极角排序</strong>：将其他点按相对于P0的极角从小到大排序</li>
-                    <li><strong>栈处理</strong>：依次处理排序后的点：
-                        <ul>
-                            <li>将点压入栈</li>
-                            <li>检查栈顶三个点是否构成"左转"（逆时针）</li>
-                            <li>如果不是左转（右转或共线），弹出栈顶第二个点</li>
-                            <li>重复检查直到满足左转条件</li>
-                        </ul>
-                    </li>
-                    <li>处理完所有点后，栈中的点就是凸包顶点</li>
+                    <li>找到y坐标最小的点作为基点P0（若相同取x最小）</li>
+                    <li>将其他所有点按照相对于P0的极角排序</li>
+                    <li>初始化栈，压入P0和排序后的第一个点</li>
+                    <li>依次处理剩余的点：</li>
+                    <li>如果新点使得栈顶两点形成"右转"，则弹出栈顶</li>
+                    <li>重复上一步直到形成"左转"，然后将新点压入栈</li>
+                    <li>栈中的点即为凸包顶点</li>
                 </ol>
             </div>
             
@@ -253,6 +266,7 @@ hull = <span class="function">convex_hull</span>(points)
         </div>
     </div>
     
+    <script type="module" src="../../common/footer.js"></script>
     <script type="module" src="../../common/i18n.js"></script>
     <script src="script.js"></script>
     <script>

@@ -9,40 +9,56 @@
     <meta name="description" content="通过交互式动画学习二分查找算法。观察搜索范围如何每次减半，理解O(log n)时间复杂度的来源。支持自定义目标值。">
     <meta name="keywords" content="二分查找,Binary Search,折半查找,有序数组,搜索算法,O(log n),算法可视化,分治">
     <meta name="author" content="Algorithm Visualization">
-    <link rel="canonical" href="https://algorithm-visualizer.example.com/search/binary-search/">
+    <link rel="canonical" href="https://algo.jsdiff.com/search/binary-search/">
     
     <!-- Open Graph -->
     <meta property="og:title" content="二分查找可视化 - O(log n)高效搜索">
     <meta property="og:description" content="通过交互式动画学习二分查找算法，观察范围减半过程。">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://algorithm-visualizer.example.com/search/binary-search/">
+    <meta property="og:url" content="https://algo.jsdiff.com/search/binary-search/">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="二分查找可视化">
     <meta name="twitter:description" content="交互式动画演示二分查找算法">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
     <link rel="stylesheet" href="../../common/styles.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/search/binary-search/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/search/binary-search/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/search/binary-search/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body class="bg-decoration">
-    <!-- 语言切换器 -->
-    <div class="lang-switcher">
-        <button class="lang-btn" data-lang="zh">中文</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-    </div>
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="../../common/header.js"></script>
 
     <div class="container">
-        <a href="../../index.html" class="nav-link" data-i18n="common.backHome">← 返回首页</a>
+        <a href="../../index.html" class="nav-link">← 返回首页</a>
         
         <header class="page-header">
-            <h1 class="title" data-i18n="binarySearch.title">二分查找可视化</h1>
-            <p class="subtitle" data-i18n="binarySearch.subtitle">有序数组中的高效查找</p>
+            <h1 class="title">二分查找可视化</h1>
+            <p class="subtitle">有序数组中的高效查找</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p data-i18n="binarySearch.intro">二分查找（Binary Search）是一种在有序数组中查找特定元素的算法。每次比较都能将搜索范围缩小一半，因此效率极高，时间复杂度为O(log n)。</p>
+            <p>二分查找（Binary Search）是一种在有序数组中查找特定元素的算法。每次比较都能将搜索范围缩小一半，因此效率极高，时间复杂度为O(log n)。</p>
         </div>
         
         <!-- 目标输入 -->
@@ -83,12 +99,13 @@
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn" data-i18n="common.start">开始</button>
-            <button class="btn btn-secondary" id="resetBtn" data-i18n="common.reset">重置</button>
+            <button class="btn btn-primary" id="startBtn">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText" data-i18n="common.clickStartToView">点击"开始"查看动画</span>
+            <span class="status-badge" id="statusText">点击"开始"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
@@ -105,13 +122,10 @@
                 <ol>
                     <li>初始化左指针left=0，右指针right=n-1</li>
                     <li>计算中间位置 mid = (left + right) / 2</li>
-                    <li>比较 arr[mid] 与目标值：
-                        <ul>
-                            <li>相等：找到目标，返回mid</li>
-                            <li>arr[mid] > target：目标在左半部分，right = mid - 1</li>
-                            <li>arr[mid] < target：目标在右半部分，left = mid + 1</li>
-                        </ul>
-                    </li>
+                    <li>比较 arr[mid] 与目标值：</li>
+                    <li>相等：找到目标，返回mid</li>
+                    <li>arr[mid] > target：目标在左半部分，right = mid - 1</li>
+                    <li>arr[mid] < target：目标在右半部分，left = mid + 1</li>
                     <li>重复步骤2-3，直到 left > right（未找到）</li>
                 </ol>
             </div>
@@ -268,6 +282,7 @@ arr = [<span class="number">1</span>, <span class="number">3</span>, <span class
         </div>
     </div>
     
+    <script type="module" src="../../common/footer.js"></script>
     <script type="module" src="../../common/i18n.js"></script>
     <script src="script.js"></script>
     <script>

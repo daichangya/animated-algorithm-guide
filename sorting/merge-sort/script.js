@@ -16,6 +16,7 @@ const CONFIG = {
 // 状态
 let array = [];
 let isSorting = false;
+let isPaused = false;
 let treeNodes = [];
 
 // DOM 元素
@@ -26,6 +27,7 @@ const resultItems = document.getElementById('resultItems');
 const arrayContainer = document.getElementById('arrayContainer');
 const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
+const pauseBtn = document.getElementById('pauseBtn');
 const statusText = document.getElementById('statusText');
 
 /**
@@ -114,17 +116,46 @@ function addTreeLevel(levelIndex) {
 }
 
 /**
- * 延迟函数
+ * 延迟函数（支持暂停）
  */
 function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => {
+        const startTime = Date.now();
+        const checkPause = () => {
+            if (!isSorting) { resolve(); return; }
+            if (isPaused) {
+                setTimeout(checkPause, 50);
+            } else {
+                const remaining = Math.max(0, ms - (Date.now() - startTime));
+                if (remaining <= 0) resolve();
+                else setTimeout(resolve, remaining);
+            }
+        };
+        setTimeout(checkPause, ms);
+    });
+}
+
+/**
+ * 切换暂停状态
+ */
+function togglePause() {
+    isPaused = !isPaused;
+    if (isPaused) {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+        pauseBtn.classList.add('paused');
+        updateStatus('已暂停 - 点击继续');
+    } else {
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+        updateStatus('运行中...');
+    }
 }
 
 /**
  * 更新状态
  */
 function updateStatus(text) {
-    statusText.textContent = text;
+    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
 }
 
 /**
@@ -209,7 +240,7 @@ async function showMerge(leftArr, rightArr, start) {
         if (leftItem) leftItem.classList.add('active');
         if (rightItem) rightItem.classList.add('active');
         
-        updateStatus(`比较: ${leftArr[i]} vs ${rightArr[j]}`);
+        updateStatus(window.I18n.t('比较: {0} vs {1}', leftArr[i], rightArr[j]));
         await delay(CONFIG.compareDelay);
         
         if (leftArr[i] <= rightArr[j]) {
@@ -308,7 +339,7 @@ async function mergeSort(arr, start, end, depth = 0) {
     
     // 分解阶段
     setPhase('divide');
-    updateStatus(`分解: [${start} - ${end}] → [${start} - ${mid}] 和 [${mid + 1} - ${end}]`);
+    updateStatus(window.I18n.t('分解: [{0} - {1}] → [{0} - {2}] 和 [{3} - {1}]', start, end, mid, mid + 1));
     
     // 高亮当前处理范围
     highlightArrayRange(start, end, 'in-range');
@@ -364,7 +395,7 @@ async function mergeSort(arr, start, end, depth = 0) {
     
     // 合并阶段
     setPhase('merge');
-    updateStatus(`合并: [${start} - ${mid}] 与 [${mid + 1} - ${end}]`);
+    updateStatus(window.I18n.t('合并: [{0} - {1}] 与 [{2} - {3}]', start, mid, mid + 1, end));
     
     // 高亮合并范围
     for (let i = start; i <= end; i++) {
@@ -448,8 +479,14 @@ async function startSorting() {
     if (isSorting) return;
     
     isSorting = true;
+    isPaused = false;
     startBtn.disabled = true;
     resetBtn.disabled = true;
+    if (pauseBtn) {
+        pauseBtn.disabled = false;
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+        pauseBtn.classList.remove('paused');
+    }
     
     // 重置状态
     document.querySelectorAll('.array-item').forEach(item => {
@@ -471,8 +508,13 @@ async function startSorting() {
     }
     
     isSorting = false;
+    isPaused = false;
     startBtn.disabled = false;
     resetBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+    }
 }
 
 /**
@@ -480,8 +522,14 @@ async function startSorting() {
  */
 function reset() {
     isSorting = false;
+    isPaused = false;
     startBtn.disabled = false;
     resetBtn.disabled = false;
+    if (pauseBtn) {
+        pauseBtn.disabled = true;
+        pauseBtn.classList.remove('paused');
+        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+    }
     
     generateArray();
     setPhase('divide');
@@ -491,6 +539,9 @@ function reset() {
 // 事件监听
 startBtn.addEventListener('click', startSorting);
 resetBtn.addEventListener('click', reset);
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', togglePause);
+}
 
 // 初始化
 generateArray();
