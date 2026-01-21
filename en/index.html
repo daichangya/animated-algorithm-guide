@@ -34,58 +34,93 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     
     <link rel="stylesheet" href="../common/styles.css">
+    <link rel="stylesheet" href="../common/algorithm-icons.css">
     <style>
         .hero {
-            margin-bottom: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-md);
         }
         
         .hero-title {
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 200;
             letter-spacing: 8px;
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green), var(--accent-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: var(--spacing-sm);
+            margin-bottom: var(--spacing-xs);
         }
         
         .hero-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
             max-width: 600px;
             margin: 0 auto;
-            line-height: 1.8;
+            line-height: 1.6;
         }
         
         /* 分类区域 */
         .category-section {
-            margin-bottom: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
             text-align: left;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid;
+            background: rgba(255, 255, 255, 0.02);
+            position: relative;
+        }
+        
+        /* 各分类区块颜色主题 */
+        .sorting-category {
+            border-left-color: #00d9ff;
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.03) 0%, rgba(34, 197, 94, 0.02) 100%);
+        }
+        .sequence-category {
+            border-left-color: #a855f7;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.03) 0%, rgba(236, 72, 153, 0.02) 100%);
+        }
+        .graph-category {
+            border-left-color: #f97316;
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.03) 0%, rgba(234, 179, 8, 0.02) 100%);
+        }
+        .search-category {
+            border-left-color: #3b82f6;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(6, 182, 212, 0.02) 100%);
+        }
+        .geometry-category {
+            border-left-color: #84cc16;
+            background: linear-gradient(135deg, rgba(132, 204, 22, 0.03) 0%, rgba(16, 185, 129, 0.02) 100%);
         }
         
         .category-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: var(--spacing-sm);
-            padding-bottom: 10px;
+            margin-bottom: var(--spacing-md);
+            padding-bottom: 12px;
             border-bottom: 1px solid var(--border-subtle);
         }
         
         .category-icon {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
         }
         
         .category-title {
-            font-size: 1.3rem;
-            font-weight: 400;
-            color: var(--text-primary);
+            font-size: 1.4rem;
+            font-weight: 500;
             letter-spacing: 2px;
         }
         
+        /* 各分类标题颜色 */
+        .sorting-category .category-title { color: #00d9ff; }
+        .sequence-category .category-title { color: #a855f7; }
+        .graph-category .category-title { color: #f97316; }
+        .search-category .category-title { color: #3b82f6; }
+        .geometry-category .category-title { color: #84cc16; }
+        
         .category-desc {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
             margin-left: auto;
         }
@@ -180,8 +215,8 @@
         .stats {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin-bottom: 10px;
+            gap: 40px;
+            margin-top: var(--spacing-sm);
         }
         
         .stat-item {
@@ -189,141 +224,55 @@
         }
         
         .stat-value {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 600;
             color: var(--accent-cyan);
         }
         
         .stat-label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
-        /* 介绍区域 */
-        .intro-section {
-            max-width: 900px;
-            margin: 0 auto var(--spacing-xl);
-            text-align: center;
-        }
-        
-        .intro-title {
-            font-size: 1.8rem;
-            font-weight: 400;
-            margin-bottom: var(--spacing-md);
-            color: var(--text-primary);
-        }
-        
-        .intro-text {
-            color: var(--text-secondary);
-            line-height: 1.9;
-            font-size: 1rem;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        /* Quick Start区域 */
-        .quickstart-section {
-            max-width: 800px;
-            margin: 0 auto var(--spacing-xl);
-            text-align: center;
+        /* Comparison promo link */
+        .comparison-promo {
+            margin: var(--spacing-xl) 0;
             padding: var(--spacing-lg);
-            background: rgba(255, 255, 255, 0.02);
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(236, 72, 153, 0.05) 100%);
             border-radius: var(--radius-lg);
-            border: 1px solid var(--border-subtle);
-        }
-        
-        .quickstart-title {
-            font-size: 1.5rem;
-            font-weight: 400;
-            margin-bottom: var(--spacing-md);
-            color: var(--text-primary);
-        }
-        
-        .quickstart-steps {
-            display: flex;
-            justify-content: center;
-            gap: var(--spacing-lg);
-            flex-wrap: wrap;
-        }
-        
-        .quickstart-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            max-width: 150px;
-        }
-        
-        .step-number {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green));
-            color: var(--bg-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.3rem;
-        }
-        
-        .step-text {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-        
-        /* Feature展示 */
-        .features-section {
-            max-width: 1000px;
-            margin: 0 auto var(--spacing-xl);
-        }
-        
-        .features-title {
-            font-size: 1.5rem;
-            font-weight: 400;
+            border: 1px solid rgba(168, 85, 247, 0.2);
             text-align: center;
-            margin-bottom: var(--spacing-md);
+        }
+        
+        .comparison-promo-title {
+            font-size: 1.2rem;
+            font-weight: 500;
             color: var(--text-primary);
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: var(--spacing-md);
-        }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-subtle);
-            padding: var(--spacing-md);
-            text-align: left;
-            transition: all var(--transition-normal);
-        }
-        
-        .feature-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--border-light);
-            transform: translateY(-3px);
-        }
-        
-        .feature-icon {
-            font-size: 2rem;
             margin-bottom: var(--spacing-sm);
         }
         
-        .feature-title {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: var(--spacing-xs);
+        .comparison-promo-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
         }
         
-        .feature-desc {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
+        .comparison-promo-link {
+            display: inline-block;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            transition: all var(--transition-normal);
+        }
+        
+        .comparison-promo-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3);
         }
         
         /* 页脚 */
@@ -465,35 +414,6 @@
             </div>
         </header>
         
-        <!-- 什么是算法可视化 -->
-        <section class="intro-section fade-in" style="animation-delay: 0.05s;">
-            <h2 class="intro-title">What is Algorithm Visualization?</h2>
-            <p class="intro-text">Algorithm visualization transforms abstract algorithmic logic into intuitive animations. By observing how elements move, compare, and transform, you can deeply understand the core ideas behind algorithms, not just memorize code. Each algorithm has its unique "personality" - Bubble Sort's floating bubbles, Quick Sort's partitioning, Dijkstra's ripple expansion... making learning algorithms fun and engaging.</p>
-        </section>
-        
-        <!-- 快速开始 -->
-        <section class="quickstart-section fade-in" style="animation-delay: 0.08s;">
-            <h2 class="quickstart-title">Quick Start</h2>
-            <div class="quickstart-steps">
-                <div class="quickstart-step">
-                    <div class="step-number">1</div>
-                    <p class="step-text">Choose an algorithm category</p>
-                </div>
-                <div class="quickstart-step">
-                    <div class="step-number">2</div>
-                    <p class="step-text">Click a card to enter the page</p>
-                </div>
-                <div class="quickstart-step">
-                    <div class="step-number">3</div>
-                    <p class="step-text">Click "Start" to watch the animation</p>
-                </div>
-                <div class="quickstart-step">
-                    <div class="step-number">4</div>
-                    <p class="step-text">Read explanations to understand</p>
-                </div>
-            </div>
-        </section>
-        
         <!-- 排序算法 -->
         <section class="category-section sorting-category fade-in" style="animation-delay: 0.1s;" aria-labelledby="sorting-title">
             <div class="category-header">
@@ -503,25 +423,80 @@
             </div>
             <div class="algorithms-grid">
                 <a href="sorting/bubble-sort/index.html" class="algorithm-card bubble" aria-label="Bubble Sort - Time Complexity O(n²)">
-                    <span class="algorithm-icon" aria-hidden="true">🫧</span>
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <rect class="bar" x="4" y="24" width="8" height="12" rx="2" fill="#00d9ff"/>
+                            <rect class="bar" x="14" y="18" width="8" height="18" rx="2" fill="#22c55e"/>
+                            <rect class="bar" x="24" y="8" width="8" height="28" rx="2" fill="#a855f7"/>
+                            <rect class="bar" x="34" y="14" width="8" height="22" rx="2" fill="#f97316"/>
+                            <rect class="bar" x="44" y="20" width="8" height="16" rx="2" fill="#ec4899"/>
+                            <circle cx="28" cy="6" r="3" fill="#00d9ff" opacity="0.6"/>
+                        </svg>
+                    </span>
                     <h3 class="algorithm-name">Bubble Sort</h3>
                     <div class="algorithm-complexity">O(n²) | O(1)</div>
                     <p class="algorithm-desc">Compare adjacent elements, larger floats up</p>
                 </a>
                 <a href="sorting/heap-sort/index.html" class="algorithm-card heap" aria-label="Heap Sort - Time Complexity O(n log n)">
-                    <span class="algorithm-icon" aria-hidden="true">🌳</span>
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <line x1="30" y1="10" x2="16" y2="22" stroke="#a855f7" stroke-width="2"/>
+                            <line x1="30" y1="10" x2="44" y2="22" stroke="#a855f7" stroke-width="2"/>
+                            <line x1="16" y1="22" x2="8" y2="32" stroke="#a855f7" stroke-width="2"/>
+                            <line x1="16" y1="22" x2="24" y2="32" stroke="#a855f7" stroke-width="2"/>
+                            <line x1="44" y1="22" x2="36" y2="32" stroke="#a855f7" stroke-width="2"/>
+                            <line x1="44" y1="22" x2="52" y2="32" stroke="#a855f7" stroke-width="2"/>
+                            <circle class="node" cx="30" cy="10" r="6" fill="#a855f7"/>
+                            <circle class="node" cx="16" cy="22" r="5" fill="#00d9ff"/>
+                            <circle class="node" cx="44" cy="22" r="5" fill="#00d9ff"/>
+                            <circle class="node" cx="8" cy="32" r="4" fill="#22c55e"/>
+                            <circle class="node" cx="24" cy="32" r="4" fill="#22c55e"/>
+                            <circle class="node" cx="36" cy="32" r="4" fill="#22c55e"/>
+                            <circle class="node" cx="52" cy="32" r="4" fill="#22c55e"/>
+                        </svg>
+                    </span>
                     <h3 class="algorithm-name">Heap Sort</h3>
                     <div class="algorithm-complexity">O(n log n) | O(1)</div>
                     <p class="algorithm-desc">Uses binary heap properties for sorting</p>
                 </a>
                 <a href="sorting/quick-sort/index.html" class="algorithm-card quick" aria-label="Quick Sort - Time Complexity O(n log n)">
-                    <span class="algorithm-icon" aria-hidden="true">⚡</span>
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <rect class="bar" x="4" y="20" width="7" height="16" rx="1" fill="#22c55e"/>
+                            <rect class="bar" x="13" y="14" width="7" height="22" rx="1" fill="#22c55e"/>
+                            <rect class="bar pivot" x="22" y="6" width="7" height="30" rx="1" fill="#f97316"/>
+                            <line class="partition-line" x1="25.5" y1="2" x2="25.5" y2="38" stroke="#f97316" stroke-width="2" stroke-dasharray="3,2"/>
+                            <rect class="bar" x="31" y="18" width="7" height="18" rx="1" fill="#00d9ff"/>
+                            <rect class="bar" x="40" y="10" width="7" height="26" rx="1" fill="#00d9ff"/>
+                            <rect class="bar" x="49" y="22" width="7" height="14" rx="1" fill="#00d9ff"/>
+                        </svg>
+                    </span>
                     <h3 class="algorithm-name">Quick Sort</h3>
                     <div class="algorithm-complexity">O(n log n) | O(log n)</div>
                     <p class="algorithm-desc">Divide and conquer with pivot partitioning</p>
                 </a>
                 <a href="sorting/merge-sort/index.html" class="algorithm-card merge" aria-label="Merge Sort - Time Complexity O(n log n)">
-                    <span class="algorithm-icon" aria-hidden="true">🔀</span>
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <g class="merge-group">
+                                <rect x="4" y="6" width="10" height="12" rx="2" fill="#22c55e"/>
+                                <rect x="16" y="6" width="10" height="12" rx="2" fill="#00d9ff"/>
+                            </g>
+                            <g class="merge-group">
+                                <rect x="34" y="6" width="10" height="12" rx="2" fill="#a855f7"/>
+                                <rect x="46" y="6" width="10" height="12" rx="2" fill="#ec4899"/>
+                            </g>
+                            <path d="M15 20 L30 28 M45 20 L30 28" stroke="#f97316" stroke-width="2" fill="none"/>
+                            <rect x="20" y="28" width="20" height="10" rx="2" fill="url(#mergeGrad)"/>
+                            <defs>
+                                <linearGradient id="mergeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#22c55e"/>
+                                    <stop offset="50%" stop-color="#00d9ff"/>
+                                    <stop offset="100%" stop-color="#ec4899"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </span>
                     <h3 class="algorithm-name">Merge Sort</h3>
                     <div class="algorithm-complexity">O(n log n) | O(n)</div>
                     <p class="algorithm-desc">Divide into subarrays then merge</p>
@@ -538,19 +513,52 @@
             </div>
             <div class="algorithms-grid">
                 <a href="sequence/myers-diff/index.html" class="algorithm-card myers" aria-label="Myers Diff Algorithm">
-                    <span class="algorithm-icon" aria-hidden="true">📝</span>
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <rect x="4" y="4" width="52" height="8" rx="2" fill="#333" opacity="0.5"/>
+                            <rect class="diff-del" x="4" y="14" width="52" height="8" rx="2" fill="#ef4444"/>
+                            <text x="8" y="21" fill="white" font-size="7" font-weight="bold">−</text>
+                            <rect class="diff-add" x="4" y="24" width="52" height="8" rx="2" fill="#22c55e"/>
+                            <text x="8" y="31" fill="white" font-size="7" font-weight="bold">+</text>
+                            <rect x="4" y="34" width="52" height="4" rx="1" fill="#333" opacity="0.5"/>
+                        </svg>
+                    </span>
                     <h3 class="algorithm-name">Myers Diff</h3>
                     <div class="algorithm-complexity">O((N+M)D) | O(N+M)</div>
                     <p class="algorithm-desc">Minimum edit distance, Git diff core</p>
                 </a>
                 <a href="sequence/lcs/index.html" class="algorithm-card lcs" aria-label="LCS Longest Common Subsequence">
-                    <span class="algorithm-icon" aria-hidden="true">🔗</span>
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <rect class="lcs-cell" x="4" y="4" width="10" height="10" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect class="lcs-cell" x="14" y="4" width="10" height="10" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect class="lcs-cell highlight" x="24" y="4" width="10" height="10" fill="#8b5cf6" stroke="#555" stroke-width="0.5"/>
+                            <rect class="lcs-cell" x="34" y="4" width="10" height="10" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect class="lcs-cell" x="4" y="14" width="10" height="10" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect class="lcs-cell highlight" x="14" y="14" width="10" height="10" fill="#8b5cf6" stroke="#555" stroke-width="0.5"/>
+                            <rect class="lcs-cell" x="24" y="14" width="10" height="10" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect class="lcs-cell" x="34" y="14" width="10" height="10" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect class="lcs-cell highlight" x="4" y="24" width="10" height="10" fill="#8b5cf6" stroke="#555" stroke-width="0.5"/>
+                            <rect class="lcs-cell" x="14" y="24" width="10" height="10" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect class="lcs-cell" x="24" y="24" width="10" height="10" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect class="lcs-cell" x="34" y="24" width="10" height="10" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <path class="path-line" d="M9 29 L19 19 L29 9" stroke="#ec4899" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        </svg>
+                    </span>
                     <h3 class="algorithm-name">LCS Subsequence</h3>
                     <div class="algorithm-complexity">O(MN) | O(MN)</div>
                     <p class="algorithm-desc">DP for longest common subsequence</p>
                 </a>
                 <a href="sequence/kmp/index.html" class="algorithm-card kmp" aria-label="KMP String Matching Algorithm">
-                    <span class="algorithm-icon" aria-hidden="true">🔍</span>
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <rect x="4" y="8" width="52" height="10" rx="2" fill="#333"/>
+                            <text x="8" y="16" fill="#888" font-size="7" font-family="monospace">ABCABD</text>
+                            <rect x="4" y="22" width="32" height="10" rx="2" fill="#ec4899" opacity="0.8"/>
+                            <text x="8" y="30" fill="white" font-size="7" font-family="monospace">ABD</text>
+                            <path class="kmp-arrow" d="M38 27 L50 27 M47 24 L50 27 L47 30" stroke="#00d9ff" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        </svg>
+                    </span>
                     <h3 class="algorithm-name">KMP Matching</h3>
                     <div class="algorithm-complexity">O(N+M) | O(M)</div>
                     <p class="algorithm-desc">Prefix table accelerates string matching</p>
@@ -567,19 +575,72 @@
             </div>
             <div class="algorithms-grid">
                 <a href="graph/dijkstra/index.html" class="algorithm-card dijkstra" aria-label="Dijkstra's Shortest Path Algorithm">
-                    <span class="algorithm-icon" aria-hidden="true">🛤️</span>
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <line x1="10" y1="20" x2="25" y2="10" stroke="#555" stroke-width="2"/>
+                            <line x1="25" y1="10" x2="45" y2="10" stroke="#555" stroke-width="2"/>
+                            <line x1="10" y1="20" x2="25" y2="30" stroke="#555" stroke-width="2"/>
+                            <line x1="25" y1="30" x2="45" y2="30" stroke="#555" stroke-width="2"/>
+                            <line x1="45" y1="10" x2="52" y2="20" stroke="#555" stroke-width="2"/>
+                            <line x1="45" y1="30" x2="52" y2="20" stroke="#555" stroke-width="2"/>
+                            <path class="dijkstra-path" d="M10 20 L25 30 L45 30 L52 20" stroke="#f97316" stroke-width="3" fill="none" stroke-linecap="round"/>
+                            <circle class="node" cx="10" cy="20" r="5" fill="#22c55e"/>
+                            <circle class="node" cx="25" cy="10" r="4" fill="#00d9ff"/>
+                            <circle class="node" cx="25" cy="30" r="4" fill="#f97316"/>
+                            <circle class="node" cx="45" cy="10" r="4" fill="#00d9ff"/>
+                            <circle class="node" cx="45" cy="30" r="4" fill="#f97316"/>
+                            <circle class="node" cx="52" cy="20" r="5" fill="#ef4444"/>
+                        </svg>
+                    </span>
                     <h3 class="algorithm-name">Dijkstra</h3>
                     <div class="algorithm-complexity">O((V+E)logV) | O(V)</div>
                     <p class="algorithm-desc">Single-source shortest path algorithm</p>
                 </a>
                 <a href="graph/bfs-dfs/index.html" class="algorithm-card bfs" aria-label="BFS Breadth-First and DFS Depth-First Traversal">
-                    <span class="algorithm-icon" aria-hidden="true">🌊</span>
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <line x1="30" y1="8" x2="15" y2="20" stroke="#06b6d4" stroke-width="2"/>
+                            <line x1="30" y1="8" x2="45" y2="20" stroke="#06b6d4" stroke-width="2"/>
+                            <line x1="15" y1="20" x2="8" y2="32" stroke="#06b6d4" stroke-width="2"/>
+                            <line x1="15" y1="20" x2="22" y2="32" stroke="#06b6d4" stroke-width="2"/>
+                            <line x1="45" y1="20" x2="38" y2="32" stroke="#06b6d4" stroke-width="2"/>
+                            <line x1="45" y1="20" x2="52" y2="32" stroke="#06b6d4" stroke-width="2"/>
+                            <circle class="wave" cx="30" cy="8" r="10" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.4"/>
+                            <circle class="wave" cx="30" cy="8" r="16" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.2"/>
+                            <circle class="node" cx="30" cy="8" r="5" fill="#06b6d4"/>
+                            <circle class="node" cx="15" cy="20" r="4" fill="#00d9ff"/>
+                            <circle class="node" cx="45" cy="20" r="4" fill="#00d9ff"/>
+                            <circle class="node" cx="8" cy="32" r="3" fill="#a855f7"/>
+                            <circle class="node" cx="22" cy="32" r="3" fill="#a855f7"/>
+                            <circle class="node" cx="38" cy="32" r="3" fill="#a855f7"/>
+                            <circle class="node" cx="52" cy="32" r="3" fill="#a855f7"/>
+                        </svg>
+                    </span>
                     <h3 class="algorithm-name">BFS/DFS</h3>
                     <div class="algorithm-complexity">O(V+E) | O(V)</div>
                     <p class="algorithm-desc">Breadth/depth first traversal comparison</p>
                 </a>
                 <a href="graph/astar/index.html" class="algorithm-card astar" aria-label="A* Heuristic Pathfinding Algorithm">
-                    <span class="algorithm-icon" aria-hidden="true">⭐</span>
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <rect x="4" y="4" width="8" height="8" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect x="12" y="4" width="8" height="8" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect x="20" y="4" width="8" height="8" fill="#555" stroke="#555" stroke-width="0.5"/>
+                            <rect x="28" y="4" width="8" height="8" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect x="4" y="12" width="8" height="8" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect x="12" y="12" width="8" height="8" fill="#555" stroke="#555" stroke-width="0.5"/>
+                            <rect x="20" y="12" width="8" height="8" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect x="28" y="12" width="8" height="8" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect x="4" y="20" width="8" height="8" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect x="12" y="20" width="8" height="8" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect x="20" y="20" width="8" height="8" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <rect x="28" y="20" width="8" height="8" fill="#333" stroke="#555" stroke-width="0.5"/>
+                            <circle cx="8" cy="8" r="3" fill="#22c55e"/>
+                            <circle cx="32" cy="24" r="3" fill="#ef4444"/>
+                            <path class="astar-path" d="M8 8 L16 16 L24 16 L32 24" stroke="#eab308" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            <polygon class="astar-star" points="48,8 50,14 56,14 51,18 53,24 48,20 43,24 45,18 40,14 46,14" fill="#eab308"/>
+                        </svg>
+                    </span>
                     <h3 class="algorithm-name">A* Pathfinding</h3>
                     <div class="algorithm-complexity">O(E) | O(V)</div>
                     <p class="algorithm-desc">Heuristic shortest path search</p>
@@ -596,13 +657,35 @@
             </div>
             <div class="algorithms-grid">
                 <a href="search/binary-search/index.html" class="algorithm-card binary" aria-label="Binary Search Algorithm">
-                    <span class="algorithm-icon" aria-hidden="true">🔎</span>
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <rect class="binary-range" x="4" y="14" width="52" height="12" rx="2" fill="#3b82f6" opacity="0.3"/>
+                            <rect x="4" y="14" width="7" height="12" fill="#555"/>
+                            <rect x="11" y="14" width="7" height="12" fill="#666"/>
+                            <rect x="18" y="14" width="7" height="12" fill="#777"/>
+                            <rect x="25" y="14" width="7" height="12" fill="#3b82f6"/>
+                            <rect x="32" y="14" width="7" height="12" fill="#888"/>
+                            <rect x="39" y="14" width="7" height="12" fill="#999"/>
+                            <rect x="46" y="14" width="7" height="12" fill="#aaa"/>
+                            <path class="binary-pointer" d="M28.5 8 L28.5 12 M26 10 L28.5 13 L31 10" stroke="#00d9ff" stroke-width="2" fill="none"/>
+                            <text x="27" y="23" fill="white" font-size="6" font-weight="bold">?</text>
+                        </svg>
+                    </span>
                     <h3 class="algorithm-name">Binary Search</h3>
                     <div class="algorithm-complexity">O(log n) | O(1)</div>
                     <p class="algorithm-desc">Efficient search in sorted arrays</p>
                 </a>
                 <a href="search/knapsack/index.html" class="algorithm-card knapsack" aria-label="0/1 Knapsack Dynamic Programming Problem">
-                    <span class="algorithm-icon" aria-hidden="true">🎒</span>
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <path d="M20 8 L40 8 L44 32 L16 32 Z" fill="#14b8a6" opacity="0.8"/>
+                            <path d="M22 8 L38 8 L38 4 L22 4 Z" fill="#14b8a6"/>
+                            <rect class="knapsack-item" x="6" y="20" width="8" height="8" rx="1" fill="#f97316"/>
+                            <rect class="knapsack-item" x="6" y="10" width="6" height="6" rx="1" fill="#a855f7"/>
+                            <circle class="knapsack-item" cx="52" cy="24" r="5" fill="#eab308"/>
+                            <text x="50" y="27" fill="#333" font-size="6" font-weight="bold">$</text>
+                        </svg>
+                    </span>
                     <h3 class="algorithm-name">0/1 Knapsack</h3>
                     <div class="algorithm-complexity">O(NW) | O(NW)</div>
                     <p class="algorithm-desc">Classic dynamic programming optimization problem</p>
@@ -619,7 +702,21 @@
             </div>
             <div class="algorithms-grid">
                 <a href="geometry/convex-hull/index.html" class="algorithm-card convex" aria-label="Graham Scan Convex Hull Algorithm">
-                    <span class="algorithm-icon" aria-hidden="true">⬡</span>
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <polygon class="convex-hull" points="10,30 8,18 20,6 40,8 52,16 48,32 25,36" fill="none" stroke="#84cc16" stroke-width="2"/>
+                            <circle class="convex-point" cx="10" cy="30" r="3" fill="#84cc16"/>
+                            <circle class="convex-point" cx="8" cy="18" r="3" fill="#84cc16"/>
+                            <circle class="convex-point" cx="20" cy="6" r="3" fill="#84cc16"/>
+                            <circle class="convex-point" cx="40" cy="8" r="3" fill="#84cc16"/>
+                            <circle class="convex-point" cx="52" cy="16" r="3" fill="#84cc16"/>
+                            <circle class="convex-point" cx="48" cy="32" r="3" fill="#84cc16"/>
+                            <circle class="convex-point" cx="25" cy="36" r="3" fill="#84cc16"/>
+                            <circle cx="25" cy="18" r="2" fill="#555"/>
+                            <circle cx="35" cy="22" r="2" fill="#555"/>
+                            <circle cx="30" cy="28" r="2" fill="#555"/>
+                        </svg>
+                    </span>
                     <h3 class="algorithm-name">Convex Hull</h3>
                     <div class="algorithm-complexity">O(n log n) | O(n)</div>
                     <p class="algorithm-desc">Graham Scan for point set hull</p>
@@ -627,42 +724,13 @@
             </div>
         </section>
         
-        <!-- 平台特性 -->
-        <section class="features-section fade-in" style="animation-delay: 0.35s;">
-            <h2 class="features-title">Platform Features</h2>
-            <div class="features-grid">
-                <article class="feature-card">
-                    <div class="feature-icon" aria-hidden="true">🎬</div>
-                    <h3 class="feature-title">Smooth Animations</h3>
-                    <p class="feature-desc">Carefully designed CSS animations make every step visible, helping you understand the execution process.</p>
-                </article>
-                <article class="feature-card">
-                    <div class="feature-icon" aria-hidden="true">🎮</div>
-                    <h3 class="feature-title">Interactive Controls</h3>
-                    <p class="feature-desc">Pause and reset anytime. Some algorithms support custom input data for flexible learning.</p>
-                </article>
-                <article class="feature-card">
-                    <div class="feature-icon" aria-hidden="true">📚</div>
-                    <h3 class="feature-title">Detailed Explanations</h3>
-                    <p class="feature-desc">Each algorithm page includes principles, complexity analysis, and real-world applications.</p>
-                </article>
-                <article class="feature-card">
-                    <div class="feature-icon" aria-hidden="true">📱</div>
-                    <h3 class="feature-title">Responsive Design</h3>
-                    <p class="feature-desc">Works perfectly on desktop and mobile devices. Learn algorithms anywhere, anytime.</p>
-                </article>
-                <article class="feature-card">
-                    <div class="feature-icon" aria-hidden="true">🚀</div>
-                    <h3 class="feature-title">Zero Dependencies</h3>
-                    <p class="feature-desc">Pure HTML/CSS/JavaScript implementation. No frameworks needed. Clean code for learning.</p>
-                </article>
-                <article class="feature-card">
-                    <div class="feature-icon" aria-hidden="true">🌙</div>
-                    <h3 class="feature-title">Eye-Friendly Dark Mode</h3>
-                    <p class="feature-desc">Comfortable dark theme design for long study sessions without eye strain.</p>
-                </article>
-            </div>
+        <!-- Comparison promo -->
+        <section class="comparison-promo fade-in" style="animation-delay: 0.35s;">
+            <h2 class="comparison-promo-title">Want to see how we compare?</h2>
+            <p class="comparison-promo-desc">In-depth comparison of algo.jsdiff.com with VisuAlgo, USFCA, Toptal and more</p>
+            <a href="../docs/comparison/" class="comparison-promo-link">View Comparison</a>
         </section>
+        
     </main>
     
     <!-- 公共页脚由 JS 注入 -->
