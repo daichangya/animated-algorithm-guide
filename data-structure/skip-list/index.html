@@ -73,9 +73,9 @@
             </select>
             <label class="config-label" data-en="Max Level:">最大层数：</label>
             <select id="maxLevelSelect" class="config-select">
-                <option value="4">4层</option>
-                <option value="6" selected>6层</option>
-                <option value="8">8层</option>
+                <option value="4" data-en="4 Levels">4层</option>
+                <option value="6" selected data-en="6 Levels">6层</option>
+                <option value="8" data-en="8 Levels">8层</option>
             </select>
         </div>
         
@@ -90,14 +90,14 @@
         <!-- 控制面板 -->
         <div class="controls">
             <div class="input-group">
-                <input type="number" id="inputValue" placeholder="输入值 (1-999)" class="input-field" min="1" max="999">
-                <button class="btn btn-primary" id="insertBtn">插入</button>
-                <button class="btn btn-info" id="searchBtn">查找</button>
-                <button class="btn btn-danger" id="deleteBtn">删除</button>
+                <input type="number" id="inputValue" placeholder="输入值 (1-999)" data-placeholder-en="Enter value (1-999)" class="input-field" min="1" max="999">
+                <button class="btn btn-primary" id="insertBtn" data-en="Insert">插入</button>
+                <button class="btn btn-info" id="searchBtn" data-en="Search">查找</button>
+                <button class="btn btn-danger" id="deleteBtn" data-en="Delete">删除</button>
             </div>
             <div class="button-group">
-                <button class="btn btn-secondary" id="resetBtn">重置</button>
-                <button class="btn btn-warning" id="randomBtn">随机数据</button>
+                <button class="btn btn-secondary" id="resetBtn" data-en="Reset">重置</button>
+                <button class="btn btn-warning" id="randomBtn" data-en="Random">随机数据</button>
             </div>
         </div>
         

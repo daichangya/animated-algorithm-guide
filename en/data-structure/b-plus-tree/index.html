@@ -13,7 +13,7 @@
     
     <!-- Open Graph -->
     <meta property="og:title" content="B+ Tree Visualization - Algorithm Visualization">
-    <meta property="og:description" content="通过交互式动画学习B+树的Insert、Range查询andDeleteOperation">
+    <meta property="og:description" content="通过交互式动画学习B+树的Insert、Range QueryandDeleteOperation">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://algo.jsdiff.com/data-structure/b-plus-tree/">
     
@@ -63,9 +63,9 @@
         <div class="config-panel fade-in">
             <label class="config-label">Order (max children):</label>
             <select id="orderSelect" class="config-select">
-                <option value="3">3阶</option>
-                <option value="4" selected>4阶</option>
-                <option value="5">5阶</option>
+                <option value="3">Order 3</option>
+                <option value="4" selected>Order 4</option>
+                <option value="5">Order 5</option>
             </select>
         </div>
         
@@ -82,12 +82,12 @@
                 <input type="number" id="inputValue" placeholder="Enter value (1-999)" class="input-field" min="1" max="999">
                 <button class="btn btn-primary" id="insertBtn">Insert</button>
                 <button class="btn btn-info" id="searchBtn">Search</button>
-                <button class="btn btn-accent" id="rangeBtn">Range查询</button>
+                <button class="btn btn-accent" id="rangeBtn">Range Query</button>
                 <button class="btn btn-danger" id="deleteBtn">Delete</button>
             </div>
             <div class="button-group">
                 <button class="btn btn-secondary" id="resetBtn">Reset</button>
-                <button class="btn btn-warning" id="randomBtn">随机数据</button>
+                <button class="btn btn-warning" id="randomBtn">Random</button>
             </div>
         </div>
         

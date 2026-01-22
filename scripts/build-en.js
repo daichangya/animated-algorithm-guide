@@ -214,7 +214,7 @@ function processHtmlFile(relativePath, translations) {
     });
     
     // 处理 data-en 属性：提取英文内容替换中文，并移除 data-en 属性
-    // 支持多种标签：p, span, h1-h6, li, div, td, th 等
+    // 支持多种标签：p, span, h1-h6, li, div, td, th, button, option 等
     html = html.replace(/<([a-z][a-z0-9]*)\s([^>]*?)data-en="([^"]+)"([^>]*)>([^<]*)<\/\1>/gi, 
         (match, tag, attrsBefore, enText, attrsAfter, zhText) => {
             // 合并属性，移除 data-en
@@ -223,6 +223,24 @@ function processHtmlFile(relativePath, translations) {
                 return `<${tag} ${attrs}>${enText}</${tag}>`;
             }
             return `<${tag}>${enText}</${tag}>`;
+        }
+    );
+    
+    // 处理 option 元素的 data-en 属性（自闭合情况）
+    html = html.replace(/<option\s([^>]*?)data-en="([^"]+)"([^>]*)>([^<]*)<\/option>/gi,
+        (match, attrsBefore, enText, attrsAfter, zhText) => {
+            const attrs = (attrsBefore + attrsAfter).trim();
+            if (attrs) {
+                return `<option ${attrs}>${enText}</option>`;
+            }
+            return `<option>${enText}</option>`;
+        }
+    );
+    
+    // 处理 data-placeholder-en 属性
+    html = html.replace(/placeholder="[^"]*"\s*data-placeholder-en="([^"]+)"/gi, 
+        (match, enPlaceholder) => {
+            return `placeholder="${enPlaceholder}"`;
         }
     );
     
