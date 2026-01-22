@@ -64,6 +64,11 @@ Detailed comparisons:
 ### Computational Geometry | 计算几何 (1)
 - **Convex Hull** | 凸包算法 (Graham Scan) - O(n log n)
 
+### Data Structures | 数据结构 (3)
+- **B-Tree** | B树 - O(log n)
+- **B+ Tree** | B+树 - O(log n)
+- **Skip List** | 跳跃表 - O(log n)
+
 ## Tech Stack | 技术栈
 
 - HTML5
@@ -75,23 +80,30 @@ Detailed comparisons:
 
 ```
 ├── index.html              # Homepage | 首页
+├── 404.html                # 404 error page | 404错误页面
 ├── common/                 # Shared resources | 公共资源
 │   ├── styles.css         # Global styles | 全局样式
+│   ├── algo-components.css # Algorithm page components | 算法页面公共组件
+│   ├── header.js          # Header with breadcrumb | 页头与面包屑导航
 │   ├── i18n.js            # Internationalization core | 国际化核心
-│   └── lang/              
-│       └── translations.js # Chinese-English dictionary | 中英文翻译字典
+│   └── lang/translations/ # Translation modules | 翻译模块
 ├── sorting/               # Sorting algorithms | 排序算法
 ├── sequence/              # String algorithms | 字符串算法
 ├── graph/                 # Graph algorithms | 图算法
 ├── search/                # Search & optimization | 搜索优化
 ├── geometry/              # Computational geometry | 计算几何
+├── data-structure/        # Data structures | 数据结构
+│   ├── b-tree/           # B-Tree | B树
+│   ├── b-plus-tree/      # B+ Tree | B+树
+│   └── skip-list/        # Skip List | 跳跃表
+├── scripts/               # Build scripts | 构建脚本
+│   ├── build-en.js       # English version generator | 英文版生成
+│   ├── build-sitemap.js  # Sitemap generator | Sitemap生成
+│   └── new-algorithm.js  # Scaffolding tool | 脚手架工具
+├── en/                    # English version (generated) | 英文版(构建生成)
 └── docs/                  # Documentation | 文档
-    ├── auto-i18n-architecture.md  # i18n architecture docs | i18n架构文档
-    └── comparison/        # Platform comparison articles | 平台对比评测
-        ├── index.html     # Overview | 综合对比
-        ├── vs-visualgo.html
-        ├── vs-usfca.html
-        └── vs-toptal.html
+    ├── auto-i18n-architecture.md  # i18n architecture | i18n架构文档
+    └── comparison/        # Platform comparisons | 平台对比评测
 ```
 
 ## Internationalization | 国际化
