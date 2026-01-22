@@ -47,6 +47,9 @@ function init() {
     if (window.AlgoLogger) {
         window.AlgoLogger.clear();
         window.AlgoLogger.info('背包问题初始化: {0} 个物品, 容量 = {1}', items.length, capacity);
+        window.AlgoLogger.log('物品列表: [{0}]', items.map((item, i) => 
+            `${i+1}.${getItemName(item)} (w:${item.weight}, v:${item.value})`
+        ).join(', '));
     }
 }
 

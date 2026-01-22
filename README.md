@@ -14,6 +14,7 @@ Welcome to the Algorithm Visualization Learning Platform! This platform helps yo
 - 🎬 **Smooth Animations** - Carefully designed CSS animations for clear visualization
 - 🎮 **Interactive Controls** - Pause, reset, and customize input data
 - 📚 **Detailed Explanations** - Principles, complexity analysis, and real-world applications
+- 📋 **Execution Logging** - Real-time step-by-step execution logs with copy and export features
 - 🌍 **Internationalization** - Full support for Chinese and English (static generation)
 - 📱 **Responsive Design** - Works on desktop and mobile devices
 - 🚀 **Zero Dependencies** - Pure HTML/CSS/JavaScript, no frameworks required
@@ -84,6 +85,8 @@ Detailed comparisons:
 ├── common/                 # Shared resources | 公共资源
 │   ├── styles.css         # Global styles | 全局样式
 │   ├── algo-components.css # Algorithm page components | 算法页面公共组件
+│   ├── logger.js          # Execution logger module | 执行日志模块
+│   ├── logger.css         # Logger panel styles | 日志面板样式
 │   ├── header.js          # Header with breadcrumb | 页头与面包屑导航
 │   ├── i18n.js            # Internationalization core | 国际化核心
 │   └── lang/translations/ # Translation modules | 翻译模块

@@ -47,7 +47,7 @@ function generateArray() {
     if (window.AlgoLogger) {
         window.AlgoLogger.clear();
         window.AlgoLogger.info('生成随机数组: {0} 个元素', array.length);
-        window.AlgoLogger.log('数据: [{0}]', array.map(v => Math.floor(v/10)).join(', '));
+        window.AlgoLogger.log('数据: [{0}]', array.join(', '));
     }
 }
 
@@ -540,5 +540,9 @@ if (pauseBtn) {
     pauseBtn.addEventListener('click', togglePause);
 }
 
-// 初始化
-generateArray();
+// 初始化 - 等待 AlgoLogger 模块加载完成
+if (document.readyState === 'complete') {
+    setTimeout(generateArray, 50);
+} else {
+    window.addEventListener('load', () => setTimeout(generateArray, 50));
+}

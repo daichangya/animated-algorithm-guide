@@ -46,6 +46,8 @@ function init() {
     if (window.AlgoLogger) {
         window.AlgoLogger.clear();
         window.AlgoLogger.info('Myers Diff初始化: 源长度={0}, 目标长度={1}', source.length, target.length);
+        window.AlgoLogger.log('源序列: "{0}"', source);
+        window.AlgoLogger.log('目标序列: "{0}"', target);
     }
 }
 

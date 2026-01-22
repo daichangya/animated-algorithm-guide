@@ -37,6 +37,8 @@ function init() {
     if (window.AlgoLogger) {
         window.AlgoLogger.clear();
         window.AlgoLogger.info('KMP初始化: 文本长度={0}, 模式长度={1}', text.length, pattern.length);
+        window.AlgoLogger.log('文本: "{0}"', text);
+        window.AlgoLogger.log('模式: "{0}"', pattern);
     }
 }
 

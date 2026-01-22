@@ -8,11 +8,13 @@
     background: var(--bg-secondary, #1a1a2e);
     border: 1px solid var(--border-color, #2d2d44);
     border-radius: var(--radius-md, 8px);
-    margin: var(--spacing-md, 16px) 0;
+    margin: var(--spacing-md, 16px) auto;
     overflow: hidden;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
     font-size: 0.85rem;
     transition: all var(--transition-normal, 0.3s) ease;
+    max-width: 1000px;
+    width: 100%;
 }
 
 /* ==================== 日志头部 ==================== */

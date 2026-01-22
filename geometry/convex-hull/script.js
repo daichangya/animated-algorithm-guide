@@ -44,6 +44,7 @@ function generateRandomPoints() {
     if (window.AlgoLogger) {
         window.AlgoLogger.clear();
         window.AlgoLogger.info('生成 {0} 个随机点', points.length);
+        window.AlgoLogger.log('点坐标: [{0}]', points.map((p, i) => `P${i}(${Math.round(p.x)},${Math.round(p.y)})`).join(', '));
     }
 }
 

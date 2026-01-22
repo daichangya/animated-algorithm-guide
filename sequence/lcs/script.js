@@ -46,6 +46,8 @@ function init() {
     if (window.AlgoLogger) {
         window.AlgoLogger.clear();
         window.AlgoLogger.info('LCS初始化: 序列A长度={0}, 序列B长度={1}', seqA.length, seqB.length);
+        window.AlgoLogger.log('序列A: "{0}"', seqA);
+        window.AlgoLogger.log('序列B: "{0}"', seqB);
     }
 }
 

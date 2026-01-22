@@ -213,6 +213,189 @@ updateStatus(window.I18n.t('排序完成！比较次数: {0}', count));
 
 ---
 
+## 执行日志模块 | Execution Logger Module
+
+### 功能概述
+
+执行日志模块 (`AlgoLogger`) 用于记录和显示算法执行的每一步，帮助用户理解算法的工作过程。
+
+**主要功能：**
+- 实时记录算法执行步骤
+- 支持多种日志级别（info, step, success, warn, error, log）
+- 支持复制所有日志到剪贴板
+- 支持折叠/展开日志面板
+- 自动清空和限制日志数量（防止内存溢出）
+- 支持中英文双语
+
+### 在算法页面中集成
+
+#### 步骤 1: 引入日志模块
+
+在算法页面的 `index.html` 中添加：
+
+```html
+<link rel="stylesheet" href="/common/logger.css">
+<script src="/common/logger.js"></script>
+```
+
+#### 步骤 2: 记录初始化数据
+
+在初始化函数中记录初始数据：
+
+```javascript
+function init() {
+    // 初始化数据
+    array = generateArray();
+    
+    // 记录日志
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('生成随机数组: {0} 个元素', array.length);
+        window.AlgoLogger.log('数据: [{0}]', array.join(', '));
+    }
+}
+```
+
+#### 步骤 3: 记录执行步骤
+
+在算法执行过程中记录关键步骤：
+
+```javascript
+async function bubbleSort() {
+    if (window.AlgoLogger) {
+        window.AlgoLogger.step('开始冒泡排序');
+    }
+    
+    for (let i = 0; i < n - 1; i++) {
+        // 记录比较操作
+        if (window.AlgoLogger) {
+            window.AlgoLogger.log('比较: 位置{0}({1}) vs 位置{2}({3})', 
+                j+1, array[j], j+2, array[j+1]);
+        }
+        
+        if (array[j] > array[j + 1]) {
+            // 记录交换操作
+            if (window.AlgoLogger) {
+                window.AlgoLogger.log('交换: {0} ↔ {1}', array[j], array[j+1]);
+            }
+            swap(j, j + 1);
+        }
+    }
+    
+    // 记录完成
+    if (window.AlgoLogger) {
+        window.AlgoLogger.success('排序完成: 比较{0}次, 交换{1}次', comparisons, swaps);
+    }
+}
+```
+
+### 日志级别说明
+
+| 级别 | 方法 | 用途 | 图标 |
+|------|------|------|------|
+| **info** | `AlgoLogger.info()` | 一般信息（初始化、配置等） | ℹ️ |
+| **step** | `AlgoLogger.step()` | 关键步骤（算法开始、阶段转换） | 🔵 |
+| **log** | `AlgoLogger.log()` | 常规日志（比较、交换、访问等） | - |
+| **success** | `AlgoLogger.success()` | 成功操作（完成、找到结果） | ✅ |
+| **warn** | `AlgoLogger.warn()` | 警告信息（未找到、边界情况） | ⚠️ |
+| **error** | `AlgoLogger.error()` | 错误信息（异常、失败） | ❌ |
+
+### 占位符使用
+
+日志消息支持占位符，使用 `{0}`, `{1}`, `{2}` 等：
+
+```javascript
+// 单个参数
+window.AlgoLogger.info('生成随机数组: {0} 个元素', array.length);
+
+// 多个参数
+window.AlgoLogger.log('比较: 位置{0}({1}) vs 位置{2}({3})', 
+    j+1, array[j], j+2, array[j+1]);
+
+// 数组数据
+window.AlgoLogger.log('数据: [{0}]', array.join(', '));
+```
+
+### 初始化数据日志规范
+
+**必须记录的内容：**
+
+1. **排序算法**: 数组长度和完整数组数据
+   ```javascript
+   window.AlgoLogger.info('生成随机数组: {0} 个元素', array.length);
+   window.AlgoLogger.log('数据: [{0}]', array.join(', '));
+   ```
+
+2. **图算法**: 节点列表和边列表（含权重）
+   ```javascript
+   window.AlgoLogger.info('图数据已初始化: {0} 个节点', nodes.length);
+   window.AlgoLogger.log('节点: [{0}]', nodes.map(n => n.id).join(', '));
+   window.AlgoLogger.log('边: [{0}]', edges.map(e => `${e.from}→${e.to}(w:${e.weight})`).join(', '));
+   ```
+
+3. **序列算法**: 序列内容
+   ```javascript
+   window.AlgoLogger.info('LCS初始化: 序列A长度={0}, 序列B长度={1}', seqA.length, seqB.length);
+   window.AlgoLogger.log('序列A: "{0}"', seqA);
+   window.AlgoLogger.log('序列B: "{0}"', seqB);
+   ```
+
+4. **几何算法**: 点坐标
+   ```javascript
+   window.AlgoLogger.info('生成 {0} 个随机点', points.length);
+   window.AlgoLogger.log('点坐标: [{0}]', points.map((p, i) => 
+       `P${i}(${Math.round(p.x)},${Math.round(p.y)})`).join(', '));
+   ```
+
+### 初始化时机
+
+确保在 `AlgoLogger` 初始化完成后再记录日志。对于页面加载时的初始化，使用延迟执行：
+
+```javascript
+// 方式1: 在 init() 函数中（推荐）
+function init() {
+    // ... 初始化代码 ...
+    
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('初始化完成');
+    }
+}
+
+// 页面加载时延迟初始化
+if (document.readyState === 'complete') {
+    setTimeout(init, 50);
+} else {
+    window.addEventListener('load', () => setTimeout(init, 50));
+}
+```
+
+### API 参考
+
+**主要方法：**
+
+- `AlgoLogger.init(targetSelector)` - 手动初始化（通常自动调用）
+- `AlgoLogger.clear()` - 清空所有日志
+- `AlgoLogger.log(text, ...args)` - 记录常规日志
+- `AlgoLogger.info(text, ...args)` - 记录信息日志
+- `AlgoLogger.step(text, ...args)` - 记录步骤日志
+- `AlgoLogger.success(text, ...args)` - 记录成功日志
+- `AlgoLogger.warn(text, ...args)` - 记录警告日志
+- `AlgoLogger.error(text, ...args)` - 记录错误日志
+- `AlgoLogger.copy()` - 复制所有日志到剪贴板
+- `AlgoLogger.toggle()` - 折叠/展开日志面板
+- `AlgoLogger.setMaxLogs(max)` - 设置最大日志数量（默认500）
+
+### 最佳实践
+
+1. **初始化时清空日志**: 每次初始化时调用 `AlgoLogger.clear()`
+2. **记录完整数据**: 初始化时记录完整的初始数据（数组、图结构等）
+3. **使用合适的日志级别**: 根据信息类型选择合适的级别
+4. **使用占位符**: 使用 `{0}`, `{1}` 等占位符，支持翻译
+5. **延迟初始化**: 确保在 `AlgoLogger` 准备好后再记录日志
+
+---
+
 ## 提交 PR | Submitting PRs
 
 ### 1. Fork 仓库

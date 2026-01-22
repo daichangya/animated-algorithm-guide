@@ -53,7 +53,9 @@ function init() {
     // 日志记录
     if (window.AlgoLogger) {
         window.AlgoLogger.clear();
-        window.AlgoLogger.info('图数据已初始化: {0} 个节点', Object.keys(graph).length);
+        window.AlgoLogger.info('图数据已初始化: {0} 个节点', nodes.length);
+        window.AlgoLogger.log('节点: [{0}]', nodes.map(n => n.id).join(', '));
+        window.AlgoLogger.log('边: [{0}]', edges.map(e => `${e.from}→${e.to}(w:${e.weight})`).join(', '));
     }
 }
 

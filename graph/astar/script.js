@@ -42,6 +42,7 @@ function init() {
     if (window.AlgoLogger) {
         window.AlgoLogger.clear();
         window.AlgoLogger.info('网格初始化: {0}x{1}', CONFIG.rows, CONFIG.cols);
+        window.AlgoLogger.log('起点: ({0}, {1}), 终点: ({2}, {3})', startPos.row, startPos.col, endPos.row, endPos.col);
     }
 }
 
