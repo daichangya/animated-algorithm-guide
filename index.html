@@ -395,16 +395,16 @@
     <main class="container" style="max-width: 1200px;">
         <!-- Hero区域 -->
         <header class="hero fade-in" style="text-align: center;">
-            <h1 class="hero-title">算法可视化</h1>
-            <p class="hero-subtitle">通过交互式动画深入理解经典算法的工作原理</p>
+            <h1 class="hero-title" data-en="Algorithm Visualization">算法可视化</h1>
+            <p class="hero-subtitle" data-en="Understand classic algorithms through interactive animations">通过交互式动画深入理解经典算法的工作原理</p>
             <div class="stats" style="margin-top: 20px;">
                 <div class="stat-item">
                     <div class="stat-value">13</div>
-                    <div class="stat-label">算法总数</div>
+                    <div class="stat-label" data-en="Total Algorithms">算法总数</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value">5</div>
-                    <div class="stat-label">算法分类</div>
+                    <div class="stat-label" data-en="Categories">算法分类</div>
                 </div>
             </div>
         </header>
@@ -413,8 +413,8 @@
         <section class="category-section sorting-category fade-in" style="animation-delay: 0.1s;" aria-labelledby="sorting-title">
             <div class="category-header">
                 <span class="category-icon" aria-hidden="true">📊</span>
-                <h2 class="category-title" id="sorting-title">排序算法</h2>
-                <span class="category-desc">数组元素排列与重组</span>
+                <h2 class="category-title" id="sorting-title" data-en="Sorting Algorithms">排序算法</h2>
+                <span class="category-desc" data-en="Array element arrangement">数组元素排列与重组</span>
             </div>
             <div class="algorithms-grid">
                 <a href="sorting/bubble-sort/index.html" class="algorithm-card bubble" aria-label="冒泡排序 - 时间复杂度O(n²)">
@@ -428,9 +428,9 @@
                             <circle cx="28" cy="6" r="3" fill="#00d9ff" opacity="0.6"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">冒泡排序</h3>
+                    <h3 class="algorithm-name" data-en="Bubble Sort">冒泡排序</h3>
                     <div class="algorithm-complexity">O(n²) | O(1)</div>
-                    <p class="algorithm-desc">相邻元素两两比较，较大元素上浮</p>
+                    <p class="algorithm-desc" data-en="Compare adjacent elements, larger floats up">相邻元素两两比较，较大元素上浮</p>
                 </a>
                 <a href="sorting/heap-sort/index.html" class="algorithm-card heap" aria-label="堆排序 - 时间复杂度O(n log n)">
                     <span class="algo-icon" aria-hidden="true">
@@ -450,9 +450,9 @@
                             <circle class="node" cx="52" cy="32" r="4" fill="#22c55e"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">堆排序</h3>
+                    <h3 class="algorithm-name" data-en="Heap Sort">堆排序</h3>
                     <div class="algorithm-complexity">O(n log n) | O(1)</div>
-                    <p class="algorithm-desc">利用二叉堆特性完成排序</p>
+                    <p class="algorithm-desc" data-en="Uses binary heap properties for sorting">利用二叉堆特性完成排序</p>
                 </a>
                 <a href="sorting/quick-sort/index.html" class="algorithm-card quick" aria-label="快速排序 - 时间复杂度O(n log n)">
                     <span class="algo-icon" aria-hidden="true">
@@ -466,9 +466,9 @@
                             <rect class="bar" x="49" y="22" width="7" height="14" rx="1" fill="#00d9ff"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">快速排序</h3>
+                    <h3 class="algorithm-name" data-en="Quick Sort">快速排序</h3>
                     <div class="algorithm-complexity">O(n log n) | O(log n)</div>
-                    <p class="algorithm-desc">分治策略，基准元素分区</p>
+                    <p class="algorithm-desc" data-en="Divide and conquer with pivot partitioning">分治策略，基准元素分区</p>
                 </a>
                 <a href="sorting/merge-sort/index.html" class="algorithm-card merge" aria-label="归并排序 - 时间复杂度O(n log n)">
                     <span class="algo-icon" aria-hidden="true">
@@ -492,9 +492,9 @@
                             </defs>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">归并排序</h3>
+                    <h3 class="algorithm-name" data-en="Merge Sort">归并排序</h3>
                     <div class="algorithm-complexity">O(n log n) | O(n)</div>
-                    <p class="algorithm-desc">分解子数组后合并</p>
+                    <p class="algorithm-desc" data-en="Divide into subarrays then merge">分解子数组后合并</p>
                 </a>
             </div>
         </section>
@@ -503,8 +503,8 @@
         <section class="category-section sequence-category fade-in" style="animation-delay: 0.15s;" aria-labelledby="sequence-title">
             <div class="category-header">
                 <span class="category-icon" aria-hidden="true">🔤</span>
-                <h2 class="category-title" id="sequence-title">字符串算法</h2>
-                <span class="category-desc">序列匹配与比较</span>
+                <h2 class="category-title" id="sequence-title" data-en="String Algorithms">字符串算法</h2>
+                <span class="category-desc" data-en="Sequence matching and comparison">序列匹配与比较</span>
             </div>
             <div class="algorithms-grid">
                 <a href="sequence/myers-diff/index.html" class="algorithm-card myers" aria-label="Myers差异算法">
@@ -518,9 +518,9 @@
                             <rect x="4" y="34" width="52" height="4" rx="1" fill="#333" opacity="0.5"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">Myers差异</h3>
+                    <h3 class="algorithm-name" data-en="Myers Diff">Myers差异</h3>
                     <div class="algorithm-complexity">O((N+M)D) | O(N+M)</div>
-                    <p class="algorithm-desc">最小编辑距离，Git diff核心</p>
+                    <p class="algorithm-desc" data-en="Minimum edit distance, Git diff core">最小编辑距离，Git diff核心</p>
                 </a>
                 <a href="sequence/lcs/index.html" class="algorithm-card lcs" aria-label="LCS最长公共子序列">
                     <span class="algo-icon" aria-hidden="true">
@@ -540,9 +540,9 @@
                             <path class="path-line" d="M9 29 L19 19 L29 9" stroke="#ec4899" stroke-width="2" fill="none" stroke-linecap="round"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">LCS公共子序列</h3>
+                    <h3 class="algorithm-name" data-en="LCS Subsequence">LCS公共子序列</h3>
                     <div class="algorithm-complexity">O(MN) | O(MN)</div>
-                    <p class="algorithm-desc">动态规划找最长公共子序列</p>
+                    <p class="algorithm-desc" data-en="DP for longest common subsequence">动态规划找最长公共子序列</p>
                 </a>
                 <a href="sequence/kmp/index.html" class="algorithm-card kmp" aria-label="KMP字符串匹配算法">
                     <span class="algo-icon" aria-hidden="true">
@@ -554,9 +554,9 @@
                             <path class="kmp-arrow" d="M38 27 L50 27 M47 24 L50 27 L47 30" stroke="#00d9ff" stroke-width="2" fill="none" stroke-linecap="round"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">KMP匹配</h3>
+                    <h3 class="algorithm-name" data-en="KMP Matching">KMP匹配</h3>
                     <div class="algorithm-complexity">O(N+M) | O(M)</div>
-                    <p class="algorithm-desc">前缀表加速字符串匹配</p>
+                    <p class="algorithm-desc" data-en="Prefix table accelerates string matching">前缀表加速字符串匹配</p>
                 </a>
             </div>
         </section>
@@ -565,8 +565,8 @@
         <section class="category-section graph-category fade-in" style="animation-delay: 0.2s;" aria-labelledby="graph-title">
             <div class="category-header">
                 <span class="category-icon" aria-hidden="true">🕸️</span>
-                <h2 class="category-title" id="graph-title">图算法</h2>
-                <span class="category-desc">图结构遍历与路径搜索</span>
+                <h2 class="category-title" id="graph-title" data-en="Graph Algorithms">图算法</h2>
+                <span class="category-desc" data-en="Graph traversal and pathfinding">图结构遍历与路径搜索</span>
             </div>
             <div class="algorithms-grid">
                 <a href="graph/dijkstra/index.html" class="algorithm-card dijkstra" aria-label="Dijkstra最短路径算法">
@@ -589,7 +589,7 @@
                     </span>
                     <h3 class="algorithm-name">Dijkstra</h3>
                     <div class="algorithm-complexity">O((V+E)logV) | O(V)</div>
-                    <p class="algorithm-desc">单源最短路径算法</p>
+                    <p class="algorithm-desc" data-en="Single-source shortest path algorithm">单源最短路径算法</p>
                 </a>
                 <a href="graph/bfs-dfs/index.html" class="algorithm-card bfs" aria-label="BFS广度优先和DFS深度优先遍历">
                     <span class="algo-icon" aria-hidden="true">
@@ -613,7 +613,7 @@
                     </span>
                     <h3 class="algorithm-name">BFS/DFS</h3>
                     <div class="algorithm-complexity">O(V+E) | O(V)</div>
-                    <p class="algorithm-desc">广度/深度优先遍历对比</p>
+                    <p class="algorithm-desc" data-en="Breadth/depth first traversal comparison">广度/深度优先遍历对比</p>
                 </a>
                 <a href="graph/astar/index.html" class="algorithm-card astar" aria-label="A*启发式寻路算法">
                     <span class="algo-icon" aria-hidden="true">
@@ -636,9 +636,9 @@
                             <polygon class="astar-star" points="48,8 50,14 56,14 51,18 53,24 48,20 43,24 45,18 40,14 46,14" fill="#eab308"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">A*寻路</h3>
+                    <h3 class="algorithm-name" data-en="A* Pathfinding">A*寻路</h3>
                     <div class="algorithm-complexity">O(E) | O(V)</div>
-                    <p class="algorithm-desc">启发式最短路径搜索</p>
+                    <p class="algorithm-desc" data-en="Heuristic shortest path search">启发式最短路径搜索</p>
                 </a>
             </div>
         </section>
@@ -647,8 +647,8 @@
         <section class="category-section search-category fade-in" style="animation-delay: 0.25s;" aria-labelledby="search-title">
             <div class="category-header">
                 <span class="category-icon" aria-hidden="true">🎯</span>
-                <h2 class="category-title" id="search-title">搜索与优化</h2>
-                <span class="category-desc">高效查找与决策优化</span>
+                <h2 class="category-title" id="search-title" data-en="Search & Optimization">搜索与优化</h2>
+                <span class="category-desc" data-en="Efficient search and decision optimization">高效查找与决策优化</span>
             </div>
             <div class="algorithms-grid">
                 <a href="search/binary-search/index.html" class="algorithm-card binary" aria-label="二分查找算法">
@@ -666,9 +666,9 @@
                             <text x="27" y="23" fill="white" font-size="6" font-weight="bold">?</text>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">二分查找</h3>
+                    <h3 class="algorithm-name" data-en="Binary Search">二分查找</h3>
                     <div class="algorithm-complexity">O(log n) | O(1)</div>
-                    <p class="algorithm-desc">有序数组中的高效查找</p>
+                    <p class="algorithm-desc" data-en="Efficient search in sorted array">有序数组中的高效查找</p>
                 </a>
                 <a href="search/knapsack/index.html" class="algorithm-card knapsack" aria-label="0/1背包动态规划问题">
                     <span class="algo-icon" aria-hidden="true">
@@ -681,9 +681,9 @@
                             <text x="50" y="27" fill="#333" font-size="6" font-weight="bold">$</text>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">0/1背包</h3>
+                    <h3 class="algorithm-name" data-en="0/1 Knapsack">0/1背包</h3>
                     <div class="algorithm-complexity">O(NW) | O(NW)</div>
-                    <p class="algorithm-desc">动态规划经典优化问题</p>
+                    <p class="algorithm-desc" data-en="Classic DP optimization problem">动态规划经典优化问题</p>
                 </a>
             </div>
         </section>
@@ -692,8 +692,8 @@
         <section class="category-section geometry-category fade-in" style="animation-delay: 0.3s;" aria-labelledby="geometry-title">
             <div class="category-header">
                 <span class="category-icon" aria-hidden="true">📐</span>
-                <h2 class="category-title" id="geometry-title">计算几何</h2>
-                <span class="category-desc">几何图形与空间计算</span>
+                <h2 class="category-title" id="geometry-title" data-en="Computational Geometry">计算几何</h2>
+                <span class="category-desc" data-en="Geometric shapes and spatial computation">几何图形与空间计算</span>
             </div>
             <div class="algorithms-grid">
                 <a href="geometry/convex-hull/index.html" class="algorithm-card convex" aria-label="Graham Scan凸包算法">
@@ -712,9 +712,9 @@
                             <circle cx="30" cy="28" r="2" fill="#555"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">凸包算法</h3>
+                    <h3 class="algorithm-name" data-en="Convex Hull">凸包算法</h3>
                     <div class="algorithm-complexity">O(n log n) | O(n)</div>
-                    <p class="algorithm-desc">Graham Scan计算点集凸包</p>
+                    <p class="algorithm-desc" data-en="Graham Scan for point set convex hull">Graham Scan计算点集凸包</p>
                 </a>
             </div>
         </section>
@@ -813,9 +813,9 @@
         
         <!-- 对比评测推广 -->
         <section class="comparison-promo fade-in" style="animation-delay: 0.35s;">
-            <h2 class="comparison-promo-title">想了解我们与其他平台的区别？</h2>
-            <p class="comparison-promo-desc">深度对比 algo.jsdiff.com 与 VisuAlgo、USFCA、Toptal 等算法可视化平台</p>
-            <a href="docs/comparison/" class="comparison-promo-link">查看对比评测</a>
+            <h2 class="comparison-promo-title" data-en="Want to know how we compare?">想了解我们与其他平台的区别？</h2>
+            <p class="comparison-promo-desc" data-en="In-depth comparison of algo.jsdiff.com with VisuAlgo, USFCA, Toptal and more">深度对比 algo.jsdiff.com 与 VisuAlgo、USFCA、Toptal 等算法可视化平台</p>
+            <a href="docs/comparison/" class="comparison-promo-link" data-en="View Comparison">查看对比评测</a>
         </section>
         
     </main>

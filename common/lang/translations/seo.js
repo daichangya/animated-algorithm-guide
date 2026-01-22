@@ -169,5 +169,10 @@ export const seo = {
     'A*启发式寻路算法': 'A* Heuristic Pathfinding Algorithm',
     '二分查找算法': 'Binary Search Algorithm',
     '0/1背包动态规划问题': '0/1 Knapsack Dynamic Programming Problem',
-    'Graham Scan凸包算法': 'Graham Scan Convex Hull Algorithm'
+    'Graham Scan凸包算法': 'Graham Scan Convex Hull Algorithm',
+    
+    // ===== 数据结构 aria-label =====
+    'B树多路平衡搜索树': 'B-Tree Multi-way Balanced Search Tree',
+    'B+树数据库索引结构': 'B+ Tree Database Index Structure',
+    '跳跃表概率数据结构': 'Skip List Probabilistic Data Structure'
 };
