@@ -41,6 +41,12 @@ function init() {
     renderDPMatrix();
     lcsChars.innerHTML = '<span style="color: rgba(255,255,255,0.4)">运行算法后显示</span>';
     lcsLength.innerHTML = '长度: <span>?</span>';
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('LCS初始化: 序列A长度={0}, 序列B长度={1}', seqA.length, seqB.length);
+    }
 }
 
 /**
@@ -375,6 +381,7 @@ async function start() {
     await showLCSResult(lcs);
     
     updateStatus(window.I18n.t('算法完成! LCS = "{0}", 长度 = {1}', lcs.map(l => l.char).join(''), lcs.length));
+    if (window.AlgoLogger) window.AlgoLogger.success('LCS = "{0}", 长度 = {1}', lcs.map(l => l.char).join(''), lcs.length);
     
     isRunning = false;
     isPaused = false;

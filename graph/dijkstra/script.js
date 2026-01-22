@@ -49,6 +49,12 @@ function init() {
     initDistances();
     renderDistanceTable();
     updateStatus('点击节点选择起点，然后开始算法');
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('图数据已初始化: {0} 个节点', Object.keys(graph).length);
+    }
 }
 
 function renderGraph() {
@@ -239,6 +245,7 @@ async function dijkstra() {
         distEl.classList.add('current');
         
         updateStatus(window.I18n.t('处理节点 {0}，当前距离: {1}', current, distances[current]));
+        if (window.AlgoLogger) window.AlgoLogger.log('访问节点 {0}, 距离: {1}', current, distances[current]);
         await delay(CONFIG.stepDelay);
         
         // 检查邻居
@@ -296,6 +303,7 @@ async function dijkstra() {
     // 高亮最短路径
     await highlightShortestPaths();
     updateStatus('算法完成! 所有最短路径已找到');
+    if (window.AlgoLogger) window.AlgoLogger.success('算法完成: 所有最短路径已找到');
 }
 
 async function highlightShortestPaths() {

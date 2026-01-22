@@ -39,6 +39,12 @@ function generateRandomPoints() {
     render();
     updateStack([]);
     updateStatus(window.I18n.t('已生成 {0} 个点', points.length));
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('生成 {0} 个随机点', points.length);
+    }
 }
 
 function render(sortedPoints = null, currentLine = null, checkLine = null) {
@@ -274,6 +280,7 @@ async function grahamScan() {
     // 完成
     render(sorted);
     updateStatus(window.I18n.t('凸包完成! 共 {0} 个顶点', hull.length));
+    if (window.AlgoLogger) window.AlgoLogger.success('凸包完成: {0} 个顶点', hull.length);
 }
 
 async function start() {

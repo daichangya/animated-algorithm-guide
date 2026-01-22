@@ -32,6 +32,12 @@ function init() {
     renderMatchArea();
     matchResults.innerHTML = '-';
     updateStatus('点击开始查看KMP匹配过程');
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('KMP初始化: 文本长度={0}, 模式长度={1}', text.length, pattern.length);
+    }
 }
 
 function renderPrefixTable() {
@@ -295,6 +301,7 @@ async function start() {
             matchResults.innerHTML = '<span style="color:#ef4444">无匹配</span>';
         } else {
             updateStatus(window.I18n.t('匹配完成! 共找到 {0} 处匹配', matches.length));
+            if (window.AlgoLogger) window.AlgoLogger.success('匹配完成: 找到 {0} 处匹配', matches.length);
         }
     }
     

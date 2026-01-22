@@ -41,6 +41,12 @@ function init() {
     renderArray();
     resetLabels();
     updateStatus('输入目标值后点击开始');
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('生成有序数组: {0} 个元素, 范围 [{1}, {2}]', array.length, array[0], array[array.length-1]);
+    }
 }
 
 function renderArray() {
@@ -181,6 +187,7 @@ async function binarySearch() {
             item.classList.add('found');
             
             updateStatus(window.I18n.t('找到目标! 位置: {0}, 共 {1} 步', mid, step));
+            if (window.AlgoLogger) window.AlgoLogger.success('找到目标: 位置 {0}, 共 {1} 步', mid, step);
             return mid;
         } else if (array[mid] < target) {
             // 目标在右半部分
@@ -206,6 +213,7 @@ async function binarySearch() {
         item.classList.add('not-found');
     });
     updateStatus(window.I18n.t('未找到目标 {0}', target));
+    if (window.AlgoLogger) window.AlgoLogger.warn('未找到目标: {0}', target);
     return -1;
 }
 

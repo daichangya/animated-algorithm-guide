@@ -381,6 +381,7 @@ async function insert() {
     isAnimating = true;
     
     updateStatus('正在插入: {0}', value);
+    if (window.AlgoLogger) window.AlgoLogger.step('插入操作: {0}', value);
     
     const result = skipList.insert(value);
     
@@ -391,8 +392,10 @@ async function insert() {
         highlightedNode = null;
         render();
         updateStatus('插入完成: {0} (层级: {1})', value, result.level);
+        if (window.AlgoLogger) window.AlgoLogger.success('插入成功: {0}, 层级: {1}', value, result.level);
     } else {
         updateStatus('{0} 已存在', value);
+        if (window.AlgoLogger) window.AlgoLogger.warn('值已存在: {0}', value);
     }
     
     inputValue.value = '';
@@ -410,6 +413,7 @@ async function search() {
     isAnimating = true;
     
     updateStatus('正在查找: {0}', value);
+    if (window.AlgoLogger) window.AlgoLogger.step('查找操作: {0}', value);
     highlightPath = [];
     highlightedNode = null;
     
@@ -426,8 +430,10 @@ async function search() {
         highlightedNode = result.node;
         render();
         updateStatus('找到: {0}', value);
+        if (window.AlgoLogger) window.AlgoLogger.success('查找成功: {0}', value);
     } else {
         updateStatus('未找到: {0}', value);
+        if (window.AlgoLogger) window.AlgoLogger.warn('未找到: {0}', value);
     }
     
     await delay(CONFIG.animationDuration * 2);
@@ -448,13 +454,16 @@ async function deleteValue() {
     isAnimating = true;
     
     updateStatus('正在删除: {0}', value);
+    if (window.AlgoLogger) window.AlgoLogger.step('删除操作: {0}', value);
     
     if (skipList.delete(value)) {
         render();
         await delay(CONFIG.animationDuration);
         updateStatus('删除完成: {0}', value);
+        if (window.AlgoLogger) window.AlgoLogger.success('删除成功: {0}', value);
     } else {
         updateStatus('未找到: {0}', value);
+        if (window.AlgoLogger) window.AlgoLogger.warn('删除失败: {0} 不存在', value);
     }
     
     inputValue.value = '';
@@ -474,6 +483,12 @@ function reset() {
     renderLevelLabels();
     render();
     updateStatus('数据结构已初始化');
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('跳跃表初始化: 最大层数={0}, 概率={1}', maxLevel, p);
+    }
 }
 
 function generateRandom() {
@@ -492,6 +507,11 @@ function generateRandom() {
     
     render();
     updateStatus('已生成 {0} 个随机值', count);
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.success('随机生成 {0} 个值', count);
+    }
 }
 
 // ===== 演示功能 =====

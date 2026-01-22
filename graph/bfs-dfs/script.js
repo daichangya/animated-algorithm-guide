@@ -41,6 +41,12 @@ function init() {
     renderGraph('bfsSvg');
     renderGraph('dfsSvg');
     updatePanelVisibility();
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('图数据已初始化: {0} 个节点', nodes.length);
+    }
 }
 
 function renderGraph(svgId) {
@@ -280,9 +286,11 @@ async function start() {
     if (mode === 'bfs') {
         await bfs('bfsSvg', 'bfsQueue', 'bfsOrder');
         updateStatus('BFS遍历完成!');
+        if (window.AlgoLogger) window.AlgoLogger.success('BFS遍历完成');
     } else if (mode === 'dfs') {
         await dfs('dfsSvg', 'dfsStack', 'dfsOrder');
         updateStatus('DFS遍历完成!');
+        if (window.AlgoLogger) window.AlgoLogger.success('DFS遍历完成');
     } else {
         // 并行执行
         await Promise.all([

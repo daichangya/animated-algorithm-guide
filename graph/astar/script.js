@@ -37,6 +37,12 @@ function init() {
         }
     }
     renderGrid();
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('网格初始化: {0}x{1}', CONFIG.rows, CONFIG.cols);
+    }
 }
 
 function renderGrid() {
@@ -176,6 +182,7 @@ async function astar() {
             // 找到路径
             await reconstructPath(current);
             updateStatus('找到最短路径!');
+            if (window.AlgoLogger) window.AlgoLogger.success('找到最短路径');
             return true;
         }
         
@@ -219,6 +226,7 @@ async function astar() {
     }
     
     updateStatus('未找到路径!');
+    if (window.AlgoLogger) window.AlgoLogger.warn('未找到路径');
     return false;
 }
 

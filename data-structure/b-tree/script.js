@@ -436,6 +436,7 @@ async function insert() {
     
     if (tree.search(value)) {
         updateStatus('{0} 已存在', value);
+        if (window.AlgoLogger) window.AlgoLogger.warn('值已存在: {0}', value);
         return;
     }
     
@@ -443,11 +444,13 @@ async function insert() {
     isAnimating = true;
     
     updateStatus('正在插入: {0}', value);
+    if (window.AlgoLogger) window.AlgoLogger.step('插入操作: {0}', value);
     tree.insert(value);
     render();
     
     await delay(CONFIG.animationDuration);
     updateStatus('插入完成: {0}', value);
+    if (window.AlgoLogger) window.AlgoLogger.success('插入成功: {0}', value);
     inputValue.value = '';
     isAnimating = false;
 }
@@ -463,6 +466,7 @@ async function search() {
     isAnimating = true;
     
     updateStatus('正在查找: {0}', value);
+    if (window.AlgoLogger) window.AlgoLogger.step('查找操作: {0}', value);
     highlightedNodes = [];
     
     // 逐层搜索动画
@@ -479,6 +483,7 @@ async function search() {
         
         if (i < node.keys.length && value === node.keys[i]) {
             updateStatus('找到: {0}', value);
+            if (window.AlgoLogger) window.AlgoLogger.success('查找成功: {0}', value);
             await delay(CONFIG.animationDuration);
             highlightedNodes = [];
             render();
@@ -491,6 +496,7 @@ async function search() {
     }
     
     updateStatus('未找到: {0}', value);
+    if (window.AlgoLogger) window.AlgoLogger.warn('未找到: {0}', value);
     highlightedNodes = [];
     render();
     isAnimating = false;
@@ -507,13 +513,16 @@ async function deleteValue() {
     isAnimating = true;
     
     updateStatus('正在删除: {0}', value);
+    if (window.AlgoLogger) window.AlgoLogger.step('删除操作: {0}', value);
     
     if (tree.delete(value)) {
         render();
         await delay(CONFIG.animationDuration);
         updateStatus('删除完成: {0}', value);
+        if (window.AlgoLogger) window.AlgoLogger.success('删除成功: {0}', value);
     } else {
         updateStatus('未找到: {0}', value);
+        if (window.AlgoLogger) window.AlgoLogger.warn('删除失败: {0} 不存在', value);
     }
     
     inputValue.value = '';
@@ -528,6 +537,12 @@ function reset() {
     inputValue.value = '';
     render();
     updateStatus('数据结构已初始化');
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('B树初始化: 阶数={0}', order);
+    }
 }
 
 function generateRandom() {
@@ -546,6 +561,9 @@ function generateRandom() {
     
     render();
     updateStatus('已生成 {0} 个随机值', count);
+    
+    // 日志记录
+    if (window.AlgoLogger) window.AlgoLogger.success('随机生成 {0} 个值', count);
 }
 
 // ===== 演示功能 =====

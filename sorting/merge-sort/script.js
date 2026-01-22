@@ -42,6 +42,12 @@ function generateArray() {
     renderArray();
     renderInitialTree();
     clearMergeArea();
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('生成随机数组: {0} 个元素', array.length);
+    }
 }
 
 /**
@@ -497,6 +503,7 @@ async function startSorting() {
     });
     
     updateStatus('开始归并排序...');
+    if (window.AlgoLogger) window.AlgoLogger.step('开始归并排序');
     clearMergeArea();
     
     await mergeSort(array, 0, array.length - 1, 0);
@@ -504,6 +511,7 @@ async function startSorting() {
     if (isSorting) {
         await celebrateCompletion();
         updateStatus('排序完成！');
+        if (window.AlgoLogger) window.AlgoLogger.success('排序完成');
         clearMergeArea();
     }
     

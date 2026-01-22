@@ -42,6 +42,12 @@ function init() {
     maxValueEl.textContent = '?';
     selectedItemsEl.innerHTML = '<span style="color:rgba(255,255,255,0.4)">-</span>';
     updateStatus('点击开始查看DP填表过程');
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('背包问题初始化: {0} 个物品, 容量 = {1}', items.length, capacity);
+    }
 }
 
 function renderItems() {
@@ -207,6 +213,7 @@ async function backtrack() {
     }
     
     updateStatus(window.I18n.t('完成！ 最大价值: {0}', dp[items.length][capacity]));
+    if (window.AlgoLogger) window.AlgoLogger.success('完成: 最大价值 = {0}', dp[items.length][capacity]);
 }
 
 async function start() {

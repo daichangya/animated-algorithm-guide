@@ -35,6 +35,12 @@ function generateArray() {
         array.push(value);
     }
     renderArray();
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('生成随机数组: {0} 个元素', array.length);
+    }
 }
 
 /**
@@ -235,12 +241,14 @@ async function bubbleSort() {
             
             comparisons++;
             updateStatus(window.I18n.t('正在比较: 位置 {0} 和 位置 {1}', j + 1, j + 2));
+            if (window.AlgoLogger) window.AlgoLogger.log('比较: 位置{0}({1}) vs 位置{2}({3})', j+1, Math.floor(array[j]/10), j+2, Math.floor(array[j+1]/10));
             
             // 高亮正在比较的元素
             await highlightComparing(j, j + 1);
             
             if (array[j] > array[j + 1]) {
                 updateStatus(window.I18n.t('交换: {0} 和 {1}', Math.floor(array[j] / 10), Math.floor(array[j + 1] / 10)));
+                if (window.AlgoLogger) window.AlgoLogger.log('交换: {0} ↔ {1}', Math.floor(array[j]/10), Math.floor(array[j+1]/10));
                 await swap(j, j + 1);
                 swapped = true;
                 swaps++;
@@ -252,6 +260,7 @@ async function bubbleSort() {
         
         // 标记当前轮次的最大值已到位
         markSorted(n - i - 1);
+        if (window.AlgoLogger) window.AlgoLogger.info('第 {0} 轮完成', i + 1);
         
         // 如果没有交换发生，说明已经有序
         if (!swapped) {
@@ -270,6 +279,7 @@ async function bubbleSort() {
     await celebrateCompletion();
     
     updateStatus(window.I18n.t('排序完成！比较次数: {0}, 交换次数: {1}', comparisons, swaps));
+    if (window.AlgoLogger) window.AlgoLogger.success('排序完成: 比较{0}次, 交换{1}次', comparisons, swaps);
 }
 
 /**
@@ -312,6 +322,7 @@ async function startSorting() {
     });
     
     updateStatus('排序开始...');
+    if (window.AlgoLogger) window.AlgoLogger.step('开始冒泡排序');
     
     await bubbleSort();
     

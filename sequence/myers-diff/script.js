@@ -41,6 +41,12 @@ function init() {
     renderEditGraph();
     diffResult.innerHTML = '<span style="color: rgba(255,255,255,0.4)">运行算法后显示差异</span>';
     dValueEl.textContent = '?';
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('Myers Diff初始化: 源长度={0}, 目标长度={1}', source.length, target.length);
+    }
 }
 
 /**
@@ -461,6 +467,7 @@ async function start() {
     
     if (isRunning && d !== null) {
         updateStatus(window.I18n.t('算法完成! 最小编辑距离: {0}', d));
+        if (window.AlgoLogger) window.AlgoLogger.success('算法完成: 最小编辑距离 = {0}', d);
     }
     
     isRunning = false;

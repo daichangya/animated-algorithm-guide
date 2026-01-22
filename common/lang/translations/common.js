@@ -78,5 +78,24 @@ export const common = {
     '范围': 'Range',
     '数据结构': 'Data Structures',
     '编程学习': 'Programming Learning',
-    '算法动画演示': 'Algorithm Visualization'
+    '算法动画演示': 'Algorithm Visualization',
+    
+    // ===== 日志模块 =====
+    '执行日志': 'Execution Log',
+    '清空日志': 'Clear Log',
+    '折叠/展开': 'Collapse/Expand',
+    '日志模块已初始化': 'Logger initialized',
+    '日志已清空': 'Log cleared',
+    '数组已生成': 'Array generated',
+    '随机数据已生成': 'Random data generated',
+    '参数已更改': 'Parameter changed',
+    '开始执行': 'Starting execution',
+    '执行完成': 'Execution complete',
+    '正在比较: {0} 和 {1}': 'Comparing: {0} and {1}',
+    '交换: {0} 和 {1}': 'Swapping: {0} and {1}',
+    '第 {0} 轮完成': 'Round {0} complete',
+    '访问节点: {0}': 'Visiting node: {0}',
+    '更新距离: {0} -> {1}': 'Update distance: {0} -> {1}',
+    '找到路径': 'Path found',
+    '无路径': 'No path found'
 };

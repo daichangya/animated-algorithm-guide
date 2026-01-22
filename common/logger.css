@@ -1,0 +1,175 @@
+/**
+ * 算法执行日志面板样式
+ * @author changyadai
+ */
+
+/* ==================== 日志面板容器 ==================== */
+.algo-logger {
+    background: var(--bg-secondary, #1a1a2e);
+    border: 1px solid var(--border-color, #2d2d44);
+    border-radius: var(--radius-md, 8px);
+    margin: var(--spacing-md, 16px) 0;
+    overflow: hidden;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.85rem;
+    transition: all var(--transition-normal, 0.3s) ease;
+}
+
+/* ==================== 日志头部 ==================== */
+.algo-logger-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm, 12px) var(--spacing-md, 16px);
+    background: var(--bg-tertiary, #16162a);
+    border-bottom: 1px solid var(--border-color, #2d2d44);
+    cursor: pointer;
+    user-select: none;
+}
+
+.algo-logger-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: var(--text-primary, #e0e0e0);
+}
+
+.algo-logger-icon {
+    font-size: 1.1rem;
+}
+
+.algo-logger-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.algo-logger-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted, #888);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: all var(--transition-fast, 0.15s);
+}
+
+.algo-logger-btn:hover {
+    background: var(--bg-hover, rgba(255, 255, 255, 0.1));
+    color: var(--text-primary, #e0e0e0);
+}
+
+/* ==================== 日志内容区 ==================== */
+.algo-logger-body {
+    max-height: 200px;
+    overflow-y: auto;
+    transition: max-height var(--transition-normal, 0.3s) ease;
+}
+
+.algo-logger.collapsed .algo-logger-body {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.algo-logger-list {
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-sm, 12px);
+}
+
+/* ==================== 日志条目 ==================== */
+.algo-logger-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 4px 0;
+    color: var(--text-secondary, #b0b0b0);
+    line-height: 1.4;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.algo-logger-item:last-child {
+    border-bottom: none;
+}
+
+.log-time {
+    color: var(--text-muted, #666);
+    flex-shrink: 0;
+    font-size: 0.8rem;
+}
+
+.log-icon {
+    flex-shrink: 0;
+    width: 1.2em;
+    text-align: center;
+}
+
+.log-text {
+    flex: 1;
+    word-break: break-word;
+}
+
+/* ==================== 日志级别样式 ==================== */
+.log-default .log-text {
+    color: var(--text-muted, #888);
+}
+
+.log-step .log-text {
+    color: var(--accent-cyan, #00d9ff);
+}
+
+.log-success .log-text {
+    color: var(--accent-green, #4ade80);
+}
+
+.log-warn .log-text {
+    color: var(--accent-orange, #fb923c);
+}
+
+.log-error .log-text {
+    color: var(--accent-red, #f87171);
+}
+
+.log-info .log-text {
+    color: var(--text-secondary, #b0b0b0);
+    font-style: italic;
+}
+
+/* ==================== 滚动条样式 ==================== */
+.algo-logger-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.algo-logger-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.algo-logger-body::-webkit-scrollbar-thumb {
+    background: var(--border-color, #2d2d44);
+    border-radius: 3px;
+}
+
+.algo-logger-body::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted, #666);
+}
+
+/* ==================== 响应式设计 ==================== */
+@media (max-width: 768px) {
+    .algo-logger {
+        font-size: 0.8rem;
+        margin: var(--spacing-sm, 12px) 0;
+    }
+    
+    .algo-logger-header {
+        padding: var(--spacing-xs, 8px) var(--spacing-sm, 12px);
+    }
+    
+    .algo-logger-body {
+        max-height: 150px;
+    }
+    
+    .log-time {
+        font-size: 0.75rem;
+    }
+}

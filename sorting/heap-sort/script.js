@@ -42,6 +42,12 @@ function generateArray() {
     }
     heapSize = array.length;
     renderAll();
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('生成随机数组: {0} 个元素', array.length);
+    }
 }
 
 /**
@@ -430,6 +436,7 @@ async function heapSort() {
     await celebrateCompletion();
     
     updateStatus('排序完成！');
+    if (window.AlgoLogger) window.AlgoLogger.success('排序完成');
 }
 
 /**
@@ -477,6 +484,7 @@ async function startSorting() {
     document.querySelectorAll('.out-of-heap').forEach(el => el.classList.remove('out-of-heap'));
     
     updateStatus('排序开始...');
+    if (window.AlgoLogger) window.AlgoLogger.step('开始堆排序');
     
     await heapSort();
     

@@ -65,6 +65,12 @@ function generateArray() {
     }
     renderArray();
     initDepthIndicator();
+    
+    // 日志记录
+    if (window.AlgoLogger) {
+        window.AlgoLogger.clear();
+        window.AlgoLogger.info('生成随机数组: {0} 个元素', array.length);
+    }
 }
 
 /**
@@ -285,6 +291,7 @@ async function partition(low, high, depth) {
     const pivotBar = getBar(high);
     
     updatePartitionInfo(`分区 [${low} - ${high}], 基准值: ${Math.floor(pivotValue / 10)}`);
+    if (window.AlgoLogger) window.AlgoLogger.log('分区 [{0}-{1}], 基准值: {2}', low, high, Math.floor(pivotValue / 10));
     markPartition(low, high);
     highlightPivot(high);
     
@@ -409,6 +416,7 @@ async function startSorting() {
     
     updateStatus('开始快速排序...');
     updatePartitionInfo('开始分区...');
+    if (window.AlgoLogger) window.AlgoLogger.step('开始快速排序');
     
     await quickSort(0, array.length - 1, 0);
     
@@ -423,6 +431,7 @@ async function startSorting() {
         
         updateStatus('排序完成！');
         updatePartitionInfo('所有元素已排序');
+        if (window.AlgoLogger) window.AlgoLogger.success('排序完成');
     }
     
     isSorting = false;
