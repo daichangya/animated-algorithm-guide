@@ -46,6 +46,7 @@ function init() {
     if (window.AlgoLogger) {
         window.AlgoLogger.clear();
         window.AlgoLogger.info('生成有序数组: {0} 个元素, 范围 [{1}, {2}]', array.length, array[0], array[array.length-1]);
+        window.AlgoLogger.log('数据: [{0}]', array.join(', '));
     }
 }
 

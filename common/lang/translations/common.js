@@ -84,6 +84,8 @@ export const common = {
     '执行日志': 'Execution Log',
     '清空日志': 'Clear Log',
     '折叠/展开': 'Collapse/Expand',
+    '复制全部': 'Copy All',
+    '已复制到剪贴板': 'Copied to clipboard',
     '日志模块已初始化': 'Logger initialized',
     '日志已清空': 'Log cleared',
     '数组已生成': 'Array generated',
@@ -97,5 +99,7 @@ export const common = {
     '访问节点: {0}': 'Visiting node: {0}',
     '更新距离: {0} -> {1}': 'Update distance: {0} -> {1}',
     '找到路径': 'Path found',
-    '无路径': 'No path found'
+    '无路径': 'No path found',
+    '数据: [{0}]': 'Data: [{0}]',
+    '生成随机数组: {0} 个元素': 'Generated random array: {0} elements'
 };

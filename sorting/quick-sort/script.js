@@ -70,6 +70,7 @@ function generateArray() {
     if (window.AlgoLogger) {
         window.AlgoLogger.clear();
         window.AlgoLogger.info('生成随机数组: {0} 个元素', array.length);
+        window.AlgoLogger.log('数据: [{0}]', array.map(v => Math.floor(v/10)).join(', '));
     }
 }
 

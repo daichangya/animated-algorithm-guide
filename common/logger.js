@@ -68,6 +68,9 @@ const AlgoLogger = (function() {
                     <span>${isEn ? 'Execution Log' : '执行日志'}</span>
                 </span>
                 <div class="algo-logger-controls">
+                    <button class="algo-logger-btn copy-btn" title="${isEn ? 'Copy All' : '复制全部'}">
+                        📄
+                    </button>
                     <button class="algo-logger-btn clear-btn" title="${isEn ? 'Clear Log' : '清空日志'}">
                         🗑️
                     </button>
@@ -166,12 +169,16 @@ const AlgoLogger = (function() {
         // 绑定事件
         const toggleBtn = container.querySelector('.toggle-btn');
         const clearBtn = container.querySelector('.clear-btn');
+        const copyBtn = container.querySelector('.copy-btn');
         
         if (toggleBtn) {
             toggleBtn.addEventListener('click', toggle);
         }
         if (clearBtn) {
             clearBtn.addEventListener('click', clear);
+        }
+        if (copyBtn) {
+            copyBtn.addEventListener('click', copyAllLogs);
         }
         
         // 记录初始化日志
@@ -204,6 +211,50 @@ const AlgoLogger = (function() {
     }
     
     /**
+     * 复制所有日志到剪贴板
+     */
+    function copyAllLogs() {
+        if (!logList) return;
+        
+        const lines = [];
+        logList.querySelectorAll('.algo-logger-item').forEach(item => {
+            const time = item.querySelector('.log-time')?.textContent || '';
+            const text = item.querySelector('.log-text')?.textContent || '';
+            lines.push(`${time} ${text}`);
+        });
+        
+        const content = lines.join('\n');
+        
+        navigator.clipboard.writeText(content).then(() => {
+            // 显示复制成功提示
+            showCopyToast();
+        }).catch(err => {
+            console.error('复制失败:', err);
+        });
+    }
+    
+    /**
+     * 显示复制成功提示
+     */
+    function showCopyToast() {
+        const isEn = isEnglishPage();
+        const toast = document.createElement('div');
+        toast.className = 'algo-logger-toast';
+        toast.textContent = isEn ? 'Copied to clipboard' : '已复制到剪贴板';
+        
+        container.appendChild(toast);
+        
+        // 动画显示
+        setTimeout(() => toast.classList.add('show'), 10);
+        
+        // 2秒后移除
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 2000);
+    }
+    
+    /**
      * 设置最大日志条数
      */
     function setMaxLogs(max) {
@@ -221,6 +272,7 @@ const AlgoLogger = (function() {
         info: (text, ...args) => addLog('info', text, ...args),
         clear: clear,
         toggle: toggle,
+        copy: copyAllLogs,
         setMaxLogs: setMaxLogs
     };
 })();

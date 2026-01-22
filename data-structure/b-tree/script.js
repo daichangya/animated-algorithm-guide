@@ -563,7 +563,10 @@ function generateRandom() {
     updateStatus('已生成 {0} 个随机值', count);
     
     // 日志记录
-    if (window.AlgoLogger) window.AlgoLogger.success('随机生成 {0} 个值', count);
+    if (window.AlgoLogger) {
+        window.AlgoLogger.success('随机生成 {0} 个值', count);
+        window.AlgoLogger.log('数据: [{0}]', Array.from(values).join(', '));
+    }
 }
 
 // ===== 演示功能 =====

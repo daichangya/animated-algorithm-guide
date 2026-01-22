@@ -511,6 +511,7 @@ function generateRandom() {
     // 日志记录
     if (window.AlgoLogger) {
         window.AlgoLogger.success('随机生成 {0} 个值', count);
+        window.AlgoLogger.log('数据: [{0}]', Array.from(values).sort((a, b) => a - b).join(', '));
     }
 }
 
