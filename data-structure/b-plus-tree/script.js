@@ -323,8 +323,13 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function updateStatus(text) {
-    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
+function updateStatus(text, ...args) {
+    let translated = window.I18n ? window.I18n.t(text) : text;
+    // 支持占位符替换：{0}, {1}, ...
+    args.forEach((arg, i) => {
+        translated = translated.replace(`{${i}}`, arg);
+    });
+    statusText.textContent = translated;
 }
 
 // ===== 布局计算 =====
@@ -538,14 +543,14 @@ async function insert() {
     if (isAnimating) return;
     isAnimating = true;
     
-    updateStatus(`正在插入: ${value}`);
+    updateStatus('正在插入: {0}', value);
     
     if (tree.insert(value)) {
         render();
         await delay(CONFIG.animationDuration);
-        updateStatus(`插入完成: ${value}`);
+        updateStatus('插入完成: {0}', value);
     } else {
-        updateStatus(`${value} 已存在`);
+        updateStatus('{0} 已存在', value);
     }
     
     inputValue.value = '';
@@ -562,7 +567,7 @@ async function search() {
     if (isAnimating) return;
     isAnimating = true;
     
-    updateStatus(`正在查找: ${value}`);
+    updateStatus('正在查找: {0}', value);
     highlightedNodes = [];
     rangeHighlight = [];
     
@@ -576,9 +581,9 @@ async function search() {
     }
     
     if (result.found) {
-        updateStatus(`找到: ${value}`);
+        updateStatus('找到: {0}', value);
     } else {
-        updateStatus(`未找到: ${value}`);
+        updateStatus('未找到: {0}', value);
     }
     
     await delay(CONFIG.animationDuration);
@@ -602,7 +607,7 @@ async function rangeQuery() {
     if (isAnimating) return;
     isAnimating = true;
     
-    updateStatus(`范围查询: ${start} - ${end}`);
+    updateStatus('范围查询: {0} - {1}', start, end);
     highlightedNodes = [];
     
     const results = tree.rangeQuery(start, end);
@@ -612,7 +617,7 @@ async function rangeQuery() {
     await delay(CONFIG.animationDuration * 2);
     
     if (results.length > 0) {
-        updateStatus(`找到 ${results.length} 个结果: ${results.join(', ')}`);
+        updateStatus('找到 {0} 个结果: {1}', results.length, results.join(', '));
     } else {
         updateStatus('范围内没有数据');
     }
@@ -633,14 +638,14 @@ async function deleteValue() {
     if (isAnimating) return;
     isAnimating = true;
     
-    updateStatus(`正在删除: ${value}`);
+    updateStatus('正在删除: {0}', value);
     
     if (tree.delete(value)) {
         render();
         await delay(CONFIG.animationDuration);
-        updateStatus(`删除完成: ${value}`);
+        updateStatus('删除完成: {0}', value);
     } else {
-        updateStatus(`未找到: ${value}`);
+        updateStatus('未找到: {0}', value);
     }
     
     inputValue.value = '';
@@ -673,7 +678,7 @@ function generateRandom() {
     }
     
     render();
-    updateStatus(`已生成 ${count} 个随机值`);
+    updateStatus('已生成 {0} 个随机值', count);
 }
 
 // ===== 演示功能 =====
@@ -713,13 +718,13 @@ async function runDemo() {
         if (!isDemo) break;
         
         if (step.action === 'insert') {
-            updateStatus(`正在插入: ${step.value}`);
+            updateStatus('正在插入: {0}', step.value);
             tree.insert(step.value);
             highlightedNodes = [];
             render();
             await delay(CONFIG.animationDuration * 2);
         } else if (step.action === 'search') {
-            updateStatus(`正在查找: ${step.value}`);
+            updateStatus('正在查找: {0}', step.value);
             highlightedNodes = [];
             
             let node = tree.root;
@@ -733,9 +738,9 @@ async function runDemo() {
                 
                 if (node.isLeaf) {
                     if (i > 0 && node.keys[i - 1] === step.value) {
-                        updateStatus(`找到: ${step.value}`);
+                        updateStatus('找到: {0}', step.value);
                     } else {
-                        updateStatus(`未找到: ${step.value}`);
+                        updateStatus('未找到: {0}', step.value);
                     }
                     break;
                 } else {
@@ -746,7 +751,7 @@ async function runDemo() {
             highlightedNodes = [];
             render();
         } else if (step.action === 'range') {
-            updateStatus(`范围查询: ${step.start} - ${step.end}`);
+            updateStatus('范围查询: {0} - {1}', step.start, step.end);
             highlightedNodes = [];
             
             // 找到起始位置
@@ -776,12 +781,12 @@ async function runDemo() {
                 node = node.next;
             }
             
-            updateStatus(`范围查询结果: [${results.join(', ')}]`);
+            updateStatus('范围查询结果: [{0}]', results.join(', '));
             await delay(CONFIG.animationDuration * 3);
             highlightedNodes = [];
             render();
         } else if (step.action === 'delete') {
-            updateStatus(`正在删除: ${step.value}`);
+            updateStatus('正在删除: {0}', step.value);
             tree.delete(step.value);
             highlightedNodes = [];
             render();

@@ -201,8 +201,13 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function updateStatus(text) {
-    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
+function updateStatus(text, ...args) {
+    let translated = window.I18n ? window.I18n.t(text) : text;
+    // 支持占位符替换：{0}, {1}, ...
+    args.forEach((arg, i) => {
+        translated = translated.replace(`{${i}}`, arg);
+    });
+    statusText.textContent = translated;
 }
 
 // ===== 渲染层级标签 =====
@@ -375,7 +380,7 @@ async function insert() {
     if (isAnimating) return;
     isAnimating = true;
     
-    updateStatus(`正在插入: ${value}`);
+    updateStatus('正在插入: {0}', value);
     
     const result = skipList.insert(value);
     
@@ -385,9 +390,9 @@ async function insert() {
         await delay(CONFIG.animationDuration * 2);
         highlightedNode = null;
         render();
-        updateStatus(`插入完成: ${value} (层级: ${result.level})`);
+        updateStatus('插入完成: {0} (层级: {1})', value, result.level);
     } else {
-        updateStatus(`${value} 已存在`);
+        updateStatus('{0} 已存在', value);
     }
     
     inputValue.value = '';
@@ -404,7 +409,7 @@ async function search() {
     if (isAnimating) return;
     isAnimating = true;
     
-    updateStatus(`正在查找: ${value}`);
+    updateStatus('正在查找: {0}', value);
     highlightPath = [];
     highlightedNode = null;
     
@@ -420,9 +425,9 @@ async function search() {
     if (result.found) {
         highlightedNode = result.node;
         render();
-        updateStatus(`找到: ${value}`);
+        updateStatus('找到: {0}', value);
     } else {
-        updateStatus(`未找到: ${value}`);
+        updateStatus('未找到: {0}', value);
     }
     
     await delay(CONFIG.animationDuration * 2);
@@ -442,14 +447,14 @@ async function deleteValue() {
     if (isAnimating) return;
     isAnimating = true;
     
-    updateStatus(`正在删除: ${value}`);
+    updateStatus('正在删除: {0}', value);
     
     if (skipList.delete(value)) {
         render();
         await delay(CONFIG.animationDuration);
-        updateStatus(`删除完成: ${value}`);
+        updateStatus('删除完成: {0}', value);
     } else {
-        updateStatus(`未找到: ${value}`);
+        updateStatus('未找到: {0}', value);
     }
     
     inputValue.value = '';
@@ -486,7 +491,7 @@ function generateRandom() {
     }
     
     render();
-    updateStatus(`已生成 ${count} 个随机值`);
+    updateStatus('已生成 {0} 个随机值', count);
 }
 
 // ===== 演示功能 =====
@@ -531,14 +536,14 @@ async function runDemo() {
         if (!isDemo) break;
         
         if (step.action === 'insert') {
-            updateStatus(`正在插入: ${step.value}`);
+            updateStatus('正在插入: {0}', step.value);
             skipList.insert(step.value);
             highlightPath = [];
             highlightedNode = null;
             render();
             await delay(CONFIG.animationDuration * 2);
         } else if (step.action === 'search') {
-            updateStatus(`正在查找: ${step.value}`);
+            updateStatus('正在查找: {0}', step.value);
             highlightPath = [];
             highlightedNode = null;
             
@@ -565,16 +570,16 @@ async function runDemo() {
             if (current.forward[0] && current.forward[0].value === step.value) {
                 highlightedNode = current.forward[0];
                 render();
-                updateStatus(`找到: ${step.value}`);
+                updateStatus('找到: {0}', step.value);
             } else {
-                updateStatus(`未找到: ${step.value}`);
+                updateStatus('未找到: {0}', step.value);
             }
             await delay(CONFIG.animationDuration * 2);
             highlightPath = [];
             highlightedNode = null;
             render();
         } else if (step.action === 'delete') {
-            updateStatus(`正在删除: ${step.value}`);
+            updateStatus('正在删除: {0}', step.value);
             skipList.delete(step.value);
             highlightPath = [];
             highlightedNode = null;

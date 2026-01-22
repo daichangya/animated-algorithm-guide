@@ -275,8 +275,13 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function updateStatus(text) {
-    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
+function updateStatus(text, ...args) {
+    let translated = window.I18n ? window.I18n.t(text) : text;
+    // 支持占位符替换：{0}, {1}, ...
+    args.forEach((arg, i) => {
+        translated = translated.replace(`{${i}}`, arg);
+    });
+    statusText.textContent = translated;
 }
 
 // ===== 布局计算 =====
@@ -430,19 +435,19 @@ async function insert() {
     }
     
     if (tree.search(value)) {
-        updateStatus(`${value} 已存在`);
+        updateStatus('{0} 已存在', value);
         return;
     }
     
     if (isAnimating) return;
     isAnimating = true;
     
-    updateStatus(`正在插入: ${value}`);
+    updateStatus('正在插入: {0}', value);
     tree.insert(value);
     render();
     
     await delay(CONFIG.animationDuration);
-    updateStatus(`插入完成: ${value}`);
+    updateStatus('插入完成: {0}', value);
     inputValue.value = '';
     isAnimating = false;
 }
@@ -457,7 +462,7 @@ async function search() {
     if (isAnimating) return;
     isAnimating = true;
     
-    updateStatus(`正在查找: ${value}`);
+    updateStatus('正在查找: {0}', value);
     highlightedNodes = [];
     
     // 逐层搜索动画
@@ -473,7 +478,7 @@ async function search() {
         }
         
         if (i < node.keys.length && value === node.keys[i]) {
-            updateStatus(`找到: ${value}`);
+            updateStatus('找到: {0}', value);
             await delay(CONFIG.animationDuration);
             highlightedNodes = [];
             render();
@@ -485,7 +490,7 @@ async function search() {
         node = node.children[i];
     }
     
-    updateStatus(`未找到: ${value}`);
+    updateStatus('未找到: {0}', value);
     highlightedNodes = [];
     render();
     isAnimating = false;
@@ -501,14 +506,14 @@ async function deleteValue() {
     if (isAnimating) return;
     isAnimating = true;
     
-    updateStatus(`正在删除: ${value}`);
+    updateStatus('正在删除: {0}', value);
     
     if (tree.delete(value)) {
         render();
         await delay(CONFIG.animationDuration);
-        updateStatus(`删除完成: ${value}`);
+        updateStatus('删除完成: {0}', value);
     } else {
-        updateStatus(`未找到: ${value}`);
+        updateStatus('未找到: {0}', value);
     }
     
     inputValue.value = '';
@@ -540,7 +545,7 @@ function generateRandom() {
     }
     
     render();
-    updateStatus(`已生成 ${count} 个随机值`);
+    updateStatus('已生成 {0} 个随机值', count);
 }
 
 // ===== 演示功能 =====
@@ -583,13 +588,13 @@ async function runDemo() {
         if (!isDemo) break;
         
         if (step.action === 'insert') {
-            updateStatus(`正在插入: ${step.value}`);
+            updateStatus('正在插入: {0}', step.value);
             tree.insert(step.value);
             highlightedNodes = [];
             render();
             await delay(CONFIG.animationDuration * 2);
         } else if (step.action === 'search') {
-            updateStatus(`正在查找: ${step.value}`);
+            updateStatus('正在查找: {0}', step.value);
             highlightedNodes = [];
             
             // 模拟搜索路径
@@ -603,10 +608,10 @@ async function runDemo() {
                 while (i < node.keys.length && step.value > node.keys[i]) i++;
                 
                 if (i < node.keys.length && step.value === node.keys[i]) {
-                    updateStatus(`找到: ${step.value}`);
+                    updateStatus('找到: {0}', step.value);
                     break;
                 } else if (node.leaf) {
-                    updateStatus(`未找到: ${step.value}`);
+                    updateStatus('未找到: {0}', step.value);
                     break;
                 } else {
                     node = node.children[i];
@@ -616,7 +621,7 @@ async function runDemo() {
             highlightedNodes = [];
             render();
         } else if (step.action === 'delete') {
-            updateStatus(`正在删除: ${step.value}`);
+            updateStatus('正在删除: {0}', step.value);
             tree.delete(step.value);
             highlightedNodes = [];
             render();
