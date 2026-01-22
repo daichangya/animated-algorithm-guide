@@ -355,19 +355,19 @@
         "@type": "ItemList",
         "name": "Algorithm List",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Bubble Sort", "url": "sorting/bubble-sort/index.html"},
-            {"@type": "ListItem", "position": 2, "name": "Heap Sort", "url": "sorting/heap-sort/index.html"},
-            {"@type": "ListItem", "position": 3, "name": "Quick Sort", "url": "sorting/quick-sort/index.html"},
-            {"@type": "ListItem", "position": 4, "name": "Merge Sort", "url": "sorting/merge-sort/index.html"},
+            {"@type": "ListItem", "position": 1, "name": "冒泡排序", "url": "sorting/bubble-sort/index.html"},
+            {"@type": "ListItem", "position": 2, "name": "堆排序", "url": "sorting/heap-sort/index.html"},
+            {"@type": "ListItem", "position": 3, "name": "Fast速排序", "url": "sorting/quick-sort/index.html"},
+            {"@type": "ListItem", "position": 4, "name": "归并排序", "url": "sorting/merge-sort/index.html"},
             {"@type": "ListItem", "position": 5, "name": "Myers Diff Algorithm", "url": "sequence/myers-diff/index.html"},
-            {"@type": "ListItem", "position": 6, "name": "LCS Subsequence", "url": "sequence/lcs/index.html"},
+            {"@type": "ListItem", "position": 6, "name": "LCS公total子序列", "url": "sequence/lcs/index.html"},
             {"@type": "ListItem", "position": 7, "name": "KMPString Matching", "url": "sequence/kmp/index.html"},
-            {"@type": "ListItem", "position": 8, "name": "DijkstraShortest Path", "url": "graph/dijkstra/index.html"},
-            {"@type": "ListItem", "position": 9, "name": "BFS/DFS Traversal", "url": "graph/bfs-dfs/index.html"},
-            {"@type": "ListItem", "position": 10, "name": "A* Pathfinding", "url": "graph/astar/index.html"},
-            {"@type": "ListItem", "position": 11, "name": "Binary Search", "url": "search/binary-search/index.html"},
-            {"@type": "ListItem", "position": 12, "name": "0/1 Knapsack Problem", "url": "search/knapsack/index.html"},
-            {"@type": "ListItem", "position": 13, "name": "Convex Hull", "url": "geometry/convex-hull/index.html"}
+            {"@type": "ListItem", "position": 8, "name": "Dijkstra最短路径", "url": "graph/dijkstra/index.html"},
+            {"@type": "ListItem", "position": 9, "name": "BFS/DFS遍历", "url": "graph/bfs-dfs/index.html"},
+            {"@type": "ListItem", "position": 10, "name": "A*Pathfinding Algorithm", "url": "graph/astar/index.html"},
+            {"@type": "ListItem", "position": 11, "name": "二分Search", "url": "search/binary-search/index.html"},
+            {"@type": "ListItem", "position": 12, "name": "0/1背包问题", "url": "search/knapsack/index.html"},
+            {"@type": "ListItem", "position": 13, "name": "凸包算法", "url": "geometry/convex-hull/index.html"}
         ]
     }
     </script><!-- Baidu Analytics -->
@@ -426,9 +426,9 @@
                             <circle cx="28" cy="6" r="3" fill="#00d9ff" opacity="0.6"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">Bubble Sort</h3>
+                    <h3 class="algorithm-name">冒泡排序</h3>
                     <div class="algorithm-complexity">O(n²) | O(1)</div>
-                    <p class="algorithm-desc">Compare adjacent elements, larger floats up</p>
+                    <p class="algorithm-desc">相邻元素两两Compare，较大元素上浮</p>
                 </a>
                 <a href="sorting/heap-sort/index.html" class="algorithm-card heap" aria-label="Heap Sort - Time Complexity O(n log n)">
                     <span class="algo-icon" aria-hidden="true">
@@ -448,9 +448,9 @@
                             <circle class="node" cx="52" cy="32" r="4" fill="#22c55e"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">Heap Sort</h3>
+                    <h3 class="algorithm-name">堆排序</h3>
                     <div class="algorithm-complexity">O(n log n) | O(1)</div>
-                    <p class="algorithm-desc">Uses binary heap properties for sorting</p>
+                    <p class="algorithm-desc">UsingBinary HeapFeature完成排序</p>
                 </a>
                 <a href="sorting/quick-sort/index.html" class="algorithm-card quick" aria-label="Quick Sort - Time Complexity O(n log n)">
                     <span class="algo-icon" aria-hidden="true">
@@ -464,9 +464,9 @@
                             <rect class="bar" x="49" y="22" width="7" height="14" rx="1" fill="#00d9ff"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">Quick Sort</h3>
+                    <h3 class="algorithm-name">Fast速排序</h3>
                     <div class="algorithm-complexity">O(n log n) | O(log n)</div>
-                    <p class="algorithm-desc">Divide and conquer with pivot partitioning</p>
+                    <p class="algorithm-desc">Divide and Conquer策略，Pivot ElementPartition</p>
                 </a>
                 <a href="sorting/merge-sort/index.html" class="algorithm-card merge" aria-label="Merge Sort - Time Complexity O(n log n)">
                     <span class="algo-icon" aria-hidden="true">
@@ -490,9 +490,9 @@
                             </defs>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">Merge Sort</h3>
+                    <h3 class="algorithm-name">归并排序</h3>
                     <div class="algorithm-complexity">O(n log n) | O(n)</div>
-                    <p class="algorithm-desc">Divide into subarrays then merge</p>
+                    <p class="algorithm-desc">分解子数组后合并</p>
                 </a>
             </div>
         </section>
@@ -516,9 +516,9 @@
                             <rect x="4" y="34" width="52" height="4" rx="1" fill="#333" opacity="0.5"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">Myers Diff</h3>
+                    <h3 class="algorithm-name">Myers差异</h3>
                     <div class="algorithm-complexity">O((N+M)D) | O(N+M)</div>
-                    <p class="algorithm-desc">Minimum edit distance, Git diff core</p>
+                    <p class="algorithm-desc">Minimum Edit Distance，Git diff核心</p>
                 </a>
                 <a href="sequence/lcs/index.html" class="algorithm-card lcs" aria-label="LCS Longest Common Subsequence">
                     <span class="algo-icon" aria-hidden="true">
@@ -538,9 +538,9 @@
                             <path class="path-line" d="M9 29 L19 19 L29 9" stroke="#ec4899" stroke-width="2" fill="none" stroke-linecap="round"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">LCS Subsequence</h3>
+                    <h3 class="algorithm-name">LCS公total子序列</h3>
                     <div class="algorithm-complexity">O(MN) | O(MN)</div>
-                    <p class="algorithm-desc">DP for longest common subsequence</p>
+                    <p class="algorithm-desc">动态规划找最长公total子序列</p>
                 </a>
                 <a href="sequence/kmp/index.html" class="algorithm-card kmp" aria-label="KMP String Matching Algorithm">
                     <span class="algo-icon" aria-hidden="true">
@@ -552,9 +552,9 @@
                             <path class="kmp-arrow" d="M38 27 L50 27 M47 24 L50 27 L47 30" stroke="#00d9ff" stroke-width="2" fill="none" stroke-linecap="round"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">KMP Matching</h3>
+                    <h3 class="algorithm-name">KMPMatch</h3>
                     <div class="algorithm-complexity">O(N+M) | O(M)</div>
-                    <p class="algorithm-desc">Prefix table accelerates string matching</p>
+                    <p class="algorithm-desc">前缀表加速String Matching</p>
                 </a>
             </div>
         </section>
@@ -587,7 +587,7 @@
                     </span>
                     <h3 class="algorithm-name">Dijkstra</h3>
                     <div class="algorithm-complexity">O((V+E)logV) | O(V)</div>
-                    <p class="algorithm-desc">Single-source shortest path algorithm</p>
+                    <p class="algorithm-desc">Single-Source Shortest Path算法</p>
                 </a>
                 <a href="graph/bfs-dfs/index.html" class="algorithm-card bfs" aria-label="BFS Breadth-First and DFS Depth-First Traversal">
                     <span class="algo-icon" aria-hidden="true">
@@ -611,7 +611,7 @@
                     </span>
                     <h3 class="algorithm-name">BFS/DFS</h3>
                     <div class="algorithm-complexity">O(V+E) | O(V)</div>
-                    <p class="algorithm-desc">Breadth/depth first traversal comparison</p>
+                    <p class="algorithm-desc">广度/深度优先遍历对比</p>
                 </a>
                 <a href="graph/astar/index.html" class="algorithm-card astar" aria-label="A* Heuristic Pathfinding Algorithm">
                     <span class="algo-icon" aria-hidden="true">
@@ -634,9 +634,9 @@
                             <polygon class="astar-star" points="48,8 50,14 56,14 51,18 53,24 48,20 43,24 45,18 40,14 46,14" fill="#eab308"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">A* Pathfinding</h3>
+                    <h3 class="algorithm-name">A*寻路</h3>
                     <div class="algorithm-complexity">O(E) | O(V)</div>
-                    <p class="algorithm-desc">Heuristic shortest path search</p>
+                    <p class="algorithm-desc">启发式最短路径搜索</p>
                 </a>
             </div>
         </section>
@@ -664,9 +664,9 @@
                             <text x="27" y="23" fill="white" font-size="6" font-weight="bold">?</text>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">Binary Search</h3>
+                    <h3 class="algorithm-name">二分Search</h3>
                     <div class="algorithm-complexity">O(log n) | O(1)</div>
-                    <p class="algorithm-desc">Efficient search in sorted arrays</p>
+                    <p class="algorithm-desc">Sorted Array中的高效Search</p>
                 </a>
                 <a href="search/knapsack/index.html" class="algorithm-card knapsack" aria-label="0/1 Knapsack Dynamic Programming Problem">
                     <span class="algo-icon" aria-hidden="true">
@@ -679,9 +679,9 @@
                             <text x="50" y="27" fill="#333" font-size="6" font-weight="bold">$</text>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">0/1 Knapsack</h3>
+                    <h3 class="algorithm-name">0/1背包</h3>
                     <div class="algorithm-complexity">O(NW) | O(NW)</div>
-                    <p class="algorithm-desc">Classic dynamic programming optimization problem</p>
+                    <p class="algorithm-desc">动态规划经典优化问题</p>
                 </a>
             </div>
         </section>
@@ -710,9 +710,9 @@
                             <circle cx="30" cy="28" r="2" fill="#555"/>
                         </svg>
                     </span>
-                    <h3 class="algorithm-name">Convex Hull</h3>
+                    <h3 class="algorithm-name">凸包算法</h3>
                     <div class="algorithm-complexity">O(n log n) | O(n)</div>
-                    <p class="algorithm-desc">Graham Scan for point set hull</p>
+                    <p class="algorithm-desc">Graham Scan计算Point Set凸包</p>
                 </a>
             </div>
         </section>
@@ -771,7 +771,7 @@
                     <div class="algorithm-complexity">O(log n) | O(n)</div>
                     <p class="algorithm-desc">Database index structure with linked leaves</p>
                 </a>
-                <a href="data-structure/skip-list/index.html" class="algorithm-card skiplist" aria-label="跳跃表概率Data Structure">
+                <a href="data-structure/skip-list/index.html" class="algorithm-card skiplist" aria-label="跳跃表概率Data Structures">
                     <span class="algo-icon" aria-hidden="true">
                         <svg viewBox="0 0 60 40">
                             <!-- 跳跃表层级 -->
