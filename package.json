@@ -6,8 +6,7 @@
     "new": "node scripts/new-algorithm.js",
     "build:en": "node scripts/build-en.js",
     "build:sitemap": "node scripts/build-sitemap.js",
-    "build:minify": "node scripts/minify.js",
-    "build": "npm run build:en && npm run build:sitemap && npm run build:minify"
+    "build": "npm run build:en && npm run build:sitemap"
   },
   "keywords": [
     "algorithm",

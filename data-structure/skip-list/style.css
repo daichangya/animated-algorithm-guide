@@ -42,20 +42,21 @@
     box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
 }
 
-/* 层级标签 - 在可视化容器内部 */
+/* 层级标签 - 在可视化容器内部，与节点对齐 */
 .level-labels {
     display: flex;
     flex-direction: column;
     position: absolute;
     left: 8px;
-    top: 5px;
-    gap: 13px;
+    /* 容器 padding-top (40px) + SVG topPadding (30px) = 70px */
+    top: calc(var(--spacing-lg) + 30px);
+    gap: 13px;  /* levelHeight(45) - nodeHeight(32) = 13 */
     z-index: 10;
 }
 
 .level-label {
     width: 32px;
-    height: 32px;
+    height: 32px;  /* 与 CONFIG.nodeHeight 一致 */
     display: flex;
     align-items: center;
     justify-content: center;
