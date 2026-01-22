@@ -16,6 +16,7 @@ const SITE_URL = 'https://algo.jsdiff.com';
 // 需要处理的 HTML 文件列表
 const HTML_FILES = [
     'index.html',
+    '404.html',
     'sorting/bubble-sort/index.html',
     'sorting/heap-sort/index.html',
     'sorting/quick-sort/index.html',
