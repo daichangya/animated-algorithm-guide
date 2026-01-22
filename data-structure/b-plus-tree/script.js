@@ -295,8 +295,28 @@ const rangeBtn = document.getElementById('rangeBtn');
 const deleteBtn = document.getElementById('deleteBtn');
 const resetBtn = document.getElementById('resetBtn');
 const randomBtn = document.getElementById('randomBtn');
+const demoBtn = document.getElementById('demoBtn');
 const orderSelect = document.getElementById('orderSelect');
 const statusText = document.getElementById('statusText');
+
+// ===== 演示模式状态 =====
+let isDemo = false;
+let isDemoPaused = false;
+
+// ===== 演示序列 =====
+const DEMO_SEQUENCE = [
+    { action: 'insert', value: 50 },
+    { action: 'insert', value: 25 },
+    { action: 'insert', value: 75 },
+    { action: 'insert', value: 10 },
+    { action: 'insert', value: 30 },
+    { action: 'insert', value: 60 },
+    { action: 'insert', value: 90 },
+    { action: 'insert', value: 35 },
+    { action: 'insert', value: 40 },
+    { action: 'range', start: 25, end: 50 },
+    { action: 'delete', value: 30 }
+];
 
 // ===== 工具函数 =====
 function delay(ms) {
@@ -656,14 +676,158 @@ function generateRandom() {
     updateStatus(`已生成 ${count} 个随机值`);
 }
 
+// ===== 演示功能 =====
+async function runDemo() {
+    if (isDemo) {
+        if (isDemoPaused) {
+            isDemoPaused = false;
+            demoBtn.textContent = window.I18n ? window.I18n.t('⏸ 暂停') : '⏸ 暂停';
+            return;
+        } else {
+            isDemoPaused = true;
+            demoBtn.textContent = window.I18n ? window.I18n.t('▶ 继续') : '▶ 继续';
+            updateStatus('演示已暂停');
+            return;
+        }
+    }
+    
+    reset();
+    isDemo = true;
+    isDemoPaused = false;
+    
+    insertBtn.disabled = true;
+    searchBtn.disabled = true;
+    rangeBtn.disabled = true;
+    deleteBtn.disabled = true;
+    randomBtn.disabled = true;
+    resetBtn.disabled = true;
+    demoBtn.textContent = window.I18n ? window.I18n.t('⏸ 暂停') : '⏸ 暂停';
+    
+    updateStatus('演示开始...');
+    
+    for (const step of DEMO_SEQUENCE) {
+        while (isDemoPaused) {
+            await delay(100);
+            if (!isDemo) break;
+        }
+        if (!isDemo) break;
+        
+        if (step.action === 'insert') {
+            updateStatus(`正在插入: ${step.value}`);
+            tree.insert(step.value);
+            highlightedNodes = [];
+            render();
+            await delay(CONFIG.animationDuration * 2);
+        } else if (step.action === 'search') {
+            updateStatus(`正在查找: ${step.value}`);
+            highlightedNodes = [];
+            
+            let node = tree.root;
+            while (node) {
+                highlightedNodes.push(node);
+                render();
+                await delay(CONFIG.animationDuration);
+                
+                let i = 0;
+                while (i < node.keys.length && step.value >= node.keys[i]) i++;
+                
+                if (node.isLeaf) {
+                    if (i > 0 && node.keys[i - 1] === step.value) {
+                        updateStatus(`找到: ${step.value}`);
+                    } else {
+                        updateStatus(`未找到: ${step.value}`);
+                    }
+                    break;
+                } else {
+                    node = node.children[i];
+                }
+            }
+            await delay(CONFIG.animationDuration * 2);
+            highlightedNodes = [];
+            render();
+        } else if (step.action === 'range') {
+            updateStatus(`范围查询: ${step.start} - ${step.end}`);
+            highlightedNodes = [];
+            
+            // 找到起始位置
+            let node = tree.root;
+            while (node && !node.isLeaf) {
+                highlightedNodes.push(node);
+                render();
+                await delay(CONFIG.animationDuration);
+                let i = 0;
+                while (i < node.keys.length && step.start >= node.keys[i]) i++;
+                node = node.children[i];
+            }
+            
+            // 遍历叶子节点
+            const results = [];
+            while (node) {
+                highlightedNodes.push(node);
+                render();
+                await delay(CONFIG.animationDuration);
+                for (const key of node.keys) {
+                    if (key >= step.start && key <= step.end) {
+                        results.push(key);
+                    }
+                    if (key > step.end) break;
+                }
+                if (node.keys[node.keys.length - 1] > step.end) break;
+                node = node.next;
+            }
+            
+            updateStatus(`范围查询结果: [${results.join(', ')}]`);
+            await delay(CONFIG.animationDuration * 3);
+            highlightedNodes = [];
+            render();
+        } else if (step.action === 'delete') {
+            updateStatus(`正在删除: ${step.value}`);
+            tree.delete(step.value);
+            highlightedNodes = [];
+            render();
+            await delay(CONFIG.animationDuration * 2);
+        }
+    }
+    
+    isDemo = false;
+    isDemoPaused = false;
+    insertBtn.disabled = false;
+    searchBtn.disabled = false;
+    rangeBtn.disabled = false;
+    deleteBtn.disabled = false;
+    randomBtn.disabled = false;
+    resetBtn.disabled = false;
+    demoBtn.textContent = window.I18n ? window.I18n.t('▶ 演示') : '▶ 演示';
+    updateStatus('演示完成');
+}
+
+function stopDemo() {
+    isDemo = false;
+    isDemoPaused = false;
+    insertBtn.disabled = false;
+    searchBtn.disabled = false;
+    rangeBtn.disabled = false;
+    deleteBtn.disabled = false;
+    randomBtn.disabled = false;
+    resetBtn.disabled = false;
+    demoBtn.textContent = window.I18n ? window.I18n.t('▶ 演示') : '▶ 演示';
+}
+
 // ===== 事件监听 =====
 insertBtn.addEventListener('click', insert);
 searchBtn.addEventListener('click', search);
 rangeBtn.addEventListener('click', rangeQuery);
 deleteBtn.addEventListener('click', deleteValue);
-resetBtn.addEventListener('click', reset);
+resetBtn.addEventListener('click', () => {
+    stopDemo();
+    reset();
+});
 randomBtn.addEventListener('click', generateRandom);
-orderSelect.addEventListener('change', reset);
+demoBtn.addEventListener('click', runDemo);
+orderSelect.addEventListener('change', () => {
+    stopDemo();
+    reset();
+});
 
 inputValue.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') insert();

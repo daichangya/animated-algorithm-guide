@@ -247,8 +247,28 @@ const searchBtn = document.getElementById('searchBtn');
 const deleteBtn = document.getElementById('deleteBtn');
 const resetBtn = document.getElementById('resetBtn');
 const randomBtn = document.getElementById('randomBtn');
+const demoBtn = document.getElementById('demoBtn');
 const orderSelect = document.getElementById('orderSelect');
 const statusText = document.getElementById('statusText');
+
+// ===== 演示模式状态 =====
+let isDemo = false;
+let isDemoPaused = false;
+
+// ===== 演示序列 =====
+const DEMO_SEQUENCE = [
+    { action: 'insert', value: 50 },
+    { action: 'insert', value: 25 },
+    { action: 'insert', value: 75 },
+    { action: 'insert', value: 10 },
+    { action: 'insert', value: 30 },
+    { action: 'insert', value: 60 },
+    { action: 'insert', value: 90 },
+    { action: 'insert', value: 5 },
+    { action: 'insert', value: 15 },
+    { action: 'search', value: 30 },
+    { action: 'delete', value: 25 }
+];
 
 // ===== 工具函数 =====
 function delay(ms) {
@@ -523,13 +543,124 @@ function generateRandom() {
     updateStatus(`已生成 ${count} 个随机值`);
 }
 
+// ===== 演示功能 =====
+async function runDemo() {
+    if (isDemo) {
+        // 如果已在演示中，切换暂停/继续
+        if (isDemoPaused) {
+            isDemoPaused = false;
+            demoBtn.textContent = window.I18n ? window.I18n.t('⏸ 暂停') : '⏸ 暂停';
+            return;
+        } else {
+            isDemoPaused = true;
+            demoBtn.textContent = window.I18n ? window.I18n.t('▶ 继续') : '▶ 继续';
+            updateStatus('演示已暂停');
+            return;
+        }
+    }
+    
+    // 开始新演示
+    reset();
+    isDemo = true;
+    isDemoPaused = false;
+    
+    // 禁用其他按钮
+    insertBtn.disabled = true;
+    searchBtn.disabled = true;
+    deleteBtn.disabled = true;
+    randomBtn.disabled = true;
+    resetBtn.disabled = true;
+    demoBtn.textContent = window.I18n ? window.I18n.t('⏸ 暂停') : '⏸ 暂停';
+    
+    updateStatus('演示开始...');
+    
+    for (const step of DEMO_SEQUENCE) {
+        // 检查暂停
+        while (isDemoPaused) {
+            await delay(100);
+            if (!isDemo) break;
+        }
+        if (!isDemo) break;
+        
+        if (step.action === 'insert') {
+            updateStatus(`正在插入: ${step.value}`);
+            tree.insert(step.value);
+            highlightedNodes = [];
+            render();
+            await delay(CONFIG.animationDuration * 2);
+        } else if (step.action === 'search') {
+            updateStatus(`正在查找: ${step.value}`);
+            highlightedNodes = [];
+            
+            // 模拟搜索路径
+            let node = tree.root;
+            while (node) {
+                highlightedNodes.push(node);
+                render();
+                await delay(CONFIG.animationDuration);
+                
+                let i = 0;
+                while (i < node.keys.length && step.value > node.keys[i]) i++;
+                
+                if (i < node.keys.length && step.value === node.keys[i]) {
+                    updateStatus(`找到: ${step.value}`);
+                    break;
+                } else if (node.leaf) {
+                    updateStatus(`未找到: ${step.value}`);
+                    break;
+                } else {
+                    node = node.children[i];
+                }
+            }
+            await delay(CONFIG.animationDuration * 2);
+            highlightedNodes = [];
+            render();
+        } else if (step.action === 'delete') {
+            updateStatus(`正在删除: ${step.value}`);
+            tree.delete(step.value);
+            highlightedNodes = [];
+            render();
+            await delay(CONFIG.animationDuration * 2);
+        }
+    }
+    
+    // 演示结束
+    isDemo = false;
+    isDemoPaused = false;
+    insertBtn.disabled = false;
+    searchBtn.disabled = false;
+    deleteBtn.disabled = false;
+    randomBtn.disabled = false;
+    resetBtn.disabled = false;
+    demoBtn.textContent = window.I18n ? window.I18n.t('▶ 演示') : '▶ 演示';
+    updateStatus('演示完成');
+}
+
+function stopDemo() {
+    isDemo = false;
+    isDemoPaused = false;
+    insertBtn.disabled = false;
+    searchBtn.disabled = false;
+    deleteBtn.disabled = false;
+    randomBtn.disabled = false;
+    resetBtn.disabled = false;
+    demoBtn.textContent = window.I18n ? window.I18n.t('▶ 演示') : '▶ 演示';
+}
+
 // ===== 事件监听 =====
 insertBtn.addEventListener('click', insert);
 searchBtn.addEventListener('click', search);
 deleteBtn.addEventListener('click', deleteValue);
-resetBtn.addEventListener('click', reset);
+resetBtn.addEventListener('click', () => {
+    stopDemo();
+    reset();
+});
 randomBtn.addEventListener('click', generateRandom);
-orderSelect.addEventListener('change', reset);
+demoBtn.addEventListener('click', runDemo);
+orderSelect.addEventListener('change', () => {
+    stopDemo();
+    reset();
+});
 
 inputValue.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') insert();

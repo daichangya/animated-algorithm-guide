@@ -173,9 +173,28 @@ const searchBtn = document.getElementById('searchBtn');
 const deleteBtn = document.getElementById('deleteBtn');
 const resetBtn = document.getElementById('resetBtn');
 const randomBtn = document.getElementById('randomBtn');
+const demoBtn = document.getElementById('demoBtn');
 const probSelect = document.getElementById('probSelect');
 const maxLevelSelect = document.getElementById('maxLevelSelect');
 const statusText = document.getElementById('statusText');
+
+// ===== 演示模式状态 =====
+let isDemo = false;
+let isDemoPaused = false;
+
+// ===== 演示序列 =====
+const DEMO_SEQUENCE = [
+    { action: 'insert', value: 50 },
+    { action: 'insert', value: 25 },
+    { action: 'insert', value: 75 },
+    { action: 'insert', value: 10 },
+    { action: 'insert', value: 30 },
+    { action: 'insert', value: 60 },
+    { action: 'insert', value: 90 },
+    { action: 'insert', value: 5 },
+    { action: 'search', value: 60 },
+    { action: 'delete', value: 25 }
+];
 
 // ===== 工具函数 =====
 function delay(ms) {
@@ -470,14 +489,145 @@ function generateRandom() {
     updateStatus(`已生成 ${count} 个随机值`);
 }
 
+// ===== 演示功能 =====
+async function runDemo() {
+    if (isDemo) {
+        // 如果已在演示中，切换暂停/继续
+        if (isDemoPaused) {
+            isDemoPaused = false;
+            demoBtn.textContent = window.I18n ? window.I18n.t('⏸ 暂停') : '⏸ 暂停';
+            return;
+        } else {
+            isDemoPaused = true;
+            demoBtn.textContent = window.I18n ? window.I18n.t('▶ 继续') : '▶ 继续';
+            updateStatus('演示已暂停');
+            return;
+        }
+    }
+    
+    // 开始新演示
+    reset();
+    isDemo = true;
+    isDemoPaused = false;
+    
+    // 禁用其他按钮
+    insertBtn.disabled = true;
+    searchBtn.disabled = true;
+    deleteBtn.disabled = true;
+    randomBtn.disabled = true;
+    resetBtn.disabled = true;
+    probSelect.disabled = true;
+    maxLevelSelect.disabled = true;
+    demoBtn.textContent = window.I18n ? window.I18n.t('⏸ 暂停') : '⏸ 暂停';
+    
+    updateStatus('演示开始...');
+    
+    for (const step of DEMO_SEQUENCE) {
+        // 检查暂停
+        while (isDemoPaused) {
+            await delay(100);
+            if (!isDemo) break;
+        }
+        if (!isDemo) break;
+        
+        if (step.action === 'insert') {
+            updateStatus(`正在插入: ${step.value}`);
+            skipList.insert(step.value);
+            highlightPath = [];
+            highlightedNode = null;
+            render();
+            await delay(CONFIG.animationDuration * 2);
+        } else if (step.action === 'search') {
+            updateStatus(`正在查找: ${step.value}`);
+            highlightPath = [];
+            highlightedNode = null;
+            
+            // 模拟搜索路径
+            let current = skipList.head;
+            const path = [];
+            
+            for (let i = skipList.level; i >= 0; i--) {
+                while (current.forward[i] && current.forward[i].value < step.value) {
+                    path.push({ node: current, level: i });
+                    current = current.forward[i];
+                }
+                path.push({ node: current, level: i });
+            }
+            
+            // 逐步显示搜索路径
+            for (const p of path) {
+                highlightPath = path.slice(0, path.indexOf(p) + 1);
+                render();
+                await delay(CONFIG.animationDuration / 2);
+                if (!isDemo) break;
+            }
+            
+            if (current.forward[0] && current.forward[0].value === step.value) {
+                highlightedNode = current.forward[0];
+                render();
+                updateStatus(`找到: ${step.value}`);
+            } else {
+                updateStatus(`未找到: ${step.value}`);
+            }
+            await delay(CONFIG.animationDuration * 2);
+            highlightPath = [];
+            highlightedNode = null;
+            render();
+        } else if (step.action === 'delete') {
+            updateStatus(`正在删除: ${step.value}`);
+            skipList.delete(step.value);
+            highlightPath = [];
+            highlightedNode = null;
+            render();
+            await delay(CONFIG.animationDuration * 2);
+        }
+    }
+    
+    // 演示结束
+    isDemo = false;
+    isDemoPaused = false;
+    insertBtn.disabled = false;
+    searchBtn.disabled = false;
+    deleteBtn.disabled = false;
+    randomBtn.disabled = false;
+    resetBtn.disabled = false;
+    probSelect.disabled = false;
+    maxLevelSelect.disabled = false;
+    demoBtn.textContent = window.I18n ? window.I18n.t('▶ 演示') : '▶ 演示';
+    updateStatus('演示完成');
+}
+
+function stopDemo() {
+    isDemo = false;
+    isDemoPaused = false;
+    insertBtn.disabled = false;
+    searchBtn.disabled = false;
+    deleteBtn.disabled = false;
+    randomBtn.disabled = false;
+    resetBtn.disabled = false;
+    probSelect.disabled = false;
+    maxLevelSelect.disabled = false;
+    demoBtn.textContent = window.I18n ? window.I18n.t('▶ 演示') : '▶ 演示';
+}
+
 // ===== 事件监听 =====
 insertBtn.addEventListener('click', insert);
 searchBtn.addEventListener('click', search);
 deleteBtn.addEventListener('click', deleteValue);
-resetBtn.addEventListener('click', reset);
+resetBtn.addEventListener('click', () => {
+    stopDemo();
+    reset();
+});
 randomBtn.addEventListener('click', generateRandom);
-probSelect.addEventListener('change', reset);
-maxLevelSelect.addEventListener('change', reset);
+demoBtn.addEventListener('click', runDemo);
+probSelect.addEventListener('change', () => {
+    stopDemo();
+    reset();
+});
+maxLevelSelect.addEventListener('change', () => {
+    stopDemo();
+    reset();
+});
 
 inputValue.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') insert();

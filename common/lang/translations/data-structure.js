@@ -31,5 +31,16 @@ export const dataStructure = {
     '范围查询:': 'Range query:',
     '找到 ': 'Found ',
     ' 个结果: ': ' results: ',
-    '范围内没有数据': 'No data in range'
+    '范围内没有数据': 'No data in range',
+    
+    // 演示功能
+    '▶ 演示': '▶ Demo',
+    '⏸ 暂停': '⏸ Pause',
+    '▶ 继续': '▶ Resume',
+    '演示开始...': 'Demo starting...',
+    '演示已暂停': 'Demo paused',
+    '演示完成': 'Demo complete',
+    '正在插入:': 'Inserting:',
+    '正在查找:': 'Searching:',
+    '正在删除:': 'Deleting:'
 };
