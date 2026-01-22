@@ -52,156 +52,156 @@
     <div class="container">
         
         <header class="page-header">
-            <h1 class="title">BFS与DFS图遍历可视化</h1>
-            <p class="subtitle">广度优先 vs 深度优先搜索</p>
+            <h1 class="title" data-en="BFS & DFS Graph Traversal Visualization">BFS与DFS图遍历可视化</h1>
+            <p class="subtitle" data-en="Breadth-First vs Depth-First Search">广度优先 vs 深度优先搜索</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p>BFS（广度优先搜索）和DFS（深度优先搜索）是两种基本的图遍历算法。BFS使用队列，逐层扩展；DFS使用栈（或递归），尽可能深入探索。</p>
+            <p data-en="BFS (Breadth-First Search) and DFS (Depth-First Search) are two fundamental graph traversal algorithms. BFS uses a queue, expanding layer by layer; DFS uses a stack (or recursion), exploring as deep as possible.">BFS（广度优先搜索）和DFS（深度优先搜索）是两种基本的图遍历算法。BFS使用队列，逐层扩展；DFS使用栈（或递归），尽可能深入探索。</p>
         </div>
         
         <!-- 模式切换 -->
         <div class="mode-toggle">
-            <button class="mode-btn active" data-mode="bfs">BFS 广度优先</button>
-            <button class="mode-btn" data-mode="dfs">DFS 深度优先</button>
-            <button class="mode-btn" data-mode="both">并行对比</button>
+            <button class="mode-btn active" data-mode="bfs" data-en="BFS Breadth-First">BFS 广度优先</button>
+            <button class="mode-btn" data-mode="dfs" data-en="DFS Depth-First">DFS 深度优先</button>
+            <button class="mode-btn" data-mode="both" data-en="Side by Side">并行对比</button>
         </div>
         
         <!-- 图形区域 -->
         <div class="graphs-wrapper">
             <div class="graph-panel" id="bfsPanel">
-                <div class="panel-title">BFS (队列)</div>
+                <div class="panel-title" data-en="BFS (Queue)">BFS (队列)</div>
                 <div class="graph-container">
                     <svg id="bfsSvg"></svg>
                 </div>
                 <div class="data-structure">
-                    <div class="ds-label">队列</div>
+                    <div class="ds-label" data-en="Queue">队列</div>
                     <div class="ds-content" id="bfsQueue"></div>
                 </div>
                 <div class="visit-order">
-                    <div class="ds-label">访问顺序</div>
+                    <div class="ds-label" data-en="Visit Order">访问顺序</div>
                     <div class="ds-content" id="bfsOrder"></div>
                 </div>
             </div>
             
             <div class="graph-panel" id="dfsPanel" style="display: none;">
-                <div class="panel-title">DFS (栈)</div>
+                <div class="panel-title" data-en="DFS (Stack)">DFS (栈)</div>
                 <div class="graph-container">
                     <svg id="dfsSvg"></svg>
                 </div>
                 <div class="data-structure">
-                    <div class="ds-label">栈</div>
+                    <div class="ds-label" data-en="Stack">栈</div>
                     <div class="ds-content" id="dfsStack"></div>
                 </div>
                 <div class="visit-order">
-                    <div class="ds-label">访问顺序</div>
+                    <div class="ds-label" data-en="Visit Order">访问顺序</div>
                     <div class="ds-content" id="dfsOrder"></div>
                 </div>
             </div>
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn">开始</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
-            <button class="btn btn-secondary" id="resetBtn">重置</button>
+            <button class="btn btn-primary" id="startBtn" data-en="Start">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" data-en="Pause" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn" data-en="Reset">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">选择模式后点击开始</span>
+            <span class="status-badge" id="statusText" data-en="Select mode and click Start">选择模式后点击开始</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle" data-en="📖 How It Works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-en="⏱️ Complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-en="💡 Applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-en="📝 Implementation">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
-                <h4>BFS vs DFS 对比</h4>
+                <h4 data-en="BFS vs DFS Comparison">BFS vs DFS 对比</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>特性</th>
+                        <th data-en="Feature">特性</th>
                         <th>BFS</th>
                         <th>DFS</th>
                     </tr>
                     <tr>
-                        <td>数据结构</td>
-                        <td>队列 (FIFO)</td>
-                        <td>栈 (LIFO) / 递归</td>
+                        <td data-en="Data Structure">数据结构</td>
+                        <td data-en="Queue (FIFO)">队列 (FIFO)</td>
+                        <td data-en="Stack (LIFO) / Recursion">栈 (LIFO) / 递归</td>
                     </tr>
                     <tr>
-                        <td>访问顺序</td>
-                        <td>逐层扩展（由近及远）</td>
-                        <td>尽可能深入，再回溯</td>
+                        <td data-en="Visit Order">访问顺序</td>
+                        <td data-en="Layer by layer (near to far)">逐层扩展（由近及远）</td>
+                        <td data-en="Go deep, then backtrack">尽可能深入，再回溯</td>
                     </tr>
                     <tr>
-                        <td>最短路径</td>
-                        <td class="highlight">保证找到（无权图）</td>
-                        <td>不保证</td>
+                        <td data-en="Shortest Path">最短路径</td>
+                        <td class="highlight" data-en="Guaranteed (unweighted)">保证找到（无权图）</td>
+                        <td data-en="Not guaranteed">不保证</td>
                     </tr>
                     <tr>
-                        <td>空间消耗</td>
-                        <td>可能较大（存储整层）</td>
-                        <td>通常较小</td>
+                        <td data-en="Space Usage">空间消耗</td>
+                        <td data-en="Can be large (stores entire layer)">可能较大（存储整层）</td>
+                        <td data-en="Usually smaller">通常较小</td>
                     </tr>
                 </table>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>时间与空间复杂度</h4>
+                <h4 data-en="Time and Space Complexity">时间与空间复杂度</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>指标</th>
+                        <th data-en="Metric">指标</th>
                         <th>BFS</th>
                         <th>DFS</th>
                     </tr>
                     <tr>
-                        <td>时间复杂度</td>
+                        <td data-en="Time Complexity">时间复杂度</td>
                         <td class="highlight">O(V + E)</td>
                         <td class="highlight">O(V + E)</td>
                     </tr>
                     <tr>
-                        <td>空间复杂度</td>
+                        <td data-en="Space Complexity">空间复杂度</td>
                         <td>O(V)</td>
                         <td>O(V)</td>
                     </tr>
                 </table>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="V is vertices, E is edges. Both have same time complexity, but actual space depends on graph structure.">
                     V是顶点数，E是边数。两种算法时间复杂度相同，但实际空间使用取决于图的结构。
                 </p>
             </div>
             
             <div class="tab-content" id="usage">
-                <h4>应用场景</h4>
-                <p><strong>BFS适用于：</strong></p>
+                <h4 data-en="Applications">应用场景</h4>
+                <p><strong data-en="BFS is good for:">BFS适用于：</strong></p>
                 <ul>
-                    <li>无权图的最短路径</li>
-                    <li>社交网络中的"六度分隔"</li>
-                    <li>迷宫的最短路径</li>
-                    <li>网页爬虫</li>
+                    <li data-en="Shortest path in unweighted graphs">无权图的最短路径</li>
+                    <li data-en="'Six degrees of separation' in social networks">社交网络中的"六度分隔"</li>
+                    <li data-en="Shortest path in mazes">迷宫的最短路径</li>
+                    <li data-en="Web crawlers">网页爬虫</li>
                 </ul>
-                <p style="margin-top: var(--spacing-sm);"><strong>DFS适用于：</strong></p>
+                <p style="margin-top: var(--spacing-sm);"><strong data-en="DFS is good for:">DFS适用于：</strong></p>
                 <ul>
-                    <li>拓扑排序</li>
-                    <li>检测图中的环</li>
-                    <li>寻找连通分量</li>
-                    <li>解决迷宫问题（所有路径）</li>
-                    <li>回溯算法</li>
+                    <li data-en="Topological sorting">拓扑排序</li>
+                    <li data-en="Cycle detection">检测图中的环</li>
+                    <li data-en="Finding connected components">寻找连通分量</li>
+                    <li data-en="Maze solving (all paths)">解决迷宫问题（所有路径）</li>
+                    <li data-en="Backtracking algorithms">回溯算法</li>
                 </ul>
                 <div class="use-cases">
-                    <span class="use-case-tag">最短路径</span>
-                    <span class="use-case-tag">拓扑排序</span>
-                    <span class="use-case-tag">连通性检测</span>
-                    <span class="use-case-tag">迷宫求解</span>
+                    <span class="use-case-tag" data-en="Shortest Path">最短路径</span>
+                    <span class="use-case-tag" data-en="Topological Sort">拓扑排序</span>
+                    <span class="use-case-tag" data-en="Connectivity">连通性检测</span>
+                    <span class="use-case-tag" data-en="Maze Solving">迷宫求解</span>
                 </div>
             </div>
             
             <div class="tab-content" id="code">
-                <h4>代码实现</h4>
+                <h4 data-en="Implementation">代码实现</h4>
                 <div class="code-lang-tabs">
                     <button class="code-lang-btn active" data-lang="python">
                         <span class="lang-icon">🐍</span> Python

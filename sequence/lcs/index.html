@@ -52,24 +52,24 @@
     <div class="container">
         
         <header class="page-header">
-            <h1 class="title">最长公共子序列可视化</h1>
-            <p class="subtitle">动态规划经典问题 - LCS</p>
+            <h1 class="title" data-en="Longest Common Subsequence Visualization">最长公共子序列可视化</h1>
+            <p class="subtitle" data-en="Classic Dynamic Programming Problem - LCS">动态规划经典问题 - LCS</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p>最长公共子序列（LCS）问题是寻找两个序列共有的最长子序列。子序列不要求连续，但必须保持相对顺序。LCS是许多文本比较和生物信息学应用的基础。</p>
+            <p data-en="The Longest Common Subsequence (LCS) problem finds the longest subsequence common to two sequences. Subsequences don't need to be contiguous but must maintain relative order. LCS is fundamental to text comparison and bioinformatics.">最长公共子序列（LCS）问题是寻找两个序列共有的最长子序列。子序列不要求连续，但必须保持相对顺序。LCS是许多文本比较和生物信息学应用的基础。</p>
         </div>
         
         <!-- 输入区域 -->
         <div class="input-section">
             <div class="input-row">
                 <div class="input-group">
-                    <label>序列 A</label>
+                    <label data-en="Sequence A">序列 A</label>
                     <input type="text" id="seqAInput" value="ABCBDAB">
                 </div>
                 <div class="input-group">
-                    <label>序列 B</label>
+                    <label data-en="Sequence B">序列 B</label>
                     <input type="text" id="seqBInput" value="BDCABA">
                 </div>
             </div>
@@ -89,7 +89,7 @@
         
         <!-- DP矩阵 -->
         <div class="dp-matrix-section">
-            <div class="section-label">DP 矩阵</div>
+            <div class="section-label" data-en="DP Matrix">DP 矩阵</div>
             <div class="dp-matrix-container" id="dpMatrixContainer">
                 <table class="dp-matrix" id="dpMatrix">
                     <!-- 由JS生成 -->
@@ -99,91 +99,91 @@
         
         <!-- LCS结果 -->
         <div class="lcs-result-section">
-            <div class="section-label">最长公共子序列</div>
+            <div class="section-label" data-en="Longest Common Subsequence">最长公共子序列</div>
             <div class="lcs-result">
                 <div class="lcs-chars" id="lcsChars"></div>
                 <div class="lcs-length">
-                    <span>长度</span>: <span id="lcsLength">?</span>
+                    <span data-en="Length">长度</span>: <span id="lcsLength">?</span>
                 </div>
             </div>
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn">开始</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
-            <button class="btn btn-secondary" id="resetBtn">重置</button>
+            <button class="btn btn-primary" id="startBtn" data-en="Start">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" data-en="Pause" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn" data-en="Reset">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">点击"开始"查看动画</span>
+            <span class="status-badge" id="statusText" data-en="Click 'Start' to view animation">点击"开始"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle" data-en="📖 How It Works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-en="⏱️ Complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-en="💡 Applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-en="📝 Implementation">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
-                <h4>动态规划思路</h4>
-                <p>设 dp[i][j] 表示序列A的前i个字符与序列B的前j个字符的LCS长度。</p>
+                <h4 data-en="Dynamic Programming Approach">动态规划思路</h4>
+                <p data-en="Let dp[i][j] represent the LCS length of first i chars of A and first j chars of B.">设 dp[i][j] 表示序列A的前i个字符与序列B的前j个字符的LCS长度。</p>
                 <ul>
-                    <li>如果 A[i-1] == B[j-1]：dp[i][j] = dp[i-1][j-1] + 1（当前字符匹配，LCS长度+1）</li>
-                    <li>如果 A[i-1] != B[j-1]：dp[i][j] = max(dp[i-1][j], dp[i][j-1])（取左边或上边的较大值）</li>
+                    <li data-en="If A[i-1] == B[j-1]: dp[i][j] = dp[i-1][j-1] + 1 (match, LCS length +1)">如果 A[i-1] == B[j-1]：dp[i][j] = dp[i-1][j-1] + 1（当前字符匹配，LCS长度+1）</li>
+                    <li data-en="If A[i-1] != B[j-1]: dp[i][j] = max(dp[i-1][j], dp[i][j-1]) (take max of left/top)">如果 A[i-1] != B[j-1]：dp[i][j] = max(dp[i-1][j], dp[i][j-1])（取左边或上边的较大值）</li>
                 </ul>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="dp[m][n] is the LCS length. Backtrack through the DP table to reconstruct the actual LCS.">
                     最终 dp[m][n] 就是LCS的长度。通过回溯DP表可以还原出具体的LCS序列。
                 </p>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>时间与空间复杂度</h4>
+                <h4 data-en="Time and Space Complexity">时间与空间复杂度</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>指标</th>
-                        <th>复杂度</th>
-                        <th>说明</th>
+                        <th data-en="Metric">指标</th>
+                        <th data-en="Complexity">复杂度</th>
+                        <th data-en="Description">说明</th>
                     </tr>
                     <tr>
-                        <td>时间复杂度</td>
+                        <td data-en="Time Complexity">时间复杂度</td>
                         <td>O(M × N)</td>
-                        <td>需要填充整个DP表</td>
+                        <td data-en="Need to fill entire DP table">需要填充整个DP表</td>
                     </tr>
                     <tr>
-                        <td>空间复杂度</td>
+                        <td data-en="Space Complexity">空间复杂度</td>
                         <td>O(M × N)</td>
-                        <td>需要存储DP表</td>
+                        <td data-en="Need to store DP table">需要存储DP表</td>
                     </tr>
                     <tr>
-                        <td>优化空间</td>
+                        <td data-en="Optimized Space">优化空间</td>
                         <td class="highlight">O(min(M,N))</td>
-                        <td>只存储两行即可（如果只需长度）</td>
+                        <td data-en="Store only two rows (if only length needed)">只存储两行即可（如果只需长度）</td>
                     </tr>
                 </table>
             </div>
             
             <div class="tab-content" id="usage">
-                <h4>应用场景</h4>
+                <h4 data-en="Applications">应用场景</h4>
                 <ul>
-                    <li>文本比较：diff工具比较文件差异</li>
-                    <li>生物信息学：DNA/蛋白质序列比对</li>
-                    <li>版本控制：检测代码变更</li>
-                    <li>拼写检查：计算编辑距离的基础</li>
-                    <li>数据去重：识别相似内容</li>
+                    <li data-en="Text comparison: diff tools for file comparison">文本比较：diff工具比较文件差异</li>
+                    <li data-en="Bioinformatics: DNA/protein sequence alignment">生物信息学：DNA/蛋白质序列比对</li>
+                    <li data-en="Version control: Detecting code changes">版本控制：检测代码变更</li>
+                    <li data-en="Spell checking: Basis for edit distance">拼写检查：计算编辑距离的基础</li>
+                    <li data-en="Data deduplication: Identifying similar content">数据去重：识别相似内容</li>
                 </ul>
                 <div class="use-cases">
-                    <span class="use-case-tag">文本比较</span>
-                    <span class="use-case-tag">DNA比对</span>
-                    <span class="use-case-tag">版本控制</span>
-                    <span class="use-case-tag">相似度计算</span>
+                    <span class="use-case-tag" data-en="Text Comparison">文本比较</span>
+                    <span class="use-case-tag" data-en="DNA Alignment">DNA比对</span>
+                    <span class="use-case-tag" data-en="Version Control">版本控制</span>
+                    <span class="use-case-tag" data-en="Similarity">相似度计算</span>
                 </div>
             </div>
             
             <div class="tab-content" id="code">
-                <h4>代码实现</h4>
+                <h4 data-en="Implementation">代码实现</h4>
                 <div class="code-lang-tabs">
                     <button class="code-lang-btn active" data-lang="python">
                         <span class="lang-icon">🐍</span> Python

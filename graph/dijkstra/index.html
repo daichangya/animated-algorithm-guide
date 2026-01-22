@@ -52,13 +52,13 @@
     <div class="container">
         
         <header class="page-header">
-            <h1 class="title">Dijkstra最短路径可视化</h1>
-            <p class="subtitle">单源最短路径的经典算法</p>
+            <h1 class="title" data-en="Dijkstra's Shortest Path Visualization">Dijkstra最短路径可视化</h1>
+            <p class="subtitle" data-en="Classic single-source shortest path algorithm">单源最短路径的经典算法</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p>Dijkstra算法用于在带权图中找到从源点到所有其他顶点的最短路径。它采用贪心策略，每次选择当前距离最小的未访问顶点进行扩展。</p>
+            <p data-en="Dijkstra's algorithm finds shortest paths from a source vertex to all other vertices in a weighted graph. It uses a greedy strategy, always expanding the unvisited vertex with minimum current distance.">Dijkstra算法用于在带权图中找到从源点到所有其他顶点的最短路径。它采用贪心策略，每次选择当前距离最小的未访问顶点进行扩展。</p>
         </div>
         
         <!-- 图形区域 -->
@@ -68,98 +68,98 @@
         
         <!-- 距离表 -->
         <div class="distance-table-section">
-            <div class="section-label">距离表</div>
+            <div class="section-label" data-en="Distance Table">距离表</div>
             <div class="distance-table" id="distanceTable"></div>
         </div>
         
         <!-- 控制 -->
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn">开始</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
-            <button class="btn btn-secondary" id="resetBtn">重置</button>
+            <button class="btn btn-primary" id="startBtn" data-en="Start">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" data-en="Pause" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn" data-en="Reset">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">点击"开始"查看动画</span>
+            <span class="status-badge" id="statusText" data-en="Click 'Start' to view animation">点击"开始"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle" data-en="📖 How It Works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-en="⏱️ Complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-en="💡 Applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-en="📝 Implementation">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
-                <h4>算法步骤</h4>
+                <h4 data-en="Algorithm Steps">算法步骤</h4>
                 <ol>
-                    <li>初始化：源点距离设为0，其他所有节点距离设为无穷大</li>
-                    <li>将源点加入优先队列（最小堆）</li>
-                    <li>取出队列中距离最小的节点u</li>
-                    <li>对于u的每个邻居v，如果通过u到达v的距离更短，则更新v的距离</li>
-                    <li>将更新后的邻居加入优先队列</li>
-                    <li>重复步骤3-5直到队列为空</li>
+                    <li data-en="Initialize: source distance = 0, all other nodes = infinity">初始化：源点距离设为0，其他所有节点距离设为无穷大</li>
+                    <li data-en="Add the source to a priority queue (min-heap)">将源点加入优先队列（最小堆）</li>
+                    <li data-en="Extract the node u with the smallest distance from the queue">取出队列中距离最小的节点u</li>
+                    <li data-en="For each neighbor v of u, if the path through u is shorter, update v's distance">对于u的每个邻居v，如果通过u到达v的距离更短，则更新v的距离</li>
+                    <li data-en="Add the updated neighbor to the priority queue">将更新后的邻居加入优先队列</li>
+                    <li data-en="Repeat steps 3-5 until the queue is empty">重复步骤3-5直到队列为空</li>
                 </ol>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="Key insight: Once a node's shortest distance is finalized, it won't be updated again because all edge weights are non-negative.">
                     关键洞察：已确定最短距离的节点不会再被更新，因为所有边权重非负。
                 </p>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>时间与空间复杂度</h4>
+                <h4 data-en="Time and Space Complexity">时间与空间复杂度</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>实现方式</th>
-                        <th>时间复杂度</th>
-                        <th>说明</th>
+                        <th data-en="Implementation">实现方式</th>
+                        <th data-en="Time Complexity">时间复杂度</th>
+                        <th data-en="Description">说明</th>
                     </tr>
                     <tr>
-                        <td>数组实现</td>
+                        <td data-en="Array Implementation">数组实现</td>
                         <td>O(V²)</td>
-                        <td>每次线性查找最小值</td>
+                        <td data-en="Linear search for minimum each time">每次线性查找最小值</td>
                     </tr>
                     <tr>
-                        <td>二叉堆</td>
+                        <td data-en="Binary Heap">二叉堆</td>
                         <td class="highlight">O((V+E)log V)</td>
-                        <td>常用实现方式</td>
+                        <td data-en="Common implementation">常用实现方式</td>
                     </tr>
                     <tr>
-                        <td>斐波那契堆</td>
+                        <td data-en="Fibonacci Heap">斐波那契堆</td>
                         <td>O(E + V log V)</td>
-                        <td>理论最优但实现复杂</td>
+                        <td data-en="Theoretical best, complex implementation">理论最优但实现复杂</td>
                     </tr>
                     <tr>
-                        <td>空间复杂度</td>
+                        <td data-en="Space Complexity">空间复杂度</td>
                         <td>O(V)</td>
-                        <td>存储距离和优先队列</td>
+                        <td data-en="Store distances and priority queue">存储距离和优先队列</td>
                     </tr>
                 </table>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="Note: Dijkstra cannot handle negative edge weights. Use Bellman-Ford for graphs with negative edges.">
                     注意：Dijkstra不能处理负权边。对于负权图，应使用Bellman-Ford算法。
                 </p>
             </div>
             
             <div class="tab-content" id="usage">
-                <h4>应用场景</h4>
+                <h4 data-en="Applications">应用场景</h4>
                 <ul>
-                    <li>GPS导航系统的最短路线规划</li>
-                    <li>网络路由协议（OSPF、IS-IS）</li>
-                    <li>社交网络中的最短关系链</li>
-                    <li>游戏中的NPC寻路</li>
-                    <li>航班/铁路最优路线查询</li>
+                    <li data-en="GPS navigation shortest route planning">GPS导航系统的最短路线规划</li>
+                    <li data-en="Network routing protocols (OSPF, IS-IS)">网络路由协议（OSPF、IS-IS）</li>
+                    <li data-en="Shortest relationship chain in social networks">社交网络中的最短关系链</li>
+                    <li data-en="NPC pathfinding in games">游戏中的NPC寻路</li>
+                    <li data-en="Flight/railway optimal route queries">航班/铁路最优路线查询</li>
                 </ul>
                 <div class="use-cases">
-                    <span class="use-case-tag">导航系统</span>
-                    <span class="use-case-tag">网络路由</span>
-                    <span class="use-case-tag">游戏开发</span>
-                    <span class="use-case-tag">路径规划</span>
+                    <span class="use-case-tag" data-en="Navigation">导航系统</span>
+                    <span class="use-case-tag" data-en="Network Routing">网络路由</span>
+                    <span class="use-case-tag" data-en="Game Dev">游戏开发</span>
+                    <span class="use-case-tag" data-en="Path Planning">路径规划</span>
                 </div>
             </div>
             
             <div class="tab-content" id="code">
-                <h4>代码实现</h4>
+                <h4 data-en="Implementation">代码实现</h4>
                 <div class="code-lang-tabs">
                     <button class="code-lang-btn active" data-lang="python">
                         <span class="lang-icon">🐍</span> Python

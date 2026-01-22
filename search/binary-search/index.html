@@ -52,20 +52,20 @@
     <div class="container">
         
         <header class="page-header">
-            <h1 class="title">二分查找可视化</h1>
-            <p class="subtitle">有序数组中的高效查找</p>
+            <h1 class="title" data-en="Binary Search Visualization">二分查找可视化</h1>
+            <p class="subtitle" data-en="Efficient search in sorted arrays">有序数组中的高效查找</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p>二分查找（Binary Search）是一种在有序数组中查找特定元素的算法。每次比较都能将搜索范围缩小一半，因此效率极高，时间复杂度为O(log n)。</p>
+            <p data-en="Binary Search finds a specific element in a sorted array. Each comparison halves the search range, achieving O(log n) time complexity.">二分查找（Binary Search）是一种在有序数组中查找特定元素的算法。每次比较都能将搜索范围缩小一半，因此效率极高，时间复杂度为O(log n)。</p>
         </div>
         
         <!-- 目标输入 -->
         <div class="target-section">
-            <label>查找目标:</label>
+            <label data-en="Search Target:">查找目标:</label>
             <input type="number" id="targetInput" value="42" min="1" max="100">
-            <span class="hint">范围: 1-100</span>
+            <span class="hint" data-en="Range: 1-100">范围: 1-100</span>
         </div>
         
         <!-- 数组显示 -->
@@ -82,102 +82,102 @@
         <!-- 比较信息 -->
         <div class="comparison-info" id="comparisonInfo">
             <div class="compare-box">
-                <span class="compare-label">Mid值</span>
+                <span class="compare-label" data-en="Mid Value">Mid值</span>
                 <span class="compare-value" id="midValue">-</span>
             </div>
             <div class="compare-op" id="compareOp">=</div>
             <div class="compare-box target">
-                <span class="compare-label">目标</span>
+                <span class="compare-label" data-en="Target">目标</span>
                 <span class="compare-value" id="targetValue">-</span>
             </div>
         </div>
         
         <!-- 步骤信息 -->
         <div class="steps-info">
-            <span>步骤: <strong id="stepCount">0</strong></span>
-            <span>范围: [<strong id="rangeLeft">0</strong>, <strong id="rangeRight">0</strong>]</span>
+            <span data-en="Step:">步骤: </span><strong id="stepCount">0</strong>
+            <span data-en="Range:">范围: </span>[<strong id="rangeLeft">0</strong>, <strong id="rangeRight">0</strong>]
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn">开始</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
-            <button class="btn btn-secondary" id="resetBtn">重置</button>
+            <button class="btn btn-primary" id="startBtn" data-en="Start">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" data-en="Pause" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn" data-en="Reset">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">点击"开始"查看动画</span>
+            <span class="status-badge" id="statusText" data-en="Click 'Start' to view animation">点击"开始"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle" data-en="📖 How It Works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-en="⏱️ Complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-en="💡 Applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-en="📝 Implementation">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
-                <h4>算法步骤</h4>
+                <h4 data-en="Algorithm Steps">算法步骤</h4>
                 <ol>
-                    <li>初始化左指针left=0，右指针right=n-1</li>
-                    <li>计算中间位置 mid = (left + right) / 2</li>
-                    <li>比较 arr[mid] 与目标值：</li>
-                    <li>相等：找到目标，返回mid</li>
-                    <li>arr[mid] > target：目标在左半部分，right = mid - 1</li>
-                    <li>arr[mid] < target：目标在右半部分，left = mid + 1</li>
-                    <li>重复步骤2-3，直到 left > right（未找到）</li>
+                    <li data-en="Initialize left pointer = 0, right pointer = n-1">初始化左指针left=0，右指针right=n-1</li>
+                    <li data-en="Calculate middle position mid = (left + right) / 2">计算中间位置 mid = (left + right) / 2</li>
+                    <li data-en="Compare arr[mid] with target:">比较 arr[mid] 与目标值：</li>
+                    <li data-en="Equal: Found target, return mid">相等：找到目标，返回mid</li>
+                    <li data-en="arr[mid] > target: Target in left half, right = mid - 1">arr[mid] > target：目标在左半部分，right = mid - 1</li>
+                    <li data-en="arr[mid] < target: Target in right half, left = mid + 1">arr[mid] < target：目标在右半部分，left = mid + 1</li>
+                    <li data-en="Repeat 2-3 until left > right (not found)">重复步骤2-3，直到 left > right（未找到）</li>
                 </ol>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>时间与空间复杂度</h4>
+                <h4 data-en="Time and Space Complexity">时间与空间复杂度</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>情况</th>
-                        <th>复杂度</th>
-                        <th>说明</th>
+                        <th data-en="Case">情况</th>
+                        <th data-en="Complexity">复杂度</th>
+                        <th data-en="Description">说明</th>
                     </tr>
                     <tr>
-                        <td>最好情况</td>
+                        <td data-en="Best Case">最好情况</td>
                         <td class="highlight">O(1)</td>
-                        <td>目标恰好在中间</td>
+                        <td data-en="Target is exactly in the middle">目标恰好在中间</td>
                     </tr>
                     <tr>
-                        <td>平均/最坏</td>
+                        <td data-en="Average/Worst">平均/最坏</td>
                         <td class="highlight">O(log n)</td>
-                        <td>每次搜索范围减半</td>
+                        <td data-en="Search range halves each time">每次搜索范围减半</td>
                     </tr>
                     <tr>
-                        <td>空间复杂度</td>
+                        <td data-en="Space Complexity">空间复杂度</td>
                         <td class="highlight">O(1)</td>
-                        <td>只需常数额外空间</td>
+                        <td data-en="Only constant extra space">只需常数额外空间</td>
                     </tr>
                 </table>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="Why O(log n)? Range halves after each comparison, at most log₂(n) comparisons needed. For 1 million elements, only ~20 comparisons!">
                     为什么是O(log n)？因为每次比较后范围减半，最多需要 log₂(n) 次比较。对于100万个元素，最多只需约20次比较！
                 </p>
             </div>
             
             <div class="tab-content" id="usage">
-                <h4>应用场景</h4>
+                <h4 data-en="Applications">应用场景</h4>
                 <ul>
-                    <li>在有序数组/列表中查找元素</li>
-                    <li>数据库索引查询（B树、B+树）</li>
-                    <li>查找插入位置（如bisect模块）</li>
-                    <li>求解单调函数的零点</li>
-                    <li>算法竞赛中的"二分答案"技巧</li>
+                    <li data-en="Finding elements in sorted arrays/lists">在有序数组/列表中查找元素</li>
+                    <li data-en="Database index queries (B-tree, B+tree)">数据库索引查询（B树、B+树）</li>
+                    <li data-en="Finding insertion positions (like bisect)">查找插入位置（如bisect模块）</li>
+                    <li data-en="Finding roots of monotonic functions">求解单调函数的零点</li>
+                    <li data-en="'Binary search the answer' in competitive programming">算法竞赛中的"二分答案"技巧</li>
                 </ul>
                 <div class="use-cases">
-                    <span class="use-case-tag">有序查找</span>
-                    <span class="use-case-tag">数据库索引</span>
-                    <span class="use-case-tag">二分答案</span>
-                    <span class="use-case-tag">数值计算</span>
+                    <span class="use-case-tag" data-en="Sorted Search">有序查找</span>
+                    <span class="use-case-tag" data-en="Database Index">数据库索引</span>
+                    <span class="use-case-tag" data-en="Binary Answer">二分答案</span>
+                    <span class="use-case-tag" data-en="Numerical Methods">数值计算</span>
                 </div>
             </div>
             
             <div class="tab-content" id="code">
-                <h4>代码实现</h4>
+                <h4 data-en="Implementation">代码实现</h4>
                 <div class="code-lang-tabs">
                     <button class="code-lang-btn active" data-lang="python">
                         <span class="lang-icon">🐍</span> Python

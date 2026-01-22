@@ -52,23 +52,23 @@
     <div class="container">
         
         <header class="page-header">
-            <h1 class="title">A*寻路算法可视化</h1>
-            <p class="subtitle">启发式最短路径搜索</p>
+            <h1 class="title" data-en="A* Pathfinding Visualization">A*寻路算法可视化</h1>
+            <p class="subtitle" data-en="Heuristic shortest path search">启发式最短路径搜索</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p>A*算法是一种启发式搜索算法，结合了Dijkstra的最短路径保证和贪心搜索的效率。它使用估价函数 f(n) = g(n) + h(n) 来指导搜索方向。</p>
+            <p data-en="A* is a heuristic search algorithm combining Dijkstra's shortest path guarantee with greedy search efficiency. It uses evaluation function f(n) = g(n) + h(n) to guide the search direction.">A*算法是一种启发式搜索算法，结合了Dijkstra的最短路径保证和贪心搜索的效率。它使用估价函数 f(n) = g(n) + h(n) 来指导搜索方向。</p>
         </div>
         
         <!-- 图例 -->
         <div class="legend">
-            <span class="legend-item"><span class="cell-demo start"></span><span>起点</span></span>
-            <span class="legend-item"><span class="cell-demo end"></span><span>终点</span></span>
-            <span class="legend-item"><span class="cell-demo wall"></span><span>障碍物</span></span>
-            <span class="legend-item"><span class="cell-demo open"></span><span>待探索</span></span>
-            <span class="legend-item"><span class="cell-demo closed"></span><span>已探索</span></span>
-            <span class="legend-item"><span class="cell-demo path"></span><span>最短路径</span></span>
+            <span class="legend-item"><span class="cell-demo start"></span><span data-en="Start">起点</span></span>
+            <span class="legend-item"><span class="cell-demo end"></span><span data-en="End">终点</span></span>
+            <span class="legend-item"><span class="cell-demo wall"></span><span data-en="Obstacle">障碍物</span></span>
+            <span class="legend-item"><span class="cell-demo open"></span><span data-en="Open">待探索</span></span>
+            <span class="legend-item"><span class="cell-demo closed"></span><span data-en="Closed">已探索</span></span>
+            <span class="legend-item"><span class="cell-demo path"></span><span data-en="Shortest Path">最短路径</span></span>
         </div>
         
         <!-- 网格 -->
@@ -77,90 +77,90 @@
         </div>
         
         <!-- 提示 -->
-        <div class="hint">点击网格绘制/清除障碍物</div>
+        <div class="hint" data-en="Click grid to draw/clear obstacles">点击网格绘制/清除障碍物</div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn">开始</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
-            <button class="btn btn-secondary" id="resetBtn">重置</button>
-            <button class="btn btn-secondary" id="clearWallsBtn">清空网格</button>
+            <button class="btn btn-primary" id="startBtn" data-en="Start">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" data-en="Pause" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn" data-en="Reset">重置</button>
+            <button class="btn btn-secondary" id="clearWallsBtn" data-en="Clear Grid">清空网格</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">点击"开始"查看动画</span>
+            <span class="status-badge" id="statusText" data-en="Click 'Start' to view animation">点击"开始"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle" data-en="📖 How It Works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-en="⏱️ Complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-en="💡 Applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-en="📝 Implementation">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
-                <h4>核心概念</h4>
+                <h4 data-en="Core Concepts">核心概念</h4>
                 <ul>
-                    <li>g(n)：从起点到节点n的实际代价</li>
-                    <li>h(n)：从节点n到终点的启发式估计（如曼哈顿距离）</li>
-                    <li>f(n) = g(n) + h(n)：节点n的总估价</li>
-                    <li>每次从Open列表中选择f值最小的节点扩展</li>
-                    <li>当选中的节点是终点时，搜索结束</li>
+                    <li data-en="g(n): Actual cost from start to node n">g(n)：从起点到节点n的实际代价</li>
+                    <li data-en="h(n): Heuristic estimate from n to goal (e.g., Manhattan distance)">h(n)：从节点n到终点的启发式估计（如曼哈顿距离）</li>
+                    <li data-en="f(n) = g(n) + h(n): Total evaluation of node n">f(n) = g(n) + h(n)：节点n的总估价</li>
+                    <li data-en="Always expand node with smallest f value from Open list">每次从Open列表中选择f值最小的节点扩展</li>
+                    <li data-en="Search ends when selected node is the goal">当选中的节点是终点时，搜索结束</li>
                 </ul>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="Heuristic h(n) must be 'admissible' (never overestimate) to guarantee shortest path.">
                     启发函数h(n)必须是"可采纳的"（不高估实际代价），才能保证找到最短路径。
                 </p>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>时间与空间复杂度</h4>
+                <h4 data-en="Time and Space Complexity">时间与空间复杂度</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>指标</th>
-                        <th>复杂度</th>
-                        <th>说明</th>
+                        <th data-en="Metric">指标</th>
+                        <th data-en="Complexity">复杂度</th>
+                        <th data-en="Description">说明</th>
                     </tr>
                     <tr>
-                        <td>时间复杂度</td>
+                        <td data-en="Time Complexity">时间复杂度</td>
                         <td>O(E)</td>
-                        <td>最坏情况，取决于启发函数质量</td>
+                        <td data-en="Worst case, depends on heuristic quality">最坏情况，取决于启发函数质量</td>
                     </tr>
                     <tr>
-                        <td>实际性能</td>
-                        <td class="highlight">远优于Dijkstra</td>
-                        <td>启发式引导减少探索节点</td>
+                        <td data-en="Actual Performance">实际性能</td>
+                        <td class="highlight" data-en="Much better than Dijkstra">远优于Dijkstra</td>
+                        <td data-en="Heuristic guidance reduces nodes explored">启发式引导减少探索节点</td>
                     </tr>
                     <tr>
-                        <td>空间复杂度</td>
+                        <td data-en="Space Complexity">空间复杂度</td>
                         <td>O(V)</td>
-                        <td>存储Open和Closed列表</td>
+                        <td data-en="Store Open and Closed lists">存储Open和Closed列表</td>
                     </tr>
                 </table>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="A* vs Dijkstra: Dijkstra expands uniformly in all directions, A* prioritizes toward the goal.">
                     A* vs Dijkstra：Dijkstra向所有方向均匀扩展，而A*优先向目标方向探索。
                 </p>
             </div>
             
             <div class="tab-content" id="usage">
-                <h4>应用场景</h4>
+                <h4 data-en="Applications">应用场景</h4>
                 <ul>
-                    <li>游戏中的NPC寻路和单位移动</li>
-                    <li>机器人路径规划</li>
-                    <li>GPS导航系统</li>
-                    <li>自动驾驶路径决策</li>
-                    <li>物流配送路线优化</li>
+                    <li data-en="NPC pathfinding and unit movement in games">游戏中的NPC寻路和单位移动</li>
+                    <li data-en="Robot path planning">机器人路径规划</li>
+                    <li data-en="GPS navigation systems">GPS导航系统</li>
+                    <li data-en="Autonomous driving path decisions">自动驾驶路径决策</li>
+                    <li data-en="Logistics delivery route optimization">物流配送路线优化</li>
                 </ul>
                 <div class="use-cases">
-                    <span class="use-case-tag">游戏开发</span>
-                    <span class="use-case-tag">机器人导航</span>
-                    <span class="use-case-tag">自动驾驶</span>
-                    <span class="use-case-tag">物流优化</span>
+                    <span class="use-case-tag" data-en="Game Dev">游戏开发</span>
+                    <span class="use-case-tag" data-en="Robot Navigation">机器人导航</span>
+                    <span class="use-case-tag" data-en="Autonomous Driving">自动驾驶</span>
+                    <span class="use-case-tag" data-en="Logistics">物流优化</span>
                 </div>
             </div>
             
             <div class="tab-content" id="code">
-                <h4>代码实现</h4>
+                <h4 data-en="Implementation">代码实现</h4>
                 <div class="code-lang-tabs">
                     <button class="code-lang-btn active" data-lang="python">
                         <span class="lang-icon">🐍</span> Python

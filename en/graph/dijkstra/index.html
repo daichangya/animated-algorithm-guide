@@ -73,12 +73,12 @@
         <!-- 控制 -->
         <div class="controls">
             <button class="btn btn-primary" id="startBtn">Start</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>Pause</button>
+            <button class="btn btn-warning" id="pauseBtn"  disabled>Pause</button>
             <button class="btn btn-secondary" id="resetBtn">Reset</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">Click "Start" to view animation</span>
+            <span class="status-badge" id="statusText">Click 'Start' to view animation</span>
         </div>
         
         <!-- Tab面板 -->
@@ -100,13 +100,11 @@
                     <li>Add the updated neighbor to the priority queue</li>
                     <li>Repeat steps 3-5 until the queue is empty</li>
                 </ol>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
-                    Key insight: Once a node's shortest distance is finalized, it won't be updated again because all edge weights are non-negative.
-                </p>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">Key insight: Once a node's shortest distance is finalized, it won't be updated again because all edge weights are non-negative.</p>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>Time & Space Complexity</h4>
+                <h4>Time and Space Complexity</h4>
                 <table class="complexity-table">
                     <tr>
                         <th>Implementation</th>
@@ -134,9 +132,7 @@
                         <td>Store distances and priority queue</td>
                     </tr>
                 </table>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
-                    Note: Dijkstra cannot handle negative edge weights. Use Bellman-Ford for graphs with negative edges.
-                </p>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">Note: Dijkstra cannot handle negative edge weights. Use Bellman-Ford for graphs with negative edges.</p>
             </div>
             
             <div class="tab-content" id="usage">
@@ -151,7 +147,7 @@
                 <div class="use-cases">
                     <span class="use-case-tag">Navigation</span>
                     <span class="use-case-tag">Network Routing</span>
-                    <span class="use-case-tag">Game Development</span>
+                    <span class="use-case-tag">Game Dev</span>
                     <span class="use-case-tag">Path Planning</span>
                 </div>
             </div>

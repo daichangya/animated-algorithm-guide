@@ -52,28 +52,28 @@
     <div class="container">
         
         <header class="page-header">
-            <h1 class="title">Myers差异算法可视化</h1>
-            <p class="subtitle">Git Diff 的核心算法 - 最小编辑距离</p>
+            <h1 class="title" data-en="Myers Diff Algorithm Visualization">Myers差异算法可视化</h1>
+            <p class="subtitle" data-en="The core algorithm behind Git Diff - Minimum Edit Distance">Git Diff 的核心算法 - 最小编辑距离</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p>Myers差异算法是由Eugene W. Myers在1986年提出的，用于计算两个序列之间的最小编辑距离。它是Git diff、GNU diff等工具的核心算法。该算法通过在"编辑图"上搜索从左上角到右下角的最短路径来找出差异，每次向右移动表示删除，向下移动表示插入，对角线移动表示匹配。</p>
+            <p data-en="The Myers diff algorithm was proposed by Eugene W. Myers in 1986 for computing the minimum edit distance between two sequences. It is the core algorithm of Git diff, GNU diff, and other tools. The algorithm finds differences by searching for the shortest path from the top-left to the bottom-right corner on an 'edit graph', where moving right represents deletion, moving down represents insertion, and diagonal moves represent matches.">Myers差异算法是由Eugene W. Myers在1986年提出的，用于计算两个序列之间的最小编辑距离。它是Git diff、GNU diff等工具的核心算法。该算法通过在"编辑图"上搜索从左上角到右下角的最短路径来找出差异，每次向右移动表示删除，向下移动表示插入，对角线移动表示匹配。</p>
         </div>
         
         <!-- 输入区域 -->
         <div class="input-section">
             <div class="input-mode-toggle">
-                <button class="mode-btn active" data-mode="string">字符模式</button>
-                <button class="mode-btn" data-mode="line">行模式</button>
+                <button class="mode-btn active" data-mode="string" data-en="Character Mode">字符模式</button>
+                <button class="mode-btn" data-mode="line" data-en="Line Mode">行模式</button>
             </div>
             <div class="input-row">
                 <div class="input-group">
-                    <label>源序列 (A)</label>
+                    <label data-en="Source Sequence (A)">源序列 (A)</label>
                     <input type="text" id="sourceInput" value="ABCDEF">
                 </div>
                 <div class="input-group">
-                    <label>目标序列 (B)</label>
+                    <label data-en="Target Sequence (B)">目标序列 (B)</label>
                     <input type="text" id="targetInput" value="ABXDEF">
                 </div>
             </div>
@@ -82,118 +82,118 @@
         <!-- 序列显示 -->
         <div class="sequences-display">
             <div class="sequence-row">
-                <span class="seq-label">源:</span>
+                <span class="seq-label" data-en="Source:">源:</span>
                 <div class="sequence-chars" id="sourceChars"></div>
             </div>
             <div class="sequence-row">
-                <span class="seq-label">目标:</span>
+                <span class="seq-label" data-en="Target:">目标:</span>
                 <div class="sequence-chars" id="targetChars"></div>
             </div>
         </div>
         
         <!-- 编辑图网格 -->
         <div class="edit-graph-section">
-            <div class="section-label">编辑图 (Edit Graph)</div>
+            <div class="section-label" data-en="Edit Graph">编辑图 (Edit Graph)</div>
             <div class="edit-graph-container" id="editGraphContainer">
                 <div class="edit-graph" id="editGraph">
                     <!-- 网格由JS生成 -->
                 </div>
             </div>
             <div class="d-value-indicator">
-                <span>编辑距离 D = </span>
+                <span data-en="Edit Distance D = ">编辑距离 D = </span>
                 <span id="dValue">0</span>
             </div>
         </div>
         
         <!-- 差异结果 -->
         <div class="diff-result-section">
-            <div class="section-label">差异结果</div>
+            <div class="section-label" data-en="Diff Result">差异结果</div>
             <div class="diff-result" id="diffResult">
                 <!-- 差异结果由JS生成 -->
             </div>
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn">开始</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
-            <button class="btn btn-secondary" id="resetBtn">重置</button>
+            <button class="btn btn-primary" id="startBtn" data-en="Start">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" data-en="Pause" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn" data-en="Reset">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">点击"开始"查看动画</span>
+            <span class="status-badge" id="statusText" data-en="Click 'Start' to view animation">点击"开始"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle" data-en="📖 How It Works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-en="⏱️ Complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-en="💡 Applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-en="📝 Implementation">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
-                <h4>核心概念</h4>
+                <h4 data-en="Core Concepts">核心概念</h4>
                 <ul>
-                    <li>构建编辑图：X轴代表源序列，Y轴代表目标序列</li>
-                    <li>水平移动 = 删除源序列字符，垂直移动 = 插入目标序列字符</li>
-                    <li>对角线移动 = 字符匹配（免费）</li>
-                    <li>目标：找到从(0,0)到(N,M)的最短路径</li>
-                    <li>使用D值（编辑距离）逐层搜索，找到最小D的路径</li>
+                    <li data-en="Build edit graph: X-axis represents source, Y-axis represents target">构建编辑图：X轴代表源序列，Y轴代表目标序列</li>
+                    <li data-en="Horizontal move = delete from source, Vertical move = insert from target">水平移动 = 删除源序列字符，垂直移动 = 插入目标序列字符</li>
+                    <li data-en="Diagonal move = character match (free)">对角线移动 = 字符匹配（免费）</li>
+                    <li data-en="Goal: Find shortest path from (0,0) to (N,M)">目标：找到从(0,0)到(N,M)的最短路径</li>
+                    <li data-en="Search layer by layer with increasing D (edit distance)">使用D值（编辑距离）逐层搜索，找到最小D的路径</li>
                 </ul>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="Algorithm starts with D=0, incrementally increasing D until finding a path from (0,0) to (N,M). This guarantees finding the shortest edit path.">
                     算法从D=0开始，逐步增加D值，直到找到一条从(0,0)到(N,M)的路径。这保证了找到的是最短编辑路径。
                 </p>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>时间与空间复杂度</h4>
+                <h4 data-en="Time and Space Complexity">时间与空间复杂度</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>指标</th>
-                        <th>复杂度</th>
-                        <th>说明</th>
+                        <th data-en="Metric">指标</th>
+                        <th data-en="Complexity">复杂度</th>
+                        <th data-en="Description">说明</th>
                     </tr>
                     <tr>
-                        <td>时间复杂度</td>
+                        <td data-en="Time Complexity">时间复杂度</td>
                         <td>O((N+M)D)</td>
-                        <td>D是编辑距离，最坏情况D=N+M</td>
+                        <td data-en="D is edit distance, worst case D=N+M">D是编辑距离，最坏情况D=N+M</td>
                     </tr>
                     <tr>
-                        <td>最坏时间</td>
+                        <td data-en="Worst Case Time">最坏时间</td>
                         <td>O((N+M)²)</td>
-                        <td>两个完全不同的序列</td>
+                        <td data-en="Two completely different sequences">两个完全不同的序列</td>
                     </tr>
                     <tr>
-                        <td>空间复杂度</td>
+                        <td data-en="Space Complexity">空间复杂度</td>
                         <td class="highlight">O(N+M)</td>
-                        <td>只需存储当前和前一行的状态</td>
+                        <td data-en="Only need current and previous row states">只需存储当前和前一行的状态</td>
                     </tr>
                 </table>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="In practice, most differences are small, so average performance is excellent.">
                     在实际应用中，大多数差异较小，因此平均性能非常好。
                 </p>
             </div>
             
             <div class="tab-content" id="usage">
-                <h4>应用场景</h4>
+                <h4 data-en="Applications">应用场景</h4>
                 <ul>
-                    <li>Git版本控制系统的diff功能</li>
-                    <li>GNU diff工具</li>
-                    <li>代码审查工具的变更对比</li>
-                    <li>文档比较和合并工具</li>
-                    <li>DNA序列比对（生物信息学）</li>
+                    <li data-en="Git version control diff functionality">Git版本控制系统的diff功能</li>
+                    <li data-en="GNU diff tool">GNU diff工具</li>
+                    <li data-en="Code review change comparison">代码审查工具的变更对比</li>
+                    <li data-en="Document comparison and merge tools">文档比较和合并工具</li>
+                    <li data-en="DNA sequence alignment (bioinformatics)">DNA序列比对（生物信息学）</li>
                 </ul>
                 <div class="use-cases">
-                    <span class="use-case-tag">Git Diff</span>
-                    <span class="use-case-tag">版本控制</span>
-                    <span class="use-case-tag">代码审查</span>
-                    <span class="use-case-tag">文档对比</span>
+                    <span class="use-case-tag" data-en="Git Diff">Git Diff</span>
+                    <span class="use-case-tag" data-en="Version Control">版本控制</span>
+                    <span class="use-case-tag" data-en="Code Review">代码审查</span>
+                    <span class="use-case-tag" data-en="Document Comparison">文档对比</span>
                 </div>
             </div>
             
             <div class="tab-content" id="code">
-                <h4>代码实现</h4>
+                <h4 data-en="Implementation">代码实现</h4>
                 <div class="code-lang-tabs">
                     <button class="code-lang-btn active" data-lang="python">
                         <span class="lang-icon">🐍</span> Python

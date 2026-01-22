@@ -108,12 +108,12 @@
         
         <div class="controls">
             <button class="btn btn-primary" id="startBtn">Start</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>Pause</button>
+            <button class="btn btn-warning" id="pauseBtn"  disabled>Pause</button>
             <button class="btn btn-secondary" id="resetBtn">Reset</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">Click "Start" to view animation</span>
+            <span class="status-badge" id="statusText">Click 'Start' to view animation</span>
         </div>
         
         <!-- Tab面板 -->
@@ -132,16 +132,14 @@
                     <li>If A[i-1] == B[j-1]: dp[i][j] = dp[i-1][j-1] + 1 (match, LCS length +1)</li>
                     <li>If A[i-1] != B[j-1]: dp[i][j] = max(dp[i-1][j], dp[i][j-1]) (take max of left/top)</li>
                 </ul>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
-                    dp[m][n] is the LCS length. Backtrack through the DP table to reconstruct the actual LCS.
-                </p>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">dp[m][n] is the LCS length. Backtrack through the DP table to reconstruct the actual LCS.</p>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>Time & Space Complexity</h4>
+                <h4>Time and Space Complexity</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>指标</th>
+                        <th>Metric</th>
                         <th>Complexity</th>
                         <th>Description</th>
                     </tr>

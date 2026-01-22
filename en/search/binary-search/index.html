@@ -92,18 +92,18 @@
         
         <!-- 步骤信息 -->
         <div class="steps-info">
-            <span>Step: <strong id="stepCount">0</strong></span>
-            <span>Range: [<strong id="rangeLeft">0</strong>, <strong id="rangeRight">0</strong>]</span>
+            <span>Step:</span><strong id="stepCount">0</strong>
+            <span>Range:</span>[<strong id="rangeLeft">0</strong>, <strong id="rangeRight">0</strong>]
         </div>
         
         <div class="controls">
             <button class="btn btn-primary" id="startBtn">Start</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>Pause</button>
+            <button class="btn btn-warning" id="pauseBtn"  disabled>Pause</button>
             <button class="btn btn-secondary" id="resetBtn">Reset</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">Click "Start" to view animation</span>
+            <span class="status-badge" id="statusText">Click 'Start' to view animation</span>
         </div>
         
         <!-- Tab面板 -->
@@ -129,7 +129,7 @@
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>Time & Space Complexity</h4>
+                <h4>Time and Space Complexity</h4>
                 <table class="complexity-table">
                     <tr>
                         <th>Case</th>
@@ -152,9 +152,7 @@
                         <td>Only constant extra space</td>
                     </tr>
                 </table>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
-                    Why O(log n)? Range halves after each comparison, at most log₂(n) comparisons needed. For 1 million elements, only ~20 comparisons!
-                </p>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">Why O(log n)? Range halves after each comparison, at most log₂(n) comparisons needed. For 1 million elements, only ~20 comparisons!</p>
             </div>
             
             <div class="tab-content" id="usage">
@@ -164,7 +162,7 @@
                     <li>Database index queries (B-tree, B+tree)</li>
                     <li>Finding insertion positions (like bisect)</li>
                     <li>Finding roots of monotonic functions</li>
-                    <li>"Binary search the answer" in competitive programming</li>
+                    <li>'Binary search the answer' in competitive programming</li>
                 </ul>
                 <div class="use-cases">
                     <span class="use-case-tag">Sorted Search</span>

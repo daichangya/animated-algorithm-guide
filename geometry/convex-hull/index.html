@@ -52,116 +52,116 @@
     <div class="container">
         
         <header class="page-header">
-            <h1 class="title">凸包算法可视化</h1>
-            <p class="subtitle">Graham Scan - 计算点集的凸包</p>
+            <h1 class="title" data-en="Convex Hull Visualization">凸包算法可视化</h1>
+            <p class="subtitle" data-en="Graham Scan - Computing point set convex hull">Graham Scan - 计算点集的凸包</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p>凸包（Convex Hull）是包含所有给定点的最小凸多边形。Graham Scan算法通过极角排序和栈操作，以O(n log n)的时间复杂度高效计算凸包。</p>
+            <p data-en="Convex Hull is the smallest convex polygon containing all given points. Graham Scan uses polar angle sorting and stack operations to efficiently compute the convex hull in O(n log n) time.">凸包（Convex Hull）是包含所有给定点的最小凸多边形。Graham Scan算法通过极角排序和栈操作，以O(n log n)的时间复杂度高效计算凸包。</p>
         </div>
         
         <!-- 画布 -->
         <div class="canvas-section">
             <canvas id="canvas" width="700" height="450"></canvas>
-            <div class="canvas-hint">点击画布添加点，或自动生成</div>
+            <div class="canvas-hint" data-en="Click canvas to add points, or generate automatically">点击画布添加点，或自动生成</div>
         </div>
         
         <!-- 栈显示 -->
         <div class="stack-section">
-            <div class="section-label">凸包栈</div>
+            <div class="section-label" data-en="Hull Stack">凸包栈</div>
             <div class="stack-content" id="stackContent"></div>
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn">开始</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
-            <button class="btn btn-secondary" id="generateBtn">随机生成</button>
-            <button class="btn btn-secondary" id="clearBtn">清空</button>
+            <button class="btn btn-primary" id="startBtn" data-en="Start">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" data-en="Pause" disabled>暂停</button>
+            <button class="btn btn-secondary" id="generateBtn" data-en="Random Generate">随机生成</button>
+            <button class="btn btn-secondary" id="clearBtn" data-en="Clear">清空</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">点击"开始"查看动画</span>
+            <span class="status-badge" id="statusText" data-en="Click 'Start' to view animation">点击"开始"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle" data-en="📖 How It Works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-en="⏱️ Complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-en="💡 Applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-en="📝 Implementation">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
-                <h4>Graham Scan 步骤</h4>
+                <h4 data-en="Graham Scan Steps">Graham Scan 步骤</h4>
                 <ol>
-                    <li>找到y坐标最小的点作为基点P0（若相同取x最小）</li>
-                    <li>将其他所有点按照相对于P0的极角排序</li>
-                    <li>初始化栈，压入P0和排序后的第一个点</li>
-                    <li>依次处理剩余的点：</li>
-                    <li>如果新点使得栈顶两点形成"右转"，则弹出栈顶</li>
-                    <li>重复上一步直到形成"左转"，然后将新点压入栈</li>
-                    <li>栈中的点即为凸包顶点</li>
+                    <li data-en="Find point P0 with minimum y-coordinate (then minimum x if tie)">找到y坐标最小的点作为基点P0（若相同取x最小）</li>
+                    <li data-en="Sort all other points by polar angle relative to P0">将其他所有点按照相对于P0的极角排序</li>
+                    <li data-en="Initialize stack with P0 and first sorted point">初始化栈，压入P0和排序后的第一个点</li>
+                    <li data-en="Process remaining points:">依次处理剩余的点：</li>
+                    <li data-en="If new point causes 'right turn' with top two stack elements, pop top">如果新点使得栈顶两点形成"右转"，则弹出栈顶</li>
+                    <li data-en="Repeat until 'left turn', then push new point">重复上一步直到形成"左转"，然后将新点压入栈</li>
+                    <li data-en="Stack contains convex hull vertices">栈中的点即为凸包顶点</li>
                 </ol>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>时间与空间复杂度</h4>
+                <h4 data-en="Time and Space Complexity">时间与空间复杂度</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>步骤</th>
-                        <th>复杂度</th>
-                        <th>说明</th>
+                        <th data-en="Step">步骤</th>
+                        <th data-en="Complexity">复杂度</th>
+                        <th data-en="Description">说明</th>
                     </tr>
                     <tr>
-                        <td>找基点</td>
+                        <td data-en="Find Base Point">找基点</td>
                         <td>O(n)</td>
-                        <td>遍历所有点</td>
+                        <td data-en="Traverse all points">遍历所有点</td>
                     </tr>
                     <tr>
-                        <td>极角排序</td>
+                        <td data-en="Polar Angle Sort">极角排序</td>
                         <td>O(n log n)</td>
-                        <td>决定整体复杂度</td>
+                        <td data-en="Dominates overall complexity">决定整体复杂度</td>
                     </tr>
                     <tr>
-                        <td>栈处理</td>
+                        <td data-en="Stack Processing">栈处理</td>
                         <td>O(n)</td>
-                        <td>每个点最多入栈出栈各一次</td>
+                        <td data-en="Each point pushed/popped at most once">每个点最多入栈出栈各一次</td>
                     </tr>
                     <tr>
-                        <td>总时间</td>
+                        <td data-en="Total Time">总时间</td>
                         <td class="highlight">O(n log n)</td>
-                        <td>排序主导</td>
+                        <td data-en="Dominated by sorting">排序主导</td>
                     </tr>
                     <tr>
-                        <td>空间复杂度</td>
+                        <td data-en="Space Complexity">空间复杂度</td>
                         <td>O(n)</td>
-                        <td>存储栈</td>
+                        <td data-en="Store stack">存储栈</td>
                     </tr>
                 </table>
             </div>
             
             <div class="tab-content" id="usage">
-                <h4>应用场景</h4>
+                <h4 data-en="Applications">应用场景</h4>
                 <ul>
-                    <li>图形学中的碰撞检测</li>
-                    <li>地理信息系统（GIS）边界计算</li>
-                    <li>机器人运动规划</li>
-                    <li>图像处理中的物体轮廓</li>
-                    <li>最小包围盒计算</li>
-                    <li>统计学中的离群点检测</li>
+                    <li data-en="Collision detection in graphics">图形学中的碰撞检测</li>
+                    <li data-en="Boundary computation in GIS">地理信息系统（GIS）边界计算</li>
+                    <li data-en="Robot path planning">机器人运动规划</li>
+                    <li data-en="Object contours in image processing">图像处理中的物体轮廓</li>
+                    <li data-en="Minimum bounding box computation">最小包围盒计算</li>
+                    <li data-en="Outlier detection in statistics">统计学中的离群点检测</li>
                 </ul>
                 <div class="use-cases">
-                    <span class="use-case-tag">碰撞检测</span>
-                    <span class="use-case-tag">GIS</span>
-                    <span class="use-case-tag">机器人</span>
-                    <span class="use-case-tag">图像处理</span>
+                    <span class="use-case-tag" data-en="Collision Detection">碰撞检测</span>
+                    <span class="use-case-tag" data-en="GIS">GIS</span>
+                    <span class="use-case-tag" data-en="Robotics">机器人</span>
+                    <span class="use-case-tag" data-en="Image Processing">图像处理</span>
                 </div>
             </div>
             
             <div class="tab-content" id="code">
-                <h4>代码实现</h4>
+                <h4 data-en="Implementation">代码实现</h4>
                 <div class="code-lang-tabs">
                     <button class="code-lang-btn active" data-lang="python">
                         <span class="lang-icon">🐍</span> Python

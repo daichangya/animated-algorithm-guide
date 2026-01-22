@@ -56,7 +56,7 @@
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p>KMP (Knuth-Morris-Pratt) is an efficient string matching algorithm. It uses information from previous matches to avoid restarting from scratch, achieving O(n+m) time complexity through the "prefix table" (or next array).</p>
+            <p>KMP (Knuth-Morris-Pratt) is an efficient string matching algorithm. It uses information from previous matches to avoid restarting from scratch, achieving O(n+m) time complexity through the 'prefix table' (or next array).</p>
         </div>
         
         <!-- 输入 -->
@@ -94,12 +94,12 @@
         
         <div class="controls">
             <button class="btn btn-primary" id="startBtn">Start</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>Pause</button>
+            <button class="btn btn-warning" id="pauseBtn"  disabled>Pause</button>
             <button class="btn btn-secondary" id="resetBtn">Reset</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">Click "Start" to view animation</span>
+            <span class="status-badge" id="statusText">Click 'Start' to view animation</span>
         </div>
         
         <!-- Tab面板 -->
@@ -114,17 +114,15 @@
             <div class="tab-content active" id="principle">
                 <h4>Core Concepts</h4>
                 <ul>
-                    <li>Prefix table records "longest proper prefix which is also suffix" for each position</li>
+                    <li>Prefix table records 'longest proper prefix which is also suffix' for each position</li>
                     <li>On mismatch, use prefix table to skip positions that can't possibly match</li>
                     <li>Pattern doesn't restart from beginning, jumps to position indicated by prefix table</li>
                 </ul>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
-                    Example: "ABAB" has longest proper prefix-suffix "AB", length 2.
-                </p>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">Example: 'ABAB' has longest proper prefix-suffix 'AB', length 2.</p>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>Time & Space Complexity</h4>
+                <h4>Time and Space Complexity</h4>
                 <table class="complexity-table">
                     <tr>
                         <th>Phase</th>
@@ -137,7 +135,7 @@
                         <td>M is pattern length</td>
                     </tr>
                     <tr>
-                        <td>Matching Process</td>
+                        <td>Matching Phase</td>
                         <td class="highlight">O(N)</td>
                         <td>N is text length</td>
                     </tr>

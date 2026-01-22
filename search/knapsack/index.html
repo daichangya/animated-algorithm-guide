@@ -52,24 +52,24 @@
     <div class="container">
         
         <header class="page-header">
-            <h1 class="title">0/1背包问题可视化</h1>
-            <p class="subtitle">动态规划经典优化问题</p>
+            <h1 class="title" data-en="0/1 Knapsack Problem Visualization">0/1背包问题可视化</h1>
+            <p class="subtitle" data-en="Classic dynamic programming optimization problem">动态规划经典优化问题</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p>0/1背包问题是一个经典的组合优化问题：给定n个物品（每个有重量和价值）和一个容量为W的背包，如何选择物品使得总价值最大，同时不超过背包容量？</p>
+            <p data-en="The 0/1 Knapsack is a classic combinatorial optimization problem: given n items (each with weight and value) and a knapsack of capacity W, how to select items to maximize total value without exceeding capacity?">0/1背包问题是一个经典的组合优化问题：给定n个物品（每个有重量和价值）和一个容量为W的背包，如何选择物品使得总价值最大，同时不超过背包容量？</p>
         </div>
         
         <!-- 物品列表 -->
         <div class="items-section">
-            <div class="section-label"><span>物品列表</span> (<span>容量</span>: <span id="capacityValue">10</span>)</div>
+            <div class="section-label"><span data-en="Item List">物品列表</span> (<span data-en="Capacity">容量</span>: <span id="capacityValue">10</span>)</div>
             <div class="items-list" id="itemsList"></div>
         </div>
         
         <!-- DP表格 -->
         <div class="dp-section">
-            <div class="section-label">DP表格</div>
+            <div class="section-label" data-en="DP Table">DP表格</div>
             <div class="dp-table-container">
                 <table class="dp-table" id="dpTable"></table>
             </div>
@@ -78,92 +78,92 @@
         <!-- 结果 -->
         <div class="result-section">
             <div class="result-box">
-                <span class="result-label">最大价值</span>
+                <span class="result-label" data-en="Maximum Value">最大价值</span>
                 <span class="result-value" id="maxValue">?</span>
             </div>
             <div class="selected-items">
-                <span class="result-label">选中物品</span>
+                <span class="result-label" data-en="Selected Items">选中物品</span>
                 <div class="selected-list" id="selectedItems"></div>
             </div>
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn">开始</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
-            <button class="btn btn-secondary" id="resetBtn">重置</button>
+            <button class="btn btn-primary" id="startBtn" data-en="Start">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" data-en="Pause" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn" data-en="Reset">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">点击"开始"查看动画</span>
+            <span class="status-badge" id="statusText" data-en="Click 'Start' to view animation">点击"开始"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle" data-en="📖 How It Works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-en="⏱️ Complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-en="💡 Applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-en="📝 Implementation">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
-                <h4>动态规划状态定义</h4>
-                <p>设 dp[i][w] 表示考虑前i个物品、容量为w时的最大价值。</p>
+                <h4 data-en="DP State Definition">动态规划状态定义</h4>
+                <p data-en="Let dp[i][w] represent max value considering first i items with capacity w.">设 dp[i][w] 表示考虑前i个物品、容量为w时的最大价值。</p>
                 <ul>
-                    <li>不选第i个物品：dp[i][w] = dp[i-1][w]</li>
-                    <li>选第i个物品（需要能装下）：dp[i][w] = dp[i-1][w-wi] + vi</li>
-                    <li>取两者最大值</li>
+                    <li data-en="Don't take item i: dp[i][w] = dp[i-1][w]">不选第i个物品：dp[i][w] = dp[i-1][w]</li>
+                    <li data-en="Take item i (if it fits): dp[i][w] = dp[i-1][w-wi] + vi">选第i个物品（需要能装下）：dp[i][w] = dp[i-1][w-wi] + vi</li>
+                    <li data-en="Take the maximum of both">取两者最大值</li>
                 </ul>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>时间与空间复杂度</h4>
+                <h4 data-en="Time and Space Complexity">时间与空间复杂度</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>指标</th>
-                        <th>复杂度</th>
-                        <th>说明</th>
+                        <th data-en="Metric">指标</th>
+                        <th data-en="Complexity">复杂度</th>
+                        <th data-en="Description">说明</th>
                     </tr>
                     <tr>
-                        <td>时间复杂度</td>
+                        <td data-en="Time Complexity">时间复杂度</td>
                         <td>O(N × W)</td>
-                        <td>N是物品数，W是容量</td>
+                        <td data-en="N is items, W is capacity">N是物品数，W是容量</td>
                     </tr>
                     <tr>
-                        <td>空间复杂度</td>
+                        <td data-en="Space Complexity">空间复杂度</td>
                         <td>O(N × W)</td>
-                        <td>存储DP表格</td>
+                        <td data-en="Store DP table">存储DP表格</td>
                     </tr>
                     <tr>
-                        <td>优化空间</td>
+                        <td data-en="Optimized Space">优化空间</td>
                         <td class="highlight">O(W)</td>
-                        <td>使用一维数组，逆序遍历</td>
+                        <td data-en="1D array with reverse iteration">使用一维数组，逆序遍历</td>
                     </tr>
                 </table>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="Note: This is pseudo-polynomial time because W can be large. When W is represented in binary, algorithm is exponential.">
                     注意：这是伪多项式时间，因为W可能很大。当W以二进制表示时，算法是指数级的。
                 </p>
             </div>
             
             <div class="tab-content" id="usage">
-                <h4>应用场景</h4>
+                <h4 data-en="Applications">应用场景</h4>
                 <ul>
-                    <li>资源分配问题（预算分配）</li>
-                    <li>货物装载优化</li>
-                    <li>投资组合选择</li>
-                    <li>文件选择备份（磁盘空间限制）</li>
-                    <li>密码学中的子集和问题</li>
+                    <li data-en="Resource allocation (budget allocation)">资源分配问题（预算分配）</li>
+                    <li data-en="Cargo loading optimization">货物装载优化</li>
+                    <li data-en="Investment portfolio selection">投资组合选择</li>
+                    <li data-en="File backup selection (disk space limit)">文件选择备份（磁盘空间限制）</li>
+                    <li data-en="Subset sum problem in cryptography">密码学中的子集和问题</li>
                 </ul>
                 <div class="use-cases">
-                    <span class="use-case-tag">资源分配</span>
-                    <span class="use-case-tag">货运优化</span>
-                    <span class="use-case-tag">投资决策</span>
-                    <span class="use-case-tag">组合优化</span>
+                    <span class="use-case-tag" data-en="Resource Allocation">资源分配</span>
+                    <span class="use-case-tag" data-en="Cargo Optimization">货运优化</span>
+                    <span class="use-case-tag" data-en="Investment">投资决策</span>
+                    <span class="use-case-tag" data-en="Combinatorial Optimization">组合优化</span>
                 </div>
             </div>
             
             <div class="tab-content" id="code">
-                <h4>代码实现</h4>
+                <h4 data-en="Implementation">代码实现</h4>
                 <div class="code-lang-tabs">
                     <button class="code-lang-btn active" data-lang="python">
                         <span class="lang-icon">🐍</span> Python

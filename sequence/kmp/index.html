@@ -52,36 +52,36 @@
     <div class="container">
         
         <header class="page-header">
-            <h1 class="title">KMP字符串匹配可视化</h1>
-            <p class="subtitle">利用前缀表跳过无效比较</p>
+            <h1 class="title" data-en="KMP String Matching Visualization">KMP字符串匹配可视化</h1>
+            <p class="subtitle" data-en="Skip unnecessary comparisons using the prefix table">利用前缀表跳过无效比较</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p>KMP（Knuth-Morris-Pratt）算法是一种高效的字符串匹配算法。它利用已匹配部分的信息，避免从头开始重新匹配，通过"前缀表"（也叫next数组）实现O(n+m)的时间复杂度。</p>
+            <p data-en="KMP (Knuth-Morris-Pratt) is an efficient string matching algorithm. It uses information from previous matches to avoid restarting from scratch, achieving O(n+m) time complexity through the 'prefix table' (or next array).">KMP（Knuth-Morris-Pratt）算法是一种高效的字符串匹配算法。它利用已匹配部分的信息，避免从头开始重新匹配，通过"前缀表"（也叫next数组）实现O(n+m)的时间复杂度。</p>
         </div>
         
         <!-- 输入 -->
         <div class="input-section">
             <div class="input-group">
-                <label>文本串 (T)</label>
+                <label data-en="Text String (T)">文本串 (T)</label>
                 <input type="text" id="textInput" value="ABABDABACDABABCABAB">
             </div>
             <div class="input-group">
-                <label>模式串 (P)</label>
+                <label data-en="Pattern String (P)">模式串 (P)</label>
                 <input type="text" id="patternInput" value="ABABCABAB">
             </div>
         </div>
         
         <!-- 前缀表 -->
         <div class="prefix-section">
-            <div class="section-label">前缀表 (Next数组)</div>
+            <div class="section-label" data-en="Prefix Table (Next Array)">前缀表 (Next数组)</div>
             <div class="prefix-table" id="prefixTable"></div>
         </div>
         
         <!-- 匹配过程 -->
         <div class="match-section">
-            <div class="section-label">匹配过程</div>
+            <div class="section-label" data-en="Matching Process">匹配过程</div>
             <div class="match-container">
                 <div class="text-row" id="textRow"></div>
                 <div class="pattern-row" id="patternRow"></div>
@@ -90,91 +90,91 @@
         
         <!-- 匹配结果 -->
         <div class="result-section">
-            <div class="section-label">匹配位置</div>
+            <div class="section-label" data-en="Match Position">匹配位置</div>
             <div class="match-results" id="matchResults">-</div>
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn">开始</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
-            <button class="btn btn-secondary" id="resetBtn">重置</button>
+            <button class="btn btn-primary" id="startBtn" data-en="Start">开始</button>
+            <button class="btn btn-warning" id="pauseBtn" data-en="Pause" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn" data-en="Reset">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">点击"开始"查看动画</span>
+            <span class="status-badge" id="statusText" data-en="Click 'Start' to view animation">点击"开始"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle" data-en="📖 How It Works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-en="⏱️ Complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-en="💡 Applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-en="📝 Implementation">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
-                <h4>核心概念</h4>
+                <h4 data-en="Core Concepts">核心概念</h4>
                 <ul>
-                    <li>前缀表记录模式串每个位置的"最长相等前后缀"长度</li>
-                    <li>当匹配失败时，利用前缀表跳过已知不可能匹配的位置</li>
-                    <li>模式串不需要回退到起点，而是跳到前缀表指示的位置</li>
+                    <li data-en="Prefix table records 'longest proper prefix which is also suffix' for each position">前缀表记录模式串每个位置的"最长相等前后缀"长度</li>
+                    <li data-en="On mismatch, use prefix table to skip positions that can't possibly match">当匹配失败时，利用前缀表跳过已知不可能匹配的位置</li>
+                    <li data-en="Pattern doesn't restart from beginning, jumps to position indicated by prefix table">模式串不需要回退到起点，而是跳到前缀表指示的位置</li>
                 </ul>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="Example: 'ABAB' has longest proper prefix-suffix 'AB', length 2.">
                     例如 "ABAB" 的最长相等前后缀是 "AB"，长度为2。
                 </p>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>时间与空间复杂度</h4>
+                <h4 data-en="Time and Space Complexity">时间与空间复杂度</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>阶段</th>
-                        <th>复杂度</th>
-                        <th>说明</th>
+                        <th data-en="Phase">阶段</th>
+                        <th data-en="Complexity">复杂度</th>
+                        <th data-en="Description">说明</th>
                     </tr>
                     <tr>
-                        <td>构建前缀表</td>
+                        <td data-en="Build Prefix Table">构建前缀表</td>
                         <td class="highlight">O(M)</td>
-                        <td>M是模式串长度</td>
+                        <td data-en="M is pattern length">M是模式串长度</td>
                     </tr>
                     <tr>
-                        <td>匹配过程</td>
+                        <td data-en="Matching Phase">匹配过程</td>
                         <td class="highlight">O(N)</td>
-                        <td>N是文本串长度</td>
+                        <td data-en="N is text length">N是文本串长度</td>
                     </tr>
                     <tr>
-                        <td>总时间</td>
+                        <td data-en="Total Time">总时间</td>
                         <td class="highlight">O(N+M)</td>
-                        <td>远优于朴素算法的O(N×M)</td>
+                        <td data-en="Much better than naive O(N×M)">远优于朴素算法的O(N×M)</td>
                     </tr>
                     <tr>
-                        <td>空间复杂度</td>
+                        <td data-en="Space Complexity">空间复杂度</td>
                         <td>O(M)</td>
-                        <td>存储前缀表</td>
+                        <td data-en="Store prefix table">存储前缀表</td>
                     </tr>
                 </table>
             </div>
             
             <div class="tab-content" id="usage">
-                <h4>应用场景</h4>
+                <h4 data-en="Applications">应用场景</h4>
                 <ul>
-                    <li>文本编辑器的查找功能</li>
-                    <li>搜索引擎的关键词匹配</li>
-                    <li>DNA序列模式搜索</li>
-                    <li>网络入侵检测（特征码匹配）</li>
-                    <li>数据压缩算法</li>
+                    <li data-en="Text editor find functionality">文本编辑器的查找功能</li>
+                    <li data-en="Search engine keyword matching">搜索引擎的关键词匹配</li>
+                    <li data-en="DNA sequence pattern search">DNA序列模式搜索</li>
+                    <li data-en="Network intrusion detection (signature matching)">网络入侵检测（特征码匹配）</li>
+                    <li data-en="Data compression algorithms">数据压缩算法</li>
                 </ul>
                 <div class="use-cases">
-                    <span class="use-case-tag">文本搜索</span>
-                    <span class="use-case-tag">模式匹配</span>
-                    <span class="use-case-tag">生物信息学</span>
-                    <span class="use-case-tag">网络安全</span>
+                    <span class="use-case-tag" data-en="Text Search">文本搜索</span>
+                    <span class="use-case-tag" data-en="Pattern Matching">模式匹配</span>
+                    <span class="use-case-tag" data-en="Bioinformatics">生物信息学</span>
+                    <span class="use-case-tag" data-en="Network Security">网络安全</span>
                 </div>
             </div>
             
             <div class="tab-content" id="code">
-                <h4>代码实现</h4>
+                <h4 data-en="Implementation">代码实现</h4>
                 <div class="code-lang-tabs">
                     <button class="code-lang-btn active" data-lang="python">
                         <span class="lang-icon">🐍</span> Python

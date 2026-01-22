@@ -79,13 +79,13 @@
         
         <div class="controls">
             <button class="btn btn-primary" id="startBtn">Start</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>Pause</button>
+            <button class="btn btn-warning" id="pauseBtn"  disabled>Pause</button>
             <button class="btn btn-secondary" id="resetBtn">Reset</button>
             <button class="btn btn-secondary" id="clearWallsBtn">Clear Grid</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">Click "Start" to view animation</span>
+            <span class="status-badge" id="statusText">Click 'Start' to view animation</span>
         </div>
         
         <!-- Tab面板 -->
@@ -106,16 +106,14 @@
                     <li>Always expand node with smallest f value from Open list</li>
                     <li>Search ends when selected node is the goal</li>
                 </ul>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
-                    Heuristic h(n) must be "admissible" (never overestimate) to guarantee shortest path.
-                </p>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">Heuristic h(n) must be 'admissible' (never overestimate) to guarantee shortest path.</p>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>Time & Space Complexity</h4>
+                <h4>Time and Space Complexity</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>指标</th>
+                        <th>Metric</th>
                         <th>Complexity</th>
                         <th>Description</th>
                     </tr>
@@ -126,7 +124,7 @@
                     </tr>
                     <tr>
                         <td>Actual Performance</td>
-                        <td class="highlight">远优于Dijkstra</td>
+                        <td class="highlight">Much better than Dijkstra</td>
                         <td>Heuristic guidance reduces nodes explored</td>
                     </tr>
                     <tr>
@@ -135,9 +133,7 @@
                         <td>Store Open and Closed lists</td>
                     </tr>
                 </table>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
-                    A* vs Dijkstra: Dijkstra expands uniformly in all directions, A* prioritizes toward the goal.
-                </p>
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">A* vs Dijkstra: Dijkstra expands uniformly in all directions, A* prioritizes toward the goal.</p>
             </div>
             
             <div class="tab-content" id="usage">
@@ -150,7 +146,7 @@
                     <li>Logistics delivery route optimization</li>
                 </ul>
                 <div class="use-cases">
-                    <span class="use-case-tag">Game Development</span>
+                    <span class="use-case-tag">Game Dev</span>
                     <span class="use-case-tag">Robot Navigation</span>
                     <span class="use-case-tag">Autonomous Driving</span>
                     <span class="use-case-tag">Logistics</span>

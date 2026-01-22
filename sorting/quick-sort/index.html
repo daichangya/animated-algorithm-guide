@@ -52,26 +52,26 @@
     <div class="container">
         
         <header class="page-header">
-            <h1 class="title">快速排序可视化</h1>
-            <p class="subtitle">观察分治策略与基准元素的分区过程</p>
+            <h1 class="title" data-en="Quick Sort Visualization">快速排序可视化</h1>
+            <p class="subtitle" data-en="Watch the divide-and-conquer partitioning process">观察分治策略与基准元素的分区过程</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p>快速排序（Quick Sort）是一种高效的分治排序算法。它选择一个"基准"元素，将数组分成两部分：比基准小的元素放在左边，比基准大的元素放在右边。然后递归地对左右两部分继续排序。因其出色的平均性能，快速排序是实际应用中最常用的排序算法之一。</p>
+            <p data-en="Quick Sort is an efficient divide-and-conquer sorting algorithm. It selects a 'pivot' element and partitions the array into two parts: elements smaller than the pivot go to the left, larger ones to the right. Then recursively sorts both parts. Due to its excellent average performance, Quick Sort is one of the most commonly used sorting algorithms in practice.">快速排序（Quick Sort）是一种高效的分治排序算法。它选择一个"基准"元素，将数组分成两部分：比基准小的元素放在左边，比基准大的元素放在右边。然后递归地对左右两部分继续排序。因其出色的平均性能，快速排序是实际应用中最常用的排序算法之一。</p>
         </div>
         
         <!-- 递归深度指示器 -->
         <div class="depth-indicator" id="depthIndicator">
-            <span class="depth-label">递归深度:</span>
+            <span class="depth-label" data-en="Recursion Depth:">递归深度:</span>
             <div class="depth-bars" id="depthBars"></div>
         </div>
         
         <!-- 指针指示器 -->
         <div class="pointer-legend">
-            <span class="legend-item pivot"><span class="icon">⚡</span> <span>基准元素</span></span>
-            <span class="legend-item left-ptr"><span class="icon">◀</span> <span>左指针</span></span>
-            <span class="legend-item right-ptr"><span class="icon">▶</span> <span>右指针</span></span>
+            <span class="legend-item pivot"><span class="icon">⚡</span> <span data-en="Pivot">基准元素</span></span>
+            <span class="legend-item left-ptr"><span class="icon">◀</span> <span data-en="Left Pointer">左指针</span></span>
+            <span class="legend-item right-ptr"><span class="icon">▶</span> <span data-en="Right Pointer">右指针</span></span>
         </div>
         
         <!-- 数组容器 -->
@@ -89,87 +89,87 @@
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn">开始排序</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
-            <button class="btn btn-secondary" id="resetBtn">重置</button>
+            <button class="btn btn-primary" id="startBtn" data-en="Start Sorting">开始排序</button>
+            <button class="btn btn-warning" id="pauseBtn" data-en="Pause" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn" data-en="Reset">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">点击"开始排序"查看动画</span>
+            <span class="status-badge" id="statusText" data-en="Click 'Start Sorting' to view animation">点击"开始排序"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle" data-en="📖 How It Works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-en="⏱️ Complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-en="💡 Applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-en="📝 Implementation">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
-                <h4>算法步骤</h4>
+                <h4 data-en="Algorithm Steps">算法步骤</h4>
                 <ol>
-                    <li>选择一个元素作为"基准"（pivot），通常选择最后一个元素</li>
-                    <li>设置两个指针：i（小于基准区域的边界）和j（扫描指针）</li>
-                    <li>j从左向右扫描，遇到小于基准的元素就与i+1位置交换，i右移</li>
-                    <li>扫描完成后，将基准与i+1位置交换，此时基准就位</li>
-                    <li>递归地对基准左右两部分执行相同操作</li>
+                    <li data-en="Choose a pivot element (usually the last element)">选择一个元素作为"基准"（pivot），通常选择最后一个元素</li>
+                    <li data-en="Set two pointers: i (boundary of smaller section) and j (scanner)">设置两个指针：i（小于基准区域的边界）和j（扫描指针）</li>
+                    <li data-en="j scans left to right; swap elements smaller than pivot with i+1, increment i">j从左向右扫描，遇到小于基准的元素就与i+1位置交换，i右移</li>
+                    <li data-en="After scanning, swap pivot with position i+1; pivot is now in place">扫描完成后，将基准与i+1位置交换，此时基准就位</li>
+                    <li data-en="Recursively apply to left and right partitions">递归地对基准左右两部分执行相同操作</li>
                 </ol>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>时间与空间复杂度</h4>
+                <h4 data-en="Time and Space Complexity">时间与空间复杂度</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>情况</th>
-                        <th>时间复杂度</th>
-                        <th>说明</th>
+                        <th data-en="Case">情况</th>
+                        <th data-en="Time Complexity">时间复杂度</th>
+                        <th data-en="Description">说明</th>
                     </tr>
                     <tr>
-                        <td>最好情况</td>
+                        <td data-en="Best Case">最好情况</td>
                         <td class="highlight">O(n log n)</td>
-                        <td>每次分区都能平均分割数组</td>
+                        <td data-en="Each partition splits array evenly">每次分区都能平均分割数组</td>
                     </tr>
                     <tr>
-                        <td>平均情况</td>
+                        <td data-en="Average Case">平均情况</td>
                         <td class="highlight">O(n log n)</td>
-                        <td>随机输入的期望性能</td>
+                        <td data-en="Expected performance on random input">随机输入的期望性能</td>
                     </tr>
                     <tr>
-                        <td>最坏情况</td>
+                        <td data-en="Worst Case">最坏情况</td>
                         <td>O(n²)</td>
-                        <td>每次选到最大或最小元素作为基准</td>
+                        <td data-en="Always picking smallest or largest as pivot">每次选到最大或最小元素作为基准</td>
                     </tr>
                     <tr>
-                        <td>空间复杂度</td>
+                        <td data-en="Space Complexity">空间复杂度</td>
                         <td>O(log n)</td>
-                        <td>递归调用栈的深度</td>
+                        <td data-en="Recursive call stack depth">递归调用栈的深度</td>
                     </tr>
                 </table>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="Quick Sort is unstable, but can be optimized with three-way partitioning.">
                     快速排序是<strong>不稳定排序</strong>，但可以通过三路划分等变体来优化。
                 </p>
             </div>
             
             <div class="tab-content" id="usage">
-                <h4>适用场景</h4>
+                <h4 data-en="Use Cases">适用场景</h4>
                 <ul>
-                    <li>通用排序：大多数编程语言标准库的排序函数都基于快速排序</li>
-                    <li>大规模数据排序：平均性能优秀，缓存命中率高</li>
-                    <li>不需要稳定性的场景：如数值排序</li>
-                    <li>可以结合其他算法：小数组使用插入排序优化</li>
+                    <li data-en="General sorting: Most language standard libraries use Quick Sort">通用排序：大多数编程语言标准库的排序函数都基于快速排序</li>
+                    <li data-en="Large-scale data: Excellent average performance, good cache locality">大规模数据排序：平均性能优秀，缓存命中率高</li>
+                    <li data-en="When stability not required: e.g., numerical sorting">不需要稳定性的场景：如数值排序</li>
+                    <li data-en="Hybrid approaches: Use insertion sort for small arrays">可以结合其他算法：小数组使用插入排序优化</li>
                 </ul>
                 <div class="use-cases">
-                    <span class="use-case-tag">通用排序</span>
-                    <span class="use-case-tag">大数据集</span>
-                    <span class="use-case-tag">系统库实现</span>
-                    <span class="use-case-tag">竞赛算法</span>
+                    <span class="use-case-tag" data-en="General Sorting">通用排序</span>
+                    <span class="use-case-tag" data-en="Large Data">大数据集</span>
+                    <span class="use-case-tag" data-en="Standard Library">系统库实现</span>
+                    <span class="use-case-tag" data-en="Competitive Programming">竞赛算法</span>
                 </div>
             </div>
             
             <div class="tab-content" id="code">
-                <h4>代码实现</h4>
+                <h4 data-en="Implementation">代码实现</h4>
                 <div class="code-lang-tabs">
                     <button class="code-lang-btn active" data-lang="python">
                         <span class="lang-icon">🐍</span> Python

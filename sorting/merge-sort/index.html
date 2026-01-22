@@ -52,25 +52,25 @@
     <div class="container">
         
         <header class="page-header">
-            <h1 class="title">归并排序可视化</h1>
-            <p class="subtitle">观察分治策略的分解与合并过程</p>
+            <h1 class="title" data-en="Merge Sort Visualization">归并排序可视化</h1>
+            <p class="subtitle" data-en="Watch the divide-and-conquer decomposition and merging process">观察分治策略的分解与合并过程</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p>归并排序（Merge Sort）是一种基于分治思想的稳定排序算法。它将数组不断二分直到每个子数组只有一个元素，然后自底向上地将相邻的有序子数组合并成更大的有序数组。归并排序在任何情况下都能保证O(n log n)的时间复杂度。</p>
+            <p data-en="Merge Sort is a stable sorting algorithm based on the divide-and-conquer principle. It repeatedly splits the array in half until each subarray has only one element, then bottom-up merges adjacent sorted subarrays into larger sorted arrays. Merge Sort guarantees O(n log n) time complexity in all cases.">归并排序（Merge Sort）是一种基于分治思想的稳定排序算法。它将数组不断二分直到每个子数组只有一个元素，然后自底向上地将相邻的有序子数组合并成更大的有序数组。归并排序在任何情况下都能保证O(n log n)的时间复杂度。</p>
         </div>
         
         <!-- 阶段指示器 -->
         <div class="phase-indicator" id="phaseIndicator">
             <div class="phase divide-phase active">
                 <span class="phase-icon">🔀</span>
-                <span class="phase-text">分解</span>
+                <span class="phase-text" data-en="Divide">分解</span>
             </div>
             <div class="phase-arrow">→</div>
             <div class="phase merge-phase">
                 <span class="phase-icon">🔗</span>
-                <span class="phase-text">合并</span>
+                <span class="phase-text" data-en="Merge">合并</span>
             </div>
         </div>
         
@@ -81,107 +81,107 @@
         
         <!-- 当前操作区域 -->
         <div class="operation-area">
-            <div class="operation-label">当前操作</div>
+            <div class="operation-label" data-en="Current Operation">当前操作</div>
             <div class="merge-container" id="mergeContainer">
                 <div class="merge-section left-section">
-                    <div class="section-title">左子数组</div>
+                    <div class="section-title" data-en="Left Array">左子数组</div>
                     <div class="section-items" id="leftItems"></div>
                 </div>
                 <div class="merge-arrow" id="mergeArrow">
                     <span>🔗</span>
                 </div>
                 <div class="merge-section right-section">
-                    <div class="section-title">右子数组</div>
+                    <div class="section-title" data-en="Right Array">右子数组</div>
                     <div class="section-items" id="rightItems"></div>
                 </div>
             </div>
             <div class="result-section">
-                <div class="section-title">合并结果</div>
+                <div class="section-title" data-en="Merge Result">合并结果</div>
                 <div class="result-items" id="resultItems"></div>
             </div>
         </div>
         
         <!-- 主数组视图 -->
         <div class="main-array-section">
-            <div class="section-label">数组状态</div>
+            <div class="section-label" data-en="Array State">数组状态</div>
             <div class="array-container" id="arrayContainer">
                 <!-- 数组元素由JS生成 -->
             </div>
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn">开始排序</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
-            <button class="btn btn-secondary" id="resetBtn">重置</button>
+            <button class="btn btn-primary" id="startBtn" data-en="Start Sorting">开始排序</button>
+            <button class="btn btn-warning" id="pauseBtn" data-en="Pause" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn" data-en="Reset">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">点击"开始排序"查看动画</span>
+            <span class="status-badge" id="statusText" data-en="Click 'Start Sorting' to view animation">点击"开始排序"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle" data-en="📖 How It Works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-en="⏱️ Complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-en="💡 Applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-en="📝 Implementation">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
-                <h4>算法步骤</h4>
+                <h4 data-en="Algorithm Steps">算法步骤</h4>
                 <ol>
-                    <li>将数组从中间分成两个子数组</li>
-                    <li>对左右两个子数组分别进行归并排序</li>
-                    <li>将两个有序的子数组合并成一个有序数组</li>
+                    <li data-en="Split the array into two halves at the middle">将数组从中间分成两个子数组</li>
+                    <li data-en="Recursively merge sort both halves">对左右两个子数组分别进行归并排序</li>
+                    <li data-en="Merge the two sorted halves into one sorted array">将两个有序的子数组合并成一个有序数组</li>
                 </ol>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="The merge operation is key: use two pointers at the start of each subarray, compare and add the smaller element to the result, until all elements are processed.">
                     合并操作是关键：使用两个指针分别指向左右子数组的起始位置，每次比较后将较小的元素放入结果数组，直到所有元素都被处理完毕。
                 </p>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>时间与空间复杂度</h4>
+                <h4 data-en="Time and Space Complexity">时间与空间复杂度</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>情况</th>
-                        <th>时间复杂度</th>
-                        <th>说明</th>
+                        <th data-en="Case">情况</th>
+                        <th data-en="Time Complexity">时间复杂度</th>
+                        <th data-en="Description">说明</th>
                     </tr>
                     <tr>
-                        <td>所有情况</td>
+                        <td data-en="All Cases">所有情况</td>
                         <td class="highlight">O(n log n)</td>
-                        <td>无论输入如何，时间复杂度都相同</td>
+                        <td data-en="Time complexity is the same regardless of input">无论输入如何，时间复杂度都相同</td>
                     </tr>
                     <tr>
-                        <td>空间复杂度</td>
+                        <td data-en="Space Complexity">空间复杂度</td>
                         <td>O(n)</td>
-                        <td>需要额外数组存储合并结果</td>
+                        <td data-en="Extra array needed for merging">需要额外数组存储合并结果</td>
                     </tr>
                 </table>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="Merge Sort is a stable sort, preserving relative order of equal elements. This is a major advantage over Quick Sort.">
                     归并排序是<strong>稳定排序</strong>，相等元素的相对顺序保持不变。这是其相比快速排序的重要优势。
                 </p>
             </div>
             
             <div class="tab-content" id="usage">
-                <h4>适用场景</h4>
+                <h4 data-en="Use Cases">适用场景</h4>
                 <ul>
-                    <li>需要稳定排序：如按多个字段排序时保持次要字段顺序</li>
-                    <li>链表排序：归并排序对链表特别高效，不需要额外空间</li>
-                    <li>外部排序：处理无法一次载入内存的大数据</li>
-                    <li>需要保证最坏情况性能：时间复杂度恒为O(n log n)</li>
+                    <li data-en="Stable sorting: When secondary key order must be preserved">需要稳定排序：如按多个字段排序时保持次要字段顺序</li>
+                    <li data-en="Linked list sorting: Very efficient, no extra space needed">链表排序：归并排序对链表特别高效，不需要额外空间</li>
+                    <li data-en="External sorting: Processing data too large for memory">外部排序：处理无法一次载入内存的大数据</li>
+                    <li data-en="Guaranteed worst-case performance: Always O(n log n)">需要保证最坏情况性能：时间复杂度恒为O(n log n)</li>
                 </ul>
                 <div class="use-cases">
-                    <span class="use-case-tag">稳定排序</span>
-                    <span class="use-case-tag">链表排序</span>
-                    <span class="use-case-tag">外部排序</span>
-                    <span class="use-case-tag">大数据处理</span>
+                    <span class="use-case-tag" data-en="Stable Sort">稳定排序</span>
+                    <span class="use-case-tag" data-en="Linked Lists">链表排序</span>
+                    <span class="use-case-tag" data-en="External Sort">外部排序</span>
+                    <span class="use-case-tag" data-en="Big Data">大数据处理</span>
                 </div>
             </div>
             
             <div class="tab-content" id="code">
-                <h4>代码实现</h4>
+                <h4 data-en="Implementation">代码实现</h4>
                 <div class="code-lang-tabs">
                     <button class="code-lang-btn active" data-lang="python">
                         <span class="lang-icon">🐍</span> Python

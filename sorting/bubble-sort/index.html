@@ -52,13 +52,13 @@
     <div class="container">
         
         <header class="page-header">
-            <h1 class="title">冒泡排序可视化</h1>
-            <p class="subtitle">观察元素如何像气泡一样上浮到正确位置</p>
+            <h1 class="title" data-en="Bubble Sort Visualization">冒泡排序可视化</h1>
+            <p class="subtitle" data-en="Watch elements float up like bubbles to their correct positions">观察元素如何像气泡一样上浮到正确位置</p>
         </header>
         
         <!-- 算法简介 -->
         <div class="algo-intro fade-in">
-            <p>冒泡排序（Bubble Sort）是一种简单直观的排序算法。它重复地遍历待排序的数列，一次比较两个相邻元素，如果顺序错误就把它们交换过来。每一轮遍历后，最大的元素会"浮"到数组末尾，就像水中的气泡上浮一样。</p>
+            <p data-en="Bubble Sort is a simple and intuitive sorting algorithm. It repeatedly traverses the list, compares adjacent elements, and swaps them if they're in the wrong order. After each pass, the largest element 'bubbles up' to the end, like bubbles rising in water.">冒泡排序（Bubble Sort）是一种简单直观的排序算法。它重复地遍历待排序的数列，一次比较两个相邻元素，如果顺序错误就把它们交换过来。每一轮遍历后，最大的元素会"浮"到数组末尾，就像水中的气泡上浮一样。</p>
         </div>
         
         <div class="array-container" id="arrayContainer">
@@ -66,87 +66,87 @@
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="startBtn">开始排序</button>
-            <button class="btn btn-warning" id="pauseBtn" disabled>暂停</button>
-            <button class="btn btn-secondary" id="resetBtn">重置</button>
+            <button class="btn btn-primary" id="startBtn" data-en="Start Sorting">开始排序</button>
+            <button class="btn btn-warning" id="pauseBtn" data-en="Pause" disabled>暂停</button>
+            <button class="btn btn-secondary" id="resetBtn" data-en="Reset">重置</button>
         </div>
         
         <div class="info">
-            <span class="status-badge" id="statusText">点击"开始排序"查看动画</span>
+            <span class="status-badge" id="statusText" data-en="Click 'Start Sorting' to view animation">点击"开始排序"查看动画</span>
         </div>
         
         <!-- Tab面板 -->
         <div class="tabs-container fade-in">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="principle">📖 工作原理</button>
-                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
-                <button class="tab-btn" data-tab="usage">💡 应用场景</button>
-                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+                <button class="tab-btn active" data-tab="principle" data-en="📖 How It Works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity" data-en="⏱️ Complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="usage" data-en="💡 Applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code" data-en="📝 Implementation">📝 代码实现</button>
             </div>
             
             <div class="tab-content active" id="principle">
-                <h4>算法步骤</h4>
+                <h4 data-en="Algorithm Steps">算法步骤</h4>
                 <ol id="principleSteps">
-                    <li>从数组的第一个元素开始，比较相邻的两个元素</li>
-                    <li>如果前一个元素比后一个元素大，则交换它们的位置</li>
-                    <li>对每一对相邻元素做同样的工作，从开始第一对到结尾的最后一对</li>
-                    <li>完成一轮后，最大的元素会排到最后</li>
-                    <li>重复以上步骤，每次比较范围减少一个（已排好的元素不再参与）</li>
-                    <li>当没有任何交换发生时，排序完成</li>
+                    <li data-en="Start from the first element, compare adjacent pairs">从数组的第一个元素开始，比较相邻的两个元素</li>
+                    <li data-en="If the left element is larger, swap their positions">如果前一个元素比后一个元素大，则交换它们的位置</li>
+                    <li data-en="Do the same for every adjacent pair from start to end">对每一对相邻元素做同样的工作，从开始第一对到结尾的最后一对</li>
+                    <li data-en="After one pass, the largest element is at the end">完成一轮后，最大的元素会排到最后</li>
+                    <li data-en="Repeat, reducing the comparison range each time">重复以上步骤，每次比较范围减少一个（已排好的元素不再参与）</li>
+                    <li data-en="Stop when no swaps occur in a pass">当没有任何交换发生时，排序完成</li>
                 </ol>
             </div>
             
             <div class="tab-content" id="complexity">
-                <h4>时间与空间复杂度</h4>
+                <h4 data-en="Time and Space Complexity">时间与空间复杂度</h4>
                 <table class="complexity-table">
                     <tr>
-                        <th>情况</th>
-                        <th>时间复杂度</th>
-                        <th>说明</th>
+                        <th data-en="Case">情况</th>
+                        <th data-en="Time Complexity">时间复杂度</th>
+                        <th data-en="Description">说明</th>
                     </tr>
                     <tr>
-                        <td>最好情况</td>
+                        <td data-en="Best Case">最好情况</td>
                         <td class="highlight">O(n)</td>
-                        <td>数组已经有序，只需一次遍历</td>
+                        <td data-en="Array is already sorted, only one pass needed">数组已经有序，只需一次遍历</td>
                     </tr>
                     <tr>
-                        <td>平均情况</td>
+                        <td data-en="Average Case">平均情况</td>
                         <td>O(n²)</td>
-                        <td>需要多次遍历和交换</td>
+                        <td data-en="Multiple passes and swaps required">需要多次遍历和交换</td>
                     </tr>
                     <tr>
-                        <td>最坏情况</td>
+                        <td data-en="Worst Case">最坏情况</td>
                         <td>O(n²)</td>
-                        <td>数组完全逆序</td>
+                        <td data-en="Array is in reverse order">数组完全逆序</td>
                     </tr>
                     <tr>
-                        <td>空间复杂度</td>
+                        <td data-en="Space Complexity">空间复杂度</td>
                         <td class="highlight">O(1)</td>
-                        <td>只需常数级额外空间（原地排序）</td>
+                        <td data-en="Only constant extra space needed (in-place)">只需常数级额外空间（原地排序）</td>
                     </tr>
                 </table>
-                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);">
+                <p style="margin-top: var(--spacing-sm); color: var(--text-secondary);" data-en="Bubble Sort is a stable sort, preserving the relative order of equal elements.">
                     冒泡排序是<strong>稳定排序</strong>，相等元素的相对顺序不会改变。
                 </p>
             </div>
             
             <div class="tab-content" id="usage">
-                <h4>适用场景</h4>
+                <h4 data-en="Use Cases">适用场景</h4>
                 <ul id="usageList">
-                    <li>教学演示：作为最简单的排序算法之一，非常适合算法入门学习</li>
-                    <li>小规模数据：当数据量很小时（n &lt; 50），简单实现的优势明显</li>
-                    <li>几乎有序的数组：如果数组大部分已经有序，冒泡排序效率较高</li>
-                    <li>需要稳定性：当需要保持相等元素的原始顺序时</li>
+                    <li data-en="Teaching: As one of the simplest algorithms, great for beginners">教学演示：作为最简单的排序算法之一，非常适合算法入门学习</li>
+                    <li data-en="Small datasets: When n < 50, simple implementation wins">小规模数据：当数据量很小时（n &lt; 50），简单实现的优势明显</li>
+                    <li data-en="Nearly sorted arrays: Efficient when data is almost sorted">几乎有序的数组：如果数组大部分已经有序，冒泡排序效率较高</li>
+                    <li data-en="Stability required: When preserving original order matters">需要稳定性：当需要保持相等元素的原始顺序时</li>
                 </ul>
                 <div class="use-cases" id="usageTags">
-                    <span class="use-case-tag">算法教学</span>
-                    <span class="use-case-tag">小数据集</span>
-                    <span class="use-case-tag">稳定排序需求</span>
+                    <span class="use-case-tag" data-en="Education">算法教学</span>
+                    <span class="use-case-tag" data-en="Small Data">小数据集</span>
+                    <span class="use-case-tag" data-en="Stable Sorting">稳定排序需求</span>
                 </div>
             </div>
             
             <div class="tab-content" id="code">
-                <h4>代码实现</h4>
+                <h4 data-en="Implementation">代码实现</h4>
                 <div class="code-lang-tabs">
                     <button class="code-lang-btn active" data-lang="python">
                         <span class="lang-icon">🐍</span> Python
