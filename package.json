@@ -4,7 +4,8 @@
   "description": "Interactive algorithm visualization platform with animations",
   "scripts": {
     "build:en": "node scripts/build-en.js",
-    "build": "npm run build:en"
+    "build:minify": "node scripts/minify.js",
+    "build": "npm run build:en && npm run build:minify"
   },
   "keywords": [
     "algorithm",

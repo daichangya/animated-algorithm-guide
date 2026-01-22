@@ -25,15 +25,8 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     
-    <link rel="stylesheet" href="../../../common/styles.css">
-    <link rel="stylesheet" href="../../../sorting/heap-sort/style.css">
-
-    <!-- Hreflang Tags for SEO -->
-    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/heap-sort/" />
-    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/heap-sort/" />
-    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/heap-sort/" />
-
-    <!-- Baidu Analytics -->
+    <link rel="stylesheet" href="/common/styles.css">
+    <link rel="stylesheet" href="/sorting/heap-sort/style.css"><!-- Baidu Analytics -->
     <script>
         var _hmt = _hmt || [];
         (function() {
@@ -51,10 +44,10 @@
 </head>
 <body class="bg-decoration">
     <!-- 公共页头由 JS 注入 -->
-    <script type="module" src="../../../common/header.js"></script>
+    <script type="module" src="/common/header.js"></script>
 
     <div class="container">
-        <a href="../../../en/index.html" class="nav-link">← Back to Home</a>
+        <a href="/en/" class="nav-link">← Back to Home</a>
         
         <header class="page-header">
             <h1 class="title">Heap Sort Visualization</h1>
@@ -277,9 +270,9 @@ arr = [<span class="number">12</span>, <span class="number">11</span>, <span cla
         </div>
     </div>
     
-    <script type="module" src="../../../common/footer.js"></script>
-    <script type="module" src="../../../common/i18n.js"></script>
-    <script src="../../../sorting/heap-sort/script.js"></script>
+    <script type="module" src="/common/footer.js"></script>
+    <script type="module" src="/common/i18n.js"></script>
+    <script src="/sorting/heap-sort/script.js"></script>
     <script>
         // 语言切换器事件
         document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -291,25 +284,7 @@ arr = [<span class="number">12</span>, <span class="number">11</span>, <span cla
             });
         });
         
-        // Tab切换逻辑
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                btn.classList.add('active');
-                document.getElementById(btn.dataset.tab).classList.add('active');
-            });
-        });
-        
-        // 代码语言切换
-        document.querySelectorAll('.code-lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.code-lang-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.code-block').forEach(c => c.classList.remove('active'));
-                btn.classList.add('active');
-                document.getElementById(btn.dataset.lang + '-code').classList.add('active');
-            });
-        });
     </script>
+    <script type="module" src="/common/tabs.js"></script>
 </body>
 </html>

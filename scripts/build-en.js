@@ -127,35 +127,22 @@ function generateHreflangTags(relativePath, isEnglish = false) {
 
 // 调整英文版的相对路径
 function adjustPaths(html, relativePath) {
-    const depth = relativePath.split('/').length - 1;
-    const prefix = '../'.repeat(depth + 1);
-    
     // 获取当前文件所在目录的相对路径
     const dirPath = path.dirname(relativePath);
     
     // 替换本地资源（style.css, script.js）指向原始位置（中文版目录）
-    if (depth > 0) {
-        html = html.replace(/href="style\.css"/g, `href="${prefix}${dirPath}/style.css"`);
-        html = html.replace(/src="script\.js"/g, `src="${prefix}${dirPath}/script.js"`);
-    }
+    // 使用绝对路径，更简洁
+    html = html.replace(/href="style\.css"/g, `href="/${dirPath}/style.css"`);
+    html = html.replace(/src="script\.js"/g, `src="/${dirPath}/script.js"`);
     
-    // 替换 common/ 路径
-    html = html.replace(/href="\.\.\/\.\.\/common\//g, `href="${prefix}common/`);
-    html = html.replace(/href="common\//g, `href="${prefix}common/`);
-    html = html.replace(/src="\.\.\/\.\.\/common\//g, `src="${prefix}common/`);
-    html = html.replace(/src="common\//g, `src="${prefix}common/`);
+    // common/ 已经是绝对路径 /common/，无需调整
     
-    // 替换首页链接
-    html = html.replace(/href="\.\.\/\.\.\/index\.html"/g, `href="${prefix}en/index.html"`);
-    html = html.replace(/href="index\.html"/g, `href="${prefix}en/index.html"`);
+    // 替换首页链接为英文版首页（绝对路径）
+    html = html.replace(/href="\.\.\/\.\.\/index\.html"/g, `href="/en/"`);
     
-    // 替换算法页面链接（保持在 /en/ 目录内）
-    // 只匹配 HTML 页面链接，不匹配资源文件
+    // 替换算法页面链接（保持在 /en/ 目录内，使用绝对路径）
     html = html.replace(/href="(sorting|sequence|graph|search|geometry)\/([^"]+)\/index\.html"/g, (match, category, algo) => {
-        return `href="${prefix}en/${category}/${algo}/index.html"`;
-    });
-    html = html.replace(/href="\.\.\/\.\.\/\.\.\/(sorting|sequence|graph|search|geometry)\/([^"]+)\/index\.html"/g, (match, category, algo) => {
-        return `href="${prefix}en/${category}/${algo}/index.html"`;
+        return `href="/en/${category}/${algo}/"`;
     });
     
     return html;
@@ -236,7 +223,12 @@ function processHtmlFile(relativePath, translations) {
         return match;
     });
     
-    // 3. 添加 hreflang 标签
+    // 3. 更新 hreflang 标签（先移除已有的，再添加新的）
+    // 移除已有的 hreflang 标签和注释
+    html = html.replace(/\s*<!-- Hreflang Tags for SEO -->\s*/g, '');
+    html = html.replace(/\s*<link\s+rel="alternate"\s+hreflang="[^"]+"\s+href="[^"]+"\s*\/?>\s*/g, '');
+    
+    // 添加新的 hreflang 标签
     const hreflangTags = generateHreflangTags(relativePath, true);
     html = html.replace(/<\/head>/, `${hreflangTags}\n</head>`);
     
@@ -252,17 +244,13 @@ function processHtmlFile(relativePath, translations) {
         }
     );
     
-    // 5. 调整相对路径
+    // 5. 调整路径
     const depth = relativePath.split('/').length - 1;
     if (depth > 0) {
         html = adjustPaths(html, relativePath);
-    } else {
-        // 首页
-        html = html.replace(/href="common\//g, 'href="../common/');
-        html = html.replace(/src="common\//g, 'src="../common/');
-        // 首页内的算法链接指向 /en/ 内
-        html = html.replace(/href="(sorting|sequence|graph|search|geometry)\//g, 'href="$1/');
     }
+    // 首页和所有页面：common/ 已经是绝对路径 /common/，无需调整
+    // 算法链接保持相对路径（在 /en/ 目录内）
     
     // 6. 确保目标目录存在
     const destDir = path.dirname(destPath);
