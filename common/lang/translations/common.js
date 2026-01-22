@@ -9,16 +9,15 @@ export const common = {
     '算法图标颜色': 'Algorithm icon colors',
     
     // ===== 通用UI按钮 =====
-    '← 返回首页': '← Back to Home',
+    // 注：'← 返回首页' 已废弃（改为面包屑导航）
+    // 注：'已暂停 - 点击继续' 和 '运行中...' 已移至 dynamic.js
     '开始排序': 'Start Sorting',
     '开始': 'Start',
     '重置': 'Reset',
     '暂停': 'Pause',
     '继续': 'Resume',
-    '已暂停 - 点击继续': 'Paused - Click to resume',
     '点击"开始排序"查看动画': 'Click "Start Sorting" to view animation',
     '点击"开始"查看动画': 'Click "Start" to view animation',
-    '运行中...': 'Running...',
     '完成！': 'Completed!',
     '排序完成！': 'Sorting Complete!',
     '排序开始...': 'Starting sort...',

@@ -174,5 +174,32 @@ export const seo = {
     // ===== 数据结构 aria-label =====
     'B树多路平衡搜索树': 'B-Tree Multi-way Balanced Search Tree',
     'B+树数据库索引结构': 'B+ Tree Database Index Structure',
-    '跳跃表概率数据结构': 'Skip List Probabilistic Data Structure'
+    '跳跃表概率数据结构': 'Skip List Probabilistic Data Structure',
+
+    // ===== SEO - B树 =====
+    'B树可视化 - 算法动画演示': 'B-Tree Visualization - Algorithm Animation',
+    'B树可视化 - 算法动画演示 | 算法可视化': 'B-Tree Visualization - Algorithm Animation | Algorithm Visualization',
+    '通过交互式动画学习B树。B树是一种自平衡的多路搜索树，广泛应用于数据库和文件系统的索引结构。': 'Learn B-Tree through interactive animation. B-Tree is a self-balancing multi-way search tree widely used in database and file system indexing.',
+    'B树,B-Tree,算法可视化,数据结构,多路搜索树,数据库索引': 'B-Tree,B-Tree,Algorithm Visualization,Data Structures,Multi-way Search Tree,Database Index',
+    'B树可视化': 'B-Tree Visualization',
+    '通过交互式动画学习B树的插入、查找和删除操作': 'Learn B-Tree insert, search and delete operations through interactive animation',
+    '交互式动画演示B树操作': 'Interactive animation demonstrating B-Tree operations',
+
+    // ===== SEO - B+树 =====
+    'B+树可视化 - 算法动画演示': 'B+ Tree Visualization - Algorithm Animation',
+    'B+树可视化 - 算法动画演示 | 算法可视化': 'B+ Tree Visualization - Algorithm Animation | Algorithm Visualization',
+    '通过交互式动画学习B+树。B+树是数据库系统中最重要的索引结构，所有数据存储在叶子节点并通过链表连接。': 'Learn B+ Tree through interactive animation. B+ Tree is the most important index structure in database systems, with all data stored in leaf nodes linked together.',
+    'B+树,B+ Tree,数据库索引,MySQL,算法可视化,数据结构': 'B+ Tree,B+ Tree,Database Index,MySQL,Algorithm Visualization,Data Structures',
+    'B+树可视化': 'B+ Tree Visualization',
+    '通过交互式动画学习B+树的插入、范围查询和删除操作': 'Learn B+ Tree insert, range query and delete operations through interactive animation',
+    '交互式动画演示B+树操作': 'Interactive animation demonstrating B+ Tree operations',
+
+    // ===== SEO - 跳跃表 =====
+    '跳跃表可视化 - 算法动画演示': 'Skip List Visualization - Algorithm Animation',
+    '跳跃表可视化 - 算法动画演示 | 算法可视化': 'Skip List Visualization - Algorithm Animation | Algorithm Visualization',
+    '通过交互式动画学习跳跃表。跳跃表是一种概率性数据结构，使用多层链表实现O(log n)的查找、插入和删除操作。': 'Learn Skip List through interactive animation. Skip List is a probabilistic data structure using multi-level linked lists for O(log n) search, insert and delete operations.',
+    '跳跃表,Skip List,Redis,算法可视化,数据结构,概率数据结构': 'Skip List,Skip List,Redis,Algorithm Visualization,Data Structures,Probabilistic Data Structure',
+    '跳跃表可视化': 'Skip List Visualization',
+    '通过交互式动画学习跳跃表的插入、查找和删除操作': 'Learn Skip List insert, search and delete operations through interactive animation',
+    '交互式动画演示跳跃表操作': 'Interactive animation demonstrating Skip List operations'
 };

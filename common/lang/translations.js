@@ -5,25 +5,21 @@
  */
 
 import { common } from './translations/common.js';
-import { homepage } from './translations/homepage.js';
-import { sorting } from './translations/sorting.js';
-import { sequence } from './translations/sequence.js';
-import { graph } from './translations/graph.js';
-import { search } from './translations/search.js';
-import { geometry } from './translations/geometry.js';
 import { seo } from './translations/seo.js';
 import { dynamic } from './translations/dynamic.js';
 import { dataStructure } from './translations/data-structure.js';
 
+// 注：以下模块已清空，保留文件以备将来使用，不再导入
+// - homepage.js
+// - sorting.js
+// - sequence.js
+// - graph.js
+// - search.js
+// - geometry.js
+
 // 合并所有翻译模块
 export const translations = {
     ...common,
-    ...homepage,
-    ...sorting,
-    ...sequence,
-    ...graph,
-    ...search,
-    ...geometry,
     ...seo,
     ...dynamic,
     ...dataStructure
