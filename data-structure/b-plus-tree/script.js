@@ -844,5 +844,9 @@ window.addEventListener('resize', () => {
     }
 });
 
-// 初始化
-reset();
+// 初始化 - 等待 I18n 模块加载完成
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(reset, 0));
+} else {
+    setTimeout(reset, 0);  // 确保模块脚本先执行
+}
