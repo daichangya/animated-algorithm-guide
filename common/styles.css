@@ -252,7 +252,39 @@ body > .site-footer {
     background: radial-gradient(circle, rgba(255, 0, 170, 0.1) 0%, transparent 70%);
 }
 
-/* ==================== 导航链接 ==================== */
+/* ==================== 面包屑导航 ==================== */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: var(--spacing-sm) 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-sm);
+}
+
+.breadcrumb a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.breadcrumb a:hover {
+    color: var(--accent-cyan);
+}
+
+.breadcrumb .separator {
+    color: var(--text-muted);
+    opacity: 0.5;
+    font-size: 0.8rem;
+}
+
+.breadcrumb .current {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* ==================== 导航链接（兼容旧代码） ==================== */
 .nav-link {
     color: var(--text-secondary);
     text-decoration: none;

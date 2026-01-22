@@ -3,6 +3,42 @@
  * @author daichangya
  */
 
+// 分类名称映射
+const CATEGORY_NAMES = {
+    'sorting': { zh: '排序算法', en: 'Sorting' },
+    'sequence': { zh: '字符串算法', en: 'String' },
+    'graph': { zh: '图算法', en: 'Graph' },
+    'search': { zh: '搜索优化', en: 'Search' },
+    'geometry': { zh: '计算几何', en: 'Geometry' },
+    'data-structure': { zh: '数据结构', en: 'Data Structures' }
+};
+
+// 算法名称映射
+const ALGORITHM_NAMES = {
+    // 排序算法
+    'bubble-sort': { zh: '冒泡排序', en: 'Bubble Sort' },
+    'heap-sort': { zh: '堆排序', en: 'Heap Sort' },
+    'quick-sort': { zh: '快速排序', en: 'Quick Sort' },
+    'merge-sort': { zh: '归并排序', en: 'Merge Sort' },
+    // 字符串算法
+    'kmp': { zh: 'KMP算法', en: 'KMP Algorithm' },
+    'lcs': { zh: '最长公共子序列', en: 'LCS' },
+    'myers-diff': { zh: 'Myers Diff', en: 'Myers Diff' },
+    // 图算法
+    'dijkstra': { zh: 'Dijkstra', en: 'Dijkstra' },
+    'bfs-dfs': { zh: 'BFS/DFS', en: 'BFS/DFS' },
+    'astar': { zh: 'A*寻路', en: 'A* Pathfinding' },
+    // 搜索优化
+    'binary-search': { zh: '二分查找', en: 'Binary Search' },
+    'knapsack': { zh: '背包问题', en: 'Knapsack' },
+    // 计算几何
+    'convex-hull': { zh: '凸包算法', en: 'Convex Hull' },
+    // 数据结构
+    'b-tree': { zh: 'B树', en: 'B-Tree' },
+    'b-plus-tree': { zh: 'B+树', en: 'B+ Tree' },
+    'skip-list': { zh: '跳跃表', en: 'Skip List' }
+};
+
 // 获取当前页面相对于根目录的路径前缀
 function getBasePath() {
     const path = window.location.pathname;
@@ -59,24 +95,62 @@ function getHeaderHTML(basePath, lang) {
     </header>`;
 }
 
+// 生成面包屑导航
+function generateBreadcrumb(lang) {
+    const path = window.location.pathname;
+    const isEnglish = lang === 'en';
+    
+    // 解析路径: /[en/]<category>/<algorithm>/
+    const parts = path.split('/').filter(p => p && p !== 'en' && p !== 'index.html');
+    
+    // 首页或路径不足两级不显示面包屑
+    if (parts.length < 2) return '';
+    
+    const [category, algorithm] = parts;
+    const homeLink = isEnglish ? '/en/' : '/';
+    const categoryLink = `${homeLink}#${category}-title`;
+    
+    const homeName = isEnglish ? 'Home' : '首页';
+    const categoryName = CATEGORY_NAMES[category]?.[lang] || category;
+    const algorithmName = ALGORITHM_NAMES[algorithm]?.[lang] || algorithm;
+    
+    return `
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="${homeLink}">${homeName}</a>
+        <span class="separator">›</span>
+        <a href="${categoryLink}">${categoryName}</a>
+        <span class="separator">›</span>
+        <span class="current">${algorithmName}</span>
+    </nav>`;
+}
+
 // 初始化页头
 export function initHeader() {
     const basePath = getBasePath();
     const lang = getCurrentLang();
     
-    // 检查是否已存在页头
-    if (document.querySelector('.site-header')) {
-        return;
+    // 检查是否已存在页头，避免重复创建
+    if (!document.querySelector('.site-header')) {
+        // 插入页头
+        document.body.insertAdjacentHTML('afterbegin', getHeaderHTML(basePath, lang));
+        
+        // 确保 body 有正确的类
+        document.body.classList.add('has-site-header');
+        
+        // 初始化语言切换器事件
+        initLangSwitcher();
     }
     
-    // 插入页头
-    document.body.insertAdjacentHTML('afterbegin', getHeaderHTML(basePath, lang));
-    
-    // 确保 body 有正确的类
-    document.body.classList.add('has-site-header');
-    
-    // 初始化语言切换器事件
-    initLangSwitcher();
+    // 插入面包屑（非首页时）- 始终检查
+    if (!document.querySelector('.breadcrumb')) {
+        const breadcrumb = generateBreadcrumb(lang);
+        if (breadcrumb) {
+            const container = document.querySelector('.container');
+            if (container) {
+                container.insertAdjacentHTML('afterbegin', breadcrumb);
+            }
+        }
+    }
 }
 
 // 初始化语言切换器
