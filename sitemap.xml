@@ -7,26 +7,27 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/"/>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
+    <priority>1</priority>
   </url>
   <url>
     <loc>https://algo.jsdiff.com/en/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/"/>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
+    <priority>1</priority>
   </url>
 
-  <!-- 排序算法 - 冒泡排序 -->
+  <!-- 排序算法 -->
   <url>
     <loc>https://algo.jsdiff.com/sorting/bubble-sort/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/bubble-sort/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/bubble-sort/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/bubble-sort/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -34,17 +35,18 @@
     <loc>https://algo.jsdiff.com/en/sorting/bubble-sort/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/bubble-sort/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/bubble-sort/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/bubble-sort/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 排序算法 - 堆排序 -->
   <url>
     <loc>https://algo.jsdiff.com/sorting/heap-sort/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/heap-sort/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/heap-sort/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/heap-sort/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -52,35 +54,18 @@
     <loc>https://algo.jsdiff.com/en/sorting/heap-sort/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/heap-sort/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/heap-sort/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/heap-sort/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 排序算法 - 快速排序 -->
-  <url>
-    <loc>https://algo.jsdiff.com/sorting/quick-sort/</loc>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/quick-sort/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/quick-sort/"/>
-    <lastmod>2026-01-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://algo.jsdiff.com/en/sorting/quick-sort/</loc>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/quick-sort/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/quick-sort/"/>
-    <lastmod>2026-01-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- 排序算法 - 归并排序 -->
   <url>
     <loc>https://algo.jsdiff.com/sorting/merge-sort/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/merge-sort/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/merge-sort/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/merge-sort/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -88,53 +73,38 @@
     <loc>https://algo.jsdiff.com/en/sorting/merge-sort/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/merge-sort/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/merge-sort/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/merge-sort/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 字符串算法 - Myers Diff -->
   <url>
-    <loc>https://algo.jsdiff.com/sequence/myers-diff/</loc>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sequence/myers-diff/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sequence/myers-diff/"/>
-    <lastmod>2026-01-21</lastmod>
+    <loc>https://algo.jsdiff.com/sorting/quick-sort/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/quick-sort/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/quick-sort/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/quick-sort/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://algo.jsdiff.com/en/sequence/myers-diff/</loc>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sequence/myers-diff/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sequence/myers-diff/"/>
-    <lastmod>2026-01-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- 字符串算法 - LCS -->
-  <url>
-    <loc>https://algo.jsdiff.com/sequence/lcs/</loc>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sequence/lcs/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sequence/lcs/"/>
-    <lastmod>2026-01-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://algo.jsdiff.com/en/sequence/lcs/</loc>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sequence/lcs/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sequence/lcs/"/>
-    <lastmod>2026-01-21</lastmod>
+    <loc>https://algo.jsdiff.com/en/sorting/quick-sort/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sorting/quick-sort/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sorting/quick-sort/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sorting/quick-sort/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 字符串算法 - KMP -->
+  <!-- 字符串算法 -->
   <url>
     <loc>https://algo.jsdiff.com/sequence/kmp/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sequence/kmp/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sequence/kmp/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sequence/kmp/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -142,53 +112,57 @@
     <loc>https://algo.jsdiff.com/en/sequence/kmp/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sequence/kmp/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sequence/kmp/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sequence/kmp/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 图算法 - Dijkstra -->
   <url>
-    <loc>https://algo.jsdiff.com/graph/dijkstra/</loc>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/dijkstra/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/dijkstra/"/>
-    <lastmod>2026-01-21</lastmod>
+    <loc>https://algo.jsdiff.com/sequence/lcs/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sequence/lcs/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sequence/lcs/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sequence/lcs/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://algo.jsdiff.com/en/graph/dijkstra/</loc>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/dijkstra/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/dijkstra/"/>
-    <lastmod>2026-01-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- 图算法 - BFS/DFS -->
-  <url>
-    <loc>https://algo.jsdiff.com/graph/bfs-dfs/</loc>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/bfs-dfs/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/bfs-dfs/"/>
-    <lastmod>2026-01-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://algo.jsdiff.com/en/graph/bfs-dfs/</loc>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/bfs-dfs/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/bfs-dfs/"/>
-    <lastmod>2026-01-21</lastmod>
+    <loc>https://algo.jsdiff.com/en/sequence/lcs/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sequence/lcs/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sequence/lcs/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sequence/lcs/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 图算法 - A* -->
+  <url>
+    <loc>https://algo.jsdiff.com/sequence/myers-diff/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sequence/myers-diff/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sequence/myers-diff/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sequence/myers-diff/"/>
+    <lastmod>2026-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://algo.jsdiff.com/en/sequence/myers-diff/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/sequence/myers-diff/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/sequence/myers-diff/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/sequence/myers-diff/"/>
+    <lastmod>2026-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 图算法 -->
   <url>
     <loc>https://algo.jsdiff.com/graph/astar/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/astar/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/astar/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/graph/astar/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -196,17 +170,57 @@
     <loc>https://algo.jsdiff.com/en/graph/astar/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/astar/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/astar/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/graph/astar/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 搜索算法 - 二分查找 -->
+  <url>
+    <loc>https://algo.jsdiff.com/graph/bfs-dfs/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/bfs-dfs/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/bfs-dfs/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/graph/bfs-dfs/"/>
+    <lastmod>2026-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://algo.jsdiff.com/en/graph/bfs-dfs/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/bfs-dfs/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/bfs-dfs/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/graph/bfs-dfs/"/>
+    <lastmod>2026-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://algo.jsdiff.com/graph/dijkstra/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/dijkstra/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/dijkstra/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/graph/dijkstra/"/>
+    <lastmod>2026-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://algo.jsdiff.com/en/graph/dijkstra/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/graph/dijkstra/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/graph/dijkstra/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/graph/dijkstra/"/>
+    <lastmod>2026-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 搜索优化 -->
   <url>
     <loc>https://algo.jsdiff.com/search/binary-search/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/search/binary-search/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/search/binary-search/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/search/binary-search/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -214,17 +228,18 @@
     <loc>https://algo.jsdiff.com/en/search/binary-search/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/search/binary-search/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/search/binary-search/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/search/binary-search/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 动态规划 - 背包问题 -->
   <url>
     <loc>https://algo.jsdiff.com/search/knapsack/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/search/knapsack/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/search/knapsack/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/search/knapsack/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -232,17 +247,19 @@
     <loc>https://algo.jsdiff.com/en/search/knapsack/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/search/knapsack/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/search/knapsack/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/search/knapsack/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 计算几何 - 凸包 -->
+  <!-- 计算几何 -->
   <url>
     <loc>https://algo.jsdiff.com/geometry/convex-hull/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/geometry/convex-hull/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/geometry/convex-hull/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/geometry/convex-hull/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -250,7 +267,66 @@
     <loc>https://algo.jsdiff.com/en/geometry/convex-hull/</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/geometry/convex-hull/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/geometry/convex-hull/"/>
-    <lastmod>2026-01-21</lastmod>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/geometry/convex-hull/"/>
+    <lastmod>2026-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 数据结构 -->
+  <url>
+    <loc>https://algo.jsdiff.com/data-structure/b-plus-tree/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/data-structure/b-plus-tree/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/data-structure/b-plus-tree/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/data-structure/b-plus-tree/"/>
+    <lastmod>2026-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://algo.jsdiff.com/en/data-structure/b-plus-tree/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/data-structure/b-plus-tree/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/data-structure/b-plus-tree/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/data-structure/b-plus-tree/"/>
+    <lastmod>2026-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://algo.jsdiff.com/data-structure/b-tree/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/data-structure/b-tree/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/data-structure/b-tree/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/data-structure/b-tree/"/>
+    <lastmod>2026-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://algo.jsdiff.com/en/data-structure/b-tree/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/data-structure/b-tree/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/data-structure/b-tree/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/data-structure/b-tree/"/>
+    <lastmod>2026-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://algo.jsdiff.com/data-structure/skip-list/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/data-structure/skip-list/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/data-structure/skip-list/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/data-structure/skip-list/"/>
+    <lastmod>2026-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://algo.jsdiff.com/en/data-structure/skip-list/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/data-structure/skip-list/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/data-structure/skip-list/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/data-structure/skip-list/"/>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -258,25 +334,25 @@
   <!-- 对比评测文章 -->
   <url>
     <loc>https://algo.jsdiff.com/docs/comparison/</loc>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://algo.jsdiff.com/docs/comparison/vs-visualgo.html</loc>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://algo.jsdiff.com/docs/comparison/vs-usfca.html</loc>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://algo.jsdiff.com/docs/comparison/vs-toptal.html</loc>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

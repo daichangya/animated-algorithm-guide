@@ -1,0 +1,172 @@
+site_name: 一看就懂的算法动画     # 网站标题
+site_description: 通过动画演示帮助您直观理解各种算法的原理和实现  # 网站描述
+site_author: 代长亚    # 作者
+site_url: https://algo.jsdiff.com/  # 网站 URL
+repo_url: https://github.com/daichangya/animated-algorithm-guide
+repo_name: daichangya/animated-algorithm-guide
+edit_uri: edit/main/docs/
+
+# 导航菜单
+nav:
+  - 首页: index.md
+  - 关于: about.md
+  - 算法分类:
+    - 排序算法:
+      - 冒泡排序: sorting/bubble-sort.md
+      - 快速排序: sorting/quick-sort.md
+      - 归并排序: sorting/merge-sort.md
+      - 堆排序: sorting/heap-sort.md
+    - 差异算法:
+      - Myers 差异算法: diff/myers-diff.md
+      - Myers 差异算法(改进版): diff/myers-diff-improved.md
+      - 最长公共子序列(LCS): diff/lcs.md
+  - ZThinker官网: https://algo.jsdiff.com/
+
+# 支持HTML文件
+extra_javascript:
+  - js/iframeResizer.min.js
+
+# 额外CSS（可选）
+extra_css:
+  - css/extra.css
+
+# 额外链接
+extra:
+  sitemap:
+      changefreq: daily  # 全局默认更新频率（可选值：always/hourly/daily/weekly/monthly/yearly/never）
+      priority: 0.7       # 全局默认优先级（0.0-1.0，默认0.5）
+      # 可选：自定义站点地图文件名（默认是 sitemap.xml）
+      # filename: sitemap.xml
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/daichangya
+      name: daichangya on GitHub
+    - icon: fontawesome/solid/globe
+      link: https://algo.jsdiff.com
+      name: 官网
+  alternate:
+    - name: 中文
+      link: /zh/
+      lang: zh
+    - name: English
+      link: /en/
+      lang: en
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+  consent:
+    title: Cookie consent
+    description: >- 
+      我们使用cookies来识别您的重复访问和偏好设置，
+      以衡量我们文档的有效性以及用户是否找到他们要查找的内容。
+
+# 版权信息
+copyright: Copyright &copy; 2025 <a href="https://algo.jsdiff.com/">ZThinker</a> - <a href="https://github.com/daichangya">代长亚</a>
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - admonition
+  - footnotes
+  - toc:
+      permalink: true
+
+# 主题设置
+theme:
+  name: material          # 使用 mkdocs-material 主题
+  language: zh            # 设置默认语言为中文
+  icon:
+    logo: material/book-open-variant  # 使用Material图标作为临时logo
+  features:
+    - navigation.instant  # 即时加载
+    - navigation.tracking # 导航跟踪
+    - navigation.tabs     # 顶部导航标签
+    - navigation.top      # 返回顶部按钮
+    - search.highlight    # 搜索高亮
+    - search.share        # 搜索分享
+    - content.code.copy   # 代码复制按钮
+    - navigation.footer   # 页脚导航
+  palette:
+    # 亮色模式
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo     # 主色调
+      accent: indigo      # 强调色
+      toggle:
+        icon: material/brightness-7
+        name: 切换到暗色模式
+    # 暗色模式
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 切换到亮色模式
+
+# 插件
+plugins:
+  - search                # 搜索功能
+  - minify:               # 压缩HTML
+      minify_html: true
+  - mkdocs-ultralytics:   # 全面SEO优化
+      site_name: 一看就懂的算法动画 | Algorithm Visualization Guide
+      site_description: 通过动画演示帮助您直观理解各种算法的原理和实现，包括排序算法、差异算法等
+      canonical_url: https://algo.jsdiff.com/
+  - mkdocs-meta-descriptions-plugin     # Meta描述生成
+  - mkdocs-publisher:     # 多功能SEO集合
+      enable_social_cards: true
+      enable_meta_optimization: true
+  - i18n:                 # 多语言支持
+      default_language: zh
+      languages:
+        zh:
+          name: 中文
+          build: true
+        en:
+          name: English
+          build: true
+      nav_translations:
+        zh:
+          首页: 首页
+          关于: 关于
+          算法分类: 算法分类
+          排序算法: 排序算法
+          冒泡排序: 冒泡排序
+          快速排序: 快速排序
+          归并排序: 归并排序
+          堆排序: 堆排序
+          差异算法: 差异算法
+          "Myers 差异算法": "Myers 差异算法"
+          "Myers 差异算法(改进版)": "Myers 差异算法(改进版)"
+          "最长公共子序列(LCS)": "最长公共子序列(LCS)"
+          "ZThinker官网": "ZThinker官网"
+        en:
+          首页: Home
+          关于: About
+          算法分类: Algorithms
+          排序算法: Sorting Algorithms
+          冒泡排序: Bubble Sort
+          快速排序: Quick Sort
+          归并排序: Merge Sort
+          堆排序: Heap Sort
+          差异算法: Diff Algorithms
+          "Myers 差异算法": "Myers Diff Algorithm"
+          "Myers 差异算法(改进版)": "Myers Diff Algorithm (Improved)"
+          "最长公共子序列(LCS)": "Longest Common Subsequence (LCS)"
+          "ZThinker官网": "ZThinker Website"
+  # 如需显示最后更新日期，请先安装插件：
+  # pip install mkdocs-git-revision-date-localized-plugin
+  # - git-revision-date-localized:  # 显示最后更新日期
+  #     enable_creation_date: true
+  #     type: date

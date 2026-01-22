@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B+树可视化 - 算法动画演示 | 算法可视化</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="通过交互式动画学习B+树。B+树是数据库系统中最重要的索引结构，所有数据存储在叶子节点并通过链表连接。">
+    <meta name="keywords" content="B+树,B+ Tree,数据库索引,MySQL,算法可视化,数据结构">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algo.jsdiff.com/data-structure/b-plus-tree/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="B+树可视化 - 算法动画演示">
+    <meta property="og:description" content="通过交互式动画学习B+树的插入、范围查询和删除操作">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algo.jsdiff.com/data-structure/b-plus-tree/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="B+树可视化">
+    <meta name="twitter:description" content="交互式动画演示B+树操作">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <link rel="stylesheet" href="/common/styles.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/data-structure/b-plus-tree/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/data-structure/b-plus-tree/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/data-structure/b-plus-tree/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</head>
+<body class="bg-decoration">
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="/common/header.js"></script>
+
+    <div class="container">
+        <a href="../../index.html" class="nav-link">← 返回首页</a>
+        
+        <header class="page-header">
+            <h1 class="title" data-en="B+ Tree Visualization">B+树可视化</h1>
+            <p class="subtitle" data-en="Watch how B+ Tree stores data in leaves with linked list">观察B+树如何在叶子节点存储数据并通过链表连接</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p data-en="B+ Tree is a variant of B-Tree where all data is stored in leaf nodes, and leaves are linked together. This structure is ideal for range queries and is the foundation of database indexes like MySQL InnoDB.">
+                B+树是B树的变体，所有数据存储在叶子节点中，叶子节点通过链表连接。这种结构非常适合范围查询，是MySQL InnoDB等数据库索引的基础。
+            </p>
+        </div>
+        
+        <!-- 阶数配置 -->
+        <div class="config-panel fade-in">
+            <label class="config-label" data-en="Order (max children):">阶数（最大子节点数）：</label>
+            <select id="orderSelect" class="config-select">
+                <option value="3">3阶</option>
+                <option value="4" selected>4阶</option>
+                <option value="5">5阶</option>
+            </select>
+        </div>
+        
+        <!-- 可视化区域 -->
+        <div class="visualization-container" id="visualizationContainer">
+            <svg id="treeSvg" class="tree-svg"></svg>
+            <!-- 叶子链表指示器 -->
+            <div class="leaf-chain-indicator" data-en="Leaf nodes are linked →">叶子节点链表 →</div>
+        </div>
+        
+        <!-- 控制面板 -->
+        <div class="controls">
+            <div class="input-group">
+                <input type="number" id="inputValue" placeholder="输入值 (1-999)" class="input-field" min="1" max="999">
+                <button class="btn btn-primary" id="insertBtn">插入</button>
+                <button class="btn btn-info" id="searchBtn">查找</button>
+                <button class="btn btn-accent" id="rangeBtn">范围查询</button>
+                <button class="btn btn-danger" id="deleteBtn">删除</button>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" id="resetBtn">重置</button>
+                <button class="btn btn-warning" id="randomBtn">随机数据</button>
+            </div>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText">输入值并选择操作</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="how-it-works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+            </div>
+            
+            <div id="how-it-works" class="tab-content active">
+                <h4 data-en="B+ Tree vs B-Tree">B+树 vs B树</h4>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th data-en="Feature">特性</th>
+                            <th>B树</th>
+                            <th>B+树</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-en="Data storage">数据存储</td>
+                            <td data-en="All nodes">所有节点</td>
+                            <td data-en="Leaf nodes only">仅叶子节点</td>
+                        </tr>
+                        <tr>
+                            <td data-en="Leaf linkage">叶子链接</td>
+                            <td data-en="None">无</td>
+                            <td data-en="Linked list">链表连接</td>
+                        </tr>
+                        <tr>
+                            <td data-en="Range query">范围查询</td>
+                            <td data-en="Complex">复杂</td>
+                            <td data-en="Efficient">高效</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4 data-en="Key Properties">关键特性</h4>
+                <ul>
+                    <li data-en="Internal nodes only store keys for navigation">内部节点只存储用于导航的键</li>
+                    <li data-en="All actual data/records are in leaf nodes">所有实际数据/记录都在叶子节点</li>
+                    <li data-en="Leaves are linked for sequential access">叶子节点链接以支持顺序访问</li>
+                    <li data-en="Keys in internal nodes are duplicated in leaves">内部节点的键在叶子中重复出现</li>
+                </ul>
+            </div>
+            
+            <div id="complexity" class="tab-content">
+                <table class="complexity-table">
+                    <thead>
+                        <tr>
+                            <th data-en="Operation">操作</th>
+                            <th data-en="Time">时间</th>
+                            <th data-en="Description">说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-en="Search">查找</td>
+                            <td>O(log n)</td>
+                            <td data-en="Must reach leaf node">必须到达叶子节点</td>
+                        </tr>
+                        <tr>
+                            <td data-en="Insert">插入</td>
+                            <td>O(log n)</td>
+                            <td data-en="Insert in leaf, may split">在叶子插入，可能分裂</td>
+                        </tr>
+                        <tr>
+                            <td data-en="Range Query">范围查询</td>
+                            <td>O(log n + k)</td>
+                            <td data-en="k = number of results">k = 结果数量</td>
+                        </tr>
+                        <tr>
+                            <td data-en="Delete">删除</td>
+                            <td>O(log n)</td>
+                            <td data-en="May trigger merge">可能触发合并</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="complexity-note">
+                    <p data-en="Space Complexity: O(n)">空间复杂度：O(n)</p>
+                    <p data-en="B+ Tree typically has higher fanout than B-Tree, resulting in lower tree height">B+树通常比B树有更高的扇出度，树高更低</p>
+                </div>
+            </div>
+            
+            <div id="applications" class="tab-content">
+                <div class="use-cases">
+                    <div class="use-case highlight">
+                        <h5 data-en="MySQL InnoDB Index">MySQL InnoDB 索引</h5>
+                        <p data-en="Primary key uses clustered B+ Tree index, secondary indexes point to primary key">主键使用聚簇B+树索引，辅助索引指向主键</p>
+                    </div>
+                    <div class="use-case">
+                        <h5 data-en="PostgreSQL Index">PostgreSQL 索引</h5>
+                        <p data-en="Default index type is B-Tree (actually B+ Tree implementation)">默认索引类型是B-Tree（实际是B+树实现）</p>
+                    </div>
+                    <div class="use-case">
+                        <h5 data-en="File System">文件系统</h5>
+                        <p data-en="NTFS, ReiserFS, XFS use B+ Tree for directory structure">NTFS、ReiserFS、XFS 使用B+树管理目录结构</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="code" class="tab-content">
+                <h4 data-en="Implementation">代码实现</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div id="python-code" class="code-block active">
+                    <pre><code class="language-python">class BPlusTreeNode:
+    def __init__(self, leaf=True):
+        self.keys = []
+        self.children = []  # For internal: child nodes; For leaf: data
+        self.leaf = leaf
+        self.next = None  # Link to next leaf
+
+class BPlusTree:
+    def __init__(self, order=4):
+        self.root = BPlusTreeNode()
+        self.order = order
+    
+    def search(self, key):
+        """Search must reach leaf node"""
+        node = self.root
+        while not node.leaf:
+            i = 0
+            while i < len(node.keys) and key >= node.keys[i]:
+                i += 1
+            node = node.children[i]
+        
+        # Search in leaf
+        for i, k in enumerate(node.keys):
+            if k == key:
+                return node.children[i]  # Return data
+        return None
+    
+    def range_query(self, start, end):
+        """Efficient range query using leaf links"""
+        # Find start leaf
+        node = self.root
+        while not node.leaf:
+            i = 0
+            while i < len(node.keys) and start >= node.keys[i]:
+                i += 1
+            node = node.children[i]
+        
+        # Traverse leaves
+        results = []
+        while node:
+            for i, key in enumerate(node.keys):
+                if start <= key <= end:
+                    results.append((key, node.children[i]))
+                elif key > end:
+                    return results
+            node = node.next  # Follow leaf link
+        return results
+
+# Usage
+tree = BPlusTree(order=4)
+# Range query example
+results = tree.range_query(10, 50)
+</code></pre>
+                </div>
+                
+                <div id="java-code" class="code-block">
+                    <pre><code class="language-java">import java.util.*;
+
+public class BPlusTree {
+    private BPlusNode root;
+    private int order;
+    
+    public BPlusTree(int order) {
+        this.order = order;
+        this.root = new BPlusNode(true);
+    }
+    
+    public Object search(int key) {
+        BPlusNode node = root;
+        while (!node.leaf) {
+            int i = 0;
+            while (i < node.keys.size() && key >= node.keys.get(i)) {
+                i++;
+            }
+            node = node.children.get(i);
+        }
+        
+        for (int i = 0; i < node.keys.size(); i++) {
+            if (node.keys.get(i) == key) {
+                return node.data.get(i);
+            }
+        }
+        return null;
+    }
+    
+    public List&lt;Object&gt; rangeQuery(int start, int end) {
+        List&lt;Object&gt; results = new ArrayList&lt;&gt;();
+        BPlusNode node = findLeaf(start);
+        
+        while (node != null) {
+            for (int i = 0; i < node.keys.size(); i++) {
+                int key = node.keys.get(i);
+                if (key >= start && key <= end) {
+                    results.add(node.data.get(i));
+                } else if (key > end) {
+                    return results;
+                }
+            }
+            node = node.next;
+        }
+        return results;
+    }
+}
+
+class BPlusNode {
+    List&lt;Integer&gt; keys = new ArrayList&lt;&gt;();
+    List&lt;BPlusNode&gt; children = new ArrayList&lt;&gt;();
+    List&lt;Object&gt; data = new ArrayList&lt;&gt;();
+    boolean leaf;
+    BPlusNode next;  // Leaf link
+    
+    BPlusNode(boolean leaf) { this.leaf = leaf; }
+}
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="/common/footer.js"></script>
+    <script type="module" src="/common/i18n.js"></script>
+    <script type="module" src="/common/tabs.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

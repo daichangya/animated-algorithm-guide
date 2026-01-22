@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Interactive algorithm visualization platform with animations",
   "scripts": {
+    "new": "node scripts/new-algorithm.js",
     "build:en": "node scripts/build-en.js",
+    "build:sitemap": "node scripts/build-sitemap.js",
     "build:minify": "node scripts/minify.js",
-    "build": "npm run build:en && npm run build:minify"
+    "build": "npm run build:en && npm run build:sitemap && npm run build:minify"
   },
   "keywords": [
     "algorithm",

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跳跃表可视化 - 算法动画演示 | 算法可视化</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="通过交互式动画学习跳跃表。跳跃表是一种概率性数据结构，使用多层链表实现O(log n)的查找、插入和删除操作。">
+    <meta name="keywords" content="跳跃表,Skip List,Redis,算法可视化,数据结构,概率数据结构">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algo.jsdiff.com/data-structure/skip-list/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="跳跃表可视化 - 算法动画演示">
+    <meta property="og:description" content="通过交互式动画学习跳跃表的插入、查找和删除操作">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algo.jsdiff.com/data-structure/skip-list/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="跳跃表可视化">
+    <meta name="twitter:description" content="交互式动画演示跳跃表操作">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <link rel="stylesheet" href="/common/styles.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/data-structure/skip-list/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/data-structure/skip-list/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/data-structure/skip-list/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</head>
+<body class="bg-decoration">
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="/common/header.js"></script>
+
+    <div class="container">
+        <a href="../../index.html" class="nav-link">← 返回首页</a>
+        
+        <header class="page-header">
+            <h1 class="title" data-en="Skip List Visualization">跳跃表可视化</h1>
+            <p class="subtitle" data-en="Watch how Skip List uses probabilistic multi-level links for fast search">观察跳跃表如何利用概率性多层链接实现快速查找</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p data-en="Skip List is a probabilistic data structure that allows O(log n) search, insert and delete operations. It uses multiple levels of linked lists where each higher level 'skips' more elements, similar to express lanes in a highway.">
+                跳跃表是一种概率性数据结构，支持O(log n)的查找、插入和删除操作。它使用多层链表，每一层都"跳过"更多的元素，类似于高速公路上的快速车道。
+            </p>
+        </div>
+        
+        <!-- 配置面板 -->
+        <div class="config-panel fade-in">
+            <label class="config-label" data-en="Probability (level up chance):">概率（层级提升概率）：</label>
+            <select id="probSelect" class="config-select">
+                <option value="0.25">25%</option>
+                <option value="0.5" selected>50%</option>
+                <option value="0.75">75%</option>
+            </select>
+            <label class="config-label" data-en="Max Level:">最大层数：</label>
+            <select id="maxLevelSelect" class="config-select">
+                <option value="4">4层</option>
+                <option value="6" selected>6层</option>
+                <option value="8">8层</option>
+            </select>
+        </div>
+        
+        <!-- 层级标签 -->
+        <div class="level-labels" id="levelLabels"></div>
+        
+        <!-- 可视化区域 -->
+        <div class="visualization-container" id="visualizationContainer">
+            <svg id="skipListSvg" class="skiplist-svg"></svg>
+        </div>
+        
+        <!-- 控制面板 -->
+        <div class="controls">
+            <div class="input-group">
+                <input type="number" id="inputValue" placeholder="输入值 (1-999)" class="input-field" min="1" max="999">
+                <button class="btn btn-primary" id="insertBtn">插入</button>
+                <button class="btn btn-info" id="searchBtn">查找</button>
+                <button class="btn btn-danger" id="deleteBtn">删除</button>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" id="resetBtn">重置</button>
+                <button class="btn btn-warning" id="randomBtn">随机数据</button>
+            </div>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText">输入值并选择操作</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="how-it-works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+            </div>
+            
+            <div id="how-it-works" class="tab-content active">
+                <h4 data-en="Skip List Structure">跳跃表结构</h4>
+                <ul>
+                    <li data-en="Multiple levels of sorted linked lists">多层有序链表</li>
+                    <li data-en="Bottom level contains all elements">底层包含所有元素</li>
+                    <li data-en="Each higher level is a subset of the level below">每一层都是下一层的子集</li>
+                    <li data-en="Level promotion is determined by coin flips (probability)">层级提升由抛硬币决定（概率性）</li>
+                </ul>
+                
+                <h4 data-en="Search Process">查找过程</h4>
+                <ol>
+                    <li data-en="Start from the top-left (highest level head)">从左上角开始（最高层头节点）</li>
+                    <li data-en="Move right until next element is greater than target">向右移动，直到下一个元素大于目标</li>
+                    <li data-en="Move down one level and repeat">向下移动一层，重复上述步骤</li>
+                    <li data-en="Continue until found or reach bottom level">继续直到找到或到达底层</li>
+                </ol>
+                
+                <h4 data-en="Insert Process">插入过程</h4>
+                <ol>
+                    <li data-en="Find the position at each level (like search)">在每一层找到插入位置（类似查找）</li>
+                    <li data-en="Insert at level 0 (bottom)">在第0层插入</li>
+                    <li data-en="Flip a coin: heads = promote to next level">抛硬币：正面则提升到上一层</li>
+                    <li data-en="Repeat coin flips until tails or max level">重复抛硬币直到反面或达到最大层</li>
+                </ol>
+            </div>
+            
+            <div id="complexity" class="tab-content">
+                <table class="complexity-table">
+                    <thead>
+                        <tr>
+                            <th data-en="Operation">操作</th>
+                            <th data-en="Average">平均</th>
+                            <th data-en="Worst">最坏</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-en="Search">查找</td>
+                            <td>O(log n)</td>
+                            <td>O(n)*</td>
+                        </tr>
+                        <tr>
+                            <td data-en="Insert">插入</td>
+                            <td>O(log n)</td>
+                            <td>O(n)*</td>
+                        </tr>
+                        <tr>
+                            <td data-en="Delete">删除</td>
+                            <td>O(log n)</td>
+                            <td>O(n)*</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="complexity-note">
+                    <p data-en="*Worst case is very rare due to probabilistic nature">*由于概率特性，最坏情况非常罕见</p>
+                    <p data-en="Space Complexity: O(n) on average, O(n log n) worst case">空间复杂度：平均O(n)，最坏O(n log n)</p>
+                    <p data-en="Expected levels: O(log n) with p=0.5">期望层数：p=0.5时为O(log n)</p>
+                </div>
+            </div>
+            
+            <div id="applications" class="tab-content">
+                <div class="use-cases">
+                    <div class="use-case highlight">
+                        <h5 data-en="Redis Sorted Sets">Redis 有序集合</h5>
+                        <p data-en="Redis uses Skip List for ZSET to support O(log n) range queries and score updates">Redis 使用跳跃表实现 ZSET，支持O(log n)的范围查询和分数更新</p>
+                    </div>
+                    <div class="use-case">
+                        <h5 data-en="LevelDB / RocksDB">LevelDB / RocksDB</h5>
+                        <p data-en="Used in MemTable for in-memory sorted key-value storage">用于 MemTable 实现内存中的有序键值存储</p>
+                    </div>
+                    <div class="use-case">
+                        <h5 data-en="Concurrent Data Structures">并发数据结构</h5>
+                        <p data-en="Lock-free skip lists are easier to implement than lock-free balanced trees">无锁跳跃表比无锁平衡树更容易实现</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="code" class="tab-content">
+                <h4 data-en="Implementation">代码实现</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div id="python-code" class="code-block active">
+                    <pre><code class="language-python">import random
+
+class SkipListNode:
+    def __init__(self, key, level):
+        self.key = key
+        self.forward = [None] * (level + 1)
+
+class SkipList:
+    def __init__(self, max_level=16, p=0.5):
+        self.max_level = max_level
+        self.p = p
+        self.level = 0
+        self.head = SkipListNode(float('-inf'), max_level)
+    
+    def random_level(self):
+        """Generate random level using coin flips"""
+        level = 0
+        while random.random() < self.p and level < self.max_level:
+            level += 1
+        return level
+    
+    def search(self, key):
+        """Search for a key in the skip list"""
+        current = self.head
+        for i in range(self.level, -1, -1):
+            while current.forward[i] and current.forward[i].key < key:
+                current = current.forward[i]
+        current = current.forward[0]
+        return current and current.key == key
+    
+    def insert(self, key):
+        """Insert a key into the skip list"""
+        update = [None] * (self.max_level + 1)
+        current = self.head
+        
+        # Find position at each level
+        for i in range(self.level, -1, -1):
+            while current.forward[i] and current.forward[i].key < key:
+                current = current.forward[i]
+            update[i] = current
+        
+        # Determine level for new node
+        new_level = self.random_level()
+        if new_level > self.level:
+            for i in range(self.level + 1, new_level + 1):
+                update[i] = self.head
+            self.level = new_level
+        
+        # Create and insert new node
+        new_node = SkipListNode(key, new_level)
+        for i in range(new_level + 1):
+            new_node.forward[i] = update[i].forward[i]
+            update[i].forward[i] = new_node
+
+# Usage
+sl = SkipList(max_level=6, p=0.5)
+for val in [3, 6, 7, 9, 12, 19, 21, 25]:
+    sl.insert(val)
+print(sl.search(19))  # True
+</code></pre>
+                </div>
+                
+                <div id="java-code" class="code-block">
+                    <pre><code class="language-java">import java.util.Random;
+
+public class SkipList {
+    private static final int MAX_LEVEL = 16;
+    private static final double P = 0.5;
+    
+    private int level;
+    private SkipListNode head;
+    private Random random;
+    
+    public SkipList() {
+        this.level = 0;
+        this.head = new SkipListNode(Integer.MIN_VALUE, MAX_LEVEL);
+        this.random = new Random();
+    }
+    
+    private int randomLevel() {
+        int lvl = 0;
+        while (random.nextDouble() < P && lvl < MAX_LEVEL) {
+            lvl++;
+        }
+        return lvl;
+    }
+    
+    public boolean search(int key) {
+        SkipListNode current = head;
+        for (int i = level; i >= 0; i--) {
+            while (current.forward[i] != null && 
+                   current.forward[i].key < key) {
+                current = current.forward[i];
+            }
+        }
+        current = current.forward[0];
+        return current != null && current.key == key;
+    }
+    
+    public void insert(int key) {
+        SkipListNode[] update = new SkipListNode[MAX_LEVEL + 1];
+        SkipListNode current = head;
+        
+        for (int i = level; i >= 0; i--) {
+            while (current.forward[i] != null && 
+                   current.forward[i].key < key) {
+                current = current.forward[i];
+            }
+            update[i] = current;
+        }
+        
+        int newLevel = randomLevel();
+        if (newLevel > level) {
+            for (int i = level + 1; i <= newLevel; i++) {
+                update[i] = head;
+            }
+            level = newLevel;
+        }
+        
+        SkipListNode newNode = new SkipListNode(key, newLevel);
+        for (int i = 0; i <= newLevel; i++) {
+            newNode.forward[i] = update[i].forward[i];
+            update[i].forward[i] = newNode;
+        }
+    }
+    
+    public static void main(String[] args) {
+        SkipList sl = new SkipList();
+        int[] values = {3, 6, 7, 9, 12, 19, 21, 25};
+        for (int v : values) sl.insert(v);
+        System.out.println(sl.search(19)); // true
+    }
+}
+
+class SkipListNode {
+    int key;
+    SkipListNode[] forward;
+    
+    SkipListNode(int key, int level) {
+        this.key = key;
+        this.forward = new SkipListNode[level + 1];
+    }
+}
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="/common/footer.js"></script>
+    <script type="module" src="/common/i18n.js"></script>
+    <script type="module" src="/common/tabs.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

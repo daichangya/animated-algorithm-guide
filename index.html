@@ -719,6 +719,98 @@
             </div>
         </section>
         
+        <!-- 数据结构 -->
+        <section class="category-section data-structure-category fade-in" style="animation-delay: 0.35s;" aria-labelledby="data-structure-title">
+            <div class="category-header">
+                <span class="category-icon" aria-hidden="true">🏗️</span>
+                <h2 class="category-title" id="data-structure-title" data-en="Data Structures">数据结构</h2>
+                <span class="category-desc" data-en="Efficient storage and retrieval">高效存储与检索</span>
+            </div>
+            <div class="algorithms-grid">
+                <a href="data-structure/b-tree/index.html" class="algorithm-card btree" aria-label="B树多路平衡搜索树">
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <!-- B树节点 -->
+                            <rect x="18" y="4" width="24" height="10" rx="2" fill="#8b5cf6"/>
+                            <text x="30" y="11" fill="white" font-size="6" text-anchor="middle">10|20|30</text>
+                            <rect x="4" y="20" width="16" height="8" rx="2" fill="#a78bfa"/>
+                            <text x="12" y="26" fill="white" font-size="5" text-anchor="middle">5|8</text>
+                            <rect x="22" y="20" width="16" height="8" rx="2" fill="#a78bfa"/>
+                            <text x="30" y="26" fill="white" font-size="5" text-anchor="middle">15|18</text>
+                            <rect x="40" y="20" width="16" height="8" rx="2" fill="#a78bfa"/>
+                            <text x="48" y="26" fill="white" font-size="5" text-anchor="middle">25|28</text>
+                            <!-- 连接线 -->
+                            <line x1="24" y1="14" x2="12" y2="20" stroke="#8b5cf6" stroke-width="1.5"/>
+                            <line x1="30" y1="14" x2="30" y2="20" stroke="#8b5cf6" stroke-width="1.5"/>
+                            <line x1="36" y1="14" x2="48" y2="20" stroke="#8b5cf6" stroke-width="1.5"/>
+                        </svg>
+                    </span>
+                    <h3 class="algorithm-name" data-en="B-Tree">B树</h3>
+                    <div class="algorithm-complexity">O(log n) | O(n)</div>
+                    <p class="algorithm-desc" data-en="Self-balancing multi-way search tree">自平衡多路搜索树</p>
+                </a>
+                <a href="data-structure/b-plus-tree/index.html" class="algorithm-card bplustree" aria-label="B+树数据库索引结构">
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <!-- B+树节点 -->
+                            <rect x="18" y="4" width="24" height="8" rx="2" fill="#0ea5e9"/>
+                            <text x="30" y="10" fill="white" font-size="5" text-anchor="middle">20|40</text>
+                            <rect x="4" y="16" width="14" height="6" rx="1" fill="#38bdf8"/>
+                            <rect x="23" y="16" width="14" height="6" rx="1" fill="#38bdf8"/>
+                            <rect x="42" y="16" width="14" height="6" rx="1" fill="#38bdf8"/>
+                            <!-- 叶子节点链表 -->
+                            <rect x="2" y="28" width="12" height="8" rx="1" fill="#22c55e"/>
+                            <rect x="16" y="28" width="12" height="8" rx="1" fill="#22c55e"/>
+                            <rect x="32" y="28" width="12" height="8" rx="1" fill="#22c55e"/>
+                            <rect x="46" y="28" width="12" height="8" rx="1" fill="#22c55e"/>
+                            <!-- 叶子链接箭头 -->
+                            <path d="M14 32 L16 32" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow)"/>
+                            <path d="M28 32 L32 32" stroke="#22c55e" stroke-width="1.5"/>
+                            <path d="M44 32 L46 32" stroke="#22c55e" stroke-width="1.5"/>
+                        </svg>
+                    </span>
+                    <h3 class="algorithm-name" data-en="B+ Tree">B+树</h3>
+                    <div class="algorithm-complexity">O(log n) | O(n)</div>
+                    <p class="algorithm-desc" data-en="Database index structure with linked leaves">数据库索引结构</p>
+                </a>
+                <a href="data-structure/skip-list/index.html" class="algorithm-card skiplist" aria-label="跳跃表概率数据结构">
+                    <span class="algo-icon" aria-hidden="true">
+                        <svg viewBox="0 0 60 40">
+                            <!-- 跳跃表层级 -->
+                            <!-- Level 3 -->
+                            <circle cx="8" cy="8" r="4" fill="#f43f5e"/>
+                            <circle cx="44" cy="8" r="4" fill="#f43f5e"/>
+                            <line x1="12" y1="8" x2="40" y2="8" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="2,2"/>
+                            <!-- Level 2 -->
+                            <circle cx="8" cy="18" r="4" fill="#f97316"/>
+                            <circle cx="26" cy="18" r="4" fill="#f97316"/>
+                            <circle cx="44" cy="18" r="4" fill="#f97316"/>
+                            <line x1="12" y1="18" x2="22" y2="18" stroke="#f97316" stroke-width="1.5"/>
+                            <line x1="30" y1="18" x2="40" y2="18" stroke="#f97316" stroke-width="1.5"/>
+                            <!-- Level 1 -->
+                            <circle cx="8" cy="28" r="4" fill="#eab308"/>
+                            <circle cx="17" cy="28" r="4" fill="#eab308"/>
+                            <circle cx="26" cy="28" r="4" fill="#eab308"/>
+                            <circle cx="35" cy="28" r="4" fill="#eab308"/>
+                            <circle cx="44" cy="28" r="4" fill="#eab308"/>
+                            <circle cx="53" cy="28" r="4" fill="#eab308"/>
+                            <line x1="12" y1="28" x2="13" y2="28" stroke="#eab308" stroke-width="1.5"/>
+                            <line x1="21" y1="28" x2="22" y2="28" stroke="#eab308" stroke-width="1.5"/>
+                            <line x1="30" y1="28" x2="31" y2="28" stroke="#eab308" stroke-width="1.5"/>
+                            <line x1="39" y1="28" x2="40" y2="28" stroke="#eab308" stroke-width="1.5"/>
+                            <line x1="48" y1="28" x2="49" y2="28" stroke="#eab308" stroke-width="1.5"/>
+                            <!-- 垂直连接 -->
+                            <line x1="8" y1="12" x2="8" y2="14" stroke="#888" stroke-width="1"/>
+                            <line x1="8" y1="22" x2="8" y2="24" stroke="#888" stroke-width="1"/>
+                        </svg>
+                    </span>
+                    <h3 class="algorithm-name" data-en="Skip List">跳跃表</h3>
+                    <div class="algorithm-complexity">O(log n) | O(n)</div>
+                    <p class="algorithm-desc" data-en="Probabilistic multi-level linked list">概率性多层链表结构</p>
+                </a>
+            </div>
+        </section>
+        
         <!-- 对比评测推广 -->
         <section class="comparison-promo fade-in" style="animation-delay: 0.35s;">
             <h2 class="comparison-promo-title">想了解我们与其他平台的区别？</h2>

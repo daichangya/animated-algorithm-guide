@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B-Tree Visualization - Algorithm Visualization | Algorithm Visualization</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="通过交互式动画学习B树。B-Tree is a self-balancing multi-way search tree，广泛应用于数据库and文件系统的Index结构。">
+    <meta name="keywords" content="B树,B-Tree,Algorithm Visualization,Data Structure,多路搜索树,Database Index">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algo.jsdiff.com/en/data-structure/b-tree/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="B-Tree Visualization - Algorithm Visualization">
+    <meta property="og:description" content="通过交互式动画学习B树的Insert、SearchandDeleteOperation">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algo.jsdiff.com/data-structure/b-tree/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="B-Tree Visualization">
+    <meta name="twitter:description" content="交互式动画演示B树Operation">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <link rel="stylesheet" href="/common/styles.css">
+    <link rel="stylesheet" href="/data-structure/b-tree/style.css"><!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/data-structure/b-tree" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/data-structure/b-tree/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/data-structure/b-tree" />
+</head>
+<body class="bg-decoration">
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="/common/header.js"></script>
+
+    <div class="container">
+        <a href="/en/" class="nav-link">← Back to Home</a>
+        
+        <header class="page-header">
+            <h1 class="title">B-Tree Visualization</h1>
+            <p class="subtitle">Watch how B-Tree maintains balance during insertions and deletions</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p>B-Tree is a self-balancing multi-way search tree widely used in databases and file systems. Each node can have multiple keys and children, keeping the tree height low for efficient disk I/O operations.</p>
+        </div>
+        
+        <!-- 阶数配置 -->
+        <div class="config-panel fade-in">
+            <label class="config-label">Order (max children):</label>
+            <select id="orderSelect" class="config-select">
+                <option value="3">3阶 (2-3树)</option>
+                <option value="4" selected>4阶 (2-3-4树)</option>
+                <option value="5">5阶</option>
+            </select>
+        </div>
+        
+        <!-- 可视化区域 -->
+        <div class="visualization-container" id="visualizationContainer">
+            <svg id="treeSvg" class="tree-svg"></svg>
+        </div>
+        
+        <!-- 控制面板 -->
+        <div class="controls">
+            <div class="input-group">
+                <input type="number" id="inputValue" placeholder="Enter value (1-999)" class="input-field" min="1" max="999">
+                <button class="btn btn-primary" id="insertBtn">Insert</button>
+                <button class="btn btn-info" id="searchBtn">Search</button>
+                <button class="btn btn-danger" id="deleteBtn">Delete</button>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" id="resetBtn">Reset</button>
+                <button class="btn btn-warning" id="randomBtn">随机数据</button>
+            </div>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText">Enter a value and choose an operation</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="how-it-works">📖 How It Works</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ Complexity</button>
+                <button class="tab-btn" data-tab="applications">💡 Applications</button>
+                <button class="tab-btn" data-tab="code">📝 Implementation</button>
+            </div>
+            
+            <div id="how-it-works" class="tab-content active">
+                <h4>B-Tree Properties</h4>
+                <ul>
+                    <li>Each node has at most m children (m is the order)</li>
+                    <li>Each internal node has at least ⌈m/2⌉ children</li>
+                    <li>All leaves appear on the same level</li>
+                    <li>A node with k children contains k-1 keys</li>
+                </ul>
+                
+                <h4>Insert Operation</h4>
+                <ol>
+                    <li>Find the leaf node where the key should be inserted</li>
+                    <li>Insert the key in sorted order</li>
+                    <li>If the node overflows (has m keys), split it and promote the middle key</li>
+                    <li>Repeat splitting upward if necessary</li>
+                </ol>
+                
+                <h4>Search Operation</h4>
+                <ol>
+                    <li>Start from the root node</li>
+                    <li>Compare the target with keys in the current node</li>
+                    <li>If found, return; otherwise, follow the appropriate child pointer</li>
+                    <li>Repeat until found or reaching a null pointer</li>
+                </ol>
+            </div>
+            
+            <div id="complexity" class="tab-content">
+                <table class="complexity-table">
+                    <thead>
+                        <tr>
+                            <th>Operation</th>
+                            <th>Average</th>
+                            <th>Worst</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Search</td>
+                            <td>O(log n)</td>
+                            <td>O(log n)</td>
+                        </tr>
+                        <tr>
+                            <td>Insert</td>
+                            <td>O(log n)</td>
+                            <td>O(log n)</td>
+                        </tr>
+                        <tr>
+                            <td>Delete</td>
+                            <td>O(log n)</td>
+                            <td>O(log n)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="complexity-note">
+                    <p>Space Complexity: O(n)</p>
+                    <p>Tree height: O(log_m n), where m is the order</p>
+                </div>
+            </div>
+            
+            <div id="applications" class="tab-content">
+                <div class="use-cases">
+                    <div class="use-case">
+                        <h5>Database Indexing</h5>
+                        <p>MySQL InnoDB uses B+ Tree for primary and secondary indexes</p>
+                    </div>
+                    <div class="use-case">
+                        <h5>File Systems</h5>
+                        <p>NTFS, HFS+, ext4 use B-Tree variants for directory indexing</p>
+                    </div>
+                    <div class="use-case">
+                        <h5>Key-Value Stores</h5>
+                        <p>LevelDB, RocksDB use LSM-Tree based on B-Tree principles</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="code" class="tab-content">
+                <h4>Implementation</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div id="python-code" class="code-block active">
+                    <pre><code class="language-python">class BTreeNode:
+    def __init__(self, leaf=True):
+        self.keys = []
+        self.children = []
+        self.leaf = leaf
+
+class BTree:
+    def __init__(self, order=4):
+        self.root = BTreeNode()
+        self.order = order  # Maximum children
+        self.min_keys = (order + 1) // 2 - 1
+    
+    def search(self, key, node=None):
+        """Search for a key in the B-Tree"""
+        if node is None:
+            node = self.root
+        
+        i = 0
+        while i < len(node.keys) and key > node.keys[i]:
+            i += 1
+        
+        if i < len(node.keys) and key == node.keys[i]:
+            return (node, i)
+        elif node.leaf:
+            return None
+        else:
+            return self.search(key, node.children[i])
+    
+    def insert(self, key):
+        """Insert a key into the B-Tree"""
+        root = self.root
+        if len(root.keys) == self.order - 1:
+            # Root is full, need to split
+            new_root = BTreeNode(leaf=False)
+            new_root.children.append(self.root)
+            self._split_child(new_root, 0)
+            self.root = new_root
+        self._insert_non_full(self.root, key)
+    
+    def _split_child(self, parent, index):
+        """Split a full child node"""
+        order = self.order
+        child = parent.children[index]
+        mid = (order - 1) // 2
+        
+        # Create new node with right half
+        new_node = BTreeNode(leaf=child.leaf)
+        new_node.keys = child.keys[mid + 1:]
+        if not child.leaf:
+            new_node.children = child.children[mid + 1:]
+        
+        # Promote middle key
+        parent.keys.insert(index, child.keys[mid])
+        parent.children.insert(index + 1, new_node)
+        
+        # Truncate original child
+        child.keys = child.keys[:mid]
+        if not child.leaf:
+            child.children = child.children[:mid + 1]
+
+# Usage
+btree = BTree(order=4)
+for val in [10, 20, 5, 15, 25, 30]:
+    btree.insert(val)
+print(btree.search(15))  # Found
+</code></pre>
+                </div>
+                
+                <div id="java-code" class="code-block">
+                    <pre><code class="language-java">import java.util.ArrayList;
+import java.util.List;
+
+public class BTree {
+    private BTreeNode root;
+    private int order;
+    
+    public BTree(int order) {
+        this.order = order;
+        this.root = new BTreeNode(true);
+    }
+    
+    public boolean search(int key) {
+        return searchNode(root, key) != null;
+    }
+    
+    private BTreeNode searchNode(BTreeNode node, int key) {
+        int i = 0;
+        while (i < node.keys.size() && key > node.keys.get(i)) {
+            i++;
+        }
+        if (i < node.keys.size() && key == node.keys.get(i)) {
+            return node;
+        }
+        if (node.leaf) {
+            return null;
+        }
+        return searchNode(node.children.get(i), key);
+    }
+    
+    public void insert(int key) {
+        BTreeNode r = root;
+        if (r.keys.size() == order - 1) {
+            BTreeNode newRoot = new BTreeNode(false);
+            newRoot.children.add(root);
+            splitChild(newRoot, 0);
+            root = newRoot;
+        }
+        insertNonFull(root, key);
+    }
+    
+    private void splitChild(BTreeNode parent, int index) {
+        BTreeNode child = parent.children.get(index);
+        int mid = (order - 1) / 2;
+        
+        BTreeNode newNode = new BTreeNode(child.leaf);
+        for (int j = mid + 1; j < child.keys.size(); j++) {
+            newNode.keys.add(child.keys.get(j));
+        }
+        if (!child.leaf) {
+            for (int j = mid + 1; j <= child.children.size() - 1; j++) {
+                newNode.children.add(child.children.get(j));
+            }
+        }
+        
+        parent.keys.add(index, child.keys.get(mid));
+        parent.children.add(index + 1, newNode);
+        
+        // Truncate child
+        while (child.keys.size() > mid) {
+            child.keys.remove(child.keys.size() - 1);
+        }
+    }
+    
+    public static void main(String[] args) {
+        BTree tree = new BTree(4);
+        int[] values = {10, 20, 5, 15, 25, 30};
+        for (int v : values) tree.insert(v);
+        System.out.println(tree.search(15)); // true
+    }
+}
+
+class BTreeNode {
+    List&lt;Integer&gt; keys = new ArrayList&lt;&gt;();
+    List&lt;BTreeNode&gt; children = new ArrayList&lt;&gt;();
+    boolean leaf;
+    
+    BTreeNode(boolean leaf) {
+        this.leaf = leaf;
+    }
+}
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="/common/footer.js"></script>
+    <script type="module" src="/common/i18n.js"></script>
+    <script type="module" src="/common/tabs.js"></script>
+    <script src="/data-structure/b-tree/script.js"></script>
+</body>
+</html>

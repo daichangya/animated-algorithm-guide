@@ -13,24 +13,49 @@ const ROOT_DIR = path.join(__dirname, '..');
 const EN_DIR = path.join(ROOT_DIR, 'en');
 const SITE_URL = 'https://algo.jsdiff.com';
 
-// 需要处理的 HTML 文件列表
-const HTML_FILES = [
-    'index.html',
-    '404.html',
-    'sorting/bubble-sort/index.html',
-    'sorting/heap-sort/index.html',
-    'sorting/quick-sort/index.html',
-    'sorting/merge-sort/index.html',
-    'sequence/myers-diff/index.html',
-    'sequence/lcs/index.html',
-    'sequence/kmp/index.html',
-    'graph/dijkstra/index.html',
-    'graph/bfs-dfs/index.html',
-    'graph/astar/index.html',
-    'search/binary-search/index.html',
-    'search/knapsack/index.html',
-    'geometry/convex-hull/index.html'
+// 算法分类目录列表
+const CATEGORY_DIRS = [
+    'sorting',
+    'sequence', 
+    'graph',
+    'search',
+    'geometry',
+    'data-structure'  // 新增数据结构分类
 ];
+
+/**
+ * 自动扫描目录获取 HTML 文件列表
+ */
+function scanHtmlFiles() {
+    const files = ['index.html', '404.html'];  // 根目录文件
+    
+    for (const category of CATEGORY_DIRS) {
+        const categoryPath = path.join(ROOT_DIR, category);
+        
+        if (!fs.existsSync(categoryPath)) {
+            continue;  // 跳过不存在的目录
+        }
+        
+        // 获取分类下的所有子目录
+        const subDirs = fs.readdirSync(categoryPath, { withFileTypes: true })
+            .filter(dirent => dirent.isDirectory())
+            .map(dirent => dirent.name);
+        
+        for (const subDir of subDirs) {
+            const indexPath = path.join(category, subDir, 'index.html');
+            const fullPath = path.join(ROOT_DIR, indexPath);
+            
+            if (fs.existsSync(fullPath)) {
+                files.push(indexPath);
+            }
+        }
+    }
+    
+    return files;
+}
+
+// 动态获取 HTML 文件列表
+const HTML_FILES = scanHtmlFiles();
 
 // 解析单个翻译模块文件
 function parseTranslationModule(filePath) {
@@ -70,7 +95,8 @@ function loadTranslations() {
         'search.js',
         'geometry.js',
         'seo.js',
-        'dynamic.js'
+        'dynamic.js',
+        'data-structure.js'
     ];
     
     let allTranslations = {};
@@ -185,6 +211,27 @@ function processHtmlFile(relativePath, translations) {
     html = html.replace(/<pre[^>]*>[\s\S]*?<\/pre>/gi, (match) => {
         codeBlockPlaceholders.push(match);
         return `__CODE_BLOCK_${codeBlockPlaceholders.length - 1}__`;
+    });
+    
+    // 处理 data-en 属性：提取英文内容替换中文，并移除 data-en 属性
+    // 支持多种标签：p, span, h1-h6, li, div, td, th 等
+    html = html.replace(/<([a-z][a-z0-9]*)\s([^>]*?)data-en="([^"]+)"([^>]*)>([^<]*)<\/\1>/gi, 
+        (match, tag, attrsBefore, enText, attrsAfter, zhText) => {
+            // 合并属性，移除 data-en
+            const attrs = (attrsBefore + attrsAfter).trim();
+            if (attrs) {
+                return `<${tag} ${attrs}>${enText}</${tag}>`;
+            }
+            return `<${tag}>${enText}</${tag}>`;
+        }
+    );
+    
+    // 处理自闭合或有子元素的 data-en（更复杂的情况）
+    // 匹配带有 data-en 的元素，替换其直接文本子节点
+    html = html.replace(/(<[^>]+)\sdata-en="([^"]+)"([^>]*>)/gi, (match, tagStart, enText, tagEnd) => {
+        // 移除 data-en 属性，后续通过翻译字典或保留原文
+        // 这里我们记录下来，用于后续处理
+        return `${tagStart}${tagEnd}`.replace(/\s+>/g, '>');
     });
     
     // 翻译 HTML 标签之间的文本

@@ -13,6 +13,7 @@ import { search } from './translations/search.js';
 import { geometry } from './translations/geometry.js';
 import { seo } from './translations/seo.js';
 import { dynamic } from './translations/dynamic.js';
+import { dataStructure } from './translations/data-structure.js';
 
 // 合并所有翻译模块
 export const translations = {
@@ -24,7 +25,8 @@ export const translations = {
     ...search,
     ...geometry,
     ...seo,
-    ...dynamic
+    ...dynamic,
+    ...dataStructure
 };
 
 // 导出翻译函数

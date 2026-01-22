@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{zhName}}可视化 - 算法动画演示 | 算法可视化</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="通过交互式动画学习{{zhName}}。{{zhDescription}}">
+    <meta name="keywords" content="{{zhName}},{{enName}},算法可视化,算法动画,数据结构">
+    <meta name="author" content="Algorithm Visualization">
+    <link rel="canonical" href="https://algo.jsdiff.com/{{category}}/{{algoSlug}}/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{zhName}}可视化 - 算法动画演示">
+    <meta property="og:description" content="通过交互式动画学习{{zhName}}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://algo.jsdiff.com/{{category}}/{{algoSlug}}/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{zhName}}可视化">
+    <meta name="twitter:description" content="交互式动画演示{{zhName}}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <link rel="stylesheet" href="/common/styles.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Hreflang Tags for SEO -->
+    <link rel="alternate" hreflang="zh-CN" href="https://algo.jsdiff.com/{{category}}/{{algoSlug}}/" />
+    <link rel="alternate" hreflang="en" href="https://algo.jsdiff.com/en/{{category}}/{{algoSlug}}/" />
+    <link rel="alternate" hreflang="x-default" href="https://algo.jsdiff.com/{{category}}/{{algoSlug}}/" />
+
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bdc02239b6fe6f4e90583308d9ed3cd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</head>
+<body class="bg-decoration">
+    <!-- 公共页头由 JS 注入 -->
+    <script type="module" src="/common/header.js"></script>
+
+    <div class="container">
+        <a href="../../index.html" class="nav-link">← 返回首页</a>
+        
+        <header class="page-header">
+            <h1 class="title" data-en="{{enName}} Visualization">{{zhName}}可视化</h1>
+            <p class="subtitle" data-en="{{enSubtitle}}">{{zhSubtitle}}</p>
+        </header>
+        
+        <!-- 算法简介 -->
+        <div class="algo-intro fade-in">
+            <p data-en="{{enDescription}}">{{zhDescription}}</p>
+        </div>
+        
+        <!-- 可视化区域 -->
+        <div class="visualization-container" id="visualizationContainer">
+            <!-- 可视化内容由 JavaScript 动态生成 -->
+        </div>
+        
+        <!-- 控制面板 -->
+        <div class="controls">
+            <div class="input-group">
+                <input type="text" id="inputValue" placeholder="输入值" class="input-field">
+                <button class="btn btn-primary" id="insertBtn">插入</button>
+                <button class="btn btn-info" id="searchBtn">查找</button>
+                <button class="btn btn-danger" id="deleteBtn">删除</button>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" id="resetBtn">重置</button>
+                <button class="btn btn-warning" id="randomBtn">随机数据</button>
+            </div>
+        </div>
+        
+        <div class="info">
+            <span class="status-badge" id="statusText">输入值并选择操作</span>
+        </div>
+        
+        <!-- Tab面板 -->
+        <div class="tabs-container fade-in">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="how-it-works">📖 工作原理</button>
+                <button class="tab-btn" data-tab="complexity">⏱️ 复杂度分析</button>
+                <button class="tab-btn" data-tab="applications">💡 应用场景</button>
+                <button class="tab-btn" data-tab="code">📝 代码实现</button>
+            </div>
+            
+            <div id="how-it-works" class="tab-content active">
+                <h4 data-en="Algorithm Steps">算法步骤</h4>
+                <ol>
+                    <li data-en="Step 1 description in English">步骤1描述</li>
+                    <li data-en="Step 2 description in English">步骤2描述</li>
+                    <li data-en="Step 3 description in English">步骤3描述</li>
+                </ol>
+            </div>
+            
+            <div id="complexity" class="tab-content">
+                <table class="complexity-table">
+                    <thead>
+                        <tr>
+                            <th data-en="Operation">操作</th>
+                            <th data-en="Average">平均</th>
+                            <th data-en="Worst">最坏</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-en="Search">查找</td>
+                            <td>O(log n)</td>
+                            <td>O(log n)</td>
+                        </tr>
+                        <tr>
+                            <td data-en="Insert">插入</td>
+                            <td>O(log n)</td>
+                            <td>O(log n)</td>
+                        </tr>
+                        <tr>
+                            <td data-en="Delete">删除</td>
+                            <td>O(log n)</td>
+                            <td>O(log n)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="complexity-note">
+                    <p data-en="Space Complexity: O(n)">空间复杂度：O(n)</p>
+                </div>
+            </div>
+            
+            <div id="applications" class="tab-content">
+                <div class="use-cases">
+                    <div class="use-case" data-en="Application 1 description">应用场景1描述</div>
+                    <div class="use-case" data-en="Application 2 description">应用场景2描述</div>
+                    <div class="use-case" data-en="Application 3 description">应用场景3描述</div>
+                </div>
+            </div>
+            
+            <div id="code" class="tab-content">
+                <h4 data-en="Implementation">代码实现</h4>
+                <div class="code-lang-tabs">
+                    <button class="code-lang-btn active" data-lang="python">
+                        <span class="lang-icon">🐍</span> Python
+                    </button>
+                    <button class="code-lang-btn" data-lang="java">
+                        <span class="lang-icon">☕</span> Java
+                    </button>
+                </div>
+                
+                <div id="python-code" class="code-block active">
+                    <pre><code class="language-python"># {{enName}} implementation in Python
+
+class {{className}}:
+    def __init__(self):
+        pass
+    
+    def insert(self, value):
+        """Insert a value"""
+        pass
+    
+    def search(self, value):
+        """Search for a value"""
+        pass
+    
+    def delete(self, value):
+        """Delete a value"""
+        pass
+
+# Usage example
+ds = {{className}}()
+ds.insert(10)
+ds.insert(20)
+print(ds.search(10))  # True
+</code></pre>
+                </div>
+                
+                <div id="java-code" class="code-block">
+                    <pre><code class="language-java">/**
+ * {{enName}} implementation in Java
+ */
+public class {{className}} {
+    
+    public {{className}}() {
+    }
+    
+    public void insert(int value) {
+        // Insert implementation
+    }
+    
+    public boolean search(int value) {
+        // Search implementation
+        return false;
+    }
+    
+    public void delete(int value) {
+        // Delete implementation
+    }
+    
+    public static void main(String[] args) {
+        {{className}} ds = new {{className}}();
+        ds.insert(10);
+        ds.insert(20);
+        System.out.println(ds.search(10)); // true
+    }
+}
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="/common/footer.js"></script>
+    <script type="module" src="/common/i18n.js"></script>
+    <script type="module" src="/common/tabs.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
