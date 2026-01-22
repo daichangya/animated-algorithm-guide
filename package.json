@@ -6,7 +6,13 @@
     "new": "node scripts/new-algorithm.js",
     "build:en": "node scripts/build-en.js",
     "build:sitemap": "node scripts/build-sitemap.js",
-    "build": "npm run build:en && npm run build:sitemap"
+    "build": "npm run build:en && npm run build:sitemap",
+    "generate:banner": "node scripts/generate-banner.js"
+  },
+  "devDependencies": {
+    "puppeteer": "^21.0.0",
+    "gifencoder": "^2.0.1",
+    "canvas": "^2.11.2"
   },
   "keywords": [
     "algorithm",

@@ -9,6 +9,11 @@ Welcome to the Algorithm Visualization Learning Platform! This platform helps yo
 
 🌐 **Live Demo / 在线演示**: [algo.jsdiff.com](https://algo.jsdiff.com)
 
+<div align="center">
+  <img src="banner.gif" alt="Algorithm Visualization Demo - Bubble Sort Animation" width="800">
+  <p><em>Interactive algorithm visualization with smooth animations | 流畅动画的交互式算法可视化</em></p>
+</div>
+
 ## Features | 特性
 
 - 🎬 **Smooth Animations** - Carefully designed CSS animations for clear visualization
