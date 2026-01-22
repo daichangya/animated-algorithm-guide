@@ -1003,3 +1003,25 @@ pre.code .annotation {
         justify-content: center;
     }
 }
+
+/* ==================== 算法页面统一布局 ==================== */
+.algo-page .container {
+    text-align: center;
+}
+
+.algo-page .breadcrumb {
+    text-align: left;
+    justify-content: flex-start;
+}
+
+.algo-page .page-header {
+    text-align: center;
+}
+
+.algo-page .algo-intro {
+    text-align: left;
+}
+
+.algo-page .tabs-content {
+    text-align: left;
+}

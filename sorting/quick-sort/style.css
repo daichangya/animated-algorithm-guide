@@ -1,34 +1,9 @@
 /**
  * 快速排序可视化样式
  * @author changyadai
+ * 
+ * 算法特有样式 - 分区、基准和指针动画
  */
-
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-body > .container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
-}
-
-.container {
-    text-align: center;
-    padding: 30px;
-    width: 100%;
-    max-width: 1000px;
-}
-
-.nav-link {
-    position: absolute;
-    top: 30px;
-    left: 30px;
-}
 
 /* ==================== 递归深度指示器 ==================== */
 .depth-indicator {
@@ -105,24 +80,6 @@ body > .container {
     margin-bottom: 20px;
 }
 
-.array-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    height: 320px;
-    gap: 6px;
-    padding: 20px;
-    padding-bottom: 50px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    overflow-x: auto;
-    overflow-y: visible;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
 /* ==================== 柱状条样式 ==================== */
 .bar {
     width: 50px;
@@ -170,14 +127,8 @@ body > .container {
 }
 
 @keyframes lightning {
-    0% {
-        opacity: 0.6;
-        transform: scale(0.9);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1.1);
-    }
+    0% { opacity: 0.6; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1.1); }
 }
 
 /* 左指针指向的元素 */
@@ -215,12 +166,8 @@ body > .container {
 }
 
 @keyframes pointerBounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-5px);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
 }
 
 /* 比较中的元素 */
@@ -304,14 +251,8 @@ body > .container {
 }
 
 @keyframes sparkFly {
-    0% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(0) translate(var(--tx), var(--ty));
-    }
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0) translate(var(--tx), var(--ty)); }
 }
 
 /* 基准就位爆炸效果 */
@@ -326,14 +267,8 @@ body > .container {
 }
 
 @keyframes explode {
-    0% {
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(2);
-        opacity: 0;
-    }
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
 }
 
 /* ==================== 完成动画 ==================== */
@@ -342,12 +277,8 @@ body > .container {
 }
 
 @keyframes quickCelebrate {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.15) translateY(-8px);
-    }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15) translateY(-8px); }
 }
 
 /* ==================== 响应式 ==================== */
@@ -360,10 +291,5 @@ body > .container {
     .pointer-legend {
         flex-wrap: wrap;
         gap: 15px;
-    }
-    
-    .array-container {
-        height: 280px;
-        padding-bottom: 45px;
     }
 }

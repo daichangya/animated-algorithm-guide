@@ -1,34 +1,9 @@
 /**
  * 归并排序可视化样式
  * @author changyadai
+ * 
+ * 算法特有样式 - 递归树、分治和合并动画
  */
-
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-body > .container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 15px;
-}
-
-.container {
-    text-align: center;
-    padding: 25px;
-    width: 100%;
-    max-width: 1100px;
-}
-
-.nav-link {
-    position: absolute;
-    top: 25px;
-    left: 25px;
-}
 
 /* ==================== 阶段指示器 ==================== */
 .phase-indicator {
@@ -255,17 +230,9 @@ body > .container {
 }
 
 @keyframes popIn {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-    70% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+    0% { transform: scale(0); opacity: 0; }
+    70% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 /* ==================== 主数组 ==================== */
@@ -279,17 +246,6 @@ body > .container {
     margin-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 2px;
-}
-
-.array-container {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    flex-wrap: wrap;
 }
 
 .array-item {
@@ -351,14 +307,8 @@ body > .container {
 }
 
 @keyframes mergeParticleFade {
-    0% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(2) translateY(-20px);
-    }
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(2) translateY(-20px); }
 }
 
 /* ==================== 完成动画 ==================== */

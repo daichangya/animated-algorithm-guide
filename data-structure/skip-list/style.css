@@ -1,46 +1,9 @@
 /**
  * 跳跃表可视化样式
  * @author changyadai
+ * 
+ * 算法特有样式 - 跳跃表节点、层级标签和SVG渲染
  */
-
-/* 配置面板 */
-.config-panel {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
-    padding: var(--spacing-sm);
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: var(--radius-md);
-    flex-wrap: wrap;
-}
-
-.config-label {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-}
-
-.config-select {
-    padding: 8px 16px;
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-primary);
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-}
-
-.config-select:hover {
-    border-color: var(--accent-cyan);
-}
-
-.config-select:focus {
-    outline: none;
-    border-color: var(--accent-cyan);
-    box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
-}
 
 /* 层级标签 - 在可视化容器内部，与节点对齐 */
 .level-labels {
@@ -67,20 +30,15 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* 可视化容器 */
+/* 可视化容器覆盖 - 支持层级标签偏移 */
 .visualization-container {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
     padding-left: 60px;
-    margin-bottom: var(--spacing-lg);
-    min-height: 350px;
     overflow-x: auto;
     overflow-y: hidden;
     position: relative;
 }
 
+/* 跳跃表 SVG */
 .skiplist-svg {
     display: block;
     min-width: 100%;
@@ -95,188 +53,25 @@
     filter: brightness(1.15);
 }
 
-/* 控制面板 */
-.controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-md);
-    justify-content: center;
-    align-items: center;
-    margin-bottom: var(--spacing-md);
-}
-
-.input-group {
-    display: flex;
-    gap: var(--spacing-sm);
-    align-items: center;
-}
-
-.button-group {
-    display: flex;
-    gap: var(--spacing-sm);
-}
-
-.input-field {
-    padding: 10px 16px;
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-primary);
-    font-size: 1rem;
-    width: 140px;
-    transition: all var(--transition-fast);
-}
-
-.input-field:focus {
-    outline: none;
-    border-color: var(--accent-cyan);
-    box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
-}
-
-.input-field::placeholder {
-    color: var(--text-muted);
-}
-
-/* 按钮样式 */
-.btn-info {
-    background: linear-gradient(135deg, #3b82f6, #06b6d4);
-    color: white;
-}
-
-.btn-info:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-}
-
-.btn-danger {
-    background: linear-gradient(135deg, #ef4444, #f97316);
-    color: white;
-}
-
-.btn-danger:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-}
-
-.btn-warning {
-    background: linear-gradient(135deg, #eab308, #f97316);
-    color: white;
-}
-
-.btn-warning:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(234, 179, 8, 0.3);
-}
-
-/* 复杂度表格 */
-.complexity-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: var(--spacing-md);
-}
-
-.complexity-table th,
-.complexity-table td {
-    padding: 12px 16px;
-    text-align: center;
-    border-bottom: 1px solid var(--border-subtle);
-}
-
-.complexity-table th {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-primary);
-    font-weight: 500;
-}
-
-.complexity-table td {
-    color: var(--text-secondary);
-}
-
+/* 跳跃表特有的复杂度注释样式 */
 .complexity-note {
-    padding: var(--spacing-sm);
     background: rgba(234, 179, 8, 0.1);
-    border-left: 3px solid #eab308;
-    border-radius: var(--radius-sm);
+    border-left-color: #eab308;
 }
 
-.complexity-note p {
-    margin: 0.5rem 0;
-    color: var(--text-secondary);
-}
-
-/* 应用场景 */
-.use-cases {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--spacing-md);
-}
-
-.use-case {
-    padding: var(--spacing-md);
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
-}
-
-.use-case:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: var(--border-light);
-}
-
+/* 高亮应用场景 */
 .use-case.highlight {
     border-color: #ef4444;
     background: rgba(239, 68, 68, 0.05);
 }
 
-.use-case h5 {
-    color: var(--accent-cyan);
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-}
-
-.use-case p {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin: 0;
-}
-
 /* 响应式 */
 @media (max-width: 768px) {
-    .config-panel {
-        flex-direction: column;
-        gap: var(--spacing-sm);
-    }
-    
     .level-labels {
         display: none;
     }
     
     .visualization-container {
         padding-left: var(--spacing-md);
-    }
-    
-    .controls {
-        flex-direction: column;
-    }
-    
-    .input-group {
-        width: 100%;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    
-    .input-field {
-        width: 100%;
-        max-width: 200px;
-    }
-    
-    .button-group {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .visualization-container {
-        min-height: 250px;
     }
 }
