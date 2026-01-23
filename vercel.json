@@ -1,6 +1,6 @@
 {
   "buildCommand": null,
-  "installCommand": "npm install --omit=dev --ignore-optional --no-audit --no-fund",
+  "installCommand": "echo 'Skipping install - no dependencies required'",
   "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": true
