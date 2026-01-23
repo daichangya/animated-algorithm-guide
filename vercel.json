@@ -1,6 +1,6 @@
 {
   "buildCommand": null,
-  "installCommand": "npm ci --production --ignore-optional --no-audit --no-fund",
+  "installCommand": "npm install --omit=dev --ignore-optional --no-audit --no-fund",
   "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": true
