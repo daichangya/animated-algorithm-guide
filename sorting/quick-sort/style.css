@@ -78,6 +78,9 @@
 .array-wrapper {
     position: relative;
     margin-bottom: 20px;
+    padding-top: 35px; /* 为 pivot 图标和指针标签留出空间 */
+    min-height: 200px; /* 确保有足够空间显示柱状条和上方元素 */
+    overflow: visible;
 }
 
 /* ==================== 柱状条样式 ==================== */

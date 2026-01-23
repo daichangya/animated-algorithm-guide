@@ -137,6 +137,18 @@
     letter-spacing: 2px;
 }
 
+.array-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-top: 22px; /* 为索引标签留出空间 */
+    min-height: 67px; /* 45px (item height) + 22px (padding-top) */
+    max-height: 85px; /* 限制最大高度 */
+    overflow: visible;
+}
+
 /* 数组元素样式 */
 .array-item {
     width: 45px;
@@ -160,6 +172,7 @@
     font-size: 10px;
     color: rgba(255, 255, 255, 0.4);
     font-weight: normal;
+    white-space: nowrap;
 }
 
 /* 比较中的数组元素 */

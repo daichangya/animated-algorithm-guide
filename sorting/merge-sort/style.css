@@ -248,6 +248,18 @@
     letter-spacing: 2px;
 }
 
+.array-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-top: 20px; /* 为索引标签留出空间 */
+    min-height: 62px; /* 42px (item height) + 20px (padding-top) */
+    max-height: 80px; /* 限制最大高度 */
+    overflow: visible;
+}
+
 .array-item {
     width: 42px;
     height: 42px;
@@ -270,6 +282,7 @@
     font-size: 9px;
     color: rgba(255, 255, 255, 0.4);
     font-weight: normal;
+    white-space: nowrap;
 }
 
 .array-item.in-range {
