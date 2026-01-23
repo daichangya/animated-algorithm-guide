@@ -10,9 +10,9 @@
     "generate:banner": "node scripts/generate-banner.js"
   },
   "devDependencies": {
-    "puppeteer": "^21.0.0"
   },
   "optionalDependencies": {
+    "puppeteer": "^21.0.0",
     "canvas": "^2.11.2",
     "gifencoder": "^2.0.1"
   },
