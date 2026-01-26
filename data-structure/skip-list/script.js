@@ -197,18 +197,26 @@ const DEMO_SEQUENCE = [
 ];
 
 // ===== 工具函数 =====
-function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+// 使用公共工具函数
+const updateStatus = (text, ...args) => {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.updateStatus(statusText, text, ...args);
+    } else {
+        let translated = window.I18n ? window.I18n.t(text) : text;
+        args.forEach((arg, i) => {
+            translated = translated.replace(`{${i}}`, arg);
+        });
+        statusText.textContent = translated;
+    }
+};
 
-function updateStatus(text, ...args) {
-    let translated = window.I18n ? window.I18n.t(text) : text;
-    // 支持占位符替换：{0}, {1}, ...
-    args.forEach((arg, i) => {
-        translated = translated.replace(`{${i}}`, arg);
-    });
-    statusText.textContent = translated;
-}
+const delay = (ms) => {
+    if (window.AlgoUtils) {
+        return window.AlgoUtils.simpleDelay(ms);
+    } else {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+};
 
 // ===== 渲染层级标签 =====
 function renderLevelLabels() {

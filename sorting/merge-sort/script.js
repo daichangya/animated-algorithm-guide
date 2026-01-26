@@ -122,47 +122,56 @@ function addTreeLevel(levelIndex) {
     return level;
 }
 
-/**
- * 延迟函数（支持暂停）
- */
-function delay(ms) {
-    return new Promise(resolve => {
-        const startTime = Date.now();
-        const checkPause = () => {
-            if (!isSorting) { resolve(); return; }
-            if (isPaused) {
-                setTimeout(checkPause, 50);
-            } else {
-                const remaining = Math.max(0, ms - (Date.now() - startTime));
-                if (remaining <= 0) resolve();
-                else setTimeout(resolve, remaining);
-            }
-        };
-        setTimeout(checkPause, ms);
-    });
-}
-
-/**
- * 切换暂停状态
- */
-function togglePause() {
-    isPaused = !isPaused;
-    if (isPaused) {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
-        pauseBtn.classList.add('paused');
-        updateStatus('已暂停 - 点击继续');
+// 使用公共工具函数
+const updateStatus = (text, ...args) => {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.updateStatus(statusText, text, ...args);
     } else {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
-        pauseBtn.classList.remove('paused');
-        updateStatus('运行中...');
+        statusText.textContent = window.I18n ? window.I18n.t(text, ...args) : text;
     }
-}
+};
 
-/**
- * 更新状态
- */
-function updateStatus(text) {
-    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
+const delay = (ms) => {
+    if (window.AlgoUtils) {
+        return window.AlgoUtils.delay(ms, () => isSorting, () => isPaused);
+    } else {
+        return new Promise(resolve => {
+            const startTime = Date.now();
+            const checkPause = () => {
+                if (!isSorting) { resolve(); return; }
+                if (isPaused) {
+                    setTimeout(checkPause, 50);
+                } else {
+                    const remaining = Math.max(0, ms - (Date.now() - startTime));
+                    if (remaining <= 0) resolve();
+                    else setTimeout(resolve, remaining);
+                }
+            };
+            setTimeout(checkPause, ms);
+        });
+    }
+};
+
+function togglePause() {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.togglePause({
+            getIsPaused: () => isPaused,
+            setIsPaused: (val) => { isPaused = val; },
+            pauseBtn: pauseBtn,
+            statusEl: statusText
+        });
+    } else {
+        isPaused = !isPaused;
+        if (isPaused) {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+            pauseBtn.classList.add('paused');
+            updateStatus('已暂停 - 点击继续');
+        } else {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+            pauseBtn.classList.remove('paused');
+            updateStatus('运行中...');
+        }
+    }
 }
 
 /**
@@ -247,7 +256,7 @@ async function showMerge(leftArr, rightArr, start) {
         if (leftItem) leftItem.classList.add('active');
         if (rightItem) rightItem.classList.add('active');
         
-        updateStatus(window.I18n.t('比较: {0} vs {1}', leftArr[i], rightArr[j]));
+        updateStatus('比较: {0} vs {1}', leftArr[i], rightArr[j]);
         await delay(CONFIG.compareDelay);
         
         if (leftArr[i] <= rightArr[j]) {
@@ -346,7 +355,7 @@ async function mergeSort(arr, start, end, depth = 0) {
     
     // 分解阶段
     setPhase('divide');
-    updateStatus(window.I18n.t('分解: [{0} - {1}] → [{0} - {2}] 和 [{3} - {1}]', start, end, mid, mid + 1));
+    updateStatus('分解: [{0} - {1}] → [{0} - {2}] 和 [{3} - {1}]', start, end, mid, mid + 1);
     
     // 高亮当前处理范围
     highlightArrayRange(start, end, 'in-range');
@@ -402,7 +411,7 @@ async function mergeSort(arr, start, end, depth = 0) {
     
     // 合并阶段
     setPhase('merge');
-    updateStatus(window.I18n.t('合并: [{0} - {1}] 与 [{2} - {3}]', start, mid, mid + 1, end));
+    updateStatus('合并: [{0} - {1}] 与 [{2} - {3}]', start, mid, mid + 1, end);
     
     // 高亮合并范围
     for (let i = start; i <= end; i++) {

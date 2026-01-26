@@ -123,38 +123,56 @@ function updateArrayDisplay(left, right, mid = -1) {
     rangeRight.textContent = right;
 }
 
-function delay(ms) {
-    return new Promise(resolve => {
-        const startTime = Date.now();
-        const checkPause = () => {
-            if (!isRunning) { resolve(); return; }
-            if (isPaused) {
-                setTimeout(checkPause, 50);
-            } else {
-                const remaining = Math.max(0, ms - (Date.now() - startTime));
-                if (remaining <= 0) resolve();
-                else setTimeout(resolve, remaining);
-            }
-        };
-        setTimeout(checkPause, ms);
-    });
-}
+// 使用公共工具函数
+const updateStatus = (text, ...args) => {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.updateStatus(statusText, text, ...args);
+    } else {
+        statusText.textContent = window.I18n ? window.I18n.t(text, ...args) : text;
+    }
+};
+
+const delay = (ms) => {
+    if (window.AlgoUtils) {
+        return window.AlgoUtils.delay(ms, () => isRunning, () => isPaused);
+    } else {
+        return new Promise(resolve => {
+            const startTime = Date.now();
+            const checkPause = () => {
+                if (!isRunning) { resolve(); return; }
+                if (isPaused) {
+                    setTimeout(checkPause, 50);
+                } else {
+                    const remaining = Math.max(0, ms - (Date.now() - startTime));
+                    if (remaining <= 0) resolve();
+                    else setTimeout(resolve, remaining);
+                }
+            };
+            setTimeout(checkPause, ms);
+        });
+    }
+};
 
 function togglePause() {
-    isPaused = !isPaused;
-    if (isPaused) {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
-        pauseBtn.classList.add('paused');
-        updateStatus('已暂停 - 点击继续');
+    if (window.AlgoUtils) {
+        window.AlgoUtils.togglePause({
+            getIsPaused: () => isPaused,
+            setIsPaused: (val) => { isPaused = val; },
+            pauseBtn: pauseBtn,
+            statusEl: statusText
+        });
     } else {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
-        pauseBtn.classList.remove('paused');
-        updateStatus('运行中...');
+        isPaused = !isPaused;
+        if (isPaused) {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+            pauseBtn.classList.add('paused');
+            updateStatus('已暂停 - 点击继续');
+        } else {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+            pauseBtn.classList.remove('paused');
+            updateStatus('运行中...');
+        }
     }
-}
-
-function updateStatus(text) {
-    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
 }
 
 async function binarySearch() {
@@ -175,7 +193,7 @@ async function binarySearch() {
         
         midValue.textContent = array[mid];
         
-        updateStatus(window.I18n.t('第{0}步: 检查中点 arr[{1}] = {2}', step, mid, array[mid]));
+        updateStatus('第{0}步: 检查中点 arr[{1}] = {2}', step, mid, array[mid]);
         
         await delay(CONFIG.stepDelay);
         
@@ -187,14 +205,14 @@ async function binarySearch() {
             const item = document.getElementById(`item-${mid}`);
             item.classList.add('found');
             
-            updateStatus(window.I18n.t('找到目标! 位置: {0}, 共 {1} 步', mid, step));
+            updateStatus('找到目标! 位置: {0}, 共 {1} 步', mid, step);
             if (window.AlgoLogger) window.AlgoLogger.success('找到目标: 位置 {0}, 共 {1} 步', mid, step);
             return mid;
         } else if (array[mid] < target) {
             // 目标在右半部分
             compareOp.textContent = '<';
             compareOp.className = 'compare-op less';
-            updateStatus(window.I18n.t('{0} < {1}, 搜索右半部分', array[mid], target));
+            updateStatus('{0} < {1}, 搜索右半部分', array[mid], target);
             
             await delay(CONFIG.stepDelay / 2);
             left = mid + 1;
@@ -202,7 +220,7 @@ async function binarySearch() {
             // 目标在左半部分
             compareOp.textContent = '>';
             compareOp.className = 'compare-op greater';
-            updateStatus(window.I18n.t('{0} > {1}, 搜索左半部分', array[mid], target));
+            updateStatus('{0} > {1}, 搜索左半部分', array[mid], target);
             
             await delay(CONFIG.stepDelay / 2);
             right = mid - 1;
@@ -213,7 +231,7 @@ async function binarySearch() {
     document.querySelectorAll('.array-item').forEach(item => {
         item.classList.add('not-found');
     });
-    updateStatus(window.I18n.t('未找到目标 {0}', target));
+    updateStatus('未找到目标 {0}', target);
     if (window.AlgoLogger) window.AlgoLogger.warn('未找到目标: {0}', target);
     return -1;
 }

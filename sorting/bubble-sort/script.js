@@ -67,50 +67,49 @@ function getBars() {
     return document.querySelectorAll('.bar');
 }
 
-/**
- * 延迟函数（支持暂停）
- */
-function delay(ms) {
-    return new Promise(resolve => {
-        const startTime = Date.now();
-        let remaining = ms;
-        
-        const checkPause = () => {
-            if (!isSorting) {
-                resolve();
-                return;
-            }
-            if (isPaused) {
-                setTimeout(checkPause, 50);
-            } else {
-                const elapsed = Date.now() - startTime;
-                remaining = Math.max(0, ms - elapsed);
-                if (remaining <= 0) {
-                    resolve();
-                } else {
-                    setTimeout(resolve, remaining);
-                }
-            }
-        };
-        
-        setTimeout(checkPause, ms);
-    });
-}
-
-/**
- * 切换暂停状态
- */
-function togglePause() {
-    isPaused = !isPaused;
-    
-    if (isPaused) {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
-        pauseBtn.classList.add('paused');
-        updateStatus('已暂停 - 点击继续');
+// 使用公共工具函数
+const delay = (ms) => {
+    if (window.AlgoUtils) {
+        return window.AlgoUtils.delay(ms, () => isSorting, () => isPaused);
     } else {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
-        pauseBtn.classList.remove('paused');
-        updateStatus('运行中...');
+        // 降级方案
+        return new Promise(resolve => {
+            const startTime = Date.now();
+            const checkPause = () => {
+                if (!isSorting) { resolve(); return; }
+                if (isPaused) {
+                    setTimeout(checkPause, 50);
+                } else {
+                    const remaining = Math.max(0, ms - (Date.now() - startTime));
+                    if (remaining <= 0) resolve();
+                    else setTimeout(resolve, remaining);
+                }
+            };
+            setTimeout(checkPause, ms);
+        });
+    }
+};
+
+function togglePause() {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.togglePause({
+            getIsPaused: () => isPaused,
+            setIsPaused: (val) => { isPaused = val; },
+            pauseBtn: pauseBtn,
+            statusEl: statusText
+        });
+    } else {
+        // 降级方案
+        isPaused = !isPaused;
+        if (isPaused) {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+            pauseBtn.classList.add('paused');
+            updateStatus('已暂停 - 点击继续');
+        } else {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+            pauseBtn.classList.remove('paused');
+            updateStatus('运行中...');
+        }
     }
 }
 
@@ -219,12 +218,15 @@ function markSorted(index) {
     bars[index].classList.add('sorted');
 }
 
-/**
- * 更新状态文本
- */
-function updateStatus(text) {
-    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
-}
+// 使用公共工具函数
+const updateStatus = (text, ...args) => {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.updateStatus(statusText, text, ...args);
+    } else {
+        // 降级方案
+        statusText.textContent = window.I18n ? window.I18n.t(text, ...args) : text;
+    }
+};
 
 /**
  * 冒泡排序主函数（异步，支持动画）
@@ -241,14 +243,14 @@ async function bubbleSort() {
             if (!isSorting) return; // 检查是否被中断
             
             comparisons++;
-            updateStatus(window.I18n.t('正在比较: 位置 {0} 和 位置 {1}', j + 1, j + 2));
+            updateStatus('正在比较: 位置 {0} 和 位置 {1}', j + 1, j + 2);
             if (window.AlgoLogger) window.AlgoLogger.log('比较: 位置{0}({1}) vs 位置{2}({3})', j+1, Math.floor(array[j]/10), j+2, Math.floor(array[j+1]/10));
             
             // 高亮正在比较的元素
             await highlightComparing(j, j + 1);
             
             if (array[j] > array[j + 1]) {
-                updateStatus(window.I18n.t('交换: {0} 和 {1}', Math.floor(array[j] / 10), Math.floor(array[j + 1] / 10)));
+                updateStatus('交换: {0} 和 {1}', Math.floor(array[j] / 10), Math.floor(array[j + 1] / 10));
                 if (window.AlgoLogger) window.AlgoLogger.log('交换: {0} ↔ {1}', Math.floor(array[j]/10), Math.floor(array[j+1]/10));
                 await swap(j, j + 1);
                 swapped = true;
@@ -279,7 +281,7 @@ async function bubbleSort() {
     // 完成动画
     await celebrateCompletion();
     
-    updateStatus(window.I18n.t('排序完成！比较次数: {0}, 交换次数: {1}', comparisons, swaps));
+    updateStatus('排序完成！比较次数: {0}, 交换次数: {1}', comparisons, swaps);
     if (window.AlgoLogger) window.AlgoLogger.success('排序完成: 比较{0}次, 交换{1}次', comparisons, swaps);
 }
 

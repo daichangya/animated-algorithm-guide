@@ -97,38 +97,46 @@ function renderDPTable() {
     dpTable.innerHTML = html;
 }
 
-function delay(ms) {
-    return new Promise(resolve => {
-        const startTime = Date.now();
-        const checkPause = () => {
-            if (!isRunning) { resolve(); return; }
-            if (isPaused) {
-                setTimeout(checkPause, 50);
-            } else {
-                const remaining = Math.max(0, ms - (Date.now() - startTime));
-                if (remaining <= 0) resolve();
-                else setTimeout(resolve, remaining);
-            }
-        };
-        setTimeout(checkPause, ms);
-    });
-}
+// 使用公共工具函数
+const updateStatus = (text, ...args) => {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.updateStatus(statusText, text, ...args);
+    } else {
+        // 降级方案
+        statusText.textContent = window.I18n ? window.I18n.t(text, ...args) : text;
+    }
+};
+
+const delay = (ms) => {
+    if (window.AlgoUtils) {
+        return window.AlgoUtils.delay(ms, () => isRunning, () => isPaused);
+    } else {
+        // 降级方案
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+};
 
 function togglePause() {
-    isPaused = !isPaused;
-    if (isPaused) {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
-        pauseBtn.classList.add('paused');
-        updateStatus('已暂停 - 点击继续');
+    if (window.AlgoUtils) {
+        window.AlgoUtils.togglePause({
+            getIsPaused: () => isPaused,
+            setIsPaused: (val) => { isPaused = val; },
+            pauseBtn: pauseBtn,
+            statusEl: statusText
+        });
     } else {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
-        pauseBtn.classList.remove('paused');
-        updateStatus('运行中...');
+        // 降级方案
+        isPaused = !isPaused;
+        if (isPaused) {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+            pauseBtn.classList.add('paused');
+            updateStatus('已暂停 - 点击继续');
+        } else {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+            pauseBtn.classList.remove('paused');
+            updateStatus('运行中...');
+        }
     }
-}
-
-function updateStatus(text) {
-    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
 }
 
 function getCell(i, w) {
@@ -163,7 +171,7 @@ async function fillDP() {
             dp[i][w] = Math.max(notTake, take);
             cell.textContent = dp[i][w];
             
-            updateStatus(window.I18n.t('物品{0}({1}), 容量{2}: max(不选{3}, 选{4}) = {5}', i, item.icon, w, notTake, take, dp[i][w]));
+            updateStatus('物品{0}({1}), 容量{2}: max(不选{3}, 选{4}) = {5}', i, item.icon, w, notTake, take, dp[i][w]);
             
             await delay(CONFIG.stepDelay);
             
@@ -185,7 +193,7 @@ async function backtrack() {
     let w = capacity;
     
     const t2 = window.I18n ? window.I18n.t.bind(window.I18n) : (x) => x;
-    updateStatus(t2('回溯找出选中的物品...'));
+    updateStatus('回溯找出选中的物品...');
     
     for (let i = items.length; i > 0 && w > 0; i--) {
         if (!isRunning) return;
@@ -215,7 +223,7 @@ async function backtrack() {
         await delay(200);
     }
     
-    updateStatus(window.I18n.t('完成！ 最大价值: {0}', dp[items.length][capacity]));
+    updateStatus('完成！ 最大价值: {0}', dp[items.length][capacity]);
     if (window.AlgoLogger) window.AlgoLogger.success('完成: 最大价值 = {0}', dp[items.length][capacity]);
 }
 

@@ -38,7 +38,7 @@ function generateRandomPoints() {
     hull = [];
     render();
     updateStack([]);
-    updateStatus(window.I18n.t('已生成 {0} 个点', points.length));
+    updateStatus('已生成 {0} 个点', points.length);
     
     // 日志记录
     if (window.AlgoLogger) {
@@ -148,37 +148,45 @@ function updateStack(stack, currentIdx = -1, checkIdx = -1) {
     });
 }
 
-function updateStatus(text) {
-    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
-}
+// 使用公共工具函数
+const updateStatus = (text, ...args) => {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.updateStatus(statusText, text, ...args);
+    } else {
+        // 降级方案
+        statusText.textContent = window.I18n ? window.I18n.t(text, ...args) : text;
+    }
+};
 
-function delay(ms) {
-    return new Promise(resolve => {
-        const startTime = Date.now();
-        const checkPause = () => {
-            if (!isRunning) { resolve(); return; }
-            if (isPaused) {
-                setTimeout(checkPause, 50);
-            } else {
-                const remaining = Math.max(0, ms - (Date.now() - startTime));
-                if (remaining <= 0) resolve();
-                else setTimeout(resolve, remaining);
-            }
-        };
-        setTimeout(checkPause, ms);
-    });
-}
+const delay = (ms) => {
+    if (window.AlgoUtils) {
+        return window.AlgoUtils.delay(ms, () => isRunning, () => isPaused);
+    } else {
+        // 降级方案
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+};
 
 function togglePause() {
-    isPaused = !isPaused;
-    if (isPaused) {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
-        pauseBtn.classList.add('paused');
-        updateStatus('已暂停 - 点击继续');
+    if (window.AlgoUtils) {
+        window.AlgoUtils.togglePause({
+            getIsPaused: () => isPaused,
+            setIsPaused: (val) => { isPaused = val; },
+            pauseBtn: pauseBtn,
+            statusEl: statusText
+        });
     } else {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
-        pauseBtn.classList.remove('paused');
-        updateStatus('运行中...');
+        // 降级方案
+        isPaused = !isPaused;
+        if (isPaused) {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+            pauseBtn.classList.add('paused');
+            updateStatus('已暂停 - 点击继续');
+        } else {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+            pauseBtn.classList.remove('paused');
+            updateStatus('运行中...');
+        }
     }
 }
 
@@ -216,7 +224,7 @@ async function grahamScan() {
     }
     
     const pivot = points[lowestIdx];
-    updateStatus(window.I18n.t('找到最低点 P{0}', lowestIdx));
+    updateStatus('找到最低点 P{0}', lowestIdx);
     await delay(CONFIG.stepDelay);
     
     // 极角排序
@@ -240,7 +248,7 @@ async function grahamScan() {
         const currentPoint = sorted[i];
         const currentIdx = sortedIndices[i];
         
-        updateStatus(window.I18n.t('考虑点 P{0}', currentIdx));
+        updateStatus('考虑点 P{0}', currentIdx);
         
         // 检查是否需要弹出栈顶
         while (stack.length > 1) {
@@ -255,7 +263,7 @@ async function grahamScan() {
             
             if (crossProduct <= 0) {
                 // 右转或共线，弹出栈顶
-                updateStatus(window.I18n.t('P{0} 不在凸包上，弹出', stack[stack.length - 1]));
+                updateStatus('P{0} 不在凸包上，弹出', stack[stack.length - 1]);
                 await delay(CONFIG.stepDelay);
                 
                 stack.pop();
@@ -274,13 +282,13 @@ async function grahamScan() {
         updateStack(stack, currentIdx);
         render(sorted);
         
-        updateStatus(window.I18n.t('将 P{0} 加入凸包', currentIdx));
+        updateStatus('将 P{0} 加入凸包', currentIdx);
         await delay(CONFIG.stepDelay);
     }
     
     // 完成
     render(sorted);
-    updateStatus(window.I18n.t('凸包完成! 共 {0} 个顶点', hull.length));
+    updateStatus('凸包完成! 共 {0} 个顶点', hull.length);
     if (window.AlgoLogger) window.AlgoLogger.success('凸包完成: {0} 个顶点', hull.length);
 }
 
@@ -342,7 +350,7 @@ canvas.addEventListener('click', (e) => {
     points.push({ x, y });
     hull = [];
     render();
-    updateStatus(window.I18n.t('已添加 {0} 个点', points.length));
+    updateStatus('已添加 {0} 个点', points.length);
 });
 
 startBtn.addEventListener('click', start);

@@ -177,58 +177,64 @@ function renderArray() {
     });
 }
 
-/**
- * 延迟函数（支持暂停）
- */
-function delay(ms) {
-    return new Promise(resolve => {
-        const startTime = Date.now();
-        let remaining = ms;
-        
-        const checkPause = () => {
-            if (!isSorting) {
-                resolve();
-                return;
-            }
-            if (isPaused) {
-                setTimeout(checkPause, 50);
-            } else {
-                const elapsed = Date.now() - startTime;
-                remaining = Math.max(0, ms - elapsed);
-                if (remaining <= 0) {
-                    resolve();
-                } else {
-                    setTimeout(resolve, remaining);
-                }
-            }
-        };
-        
-        setTimeout(checkPause, ms);
-    });
-}
-
-/**
- * 切换暂停状态
- */
-function togglePause() {
-    isPaused = !isPaused;
-    
-    if (isPaused) {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
-        pauseBtn.classList.add('paused');
-        updateStatus('已暂停 - 点击继续');
+// 使用公共工具函数
+const updateStatus = (text, ...args) => {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.updateStatus(statusText, text, ...args);
     } else {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
-        pauseBtn.classList.remove('paused');
-        updateStatus('运行中...');
+        statusText.textContent = window.I18n ? window.I18n.t(text, ...args) : text;
     }
-}
+};
 
-/**
- * 更新状态文本
- */
-function updateStatus(text) {
-    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
+const delay = (ms) => {
+    if (window.AlgoUtils) {
+        return window.AlgoUtils.delay(ms, () => isSorting, () => isPaused);
+    } else {
+        return new Promise(resolve => {
+            const startTime = Date.now();
+            let remaining = ms;
+            const checkPause = () => {
+                if (!isSorting) {
+                    resolve();
+                    return;
+                }
+                if (isPaused) {
+                    setTimeout(checkPause, 50);
+                } else {
+                    const elapsed = Date.now() - startTime;
+                    remaining = Math.max(0, ms - elapsed);
+                    if (remaining <= 0) {
+                        resolve();
+                    } else {
+                        setTimeout(resolve, remaining);
+                    }
+                }
+            };
+            setTimeout(checkPause, ms);
+        });
+    }
+};
+
+function togglePause() {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.togglePause({
+            getIsPaused: () => isPaused,
+            setIsPaused: (val) => { isPaused = val; },
+            pauseBtn: pauseBtn,
+            statusEl: statusText
+        });
+    } else {
+        isPaused = !isPaused;
+        if (isPaused) {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+            pauseBtn.classList.add('paused');
+            updateStatus('已暂停 - 点击继续');
+        } else {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+            pauseBtn.classList.remove('paused');
+            updateStatus('运行中...');
+        }
+    }
 }
 
 /**
@@ -336,7 +342,7 @@ async function heapify(n, i) {
     
     // 比较左子节点
     if (left < n) {
-        updateStatus(window.I18n.t('比较: 节点[{0}]={1} 与 左子节点[{2}]={3}', i, array[i], left, array[left]));
+        updateStatus('比较: 节点[{0}]={1} 与 左子节点[{2}]={3}', i, array[i], left, array[left]);
         highlightNodes([i, left]);
         await delay(CONFIG.compareDelay);
         
@@ -348,7 +354,7 @@ async function heapify(n, i) {
     
     // 比较右子节点
     if (right < n) {
-        updateStatus(window.I18n.t('比较: 节点[{0}]={1} 与 右子节点[{2}]={3}', largest, array[largest], right, array[right]));
+        updateStatus('比较: 节点[{0}]={1} 与 右子节点[{2}]={3}', largest, array[largest], right, array[right]);
         highlightNodes([largest, right]);
         await delay(CONFIG.compareDelay);
         
@@ -360,7 +366,7 @@ async function heapify(n, i) {
     
     // 如果最大值不是根节点，则交换
     if (largest !== i) {
-        updateStatus(window.I18n.t('交换: 节点[{0}]={1} 与 节点[{2}]={3}', i, array[i], largest, array[largest]));
+        updateStatus('交换: 节点[{0}]={1} 与 节点[{2}]={3}', i, array[i], largest, array[largest]);
         await swap(i, largest);
         
         // 递归调整被影响的子树
@@ -378,7 +384,7 @@ async function buildMaxHeap() {
     // 从最后一个非叶子节点开始，向上进行堆调整
     for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
         if (!isSorting) return;
-        updateStatus(window.I18n.t('构建堆: 调整节点 {0}', i));
+        updateStatus('构建堆: 调整节点 {0}', i);
         await heapify(n, i);
     }
 }
@@ -419,14 +425,14 @@ async function heapSort() {
         
         heapSize = i;
         
-        updateStatus(window.I18n.t('交换根节点[0]={0} 与 末尾节点[{1}]={2}', array[0], i, array[i]));
+        updateStatus('交换根节点[0]={0} 与 末尾节点[{1}]={2}', array[0], i, array[i]);
         await swap(0, i);
         
         // 标记已排序
         markSorted(i);
         
         // 调整剩余堆
-        updateStatus(window.I18n.t('调整堆: 当前堆大小 = {0}', i));
+        updateStatus('调整堆: 当前堆大小 = {0}', i);
         await heapify(i, 0);
     }
     

@@ -39,6 +39,19 @@ export function delay(ms, getIsSorting, getIsPaused) {
 }
 
 /**
+ * 创建延迟函数（简化版，使用闭包变量）
+ * @param {Function} getIsRunning - 返回是否正在运行的函数
+ * @param {Function} getIsPaused - 返回是否暂停的函数
+ * @returns {Function} 延迟函数
+ * @author changyadai
+ */
+export function createDelay(getIsRunning, getIsPaused) {
+    return function(ms) {
+        return delay(ms, getIsRunning, getIsPaused);
+    };
+}
+
+/**
  * 简单延迟函数（不支持暂停）
  * @param {number} ms - 延迟毫秒数
  * @returns {Promise}
@@ -65,6 +78,59 @@ export function updateStatusText(statusEl, text, ...args) {
             result = result.replace(new RegExp(`\\{${i}\\}`, 'g'), arg);
         });
         statusEl.textContent = result;
+    }
+}
+
+/**
+ * 更新状态文本并自动记录日志
+ * @param {HTMLElement} statusEl - 状态元素
+ * @param {string} text - 状态文本（支持占位符 {0}, {1} 等）
+ * @param {...any} args - 替换参数
+ * @author changyadai
+ */
+export function updateStatus(statusEl, text, ...args) {
+    if (!statusEl) return;
+    
+    // 翻译文本
+    const translated = window.I18n ? window.I18n.t(text, ...args) : text;
+    statusEl.textContent = translated;
+    
+    // 自动记录日志
+    if (window.AlgoLogger) {
+        if (args.length > 0) {
+            window.AlgoLogger.log(text, ...args);
+        } else {
+            window.AlgoLogger.log(text);
+        }
+    }
+}
+
+/**
+ * 切换暂停状态
+ * @param {Object} options - 配置选项
+ * @param {Function} getIsPaused - 获取暂停状态的函数
+ * @param {Function} setIsPaused - 设置暂停状态的函数
+ * @param {HTMLElement} pauseBtn - 暂停按钮
+ * @param {HTMLElement} statusEl - 状态元素
+ * @author changyadai
+ */
+export function togglePause(options) {
+    const { getIsPaused, setIsPaused, pauseBtn, statusEl } = options;
+    const isPaused = getIsPaused();
+    setIsPaused(!isPaused);
+    
+    if (!isPaused) {
+        if (pauseBtn) {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+            pauseBtn.classList.add('paused');
+        }
+        updateStatus(statusEl, '已暂停 - 点击继续');
+    } else {
+        if (pauseBtn) {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+            pauseBtn.classList.remove('paused');
+        }
+        updateStatus(statusEl, '运行中...');
     }
 }
 
@@ -281,5 +347,17 @@ export function throttle(fn, limit = 100) {
             lastRun = now;
             fn.apply(this, args);
         }
+    };
+}
+
+// 导出到全局对象，方便非模块脚本使用
+if (typeof window !== 'undefined') {
+    window.AlgoUtils = {
+        updateStatus,
+        togglePause,
+        delay,
+        createDelay,
+        updateStatusText,
+        simpleDelay
     };
 }

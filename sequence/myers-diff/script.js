@@ -155,47 +155,56 @@ function renderEditGraph() {
     }
 }
 
-/**
- * 延迟函数（支持暂停）
- */
-function delay(ms) {
-    return new Promise(resolve => {
-        const startTime = Date.now();
-        const checkPause = () => {
-            if (!isRunning) { resolve(); return; }
-            if (isPaused) {
-                setTimeout(checkPause, 50);
-            } else {
-                const remaining = Math.max(0, ms - (Date.now() - startTime));
-                if (remaining <= 0) resolve();
-                else setTimeout(resolve, remaining);
-            }
-        };
-        setTimeout(checkPause, ms);
-    });
-}
-
-/**
- * 切换暂停状态
- */
-function togglePause() {
-    isPaused = !isPaused;
-    if (isPaused) {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
-        pauseBtn.classList.add('paused');
-        updateStatus('已暂停 - 点击继续');
+// 使用公共工具函数
+const updateStatus = (text, ...args) => {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.updateStatus(statusText, text, ...args);
     } else {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
-        pauseBtn.classList.remove('paused');
-        updateStatus('运行中...');
+        statusText.textContent = window.I18n ? window.I18n.t(text, ...args) : text;
     }
-}
+};
 
-/**
- * 更新状态
- */
-function updateStatus(text) {
-    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
+const delay = (ms) => {
+    if (window.AlgoUtils) {
+        return window.AlgoUtils.delay(ms, () => isRunning, () => isPaused);
+    } else {
+        return new Promise(resolve => {
+            const startTime = Date.now();
+            const checkPause = () => {
+                if (!isRunning) { resolve(); return; }
+                if (isPaused) {
+                    setTimeout(checkPause, 50);
+                } else {
+                    const remaining = Math.max(0, ms - (Date.now() - startTime));
+                    if (remaining <= 0) resolve();
+                    else setTimeout(resolve, remaining);
+                }
+            };
+            setTimeout(checkPause, ms);
+        });
+    }
+};
+
+function togglePause() {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.togglePause({
+            getIsPaused: () => isPaused,
+            setIsPaused: (val) => { isPaused = val; },
+            pauseBtn: pauseBtn,
+            statusEl: statusText
+        });
+    } else {
+        isPaused = !isPaused;
+        if (isPaused) {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+            pauseBtn.classList.add('paused');
+            updateStatus('已暂停 - 点击继续');
+        } else {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+            pauseBtn.classList.remove('paused');
+            updateStatus('运行中...');
+        }
+    }
 }
 
 /**
@@ -263,7 +272,7 @@ async function myersDiff() {
         if (!isRunning) return null;
         
         dValueEl.textContent = d;
-        updateStatus(window.I18n.t('探索编辑距离 D = {0}', d));
+        updateStatus('探索编辑距离 D = {0}', d);
         
         const vCopy = [...v];
         trace.push(vCopy);
@@ -319,7 +328,7 @@ async function myersDiff() {
             
             // 检查是否到达终点
             if (x >= n && y >= m) {
-                updateStatus(window.I18n.t('找到最短路径! 编辑距离 D = {0}', d));
+                updateStatus('找到最短路径! 编辑距离 D = {0}', d);
                 
                 // 回溯路径
                 await backtrack(trace, n, m);
@@ -468,7 +477,7 @@ async function start() {
     const d = await myersDiff();
     
     if (isRunning && d !== null) {
-        updateStatus(window.I18n.t('算法完成! 最小编辑距离: {0}', d));
+        updateStatus('算法完成! 最小编辑距离: {0}', d);
         if (window.AlgoLogger) window.AlgoLogger.success('算法完成: 最小编辑距离 = {0}', d);
     }
     

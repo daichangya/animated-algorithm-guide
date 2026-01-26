@@ -109,42 +109,60 @@ function updatePanelVisibility() {
     }
 }
 
-function delay(ms) {
-    return new Promise(resolve => {
-        const startTime = Date.now();
-        const checkPause = () => {
-            if (!isRunning) { resolve(); return; }
-            if (isPaused) {
-                setTimeout(checkPause, 50);
-            } else {
-                const remaining = Math.max(0, ms - (Date.now() - startTime));
-                if (remaining <= 0) resolve();
-                else setTimeout(resolve, remaining);
-            }
-        };
-        setTimeout(checkPause, ms);
-    });
-}
+// 使用公共工具函数
+const updateStatus = (text, ...args) => {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.updateStatus(statusText, text, ...args);
+    } else {
+        statusText.textContent = window.I18n ? window.I18n.t(text, ...args) : text;
+    }
+};
+
+const delay = (ms) => {
+    if (window.AlgoUtils) {
+        return window.AlgoUtils.delay(ms, () => isRunning, () => isPaused);
+    } else {
+        return new Promise(resolve => {
+            const startTime = Date.now();
+            const checkPause = () => {
+                if (!isRunning) { resolve(); return; }
+                if (isPaused) {
+                    setTimeout(checkPause, 50);
+                } else {
+                    const remaining = Math.max(0, ms - (Date.now() - startTime));
+                    if (remaining <= 0) resolve();
+                    else setTimeout(resolve, remaining);
+                }
+            };
+            setTimeout(checkPause, ms);
+        });
+    }
+};
 
 function togglePause() {
-    isPaused = !isPaused;
-    if (isPaused) {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
-        pauseBtn.classList.add('paused');
-        updateStatus('已暂停 - 点击继续');
+    if (window.AlgoUtils) {
+        window.AlgoUtils.togglePause({
+            getIsPaused: () => isPaused,
+            setIsPaused: (val) => { isPaused = val; },
+            pauseBtn: pauseBtn,
+            statusEl: statusText
+        });
     } else {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
-        pauseBtn.classList.remove('paused');
-        updateStatus('运行中...');
+        isPaused = !isPaused;
+        if (isPaused) {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+            pauseBtn.classList.add('paused');
+            updateStatus('已暂停 - 点击继续');
+        } else {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+            pauseBtn.classList.remove('paused');
+            updateStatus('运行中...');
+        }
     }
 }
 
 function getChildren(nodeId) {
     return edges.filter(e => e.from === nodeId).map(e => e.to);
-}
-
-function updateStatus(text) {
-    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
 }
 
 function renderDataStructure(containerId, items, currentItem = null) {
@@ -196,7 +214,7 @@ async function bfs(svgId, queueId, orderId) {
         nodeEl.classList.remove('in-queue');
         nodeEl.classList.add('current');
         renderVisitOrder(orderId, order);
-        updateStatus(window.I18n.t('BFS: 访问节点 {0}', current));
+        updateStatus('BFS: 访问节点 {0}', current);
         
         await delay(CONFIG.stepDelay);
         
@@ -241,7 +259,7 @@ async function dfs(svgId, stackId, orderId) {
         nodeEl.classList.remove('in-queue');
         nodeEl.classList.add('current');
         renderVisitOrder(orderId, order);
-        updateStatus(window.I18n.t('DFS: 访问节点 {0}', current));
+        updateStatus('DFS: 访问节点 {0}', current);
         
         await delay(CONFIG.stepDelay);
         

@@ -120,7 +120,7 @@ function selectStartNode(nodeId) {
     highlightStartNode();
     initDistances();
     renderDistanceTable();
-    updateStatus(window.I18n.t('已选择起点: {0}', nodeId));
+    updateStatus('已选择起点: {0}', nodeId);
 }
 
 function highlightStartNode() {
@@ -172,37 +172,55 @@ function renderDistanceTable() {
     });
 }
 
-function updateStatus(text) {
-    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
-}
+// 使用公共工具函数
+const updateStatus = (text, ...args) => {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.updateStatus(statusText, text, ...args);
+    } else {
+        statusText.textContent = window.I18n ? window.I18n.t(text, ...args) : text;
+    }
+};
 
-function delay(ms) {
-    return new Promise(resolve => {
-        const startTime = Date.now();
-        const checkPause = () => {
-            if (!isRunning) { resolve(); return; }
-            if (isPaused) {
-                setTimeout(checkPause, 50);
-            } else {
-                const remaining = Math.max(0, ms - (Date.now() - startTime));
-                if (remaining <= 0) resolve();
-                else setTimeout(resolve, remaining);
-            }
-        };
-        setTimeout(checkPause, ms);
-    });
-}
+const delay = (ms) => {
+    if (window.AlgoUtils) {
+        return window.AlgoUtils.delay(ms, () => isRunning, () => isPaused);
+    } else {
+        return new Promise(resolve => {
+            const startTime = Date.now();
+            const checkPause = () => {
+                if (!isRunning) { resolve(); return; }
+                if (isPaused) {
+                    setTimeout(checkPause, 50);
+                } else {
+                    const remaining = Math.max(0, ms - (Date.now() - startTime));
+                    if (remaining <= 0) resolve();
+                    else setTimeout(resolve, remaining);
+                }
+            };
+            setTimeout(checkPause, ms);
+        });
+    }
+};
 
 function togglePause() {
-    isPaused = !isPaused;
-    if (isPaused) {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
-        pauseBtn.classList.add('paused');
-        updateStatus('已暂停 - 点击继续');
+    if (window.AlgoUtils) {
+        window.AlgoUtils.togglePause({
+            getIsPaused: () => isPaused,
+            setIsPaused: (val) => { isPaused = val; },
+            pauseBtn: pauseBtn,
+            statusEl: statusText
+        });
     } else {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
-        pauseBtn.classList.remove('paused');
-        updateStatus('运行中...');
+        isPaused = !isPaused;
+        if (isPaused) {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+            pauseBtn.classList.add('paused');
+            updateStatus('已暂停 - 点击继续');
+        } else {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+            pauseBtn.classList.remove('paused');
+            updateStatus('运行中...');
+        }
     }
 }
 
@@ -246,7 +264,7 @@ async function dijkstra() {
         nodeEl.classList.add('current');
         distEl.classList.add('current');
         
-        updateStatus(window.I18n.t('处理节点 {0}，当前距离: {1}', current, distances[current]));
+        updateStatus('处理节点 {0}，当前距离: {1}', current, distances[current]);
         if (window.AlgoLogger) window.AlgoLogger.log('访问节点 {0}, 距离: {1}', current, distances[current]);
         await delay(CONFIG.stepDelay);
         
@@ -264,7 +282,7 @@ async function dijkstra() {
             
             const newDist = distances[current] + neighbor.weight;
             
-            updateStatus(window.I18n.t('检查边 {0}-{1}，新距离: {2} + {3} = {4}', current, neighbor.node, distances[current], neighbor.weight, newDist));
+            updateStatus('检查边 {0}-{1}，新距离: {2} + {3} = {4}', current, neighbor.node, distances[current], neighbor.weight, newDist);
             await delay(CONFIG.stepDelay);
             
             if (newDist < distances[neighbor.node]) {
@@ -283,7 +301,7 @@ async function dijkstra() {
                     edgeEl.classList.add('relaxed');
                 }
                 
-                updateStatus(window.I18n.t('更新 {0} 的距离: {1}', neighbor.node, newDist));
+                updateStatus('更新 {0} 的距离: {1}', neighbor.node, newDist);
                 await delay(CONFIG.stepDelay / 2);
                 
                 neighborDistEl.classList.remove('updated');

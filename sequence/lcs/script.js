@@ -111,47 +111,56 @@ function renderDPMatrix() {
     dpMatrix.innerHTML = html;
 }
 
-/**
- * 延迟函数（支持暂停）
- */
-function delay(ms) {
-    return new Promise(resolve => {
-        const startTime = Date.now();
-        const checkPause = () => {
-            if (!isRunning) { resolve(); return; }
-            if (isPaused) {
-                setTimeout(checkPause, 50);
-            } else {
-                const remaining = Math.max(0, ms - (Date.now() - startTime));
-                if (remaining <= 0) resolve();
-                else setTimeout(resolve, remaining);
-            }
-        };
-        setTimeout(checkPause, ms);
-    });
-}
-
-/**
- * 切换暂停状态
- */
-function togglePause() {
-    isPaused = !isPaused;
-    if (isPaused) {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
-        pauseBtn.classList.add('paused');
-        updateStatus('已暂停 - 点击继续');
+// 使用公共工具函数
+const updateStatus = (text, ...args) => {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.updateStatus(statusText, text, ...args);
     } else {
-        pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
-        pauseBtn.classList.remove('paused');
-        updateStatus('运行中...');
+        statusText.textContent = window.I18n ? window.I18n.t(text, ...args) : text;
     }
-}
+};
 
-/**
- * 更新状态
- */
-function updateStatus(text) {
-    statusText.textContent = window.I18n ? window.I18n.t(text) : text;
+const delay = (ms) => {
+    if (window.AlgoUtils) {
+        return window.AlgoUtils.delay(ms, () => isRunning, () => isPaused);
+    } else {
+        return new Promise(resolve => {
+            const startTime = Date.now();
+            const checkPause = () => {
+                if (!isRunning) { resolve(); return; }
+                if (isPaused) {
+                    setTimeout(checkPause, 50);
+                } else {
+                    const remaining = Math.max(0, ms - (Date.now() - startTime));
+                    if (remaining <= 0) resolve();
+                    else setTimeout(resolve, remaining);
+                }
+            };
+            setTimeout(checkPause, ms);
+        });
+    }
+};
+
+function togglePause() {
+    if (window.AlgoUtils) {
+        window.AlgoUtils.togglePause({
+            getIsPaused: () => isPaused,
+            setIsPaused: (val) => { isPaused = val; },
+            pauseBtn: pauseBtn,
+            statusEl: statusText
+        });
+    } else {
+        isPaused = !isPaused;
+        if (isPaused) {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('继续') : '继续';
+            pauseBtn.classList.add('paused');
+            updateStatus('已暂停 - 点击继续');
+        } else {
+            pauseBtn.textContent = window.I18n ? window.I18n.t('暂停') : '暂停';
+            pauseBtn.classList.remove('paused');
+            updateStatus('运行中...');
+        }
+    }
 }
 
 /**
@@ -201,7 +210,7 @@ async function fillDPMatrix() {
             // 高亮正在比较的字符
             highlightSeqChars(i - 1, j - 1, 'comparing');
             
-            updateStatus(window.I18n.t('比较 A[{0}]="{1}" 和 B[{2}]="{3}"', i, seqA[i-1], j, seqB[j-1]));
+            updateStatus('比较 A[{0}]="{1}" 和 B[{2}]="{3}"', i, seqA[i-1], j, seqB[j-1]);
             
             await delay(CONFIG.compareDelay);
             
@@ -212,7 +221,7 @@ async function fillDPMatrix() {
                 cell.classList.add('match', 'diagonal-arrow');
                 
                 highlightSeqChars(i - 1, j - 1, 'matched');
-                updateStatus(window.I18n.t('匹配! dp[{0}][{1}] = dp[{2}][{3}] + 1 = {4}', i, j, i-1, j-1, dp[i][j]));
+                updateStatus('匹配! dp[{0}][{1}] = dp[{2}][{3}] + 1 = {4}', i, j, i-1, j-1, dp[i][j]);
             } else {
                 // 不匹配 - 取上方或左方的最大值
                 if (dp[i - 1][j] >= dp[i][j - 1]) {
@@ -223,7 +232,7 @@ async function fillDPMatrix() {
                     cell.classList.add('left-arrow');
                 }
                 cell.textContent = dp[i][j];
-                updateStatus(window.I18n.t('不匹配, dp[{0}][{1}] = max(dp[{2}][{1}], dp[{0}][{3}]) = {4}', i, j, i-1, j-1, dp[i][j]));
+                updateStatus('不匹配, dp[{0}][{1}] = max(dp[{2}][{1}], dp[{0}][{3}]) = {4}', i, j, i-1, j-1, dp[i][j]);
             }
             
             cell.classList.remove('current');
@@ -265,18 +274,18 @@ async function backtrackLCS() {
             // 高亮LCS字符
             highlightSeqChars(i - 1, j - 1, 'in-lcs');
             
-            updateStatus(window.I18n.t('找到LCS字符: "{0}" 在 A[{1}], B[{2}]', seqA[i-1], i, j));
+            updateStatus('找到LCS字符: "{0}" 在 A[{1}], B[{2}]', seqA[i-1], i, j);
             
             i--;
             j--;
         } else if (dp[i - 1][j] > dp[i][j - 1]) {
             // 来自上方
             i--;
-            updateStatus(window.I18n.t('回溯到 dp[{0}][{1}]', i, j));
+            updateStatus('回溯到 dp[{0}][{1}]', i, j);
         } else {
             // 来自左方
             j--;
-            updateStatus(window.I18n.t('回溯到 dp[{0}][{1}]', i, j));
+            updateStatus('回溯到 dp[{0}][{1}]', i, j);
         }
         
         await delay(CONFIG.backtrackDelay);
@@ -382,7 +391,7 @@ async function start() {
     // 显示结果
     await showLCSResult(lcs);
     
-    updateStatus(window.I18n.t('算法完成! LCS = "{0}", 长度 = {1}', lcs.map(l => l.char).join(''), lcs.length));
+    updateStatus('算法完成! LCS = "{0}", 长度 = {1}', lcs.map(l => l.char).join(''), lcs.length);
     if (window.AlgoLogger) window.AlgoLogger.success('LCS = "{0}", 长度 = {1}', lcs.map(l => l.char).join(''), lcs.length);
     
     isRunning = false;
